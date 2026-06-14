@@ -247,31 +247,6 @@ class HomeController extends Controller
         return response()->json(['success' => 'Report deleted successfully!']);
     }
 
-    public function downloadPDF($id)
-    {
-        $report = \App\Models\TestReport::with(['patient', 'items', 'signature'])->findOrFail($id);
-        $patient = $report->patient;
-        
-        // Group results by category
-        $groupedResults = [];
-        foreach ($report->items as $item) {
-            $result = $this->serializeReportItem($item);
-            $cat = strtoupper($result['category'] ?? 'GENERAL');
-            $groupedResults[$cat][] = $result;
-        }
-
-        $data = [
-            'report' => $report,
-            'patient' => $patient,
-            'groupedResults' => $groupedResults,
-            'generatedAt' => date('d-M-Y h:i A')
-        ];
-
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.report', $data);
-        
-        $filename = 'Report_' . str_replace(' ', '_', $patient->first_name) . '_' . $report->id . '.pdf';
-        return $pdf->stream($filename);
-    }
 
     public function patients()
     {

@@ -61,9 +61,7 @@
                     }
                 }
 
-                /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   PDF VIEWER — NEAT RESPONSIVE DESIGN
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+ 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 .pdf-viewer-wrapper {
@@ -1006,8 +1004,8 @@
               "LDL / HDL Ratio": { category: "LIPID PROFILE (FASTING)", normal: "< 3.5" }
           };
 
-          const REPORT_HEADER_IMAGE = "data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/report-header-awwal.png'))) }}";
-          const REPORT_FOOTER_IMAGE = "data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/report-footer-awwal.png'))) }}";
+          const REPORT_HEADER_IMAGE = "data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('images/Awwal Lab Report Sheet Top_page-0001.jpg'))) }}";
+          const REPORT_FOOTER_IMAGE = "data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('images/Awwal Lab Report Sheet Bottom_page-0001.jpg'))) }}";
 
           // Dynamic Rows Logic (Refined Alignment & Auto-fill)
           const trTemplate = `
@@ -2635,13 +2633,13 @@
                   if (showHeader) {
                       const hProps = doc.getImageProperties(REPORT_HEADER_IMAGE);
                       const hHeight = (hProps.height * pageW) / hProps.width;
-                      doc.addImage(REPORT_HEADER_IMAGE, 'PNG', 0, 0, pageW, hHeight, undefined, 'FAST');
+                      doc.addImage(REPORT_HEADER_IMAGE, 'JPEG', 0, 0, pageW, hHeight, undefined, 'FAST');
                   }
 
                   const fProps = doc.getImageProperties(REPORT_FOOTER_IMAGE);
                   const fHeight = (fProps.height * pageW) / fProps.width;
                   const actualFooterTop = pageH - fHeight;
-                  doc.addImage(REPORT_FOOTER_IMAGE, 'PNG', 0, actualFooterTop, pageW, fHeight, undefined, 'FAST');
+                  doc.addImage(REPORT_FOOTER_IMAGE, 'JPEG', 0, actualFooterTop, pageW, fHeight, undefined, 'FAST');
                   doc.setTextColor(0);
                   doc.setDrawColor(0);
                   doc.setLineWidth(0.25);
