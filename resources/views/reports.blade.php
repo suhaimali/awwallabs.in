@@ -2727,8 +2727,7 @@
               const tableW = 173;
 	              const col1 = 61;
 	              const col2 = 44;
-	              const col4 = 14;
-	              const col3 = tableW - col1 - col2 - col4;
+	              const col3 = tableW - col1 - col2;
               const footerTop = 269;
               let pageNo = 1;
 
@@ -2808,18 +2807,17 @@
 	                  doc.rect(left, y, tableW, 8);
 	                  doc.line(left + col1, y, left + col1, y + 8);
 	                  doc.line(left + col1 + col2, y, left + col1 + col2, y + 8);
-	                  doc.line(left + col1 + col2 + col3, y, left + col1 + col2 + col3, y + 8);
 	                  doc.text('Parameter', left + 5, y + 5.5);
 	                  doc.text('Observed Value', left + col1 + col2 / 2, y + 5.5, { align: 'center' });
 	                  doc.text('Reference Value', left + col1 + col2 + col3 / 2, y + 5.5, { align: 'center' });
-	                  doc.text('Flag', left + col1 + col2 + col3 + col4 / 2, y + 5.5, { align: 'center' });
 	                  return y + 8;
 	              }
 
-	              function drawCellRow(y, name, observed, reference, flag = '', boldFirst = false) {
+	              function drawCellRow(y, name, observedValue, unit, reference, flag = '', boldFirst = false) {
 	                  doc.setFontSize(11);
 	                  const nameLines = doc.splitTextToSize(name || '', col1 - 4);
-	                  const observedLines = doc.splitTextToSize(observed || '', col2 - 4);
+                      const observedStr = `${observedValue || ''} ${unit || ''}`.trim();
+	                  const observedLines = doc.splitTextToSize(observedStr, col2 - 4);
 	                  const refLines = doc.splitTextToSize(reference || '', col3 - 4);
                   const lineCount = Math.max(nameLines.length, observedLines.length, refLines.length, 1);
                   const rowH = Math.max(6, lineCount * 5.2);
@@ -2832,18 +2830,65 @@
 	                  doc.rect(left, y, tableW, rowH);
 	                  doc.line(left + col1, y, left + col1, y + rowH);
 	                  doc.line(left + col1 + col2, y, left + col1 + col2, y + rowH);
-	                  doc.line(left + col1 + col2 + col3, y, left + col1 + col2 + col3, y + rowH);
 
                   doc.setFont('times', boldFirst ? 'bold' : 'normal');
                   doc.text(nameLines, left + 2, y + 4.5);
+                  
+                  // Render Observed Value + Flag + Unit dynamically
+                  let currentX = left + col1 + 2;
                   doc.setFont('times', 'bold');
-                  doc.text(observedLines, left + col1 + 2, y + 4.5);
+                  if (observedValue !== null && observedValue !== undefined && observedValue !== '') {
+                      const obsStr = String(observedValue);
+                      doc.text(obsStr, currentX, y + 4.5);
+                      currentX += doc.getTextWidth(obsStr) + 1;
+                  }
+
+                  if (flag && !boldFirst) {
+                      const flagStr = String(flag);
+                      doc.setDrawColor(208, 0, 0);
+                      doc.setLineWidth(0.3);
+                      const bottomY = y + 4.5;
+                      const topY = y + 1.5;
+
+                      if (flagStr.includes('↑')) {
+                          doc.line(currentX + 1.5, bottomY, currentX + 1.5, topY);
+                          doc.line(currentX + 1.5, topY, currentX + 0.5, topY + 1);
+                          doc.line(currentX + 1.5, topY, currentX + 2.5, topY + 1);
+                          currentX += 3.5;
+                          if (flagStr === '↑↑') {
+                              doc.line(currentX + 1.5, bottomY, currentX + 1.5, topY);
+                              doc.line(currentX + 1.5, topY, currentX + 0.5, topY + 1);
+                              doc.line(currentX + 1.5, topY, currentX + 2.5, topY + 1);
+                              currentX += 3.5;
+                          }
+                      } else if (flagStr.includes('↓')) {
+                          doc.line(currentX + 1.5, topY, currentX + 1.5, bottomY);
+                          doc.line(currentX + 1.5, bottomY, currentX + 0.5, bottomY - 1);
+                          doc.line(currentX + 1.5, bottomY, currentX + 2.5, bottomY - 1);
+                          currentX += 3.5;
+                          if (flagStr === '↓↓') {
+                              doc.line(currentX + 1.5, topY, currentX + 1.5, bottomY);
+                              doc.line(currentX + 1.5, bottomY, currentX + 0.5, bottomY - 1);
+                              doc.line(currentX + 1.5, bottomY, currentX + 2.5, bottomY - 1);
+                              currentX += 3.5;
+                          }
+                      } else {
+                          doc.setTextColor(208, 0, 0);
+                          doc.text(flagStr, currentX, y + 4.5);
+                          currentX += doc.getTextWidth(flagStr);
+                          doc.setTextColor(0);
+                      }
+                      doc.setDrawColor(0);
+                      currentX += 1;
+                  }
+
+                  if (unit) {
+                      doc.setFont('times', 'normal');
+                      doc.text(String(unit), currentX, y + 4.5);
+                  }
+
 	                  doc.setFont('times', 'normal');
 	                  doc.text(refLines, left + col1 + col2 + 2, y + 4.5);
-	                  doc.setFont('times', 'bold');
-	                  if (flag === 'C') doc.setTextColor(208, 0, 0);
-	                  doc.text(flag || '', left + col1 + col2 + col3 + col4 / 2, y + 4.5, { align: 'center' });
-	                  doc.setTextColor(0);
 	                  return y + rowH;
 	              }
 
@@ -2874,13 +2919,15 @@
                   groupedResults[cat].forEach(r => {
 	                      const subheading = (r.subcategory || '').trim();
 	                      if (subheading && subheading !== lastSubheading) {
-	                          y = drawCellRow(y, subheading.toUpperCase(), '', '', '', true);
+	                          y = drawCellRow(y, subheading.toUpperCase(), '', '', '', '', true);
 	                          lastSubheading = subheading;
 	                      }
 
-	                      const observed = `${r.observed_value || ''}${r.unit ? '  ' + r.unit : ''}`.trim();
-	                      const reference = r.normal_value || r.biological_reference || '';
-	                      y = drawCellRow(y, r.name || '', observed, reference, r.flag || '');
+	                      const refVal = r.normal_value !== null && r.normal_value !== undefined && r.normal_value !== '' ? r.normal_value : r.biological_reference;
+                          const reference = refVal !== null && refVal !== undefined ? refVal : '';
+                          const obsVal = r.observed_value !== null && r.observed_value !== undefined ? r.observed_value : '';
+                          const flgVal = r.flag !== null && r.flag !== undefined ? r.flag : '';
+	                      y = drawCellRow(y, r.name || '', obsVal, r.unit || '', reference, flgVal);
 	                  });
 
                   y += 8;

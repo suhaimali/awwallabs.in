@@ -33,11 +33,8 @@
 /* Grid */
 .md-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
     gap: 20px;
-}
-@media (max-width: 768px) {
-    .md-grid { grid-template-columns: 1fr; gap: 16px; }
 }
 
 /* Card */
@@ -98,6 +95,16 @@
     transition: border-color .2s;
 }
 .md-search-wrap input:focus { border-color: var(--primary, #4f46e5); }
+
+@media (max-width: 480px) {
+    .md-search-wrap {
+        width: 100%;
+        margin-top: 4px;
+    }
+    .md-search-wrap input {
+        width: 100%;
+    }
+}
 
 /* Card Body */
 .md-card-body { padding: 18px 20px; }
@@ -438,10 +445,26 @@ $(document).ready(function () {
     function liveSearch(inputId, listId) {
         $('#' + inputId).on('input', function () {
             var q = $(this).val().toLowerCase().trim();
-            $('#' + listId + ' .md-list-item').each(function () {
-                var match = $(this).data('name').indexOf(q) !== -1;
+            var hasMatch = false;
+            var listItems = $('#' + listId + ' .md-list-item');
+            
+            listItems.each(function () {
+                var match = String($(this).data('name')).toLowerCase().indexOf(q) !== -1;
                 $(this).toggle(match || q === '');
+                if (match || q === '') hasMatch = true;
             });
+            
+            var emptyState = $('#' + listId).find('.md-search-empty');
+            if (emptyState.length === 0) {
+                $('#' + listId).append('<div class="md-empty-state md-search-empty" style="display:none;"><i class="fa fa-search-minus"></i>No results found.</div>');
+                emptyState = $('#' + listId).find('.md-search-empty');
+            }
+            
+            if (!hasMatch && listItems.length > 0) {
+                emptyState.show();
+            } else {
+                emptyState.hide();
+            }
         });
     }
     liveSearch('unit-search',      'units-list');
