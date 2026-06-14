@@ -1468,7 +1468,8 @@ class HomeController extends Controller
         // Auto-calculate BMI if weight and height are provided
         if (!empty($validated['weight']) && !empty($validated['height'])) {
             $heightInMeters = $validated['height'] / 100;
-            $validated['bmi'] = round($validated['weight'] / ($heightInMeters * $heightInMeters), 1);
+            $bmi = round($validated['weight'] / ($heightInMeters * $heightInMeters), 1);
+            $validated['bmi'] = min(999.9, $bmi);
         } else {
             $validated['bmi'] = null;
         }
@@ -1508,7 +1509,8 @@ class HomeController extends Controller
         // Auto-calculate BMI if weight and height are provided
         if (!empty($validated['weight']) && !empty($validated['height'])) {
             $heightInMeters = $validated['height'] / 100;
-            $validated['bmi'] = round($validated['weight'] / ($heightInMeters * $heightInMeters), 1);
+            $bmi = round($validated['weight'] / ($heightInMeters * $heightInMeters), 1);
+            $validated['bmi'] = min(999.9, $bmi);
         } else {
             $validated['bmi'] = null;
         }
