@@ -336,6 +336,21 @@
                     box-shadow: none !important;
                 }
 
+                /* Unified style for all buttons inside the input-group */
+                .test-item-row .input-group.flex-nowrap .btn {
+                    border: none !important;
+                    border-left: 1px solid #cbd5e1 !important;
+                    height: 38px !important;
+                    width: 34px !important;
+                    padding: 0 !important;
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    font-size: 13px !important;
+                    border-radius: 0 !important;
+                    transition: all 0.2s ease !important;
+                }
+
                 /* Green '+' buttons */
                 .test-item-row .input-group.flex-nowrap .btn-add-report-category,
                 .test-item-row .input-group.flex-nowrap .btn-add-report-subcategory,
@@ -346,17 +361,6 @@
                 .test-item-row .input-group.flex-nowrap .btn-add-flag {
                     background-color: #e8f5e9 !important;
                     color: #2e7d32 !important;
-                    border: none !important;
-                    border-left: 1px solid #cbd5e1 !important;
-                    border-radius: 0 !important;
-                    width: 34px !important;
-                    height: 38px !important;
-                    padding: 0 !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    font-size: 13px !important;
-                    transition: all 0.2s ease !important;
                 }
 
                 .test-item-row .input-group.flex-nowrap .btn-add-report-category:hover,
@@ -370,6 +374,29 @@
                     color: #ffffff !important;
                 }
 
+                /* Indigo 'edit' buttons */
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-category,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-subcategory,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-test,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-unit,
+                .test-item-row .input-group.flex-nowrap .btn-edit-reference,
+                .test-item-row .input-group.flex-nowrap .btn-edit-observed,
+                .test-item-row .input-group.flex-nowrap .btn-edit-flag {
+                    background-color: #e0e7ff !important;
+                    color: #4f46e5 !important;
+                }
+
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-category:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-subcategory:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-test:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-unit:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-reference:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-observed:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-flag:hover {
+                    background-color: #4f46e5 !important;
+                    color: #ffffff !important;
+                }
+
                 /* Blue 'eye' buttons */
                 .test-item-row .input-group.flex-nowrap .btn-view-report-category,
                 .test-item-row .input-group.flex-nowrap .btn-view-report-subcategory,
@@ -380,17 +407,6 @@
                 .test-item-row .input-group.flex-nowrap .btn-view-flag {
                     background-color: #e0f2fe !important;
                     color: #0369a1 !important;
-                    border: none !important;
-                    border-left: 1px solid #cbd5e1 !important;
-                    border-radius: 0 8px 8px 0 !important;
-                    width: 34px !important;
-                    height: 38px !important;
-                    padding: 0 !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    font-size: 13px !important;
-                    transition: all 0.2s ease !important;
                 }
 
                 .test-item-row .input-group.flex-nowrap .btn-view-report-category:hover,
@@ -404,22 +420,37 @@
                     color: #ffffff !important;
                 }
 
+                /* Red 'delete' buttons */
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-category,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-subcategory,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-test,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-unit,
+                .test-item-row .input-group.flex-nowrap .btn-delete-reference,
+                .test-item-row .input-group.flex-nowrap .btn-delete-observed,
+                .test-item-row .input-group.flex-nowrap .btn-delete-flag {
+                    background-color: #fee2e2 !important;
+                    color: #dc2626 !important;
+                }
+
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-category:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-subcategory:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-test:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-unit:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-reference:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-observed:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-flag:hover {
+                    background-color: #dc2626 !important;
+                    color: #ffffff !important;
+                }
+
                 /* Connect vertical focus borders when input-group is focused */
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-report-category,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-report-subcategory,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-report-test,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-report-unit,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-reference,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-observed,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-flag,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-report-category,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-report-subcategory,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-report-test,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-report-unit,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-observed,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-reference,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-flag {
+                .test-item-row .input-group.flex-nowrap:focus-within .btn {
                     border-left-color: #3b82f6 !important;
+                }
+
+                /* Last button in the input group gets rounded right corners */
+                .test-item-row .input-group.flex-nowrap .btn:last-child {
+                    border-radius: 0 8px 8px 0 !important;
                 }
 
                 /* Red X close button styled like standard delete icon */
@@ -456,12 +487,83 @@
                 /* Slate gray labels for standard columns */
                 .test-item-row .col-md-4 label,
                 .test-item-row .col-md-8 label {
-                    color: #64748b !important;
+                    color: #64748b;
                 }
 
                 /* Bright blue label for Parameter */
                 .test-item-row .col-md-4:nth-child(3) label {
                     color: #2563eb !important;
+                }
+
+                /* Responsive Table View Styling */
+                .table-preview-card {
+                    background: #ffffff;
+                    border-radius: 16px;
+                    padding: 35px;
+                    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+                    width: 100%;
+                    max-width: 850px;
+                    margin: 0 auto;
+                    border: 1px solid #e2e8f0;
+                    font-family: 'Inter', sans-serif;
+                }
+
+                .table-preview-card .metadata-item {
+                    padding: 10px 12px;
+                    background: #f8fafc;
+                    border-radius: 8px;
+                    border: 1px solid #f1f5f9;
+                }
+
+                .table-preview-card .table {
+                    margin-bottom: 0;
+                }
+
+                .table-preview-card .table th {
+                    background-color: #4f46e5;
+                    color: #ffffff;
+                    font-weight: 600;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    padding: 12px 16px;
+                    border: none;
+                }
+
+                .table-preview-card .table td {
+                    padding: 14px 16px;
+                    vertical-align: middle;
+                    font-size: 13px;
+                    color: #334155;
+                    border-color: #f1f5f9;
+                }
+
+                .table-preview-card .category-row {
+                    background-color: #f8fafc !important;
+                    font-weight: 700;
+                    color: #1e293b;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    border-top: 2px solid #e2e8f0;
+                }
+
+                .table-preview-card .flag-badge-h {
+                    background-color: #fee2e2;
+                    color: #dc2626;
+                    font-weight: 600;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 11px;
+                }
+
+                .table-preview-card .flag-badge-l {
+                    background-color: #fef3c7;
+                    color: #d97706;
+                    font-weight: 600;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 11px;
                 }
             </style>
             <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap" rel="stylesheet">
@@ -2187,118 +2289,118 @@
                      <span class="badge bg-primary text-white position-absolute row-sl-no" style="top: 10px; left: 15px; z-index: 10; border-radius: 6px;">SL 1</span>
                      <button type="button" class="btn btn-sm btn-danger position-absolute remove-row" style="top: 10px; right: 10px; z-index: 10; border-radius: 8px;" title="Remove Test"><i class="fa fa-trash"></i></button>
                      <div class="row g-3 align-items-end mt-3">
-                         <div class="col-md-4 col-sm-6">
-                             <label for="field_1118"  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Master Category</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select report-category-select" name="test_category[]" autocomplete="off" id="field_1118">
-                                     ${catOptions}
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-report-category" title="Add Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-report-category" title="Edit Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-report-category" title="View Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-report-category" title="Delete Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label for="field_1119"  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Sub Category</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off" id="field_1119">
-                                     ${subOptions}
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-report-subcategory" title="Add Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-report-subcategory" title="Edit Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-report-subcategory" title="View Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-report-subcategory" title="Delete Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label for="field_1003"  class="form-label text-primary fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Parameter / Test Name</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select test-selector-dynamic border-primary shadow-none" name="test_name[]" autocomplete="off" id="field_1003">
-                                     ${testOptions}
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-report-test" title="Add Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-report-test" title="Edit Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-report-test" title="View Parameter Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-report-test" title="Delete Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label for="field_1121"  class="form-label text-success fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Observed Value</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select report-observed-select" name="observed_value[]" autocomplete="off" id="field_1121">
-                                     <option value="">-- Select Observed --</option>
-                                     @foreach($templates as $tmpl)
-                                         <option value="{{ $tmpl->name }}" data-id="{{ $tmpl->id }}">{{ $tmpl->name }}</option>
-                                     @endforeach
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-observed" title="Add Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-observed" title="Edit Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-observed" title="View Observed Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-observed" title="Delete Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label for="field_1122"  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Unit</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select report-unit-select" name="test_unit[]" autocomplete="off" id="field_1122">
-                                     <option value="">-- Select Unit --</option>
-                                     @foreach($units as $u)
-                                         <option value="{{ $u->name }}" data-id="{{ $u->id }}">{{ $u->name }}</option>
-                                     @endforeach
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-report-unit" title="Add Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-report-unit" title="Edit Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-report-unit" title="View Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-report-unit" title="Delete Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label for="field_1123"  class="form-label text-info fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Referral Range</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select normal-val-dynamic" name="normal_value[]" autocomplete="off" id="field_1123">
-                                     <option value="">-- Select Reference --</option>
-                                     @foreach($referenceTemplates as $ref)
-                                         <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
-                                     @endforeach
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label for="field_1124"  class="form-label text-warning fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Flag</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select flag-selector" name="test_flag[]" autocomplete="off" id="field_1124">
-                                     ${flagOptions}
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-flag" title="Add Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-flag" title="Edit Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-flag" title="View Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-flag" title="Delete Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-8 col-sm-12">
-                             <label for="field_1125"  class="form-label text-dark fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Normal Range (Display)</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select bio-val-dynamic" name="biological_reference[]" autocomplete="off" id="field_1125">
-                                     <option value="">-- Select Range --</option>
-                                     @foreach($referenceTemplates as $ref)
-                                         <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
-                                     @endforeach
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-                            `);
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Master Category</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select report-category-select" name="test_category[]" autocomplete="off">
+                                      ${catOptions}
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-report-category" title="Add Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-report-category" title="Edit Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-report-category" title="View Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-report-category" title="Delete Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Sub Category</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off">
+                                      ${subOptions}
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-report-subcategory" title="Add Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-report-subcategory" title="Edit Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-report-subcategory" title="View Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-report-subcategory" title="Delete Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-primary fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Parameter / Test Name</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select test-selector-dynamic border-primary shadow-none" name="test_name[]" autocomplete="off">
+                                      ${testOptions}
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-report-test" title="Add Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-report-test" title="Edit Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-report-test" title="View Parameter Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-report-test" title="Delete Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-success fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Observed Value</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select report-observed-select" name="observed_value[]" autocomplete="off">
+                                      <option value="">-- Select Observed --</option>
+                                      @foreach($templates as $tmpl)
+                                          <option value="{{ $tmpl->name }}" data-id="{{ $tmpl->id }}">{{ $tmpl->name }}</option>
+                                      @endforeach
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-observed" title="Add Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-observed" title="Edit Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-observed" title="View Observed Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-observed" title="Delete Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Unit</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select report-unit-select" name="test_unit[]" autocomplete="off">
+                                      <option value="">-- Select Unit --</option>
+                                      @foreach($units as $u)
+                                          <option value="{{ $u->name }}" data-id="{{ $u->id }}">{{ $u->name }}</option>
+                                      @endforeach
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-report-unit" title="Add Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-report-unit" title="Edit Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-report-unit" title="View Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-report-unit" title="Delete Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-info fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Referral Range</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select normal-val-dynamic" name="normal_value[]" autocomplete="off">
+                                      <option value="">-- Select Reference --</option>
+                                      @foreach($referenceTemplates as $ref)
+                                          <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
+                                      @endforeach
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-warning fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Flag</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select flag-selector" name="test_flag[]" autocomplete="off">
+                                      ${flagOptions}
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-flag" title="Add Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-flag" title="Edit Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-flag" title="View Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-flag" title="Delete Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-8 col-sm-12">
+                              <label class="form-label text-dark fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Normal Range</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select bio-val-dynamic" name="biological_reference[]" autocomplete="off">
+                                      <option value="">-- Select Range --</option>
+                                      @foreach($referenceTemplates as $ref)
+                                          <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
+                                      @endforeach
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                             `);
                            container.append(newRow);
                            setSelectValueWithDefault(newRow.find('.report-category-select'), item.category);
                            setSelectValueWithDefault(newRow.find('.report-subcategory-select'), item.subcategory);
@@ -2351,6 +2453,7 @@
           const ZOOM_STEP = 0.1;
           const MAX_ZOOM = 2.0;
           const MIN_ZOOM = 0.25;
+
 
           // ── Header Toggle ──────────────────────────────────────
           let showReportHeader = true;
