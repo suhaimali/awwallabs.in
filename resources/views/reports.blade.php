@@ -2725,85 +2725,26 @@
               const pageH = doc.internal.pageSize.getHeight();
               const left = 20;
               const tableW = 170;
-              const col1 = 75;
-              const col2 = 45;
-              const col3 = tableW - col1 - col2;
+              const col1 = 70; // Parameter
+              const col2 = 25; // Result
+              const col3 = 20; // Unit
+              const col4 = 43; // Reference Interval
+              const col5 = 12; // Flag
               const footerTop = 269;
               let pageNo = 1;
               let alternatingRowIdx = 0;
 
               function addShell(isFirstPage = true) {
                   if (showHeader) {
-                      // Top Accent Bar
-                      doc.setFillColor(138, 39, 125); // Deep Purple
-                      doc.rect(0, 0, pageW, 4, 'F');
-                      doc.setFillColor(20, 148, 71); // Teal
-                      doc.rect(0, 4, pageW, 1.5, 'F');
-
-                      // Brand Logo (Vector Icon)
-                      doc.setFillColor(20, 148, 71);
-                      doc.circle(26, 18, 6, 'F');
-                      doc.setFont('helvetica', 'bold');
-                      doc.setFontSize(13);
-                      doc.setTextColor(255, 255, 255);
-                      doc.text('A', 26, 22.2, { align: 'center' });
-
-                      // Brand Name
-                      doc.setFont('helvetica', 'bold');
-                      doc.setFontSize(19);
-                      doc.setTextColor(138, 39, 125);
-                      doc.text('AWWAL', 35, 19);
-                      
-                      doc.setFont('helvetica', 'bold');
-                      doc.setFontSize(8.5);
-                      doc.setTextColor(20, 148, 71);
-                      doc.text('QUALITY DIAGNOSTIC LABS', 35, 23.2);
-                      
-                      doc.setFont('helvetica', 'italic');
-                      doc.setFontSize(7.5);
-                      doc.setTextColor(100, 116, 139);
-                      doc.text('"Accurate Diagnosis for Effective Treatment"', 35, 27.2);
-
-                      // Header Right (Address & Contact Info)
-                      doc.setFont('helvetica', 'normal');
-                      doc.setFontSize(8);
-                      doc.setTextColor(71, 85, 105);
-                      const rightX = pageW - 20;
-                      doc.text('A Muhammed\'s Complex, Chenaykunnu Rd Jn.', rightX, 13, { align: 'right' });
-                      doc.text('PATHAPPIRIYAM, Vayanasala, Kerala', rightX, 17, { align: 'right' });
-                      doc.text('Ph: +91 7034 250 209, 7559 049 948', rightX, 21, { align: 'right' });
-                      doc.text('Email: awwallabppm@gmail.com', rightX, 25, { align: 'right' });
-                      doc.text('Web: www.awwallabs.in', rightX, 29, { align: 'right' });
-
-                      // Bottom border line for header
-                      doc.setDrawColor(226, 232, 240);
-                      doc.setLineWidth(0.5);
-                      doc.line(left, 33, pageW - 20, 33);
+                      const hProps = doc.getImageProperties(REPORT_HEADER_IMAGE);
+                      const hHeight = (hProps.height * pageW) / hProps.width;
+                      doc.addImage(REPORT_HEADER_IMAGE, 'JPEG', 0, 0, pageW, hHeight, undefined, 'FAST');
                   }
 
-                  // Footer Accents & Info
-                  const actualFooterTop = pageH - 24;
-                  doc.setDrawColor(20, 148, 71);
-                  doc.setLineWidth(0.5);
-                  doc.line(left, actualFooterTop, pageW - 20, actualFooterTop);
-
-                  // Left Side Quality Control Info
-                  doc.setFont('helvetica', 'bold');
-                  doc.setFontSize(7.5);
-                  doc.setTextColor(20, 148, 71);
-                  doc.text('QUALITY OF OUR LABORATORY IS CONTROLLED BY CMC VELLORE', left + 2, actualFooterTop + 5);
-
-                  // Right Side Working Hours
-                  doc.setFont('helvetica', 'normal');
-                  doc.setFontSize(7);
-                  doc.setTextColor(100, 116, 139);
-                  doc.text('Working Hours: 6.30 AM to 9.00 PM (Sunday: 7.00 AM to 12.00 PM)', pageW - 20 - 2, actualFooterTop + 5, { align: 'right' });
-
-                  // Page Numbers
-                  doc.setFont('helvetica', 'normal');
-                  doc.setFontSize(8);
-                  doc.setTextColor(148, 163, 184);
-                  doc.text(`Page ${pageNo}`, pageW / 2, pageH - 8, { align: 'center' });
+                  const fProps = doc.getImageProperties(REPORT_FOOTER_IMAGE);
+                  const fHeight = (fProps.height * pageW) / fProps.width;
+                  const actualFooterTop = pageH - fHeight;
+                  doc.addImage(REPORT_FOOTER_IMAGE, 'PNG', 0, actualFooterTop, pageW, fHeight);
                   
                   doc.setTextColor(30, 41, 59);
                   doc.setDrawColor(226, 232, 240);
@@ -2896,8 +2837,10 @@
                   doc.line(left, y + 8, left + tableW, y + 8);
                   
                   doc.text('PARAMETER', left + 4, y + 5.5);
-                  doc.text('OBSERVED VALUE', left + col1 + 4, y + 5.5);
-                  doc.text('REFERENCE VALUE', left + col1 + col2 + 4, y + 5.5);
+                  doc.text('RESULT', left + col1 + 4, y + 5.5);
+                  doc.text('UNIT', left + col1 + col2 + 4, y + 5.5);
+                  doc.text('REFERENCE INTERVAL', left + col1 + col2 + col3 + 4, y + 5.5);
+                  doc.text('FLAG', left + col1 + col2 + col3 + col4 + col5 / 2, y + 5.5, { align: 'center' });
                   return y + 8;
               }
 
@@ -2907,11 +2850,11 @@
                   doc.setDrawColor(226, 232, 240);
 
                   const nameLines = doc.splitTextToSize(name || '', col1 - 6);
-                  // Approximate calculation for width checking
-                  const observedStr = `${observedValue || ''} ${unit || ''} ${flag || ''}`.trim();
-                  const observedLines = doc.splitTextToSize(observedStr, col2 - 6);
-                  const refLines = doc.splitTextToSize(reference || '', col3 - 6);
-                  const lineCount = Math.max(nameLines.length, observedLines.length, refLines.length, 1);
+                  const observedLines = doc.splitTextToSize(observedValue || '', col2 - 4);
+                  const refLines = doc.splitTextToSize(reference || '', col4 - 4);
+                  const unitLines = doc.splitTextToSize(unit || '', col3 - 4);
+                  
+                  const lineCount = Math.max(nameLines.length, observedLines.length, refLines.length, unitLines.length, 1);
                   const rowH = isSubheading ? 7 : Math.max(6.5, lineCount * 5);
 
                   if (y + rowH > footerTop - 12) {
@@ -2944,8 +2887,7 @@
                       doc.setFont('helvetica', 'normal');
                       doc.text(nameLines, left + 4, y + 4.5);
                       
-                      // Render Observed Value + Flag + Unit dynamically
-                      let currentX = left + col1 + 4;
+                      // Observed Value (Result)
                       doc.setFont('helvetica', 'bold');
                       
                       // Highlight observed value if flagged
@@ -2957,64 +2899,66 @@
                           doc.setTextColor(15, 23, 42);
                       }
 
-                      if (observedValue !== null && observedValue !== undefined && observedValue !== '') {
-                          const obsStr = String(observedValue);
-                          doc.text(obsStr, currentX, y + 4.5);
-                          currentX += doc.getTextWidth(obsStr) + 1.5;
-                      }
-
-                      // Draw arrows next to observed value
-                      if (flag) {
-                          const flagStr = String(flag);
-                          doc.setLineWidth(0.3);
-                          const bottomY = y + 4.5;
-                          const topY = y + 1.5;
-
-                          if (flagStr.includes('↑')) {
-                              doc.setDrawColor(220, 38, 38);
-                              doc.line(currentX + 1.5, bottomY, currentX + 1.5, topY);
-                              doc.line(currentX + 1.5, topY, currentX + 0.5, topY + 1);
-                              doc.line(currentX + 1.5, topY, currentX + 2.5, topY + 1);
-                              currentX += 3.5;
-                              if (flagStr === '↑↑') {
-                                  doc.line(currentX + 1.5, bottomY, currentX + 1.5, topY);
-                                  doc.line(currentX + 1.5, topY, currentX + 0.5, topY + 1);
-                                  doc.line(currentX + 1.5, topY, currentX + 2.5, topY + 1);
-                                  currentX += 3.5;
-                              }
-                          } else if (flagStr.includes('↓')) {
-                              doc.setDrawColor(37, 99, 235);
-                              doc.line(currentX + 1.5, topY, currentX + 1.5, bottomY);
-                              doc.line(currentX + 1.5, bottomY, currentX + 0.5, bottomY - 1);
-                              doc.line(currentX + 1.5, bottomY, currentX + 2.5, bottomY - 1);
-                              currentX += 3.5;
-                              if (flagStr === '↓↓') {
-                                  doc.line(currentX + 1.5, topY, currentX + 1.5, bottomY);
-                                  doc.line(currentX + 1.5, bottomY, currentX + 0.5, bottomY - 1);
-                                  doc.line(currentX + 1.5, bottomY, currentX + 2.5, bottomY - 1);
-                                  currentX += 3.5;
-                              }
-                          } else {
-                              if (flagStr.includes('H')) doc.setTextColor(234, 88, 12);
-                              else if (flagStr.includes('L')) doc.setTextColor(37, 99, 235);
-                              else doc.setTextColor(220, 38, 38);
-                              doc.text(flagStr, currentX, y + 4.5);
-                              currentX += doc.getTextWidth(flagStr) + 1.5;
-                          }
-                          doc.setDrawColor(226, 232, 240);
-                      }
+                      doc.text(observedLines, left + col1 + 4, y + 4.5);
 
                       // Unit
-                      if (unit) {
-                          doc.setFont('helvetica', 'normal');
-                          doc.setTextColor(100, 116, 139);
-                          doc.text(String(unit), currentX, y + 4.5);
-                      }
+                      doc.setFont('helvetica', 'normal');
+                      doc.setTextColor(100, 116, 139);
+                      doc.text(unitLines, left + col1 + col2 + 4, y + 4.5);
 
                       // Reference Value
                       doc.setTextColor(51, 65, 85);
-                      doc.setFont('helvetica', 'normal');
-                      doc.text(refLines, left + col1 + col2 + 4, y + 4.5);
+                      doc.text(refLines, left + col1 + col2 + col3 + 4, y + 4.5);
+                      
+                      // Flag (Centered in last column)
+                      if (flag) {
+                          const flagStr = String(flag);
+                          let flagX = left + col1 + col2 + col3 + col4 + col5 / 2;
+                          
+                          if (flagStr.includes('↑')) {
+                              doc.setLineWidth(0.4);
+                              doc.setDrawColor(220, 38, 38);
+                              
+                              const bottomY = y + 4.5;
+                              const topY = y + 1.5;
+                              
+                              doc.line(flagX, bottomY, flagX, topY);
+                              doc.line(flagX, topY, flagX - 1, topY + 1);
+                              doc.line(flagX, topY, flagX + 1, topY + 1);
+                              
+                              if (flagStr === '↑↑') {
+                                  doc.line(flagX + 2.5, bottomY, flagX + 2.5, topY);
+                                  doc.line(flagX + 2.5, topY, flagX + 1.5, topY + 1);
+                                  doc.line(flagX + 2.5, topY, flagX + 3.5, topY + 1);
+                              }
+                          } else if (flagStr.includes('↓')) {
+                              doc.setLineWidth(0.4);
+                              doc.setDrawColor(37, 99, 235);
+                              
+                              const bottomY = y + 4.5;
+                              const topY = y + 1.5;
+                              
+                              doc.line(flagX, topY, flagX, bottomY);
+                              doc.line(flagX, bottomY, flagX - 1, bottomY - 1);
+                              doc.line(flagX, bottomY, flagX + 1, bottomY - 1);
+                              
+                              if (flagStr === '↓↓') {
+                                  doc.line(flagX + 2.5, topY, flagX + 2.5, bottomY);
+                                  doc.line(flagX + 2.5, bottomY, flagX + 1.5, bottomY - 1);
+                                  doc.line(flagX + 2.5, bottomY, flagX + 3.5, bottomY - 1);
+                              }
+                          } else {
+                              doc.setFont('helvetica', 'bold');
+                              if (flagStr.includes('H')) doc.setTextColor(234, 88, 12);
+                              else if (flagStr.includes('L')) doc.setTextColor(37, 99, 235);
+                              else doc.setTextColor(220, 38, 38);
+                              doc.text(flagStr, flagX, y + 4.5, { align: 'center' });
+                          }
+                          doc.setDrawColor(226, 232, 240);
+                      } else {
+                          doc.setTextColor(203, 213, 225);
+                          doc.text('-', left + col1 + col2 + col3 + col4 + col5 / 2, y + 4.5, { align: 'center' });
+                      }
                   }
 
                   // Underline row
