@@ -247,6 +247,10 @@ class HomeController extends Controller
         $payload = $report->toArray();
         $payload['results'] = $report->items->map(fn ($item) => $this->serializeReportItem($item))->values();
         $payload['signature'] = $this->serializeReportSignature($report->signature);
+        
+        $doctor = \App\Models\Doctor::where('name', $report->doctor_name)->first();
+        $payload['doctor_qualification'] = $doctor ? $doctor->qualification : null;
+
         return response()->json($payload);
     }
 

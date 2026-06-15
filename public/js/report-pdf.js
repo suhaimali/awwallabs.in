@@ -327,7 +327,11 @@ $(document).ready(function() {
             doc.setFont('helvetica', 'normal');
             doc.text(referenceNo, left + 36, infoY + 7);
             doc.setFont('helvetica', 'bold');
-            doc.text(data.doctor_name || 'Self', left + 36, infoY + 13);
+            let docDisplayName = data.doctor_name || 'Self';
+            if (data.doctor_qualification && data.doctor_qualification.trim() !== '') {
+                docDisplayName += ' (' + data.doctor_qualification + ')';
+            }
+            doc.text(docDisplayName, left + 36, infoY + 13);
             doc.setFont('helvetica', 'normal');
             doc.text(printedDate, left + 36, infoY + 19);
 
