@@ -9,7 +9,7 @@ class ReportSignature extends Model
 {
     protected $fillable = [
         'name',
-        'image_path',
+        'image_data',
         'pin_hash',
     ];
 
@@ -20,10 +20,5 @@ class ReportSignature extends Model
     public function reports()
     {
         return $this->hasMany(TestReport::class);
-    }
-
-    public function imageAbsolutePath(): string
-    {
-        return Storage::disk('public')->path($this->image_path);
     }
 }

@@ -96,11 +96,12 @@ class HomeController extends Controller
             'pin' => 'required|string|min:4|max:20',
         ]);
 
-        $path = $request->file('signature_image')->store('report-signatures', 'public');
+        $imageFile = $request->file('signature_image');
+        $base64Image = 'data:' . $imageFile->getMimeType() . ';base64,' . base64_encode(file_get_contents($imageFile->getRealPath()));
 
         \App\Models\ReportSignature::create([
             'name' => $validated['name'],
-            'image_path' => $path,
+            'image_data' => $base64Image,
             'pin_hash' => \Illuminate\Support\Facades\Hash::make($validated['pin']),
         ]);
 
@@ -120,8 +121,8 @@ class HomeController extends Controller
         $payload = ['name' => $validated['name']];
 
         if ($request->hasFile('signature_image')) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($signature->image_path);
-            $payload['image_path'] = $request->file('signature_image')->store('report-signatures', 'public');
+            $imageFile = $request->file('signature_image');
+            $payload['image_data'] = 'data:' . $imageFile->getMimeType() . ';base64,' . base64_encode(file_get_contents($imageFile->getRealPath()));
         }
 
         if (!empty($validated['pin'])) {
@@ -136,7 +137,6 @@ class HomeController extends Controller
     public function deleteReportSignature($id)
     {
         $signature = \App\Models\ReportSignature::findOrFail($id);
-        \Illuminate\Support\Facades\Storage::disk('public')->delete($signature->image_path);
         $signature->delete();
 
         return response()->json(['success' => 'Signature deleted successfully.']);
@@ -145,9 +145,20 @@ class HomeController extends Controller
     public function reportSignatureImage($id)
     {
         $signature = \App\Models\ReportSignature::findOrFail($id);
-        abort_unless(\Illuminate\Support\Facades\Storage::disk('public')->exists($signature->image_path), 404);
+        
+        if (!$signature->image_data || !str_contains($signature->image_data, ';base64,')) {
+            abort(404);
+        }
 
-        return response()->file($signature->imageAbsolutePath());
+        $parts = explode(';base64,', $signature->image_data);
+        if (count($parts) < 2) {
+            abort(404);
+        }
+
+        $mime = str_replace('data:', '', $parts[0]);
+        $imageData = base64_decode($parts[1]);
+
+        return response($imageData)->header('Content-Type', $mime);
     }
 
     public function storeReport(\Illuminate\Http\Request $request)
@@ -1299,18 +1310,11 @@ class HomeController extends Controller
             return null;
         }
 
-        $path = $signature->imageAbsolutePath();
-        $imageData = null;
-        if (is_file($path)) {
-            $mime = mime_content_type($path) ?: 'image/png';
-            $imageData = 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($path));
-        }
-
         return [
             'id' => $signature->id,
             'name' => $signature->name,
             'image_url' => route('report-signatures.image', $signature->id),
-            'image_data' => $imageData,
+            'image_data' => $signature->image_data,
         ];
     }
 
@@ -1335,7 +1339,7 @@ class HomeController extends Controller
                 'notes',
                 'report_signature_id',
             ]),
-            'signature' => $report->signature ? $report->signature->only(['id', 'name', 'image_path']) : null,
+            'signature' => $report->signature ? $report->signature->only(['id', 'name', 'image_data']) : null,
             'results' => $report->items->map(fn ($item) => $this->serializeReportItem($item))->values()->all(),
         ];
     }
@@ -1582,12 +1586,15 @@ class HomeController extends Controller
         ]);
 
         $items = json_decode($request->items, true);
-        if (empty($items)) {
-            return response()->json(['error' => 'At least one item is required.'], 422);
+        if (!is_array($items) || empty($items)) {
+            return response()->json(['error' => 'At least one valid item is required.'], 422);
         }
 
         $totalAmount = 0;
         foreach($items as $item) {
+            if (!is_array($item) || !isset($item['quantity']) || !isset($item['unit_price']) || !isset($item['product_id'])) {
+                return response()->json(['error' => 'Invalid item format.'], 422);
+            }
             $totalAmount += $item['quantity'] * $item['unit_price'];
         }
 
