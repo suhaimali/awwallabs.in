@@ -5,21 +5,22 @@
     <title>Test Report</title>
     <style>
         @page {
-            margin: 125px 45px 105px 45px;
+            margin: 130px 40px 100px 40px;
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            color: #334155;
+            color: #1e293b;
             background-color: #ffffff;
-            line-height: 1.4;
+            line-height: 1.5;
+            font-size: 11px;
         }
 
         .page-header {
             position: fixed;
-            top: -105px;
+            top: -110px;
             left: 0;
             right: 0;
             height: 95px;
@@ -85,10 +86,10 @@
 
         .page-footer {
             position: fixed;
-            bottom: -85px;
+            bottom: -80px;
             left: 0;
             right: 0;
-            height: 80px;
+            height: 70px;
             border-top: 2px solid #149447;
         }
 
@@ -128,45 +129,50 @@
         }
 
         .report-body {
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
-        /* Patient Info Styling */
-        .patient-info {
+        /* Patient Info Card Redesign */
+        .patient-card {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             background-color: #f8fafc;
             border: 1px solid #e2e8f0;
+            border-radius: 6px;
         }
 
-        .patient-info td {
-            padding: 6px 12px;
+        .patient-card td {
+            padding: 8px 12px;
             font-size: 11px;
             vertical-align: middle;
             color: #334155;
             border-bottom: 1px solid #f1f5f9;
         }
 
-        .patient-info td.label {
+        .patient-card tr:last-child td {
+            border-bottom: none;
+        }
+
+        .patient-card td.label {
             font-weight: bold;
             color: #64748b;
             text-transform: uppercase;
             font-size: 9px;
             letter-spacing: 0.5px;
-            width: 100px;
+            width: 110px;
         }
 
-        .patient-info td.sep {
-            width: 5px;
-            color: #94a3b8;
+        .patient-card td.sep {
+            width: 8px;
+            color: #cbd5e1;
             padding: 0;
-            font-weight: bold;
+            text-align: center;
         }
 
-        .patient-info td.value {
-            font-weight: bold;
-            color: #1e293b;
+        .patient-card td.value {
+            font-weight: 600;
+            color: #0f172a;
         }
 
         /* Category Header */
@@ -174,19 +180,19 @@
             font-size: 12px;
             font-weight: bold;
             color: #8a277d;
-            margin: 22px 0 6px 0;
+            margin: 24px 0 8px 0;
             text-transform: uppercase;
             letter-spacing: 1px;
             border-bottom: 2px solid #8a277d;
-            padding-bottom: 3px;
+            padding-bottom: 4px;
             page-break-after: avoid;
         }
 
-        /* Results Table Styling */
+        /* Results Table Redesign */
         .results-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .results-table th {
@@ -196,13 +202,14 @@
             text-transform: uppercase;
             font-size: 9px;
             letter-spacing: 0.5px;
-            padding: 6px 10px;
+            padding: 8px 12px;
+            border-top: 1px solid #cbd5e1;
             border-bottom: 2px solid #cbd5e1;
             text-align: left;
         }
 
         .results-table td {
-            padding: 7px 10px;
+            padding: 8px 12px;
             font-size: 11px;
             border-bottom: 1px solid #e2e8f0;
             color: #334155;
@@ -213,50 +220,68 @@
             background-color: #f8fafc;
         }
 
-        .param-col { width: 38%; }
+        .param-col { width: 40%; }
         .value-col { width: 22%; }
-        .ref-col { width: 30%; }
+        .ref-col { width: 28%; }
         .flag-col { width: 10%; text-align: center; }
 
-        .observed-number {
+        .observed-value-wrapper {
+            font-weight: 600;
+            color: #0f172a;
+        }
+        
+        .observed-value-wrapper.flagged {
             font-weight: bold;
-            color: #1e293b;
         }
 
+        .unit-text {
+            color: #64748b;
+            font-size: 10px;
+            margin-left: 3px;
+        }
+
+        /* Section row / Subheading row styling */
         .section-row td {
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
             font-weight: bold;
-            color: #1e293b;
+            color: #475569;
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-bottom: 1px solid #cbd5e1;
+            border-left: 3px solid #8a277d;
         }
 
         /* Flags styling */
-        .flag-cell {
-            text-align: center;
+        .flag-badge {
+            display: inline-block;
             font-weight: bold;
-            color: #475569;
+            font-size: 10px;
+            text-align: center;
+            padding: 2px 6px;
+            border-radius: 3px;
         }
 
-        .flag-cell.flag-critical {
-            color: #ef4444;
+        .flag-badge.flag-critical {
+            color: #dc2626;
+            background-color: #fee2e2;
         }
 
-        .flag-cell.flag-high {
-            color: #f97316;
+        .flag-badge.flag-high {
+            color: #ea580c;
+            background-color: #ffedd5;
         }
 
-        .flag-cell.flag-low {
-            color: #3b82f6;
+        .flag-badge.flag-low {
+            color: #2563eb;
+            background-color: #dbeafe;
         }
 
         /* Report closing note and signature */
         .report-closing {
             width: 100%;
-            margin-top: 25px;
+            margin-top: 30px;
             border-collapse: collapse;
             page-break-inside: avoid;
         }
@@ -264,18 +289,19 @@
         .report-note {
             width: 60%;
             vertical-align: top;
-            padding: 10px 15px;
+            padding: 12px 16px;
             background-color: #f8fafc;
             border-left: 3px solid #8a277d;
             font-size: 11px;
             color: #475569;
             line-height: 1.5;
+            border-radius: 0 4px 4px 0;
         }
 
         .report-note-label {
             font-weight: bold;
             color: #1e293b;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             font-size: 9px;
             letter-spacing: 0.5px;
@@ -291,7 +317,7 @@
         .signature img {
             max-height: 48px;
             display: inline-block;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .signature-name {
@@ -357,8 +383,8 @@
             $printedDate = now()->format('d-M-Y - h:i:s A');
         @endphp
 
-        <!-- Patient Info Card -->
-        <table class="patient-info">
+        <!-- Patient Info Card Redesigned -->
+        <table class="patient-card">
             <tr>
                 <td class="label">Patient Name</td>
                 <td class="sep">:</td>
@@ -410,13 +436,18 @@
                             $value = trim((string)($r['observed_value'] ?? ''));
                             $unit = trim((string)($r['unit'] ?? ''));
                             $flag = trim((string)($r['flag'] ?? ''));
+                            
                             $flagClass = '';
+                            $badgeClass = '';
                             if ($flag === 'C') {
                                 $flagClass = 'flag-critical';
+                                $badgeClass = 'flag-critical';
                             } elseif ($flag === 'H') {
                                 $flagClass = 'flag-high';
+                                $badgeClass = 'flag-high';
                             } elseif ($flag === 'L') {
                                 $flagClass = 'flag-low';
+                                $badgeClass = 'flag-low';
                             }
                         @endphp
 
@@ -430,13 +461,25 @@
                         <tr>
                             <td>{{ $r['name'] ?? '' }}</td>
                             <td>
-                                <span class="observed-number">{{ $value }}</span>
+                                <span class="observed-value-wrapper {{ $flag ? 'flagged' : '' }}">
+                                    @if ($flagClass)
+                                        <span class="{{ $flagClass }}">{{ $value }}</span>
+                                    @else
+                                        {{ $value }}
+                                    @endif
+                                </span>
                                 @if ($unit !== '')
-                                    <span style="color: #64748b; font-size: 10px;">&nbsp;{{ $unit }}</span>
+                                    <span class="unit-text">{{ $unit }}</span>
                                 @endif
                             </td>
                             <td>{!! nl2br(e($r['normal_value'] ?? $r['biological_reference'] ?? '')) !!}</td>
-                            <td class="flag-cell {{ $flagClass }}">{{ $flag ?: '-' }}</td>
+                            <td class="flag-col">
+                                @if ($flag)
+                                    <span class="flag-badge {{ $badgeClass }}">{{ $flag }}</span>
+                                @else
+                                    <span style="color: #cbd5e1;">-</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

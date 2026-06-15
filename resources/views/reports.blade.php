@@ -2414,14 +2414,15 @@
 
               const pageW = doc.internal.pageSize.getWidth();
               const pageH = doc.internal.pageSize.getHeight();
-              const left = 21;
-              const tableW = 173;
-	              const col1 = 61;
-	              const col2 = 44;
-	              const col4 = 14;
-	              const col3 = tableW - col1 - col2 - col4;
+              const left = 20;
+              const tableW = 170;
+              const col1 = 70;
+              const col2 = 38;
+              const col4 = 14;
+              const col3 = tableW - col1 - col2 - col4;
               const footerTop = 269;
               let pageNo = 1;
+              let alternatingRowIdx = 0;
 
               function addShell(isFirstPage = true) {
                   if (showHeader) {
@@ -2434,115 +2435,190 @@
                   const fHeight = (fProps.height * pageW) / fProps.width;
                   const actualFooterTop = pageH - fHeight;
                   doc.addImage(REPORT_FOOTER_IMAGE, 'PNG', 0, actualFooterTop, pageW, fHeight);
-                  doc.setTextColor(0);
-                  doc.setDrawColor(0);
+                  
+                  doc.setTextColor(30, 41, 59);
+                  doc.setDrawColor(226, 232, 240);
                   doc.setLineWidth(0.25);
 
-                  const infoY = isFirstPage ? 44 : 44;
-                  doc.setFont('times', 'normal');
-                  doc.setFontSize(11);
+                  const infoY = 44;
+                  
+                  // Draw Patient Card Background
+                  doc.setFillColor(248, 250, 252);
+                  doc.roundedRect(left, infoY - 5, tableW, 26, 2, 2, 'FD');
 
-                  doc.text(isFirstPage ? 'Patient Name' : 'Name', left + 2, infoY);
-                  doc.text(':', left + 28, infoY);
-                  doc.setFont('times', 'bold');
-                  doc.text(patientName, left + 31, infoY);
+                  doc.setFont('helvetica', 'normal');
+                  doc.setFontSize(9);
+                  
+                  // Column 1 Labels & Values
+                  doc.setTextColor(100, 116, 139);
+                  doc.text('PATIENT NAME', left + 4, infoY + 1);
+                  doc.text('REFERENCE NO', left + 4, infoY + 7);
+                  doc.text('REFERRED BY', left + 4, infoY + 13);
+                  doc.text('PRINTED DATE', left + 4, infoY + 19);
 
-                  doc.setFont('times', 'normal');
-                  doc.text('Age', 132, infoY);
-                  doc.text(':', 158, infoY);
-                  doc.text(`${p.age || ''} ${p.age_type || 'Years'}`, 160, infoY);
-                  doc.text(`Sex : ${sex}`, 178, infoY);
+                  doc.text(':', left + 34, infoY + 1);
+                  doc.text(':', left + 34, infoY + 7);
+                  doc.text(':', left + 34, infoY + 13);
+                  doc.text(':', left + 34, infoY + 19);
 
-                  doc.text('Specimen', 132, infoY + 5);
-                  doc.text(':', 158, infoY + 5);
+                  doc.setTextColor(15, 23, 42);
+                  doc.setFont('helvetica', 'bold');
+                  doc.text(patientName, left + 36, infoY + 1);
+                  doc.setFont('helvetica', 'normal');
+                  doc.text(referenceNo, left + 36, infoY + 7);
+                  doc.setFont('helvetica', 'bold');
+                  doc.text(data.doctor_name || 'Self', left + 36, infoY + 13);
+                  doc.setFont('helvetica', 'normal');
+                  doc.text(printedDate, left + 36, infoY + 19);
 
-                  doc.text('Reference No', left + 2, infoY + 10);
-                  doc.text(':', left + 28, infoY + 10);
-                  doc.text(referenceNo, left + 31, infoY + 10);
+                  // Column 2 Labels & Values
+                  doc.setTextColor(100, 116, 139);
+                  doc.text('AGE / SEX', left + 105, infoY + 1);
+                  doc.text('SPECIMEN', left + 105, infoY + 7);
+                  doc.text('RECEIVED DATE', left + 105, infoY + 13);
 
-                  doc.text('Date', 132, infoY + 10);
-                  doc.text(':', 158, infoY + 10);
-                  doc.text(isFirstPage ? reportDate : moment(data.sample_received_on).format('DD-MMM-YYYY'), 160, infoY + 10);
+                  doc.text(':', left + 133, infoY + 1);
+                  doc.text(':', left + 133, infoY + 7);
+                  doc.text(':', left + 133, infoY + 13);
 
-                  doc.text('Referred By', left + 2, infoY + 15);
-                  doc.text(':', left + 28, infoY + 15);
-                  doc.setFont('times', 'bold');
-                  doc.text(data.doctor_name || '', left + 31, infoY + 15);
-                  doc.setFont('times', 'normal');
-
-                  if (isFirstPage) {
-                      doc.text('Printed Date', 132, infoY + 15);
-                      doc.text(':', 158, infoY + 15);
-                      doc.text(printedDate, 160, infoY + 15);
-                  }
-
-                  doc.line(0, infoY + 18, pageW, infoY + 18);
+                  doc.setTextColor(15, 23, 42);
+                  doc.setFont('helvetica', 'bold');
+                  doc.text(`${p.age || ''} ${p.age_type || 'Years'} / ${sex}`, left + 135, infoY + 1);
+                  doc.setFont('helvetica', 'normal');
+                  doc.text('Blood / Serum', left + 135, infoY + 7);
+                  doc.text(isFirstPage ? reportDate.split(' - ')[0] : moment(data.sample_received_on).format('DD-MMM-YYYY'), left + 135, infoY + 13);
               }
 
               function addNewPage() {
                   doc.addPage();
                   pageNo += 1;
                   addShell(false);
-                  return 70;
+                  alternatingRowIdx = 0;
+                  return 72;
               }
 
               function drawCategoryTitle(title, y) {
-                  doc.setFont('times', 'bold');
-                  doc.setFontSize(13);
-                  doc.text((title || 'GENERAL').toUpperCase(), pageW / 2, y, { align: 'center' });
-                  return y + 9;
+                  doc.setFont('helvetica', 'bold');
+                  doc.setFontSize(11);
+                  doc.setTextColor(138, 39, 125);
+                  doc.text((title || 'GENERAL').toUpperCase(), left + 2, y);
+                  
+                  // Category Underline
+                  doc.setDrawColor(138, 39, 125);
+                  doc.setLineWidth(0.5);
+                  doc.line(left, y + 2, left + tableW, y + 2);
+                  
+                  return y + 7;
               }
 
               function drawTableHeader(y) {
-                  doc.setFont('times', 'bold');
-                  doc.setFontSize(11);
-	                  doc.rect(left, y, tableW, 8);
-	                  doc.line(left + col1, y, left + col1, y + 8);
-	                  doc.line(left + col1 + col2, y, left + col1 + col2, y + 8);
-	                  doc.line(left + col1 + col2 + col3, y, left + col1 + col2 + col3, y + 8);
-	                  doc.text('Parameter', left + 5, y + 5.5);
-	                  doc.text('Observed Value', left + col1 + col2 / 2, y + 5.5, { align: 'center' });
-	                  doc.text('Reference Value', left + col1 + col2 + col3 / 2, y + 5.5, { align: 'center' });
-	                  doc.text('Flag', left + col1 + col2 + col3 + col4 / 2, y + 5.5, { align: 'center' });
-	                  return y + 8;
-	              }
+                  doc.setFont('helvetica', 'bold');
+                  doc.setFontSize(9);
+                  doc.setTextColor(71, 85, 105);
+                  
+                  // Header box background
+                  doc.setFillColor(241, 245, 249);
+                  doc.rect(left, y, tableW, 8, 'F');
+                  
+                  // Top/Bottom border lines
+                  doc.setDrawColor(203, 213, 225);
+                  doc.setLineWidth(0.3);
+                  doc.line(left, y, left + tableW, y);
+                  doc.line(left, y + 8, left + tableW, y + 8);
+                  
+                  doc.text('PARAMETER', left + 4, y + 5.5);
+                  doc.text('OBSERVED VALUE', left + col1 + 4, y + 5.5);
+                  doc.text('REFERENCE VALUE', left + col1 + col2 + 4, y + 5.5);
+                  doc.text('FLAG', left + col1 + col2 + col3 + col4 / 2, y + 5.5, { align: 'center' });
+                  return y + 8;
+              }
 
-	              function drawCellRow(y, name, observed, reference, flag = '', boldFirst = false) {
-	                  doc.setFontSize(11);
-	                  const nameLines = doc.splitTextToSize(name || '', col1 - 4);
-	                  const observedLines = doc.splitTextToSize(observed || '', col2 - 4);
-	                  const refLines = doc.splitTextToSize(reference || '', col3 - 4);
+              function drawCellRow(y, name, observed, reference, flag = '', isSubheading = false) {
+                  doc.setFontSize(9.5);
+                  doc.setLineWidth(0.2);
+                  doc.setDrawColor(226, 232, 240);
+
+                  const nameLines = doc.splitTextToSize(name || '', col1 - 6);
+                  const observedLines = doc.splitTextToSize(observed || '', col2 - 6);
+                  const refLines = doc.splitTextToSize(reference || '', col3 - 6);
                   const lineCount = Math.max(nameLines.length, observedLines.length, refLines.length, 1);
-                  const rowH = Math.max(6, lineCount * 5.2);
+                  const rowH = isSubheading ? 7 : Math.max(6.5, lineCount * 5);
 
                   if (y + rowH > footerTop - 12) {
                       y = addNewPage();
                       y = drawTableHeader(y);
                   }
 
-	                  doc.rect(left, y, tableW, rowH);
-	                  doc.line(left + col1, y, left + col1, y + rowH);
-	                  doc.line(left + col1 + col2, y, left + col1 + col2, y + rowH);
-	                  doc.line(left + col1 + col2 + col3, y, left + col1 + col2 + col3, y + rowH);
+                  if (isSubheading) {
+                      // Subheading Background
+                      doc.setFillColor(248, 250, 252);
+                      doc.rect(left, y, tableW, rowH, 'F');
+                      
+                      // Left Accent Line
+                      doc.setFillColor(138, 39, 125);
+                      doc.rect(left, y, 1.5, rowH, 'F');
+                      
+                      doc.setFont('helvetica', 'bold');
+                      doc.setTextColor(71, 85, 105);
+                      doc.text((name || '').toUpperCase(), left + 5, y + 4.5);
+                  } else {
+                      // Alternating background
+                      if (alternatingRowIdx % 2 === 1) {
+                          doc.setFillColor(248, 250, 252);
+                          doc.rect(left, y, tableW, rowH, 'F');
+                      }
+                      alternatingRowIdx++;
 
-                  doc.setFont('times', boldFirst ? 'bold' : 'normal');
-                  doc.text(nameLines, left + 2, y + 4.5);
-                  doc.setFont('times', 'bold');
-                  doc.text(observedLines, left + col1 + 2, y + 4.5);
-	                  doc.setFont('times', 'normal');
-	                  doc.text(refLines, left + col1 + col2 + 2, y + 4.5);
-	                  doc.setFont('times', 'bold');
-	                  if (flag === 'C') doc.setTextColor(208, 0, 0);
-	                  doc.text(flag || '', left + col1 + col2 + col3 + col4 / 2, y + 4.5, { align: 'center' });
-	                  doc.setTextColor(0);
-	                  return y + rowH;
-	              }
+                      // Draw observed value with proper flag highlighting
+                      doc.setTextColor(15, 23, 42);
+                      doc.setFont('helvetica', 'normal');
+                      doc.text(nameLines, left + 4, y + 4.5);
+                      
+                      // Highlight observed value if flagged
+                      if (flag) {
+                          doc.setFont('helvetica', 'bold');
+                          if (flag === 'C') doc.setTextColor(220, 38, 38);
+                          else if (flag === 'H') doc.setTextColor(234, 88, 12);
+                          else if (flag === 'L') doc.setTextColor(37, 99, 235);
+                      } else {
+                          doc.setFont('helvetica', 'bold');
+                      }
+                      doc.text(observedLines, left + col1 + 4, y + 4.5);
+                      
+                      // Reference value
+                      doc.setTextColor(51, 65, 85);
+                      doc.setFont('helvetica', 'normal');
+                      doc.text(refLines, left + col1 + col2 + 4, y + 4.5);
+                      
+                      // Flag pill style or text color
+                      if (flag) {
+                          doc.setFont('helvetica', 'bold');
+                          if (flag === 'C') {
+                              doc.setTextColor(220, 38, 38);
+                          } else if (flag === 'H') {
+                              doc.setTextColor(234, 88, 12);
+                          } else if (flag === 'L') {
+                              doc.setTextColor(37, 99, 235);
+                          }
+                          doc.text(flag, left + col1 + col2 + col3 + col4 / 2, y + 4.5, { align: 'center' });
+                      } else {
+                          doc.setTextColor(203, 213, 225);
+                          doc.text('-', left + col1 + col2 + col3 + col4 / 2, y + 4.5, { align: 'center' });
+                      }
+                  }
+
+                  // Underline row
+                  doc.setDrawColor(226, 232, 240);
+                  doc.line(left, y + rowH, left + tableW, y + rowH);
+                  
+                  doc.setTextColor(15, 23, 42);
+                  return y + rowH;
+              }
 
               function imageFormatFromDataUrl(dataUrl) {
                   if (!dataUrl || dataUrl.indexOf('image/jpeg') !== -1 || dataUrl.indexOf('image/jpg') !== -1) {
                       return 'JPEG';
                   }
-
                   return 'PNG';
               }
 
@@ -2555,7 +2631,7 @@
                   groupedResults[cat].push(r);
               });
 
-              let y = 72;
+              let y = 77;
               Object.keys(groupedResults).forEach(cat => {
                   if (y > footerTop - 35) y = addNewPage();
                   y = drawCategoryTitle(cat, y);
@@ -2563,52 +2639,86 @@
 
                   let lastSubheading = null;
                   groupedResults[cat].forEach(r => {
-	                      const subheading = (r.subcategory || '').trim();
-	                      if (subheading && subheading !== lastSubheading) {
-	                          y = drawCellRow(y, subheading.toUpperCase(), '', '', '', true);
-	                          lastSubheading = subheading;
-	                      }
+                      const subheading = (r.subcategory || '').trim();
+                      if (subheading && subheading !== lastSubheading) {
+                          y = drawCellRow(y, subheading, '', '', '', true);
+                          lastSubheading = subheading;
+                      }
 
-	                      const observed = `${r.observed_value || ''}${r.unit ? '  ' + r.unit : ''}`.trim();
-	                      const reference = r.normal_value || r.biological_reference || '';
-	                      y = drawCellRow(y, r.name || '', observed, reference, r.flag || '');
-	                  });
+                      const observed = `${r.observed_value || ''}${r.unit ? ' ' + r.unit : ''}`.trim();
+                      const reference = r.normal_value || r.biological_reference || '';
+                      y = drawCellRow(y, r.name || '', observed, reference, r.flag || '');
+                  });
 
-                  y += 8;
+                  y += 6;
               });
 
-              if (y > footerTop - 55) y = addNewPage();
-              doc.setFont('times', 'normal');
-              doc.setFontSize(11);
-              doc.text('Note :', left, y + 5);
-
+              // Notes & Signatures
+              if (y > footerTop - 50) y = addNewPage();
+              
+              // Note Box
+              doc.setFillColor(248, 250, 252);
+              doc.setDrawColor(226, 232, 240);
+              doc.setLineWidth(0.25);
+              
+              // Left Accent Line for note
+              doc.setFillColor(138, 39, 125);
+              
+              const noteBoxH = Math.max(20, reportNotes ? (doc.splitTextToSize(reportNotes, 90).length * 5 + 10) : 20);
+              if (y + noteBoxH > footerTop - 15) {
+                  y = addNewPage();
+              }
+              
+              doc.setFillColor(248, 250, 252);
+              doc.rect(left, y + 2, 100, noteBoxH, 'FD');
+              doc.setFillColor(138, 39, 125);
+              doc.rect(left, y + 2, 1.5, noteBoxH, 'F');
+              
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(8.5);
+              doc.setTextColor(15, 23, 42);
+              doc.text('NOTES / INTERPRETATION', left + 4, y + 8);
+              
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(9);
+              doc.setTextColor(71, 85, 105);
+              
               if (reportNotes) {
-                  const noteLines = doc.splitTextToSize(reportNotes, 116);
-                  if (y + 8 + noteLines.length * 5 > footerTop - 18) {
-                      y = addNewPage();
-                      doc.text('Note :', left, y + 5);
-                  }
-                  doc.text(noteLines, left + 13, y + 5);
+                  const noteLines = doc.splitTextToSize(reportNotes, 92);
+                  doc.text(noteLines, left + 4, y + 14);
+              } else {
+                  doc.setFont('helvetica', 'italic');
+                  doc.text('No notes provided.', left + 4, y + 14);
               }
 
+              // Signature image and details
               if (signature && signature.image_data) {
                   try {
-                      doc.addImage(signature.image_data, imageFormatFromDataUrl(signature.image_data), 154, footerTop - 34, 38, 18, undefined, 'FAST');
+                      doc.addImage(signature.image_data, imageFormatFromDataUrl(signature.image_data), 148, footerTop - 34, 38, 18, undefined, 'FAST');
                   } catch (error) {
                       console.warn('Could not add signature image:', error);
                   }
               }
 
-              doc.setFont('times', 'bold');
-              doc.text(signature?.name || 'Medi Technician', 174, footerTop - 8, { align: 'center' });
-              doc.setFont('times', 'normal');
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(9.5);
+              doc.setTextColor(15, 23, 42);
+              doc.text(signature?.name || 'Medi Technician', left + 138, footerTop - 8, { align: 'center' });
+              
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(8);
+              doc.setTextColor(100, 116, 139);
+              doc.text(signature?.name ? 'Authorized Signatory' : 'Lab In-Charge', left + 138, footerTop - 4, { align: 'center' });
+
               if (pageNo > 1) {
-                  doc.setFontSize(9);
-                  doc.text(`Page No :${pageNo}`, 12, 36);
+                  doc.setFontSize(8.5);
+                  doc.text(`Page No : ${pageNo}`, left + 4, 38);
               }
 
               return doc;
           }
+
+
 
           $('#btn-viewer-download').click(function() {
               let id = $(this).data('current-id');
