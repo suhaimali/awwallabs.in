@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', ' | Test Reports')
+@section('title', 'Test Reports')
 @section('page-title', 'Test Reports')
 
 @section('content')
@@ -61,9 +61,7 @@
                     }
                 }
 
-                /* ═══════════════════════════════════════════════
-   PDF VIEWER — NEAT RESPONSIVE DESIGN
-   ═══════════════════════════════════════════════ */
+ 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 .pdf-viewer-wrapper {
@@ -338,6 +336,21 @@
                     box-shadow: none !important;
                 }
 
+                /* Unified style for all buttons inside the input-group */
+                .test-item-row .input-group.flex-nowrap .btn {
+                    border: none !important;
+                    border-left: 1px solid #cbd5e1 !important;
+                    height: 38px !important;
+                    width: 34px !important;
+                    padding: 0 !important;
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    font-size: 13px !important;
+                    border-radius: 0 !important;
+                    transition: all 0.2s ease !important;
+                }
+
                 /* Green '+' buttons */
                 .test-item-row .input-group.flex-nowrap .btn-add-report-category,
                 .test-item-row .input-group.flex-nowrap .btn-add-report-subcategory,
@@ -348,17 +361,6 @@
                 .test-item-row .input-group.flex-nowrap .btn-add-flag {
                     background-color: #e8f5e9 !important;
                     color: #2e7d32 !important;
-                    border: none !important;
-                    border-left: 1px solid #cbd5e1 !important;
-                    border-radius: 0 !important;
-                    width: 34px !important;
-                    height: 38px !important;
-                    padding: 0 !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    font-size: 13px !important;
-                    transition: all 0.2s ease !important;
                 }
 
                 .test-item-row .input-group.flex-nowrap .btn-add-report-category:hover,
@@ -372,6 +374,29 @@
                     color: #ffffff !important;
                 }
 
+                /* Indigo 'edit' buttons */
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-category,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-subcategory,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-test,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-unit,
+                .test-item-row .input-group.flex-nowrap .btn-edit-reference,
+                .test-item-row .input-group.flex-nowrap .btn-edit-observed,
+                .test-item-row .input-group.flex-nowrap .btn-edit-flag {
+                    background-color: #e0e7ff !important;
+                    color: #4f46e5 !important;
+                }
+
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-category:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-subcategory:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-test:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-report-unit:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-reference:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-observed:hover,
+                .test-item-row .input-group.flex-nowrap .btn-edit-flag:hover {
+                    background-color: #4f46e5 !important;
+                    color: #ffffff !important;
+                }
+
                 /* Blue 'eye' buttons */
                 .test-item-row .input-group.flex-nowrap .btn-view-report-category,
                 .test-item-row .input-group.flex-nowrap .btn-view-report-subcategory,
@@ -382,17 +407,6 @@
                 .test-item-row .input-group.flex-nowrap .btn-view-flag {
                     background-color: #e0f2fe !important;
                     color: #0369a1 !important;
-                    border: none !important;
-                    border-left: 1px solid #cbd5e1 !important;
-                    border-radius: 0 8px 8px 0 !important;
-                    width: 34px !important;
-                    height: 38px !important;
-                    padding: 0 !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    font-size: 13px !important;
-                    transition: all 0.2s ease !important;
                 }
 
                 .test-item-row .input-group.flex-nowrap .btn-view-report-category:hover,
@@ -406,22 +420,37 @@
                     color: #ffffff !important;
                 }
 
+                /* Red 'delete' buttons */
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-category,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-subcategory,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-test,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-unit,
+                .test-item-row .input-group.flex-nowrap .btn-delete-reference,
+                .test-item-row .input-group.flex-nowrap .btn-delete-observed,
+                .test-item-row .input-group.flex-nowrap .btn-delete-flag {
+                    background-color: #fee2e2 !important;
+                    color: #dc2626 !important;
+                }
+
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-category:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-subcategory:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-test:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-report-unit:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-reference:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-observed:hover,
+                .test-item-row .input-group.flex-nowrap .btn-delete-flag:hover {
+                    background-color: #dc2626 !important;
+                    color: #ffffff !important;
+                }
+
                 /* Connect vertical focus borders when input-group is focused */
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-report-category,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-report-subcategory,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-report-test,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-report-unit,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-reference,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-observed,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-add-flag,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-report-category,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-report-subcategory,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-report-test,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-report-unit,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-observed,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-reference,
-                .test-item-row .input-group.flex-nowrap:focus-within .btn-view-flag {
+                .test-item-row .input-group.flex-nowrap:focus-within .btn {
                     border-left-color: #3b82f6 !important;
+                }
+
+                /* Last button in the input group gets rounded right corners */
+                .test-item-row .input-group.flex-nowrap .btn:last-child {
+                    border-radius: 0 8px 8px 0 !important;
                 }
 
                 /* Red X close button styled like standard delete icon */
@@ -458,12 +487,83 @@
                 /* Slate gray labels for standard columns */
                 .test-item-row .col-md-4 label,
                 .test-item-row .col-md-8 label {
-                    color: #64748b !important;
+                    color: #64748b;
                 }
 
                 /* Bright blue label for Parameter */
                 .test-item-row .col-md-4:nth-child(3) label {
                     color: #2563eb !important;
+                }
+
+                /* Responsive Table View Styling */
+                .table-preview-card {
+                    background: #ffffff;
+                    border-radius: 16px;
+                    padding: 35px;
+                    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+                    width: 100%;
+                    max-width: 850px;
+                    margin: 0 auto;
+                    border: 1px solid #e2e8f0;
+                    font-family: 'Inter', sans-serif;
+                }
+
+                .table-preview-card .metadata-item {
+                    padding: 10px 12px;
+                    background: #f8fafc;
+                    border-radius: 8px;
+                    border: 1px solid #f1f5f9;
+                }
+
+                .table-preview-card .table {
+                    margin-bottom: 0;
+                }
+
+                .table-preview-card .table th {
+                    background-color: #4f46e5;
+                    color: #ffffff;
+                    font-weight: 600;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    padding: 12px 16px;
+                    border: none;
+                }
+
+                .table-preview-card .table td {
+                    padding: 14px 16px;
+                    vertical-align: middle;
+                    font-size: 13px;
+                    color: #334155;
+                    border-color: #f1f5f9;
+                }
+
+                .table-preview-card .category-row {
+                    background-color: #f8fafc !important;
+                    font-weight: 700;
+                    color: #1e293b;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    border-top: 2px solid #e2e8f0;
+                }
+
+                .table-preview-card .flag-badge-h {
+                    background-color: #fee2e2;
+                    color: #dc2626;
+                    font-weight: 600;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 11px;
+                }
+
+                .table-preview-card .flag-badge-l {
+                    background-color: #fef3c7;
+                    color: #d97706;
+                    font-weight: 600;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 11px;
                 }
             </style>
             <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap" rel="stylesheet">
@@ -481,21 +581,21 @@
             <table class="table table-modern" id="report-table">
 								<thead>
 									<tr>
-										<th class="d-none d-md-table-cell">SL No</th>
+										<th>SL No</th>
 										<th>Patient Name</th>
-										<th class="d-none d-lg-table-cell">Doctor Name</th>
+										<th>Doctor Name</th>
 										<th>Date Released</th>
 										<th class="text-end">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-                                     @forelse($reports as $report)
+                                     @foreach($reports as $report)
 									<tr>
-										<td class="d-none d-md-table-cell"><span class="badge-aw badge-blue">#{{ $report->id }}</span></td>
-										<td style="font-weight:600;" data-label="Patient">{{ $report->patient->first_name }} {{ $report->patient->last_name }}</td>
-										<td class="d-none d-lg-table-cell" style="color:var(--text-muted);" data-label="Doctor">{{ $report->doctor_name }}</td>
-										<td data-label="Date">{{ \Carbon\Carbon::parse($report->report_released_on)->format('d M Y') }}</td>
-										<td class="text-end">
+										<td data-label="SL No"><span class="badge-aw badge-blue">#{{ $report->id }}</span></td>
+										<td style="font-weight:600;" data-label="Patient Name">{{ $report->patient->first_name }} {{ $report->patient->last_name }}</td>
+										<td style="color:var(--text-muted);" data-label="Doctor Name">{{ $report->doctor_name }}</td>
+										<td data-label="Date Released">{{ \Carbon\Carbon::parse($report->report_released_on)->format('d M Y') }}</td>
+										<td class="text-end" data-label="Action">
                                              <div class="d-flex justify-content-end gap-2">
                                                  <button class="btn-aw-outline btn-aw-sm btn-view" data-id="{{ $report->id }}" data-bs-toggle="modal" data-bs-target="#modal-view-report" title="View / PDF" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-file-pdf"></i></button>
                                                  <button class="btn-aw-primary btn-aw-sm btn-edit" data-id="{{ $report->id }}" data-bs-toggle="modal" data-bs-target="#modal-edit-report" title="Edit Report" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-edit"></i></button>
@@ -503,14 +603,7 @@
                                              </div>
 										</td>
 									</tr>
-                                    @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center" style="padding:48px; color:var(--text-muted);">
-                                            <i class="fa fa-folder-open" style="font-size:40px; display:block; margin-bottom:12px; opacity:0.4;"></i>
-                                            <span style="font-size:15px;">No test reports generated yet.</span>
-                                        </td>
-                                    </tr>
-                                    @endforelse
+                                    @endforeach
 								</tbody>
 							  </table>
 						</div>				
@@ -569,13 +662,13 @@
 				<div class="row mb-3">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label  class="form-label">Sample Received On</label>
+							<label for="field_1105"  class="form-label">Sample Received On</label>
 							<input type="datetime-local" class="form-control" name="sample_received_on" required autocomplete="off" id="field_1105">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label  class="form-label">Report Released On</label>
+							<label for="field_1106"  class="form-label">Report Released On</label>
 							<input type="datetime-local" class="form-control" name="report_released_on" required autocomplete="off" id="field_1106">
 						</div>
 					</div>
@@ -584,7 +677,7 @@
 				<div class="row mb-3">
 					<div class="col-md-6 col-12">
 						<div class="form-group">
-							<label  class="form-label">Authorized Signature</label>
+							<label for="field_1107"  class="form-label">Authorized Signature</label>
 							<div class="input-group flex-nowrap">
 								<select class="form-select report-signature-select" name="report_signature_id" autocomplete="off" id="field_1107">
 									<option value="">No signature</option>
@@ -597,7 +690,7 @@
 					</div>
 					<div class="col-md-6 col-12">
 						<div class="form-group">
-							<label  class="form-label">PIN</label>
+							<label for="field_1108"  class="form-label">PIN</label>
 							<input type="password" class="form-control signature-pin-input" name="signature_pin" autocomplete="new-password" placeholder="PIN" id="field_1108">
 						</div>
 					</div>
@@ -606,7 +699,7 @@
 				<div class="row mt-2">
 					<div class="col-12">
 						<div class="form-group">
-							<label  class="form-label">Report Notes</label>
+							<label for="field_1109"  class="form-label">Report Notes</label>
 							<textarea class="form-control" name="notes" rows="2" placeholder="Notes to show in the PDF" autocomplete="off" id="field_1109"></textarea>
 						</div>
 					</div>
@@ -614,7 +707,9 @@
 
                 <div class="d-flex justify-content-between align-items-center mt-2 mb-3 border-bottom pb-2">
                     <h4 class="text-primary mb-0">Dynamic Test Results</h4>
-                    <button type="button" class="btn btn-sm btn-success" id="btn-add-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
+                    <div class="d-flex gap-2 align-items-center">
+                        <button type="button" class="btn btn-sm btn-success" id="btn-add-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
+                    </div>
                 </div>
 				
                 <div id="dynamic-tests-container">
@@ -723,7 +818,9 @@
 
                 <div class="d-flex justify-content-between align-items-center mt-2 mb-3 border-bottom pb-2">
                     <h4 class="text-primary mb-0">Dynamic Test Results</h4>
-                    <button type="button" class="btn btn-sm btn-success" id="btn-add-edit-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
+                    <div class="d-flex gap-2 align-items-center">
+                        <button type="button" class="btn btn-sm btn-success" id="btn-add-edit-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
+                    </div>
                 </div>
 				
                 <div id="edit-dynamic-tests-container">
@@ -868,6 +965,94 @@
 			  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
 		  });
 
+          // Function to refresh reports table and dropdowns without a full page reload
+          window.refreshReportsPageData = function(modalToCloseId = null, btnToReset = null, defaultBtnText = '') {
+              if (modalToCloseId) {
+                  $(modalToCloseId).modal('hide');
+              }
+              if (btnToReset) {
+                  btnToReset.html(defaultBtnText).prop('disabled', false);
+              }
+              
+              let currentUrl = window.location.href;
+              $.ajax({
+                  url: currentUrl,
+                  type: 'GET',
+                  cache: false, // PREVENT AGGRESSIVE BROWSER CACHING
+                  success: function(html) {
+                      let newDoc = new DOMParser().parseFromString(html, 'text/html');
+                      
+                      // 1. Update the main reports table
+                      let newTableWrapper = $(newDoc).find('#report-table').closest('.table-responsive-modern').html();
+                      if (newTableWrapper) {
+                          let dtState = { page: 0, length: 10, search: '' };
+                          if($.fn.DataTable.isDataTable('#report-table')) {
+                              let dt = $('#report-table').DataTable();
+                              dtState.page = dt.page();
+                              dtState.length = dt.page.len();
+                              dtState.search = dt.search();
+                              dt.destroy();
+                          }
+                          
+                          // Specifically target the wrapper of report-table to avoid affecting modal tables
+                          $('#report-table').closest('.table-responsive-modern').html(newTableWrapper);
+                          
+                          // Re-initialize reports table with preserved state
+                          var reportsTable = $('#report-table').DataTable({
+                              dom: "<'row mb-3'<'col-sm-12 col-md-6'l>>" +
+                                   "<'row'<'col-sm-12'tr>>" +
+                                   "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                              pageLength: dtState.length,
+                              search: { search: dtState.search },
+                              lengthMenu: [5, 10, 25, 50, 100],
+                              ordering: false,
+                              language: {
+                                  lengthMenu: "Show _MENU_ records",
+                                  info: "Showing _START_ to _END_ of _TOTAL_ reports",
+                                  infoEmpty: "Showing 0 to 0 of 0 reports",
+                                  infoFiltered: "(filtered from _MAX_ total reports)",
+                                  emptyTable: "No test reports generated yet.",
+                                  paginate: {
+                                      previous: "<i class='fa fa-angle-left'></i>",
+                                      next: "<i class='fa fa-angle-right'></i>"
+                                  }
+                              }
+                          });
+                          
+                          reportsTable.page(dtState.page).draw('page');
+
+                          $("#report-search").off("keyup").on("keyup", function() {
+                              reportsTable.search($(this).val()).draw();
+                          });
+                      }
+
+                      // 2. Update the "View Details" modal tables so "all pop" stay refreshed
+                      let newModalDetail = $(newDoc).find('#modal-view-detail .modal-body').html();
+                      if (newModalDetail) {
+                          $('#modal-view-detail .modal-body').html(newModalDetail);
+                      }
+                      
+                      // 3. Dynamically update ALL dropdown <select> contents without destroying bindings
+                      const selectNamesToUpdate = [
+                          'patient_id', 'doctor_name', 'report_signature_id', 'category_id', 'unit',
+                          'test_category[]', 'test_subcategory[]', 'test_name[]', 'observed_value[]', 
+                          'test_unit[]', 'normal_value[]', 'test_flag[]', 'biological_reference[]'
+                      ];
+                      
+                      selectNamesToUpdate.forEach(name => {
+                          let newOptions = $(newDoc).find(`select[name="${name}"]`).first().html();
+                          if (newOptions) {
+                              $(`select[name="${name}"]`).each(function() {
+                                  let currentVal = $(this).val();
+                                  $(this).html(newOptions);
+                                  $(this).val(currentVal); // Restore user selection if still exists
+                              });
+                          }
+                      });
+                  }
+              });
+          };
+
           // Fix overlapping modal backdrops z-index
           $(document).on('show.bs.modal', '.modal', function () {
               const zIndex = 1060 + (10 * $('.modal:visible').length);
@@ -885,12 +1070,28 @@
               }
           });
 
-		  // Live Search for Reports
+		  // Initialize DataTables for Reports
+		  var reportsTable = $('#report-table').DataTable({
+			  dom: "<'row mb-3'<'col-sm-12 col-md-6'l>>" +
+				   "<'row'<'col-sm-12'tr>>" +
+				   "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			  pageLength: 10,
+			  lengthMenu: [5, 10, 25, 50, 100],
+			  ordering: false,
+			  language: {
+				  lengthMenu: "Show _MENU_ records",
+				  info: "Showing _START_ to _END_ of _TOTAL_ reports",
+				  infoEmpty: "Showing 0 to 0 of 0 reports",
+				  infoFiltered: "(filtered from _MAX_ total reports)",
+				  emptyTable: "No test reports generated yet.",
+				  paginate: {
+					  previous: "<i class='fa fa-angle-left'></i>",
+					  next: "<i class='fa fa-angle-right'></i>"
+				  }
+			  }
+		  });
 		  $("#report-search").on("keyup", function() {
-			  var value = $(this).val().toLowerCase();
-			  $("#report-table tbody tr").filter(function() {
-				  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-			  });
+			  reportsTable.search($(this).val()).draw();
 		  });
 
           // Standard Tests Dictionary for Auto-Fill
@@ -905,21 +1106,22 @@
               "LDL / HDL Ratio": { category: "LIPID PROFILE (FASTING)", normal: "< 3.5" }
           };
 
-          const REPORT_HEADER_IMAGE = "data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/report-header-awwal.png'))) }}";
-          const REPORT_FOOTER_IMAGE = "data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/report-footer-awwal.png'))) }}";
+          const REPORT_HEADER_IMAGE = "data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('images/Awwal Lab Report Sheet Top_page-0001.jpg'))) }}";
+          const REPORT_FOOTER_IMAGE = "data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('images/Awwal Lab Report Sheet Bottom_page-0001.jpg'))) }}";
 
           // Dynamic Rows Logic (Refined Alignment & Auto-fill)
           const trTemplate = `
             <div class="test-item-row card border-0 shadow-sm mb-3" style="background: linear-gradient(145deg, #ffffff, #f8fafc); border-radius: 12px; position: relative; overflow: hidden;">
                 <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #6366f1;"></div>
                 <div class="card-body p-3">
+                    <span class="badge bg-primary text-white position-absolute row-sl-no" style="top: 10px; left: 15px; z-index: 10; border-radius: 6px;">SL 1</span>
                     <button type="button" class="btn btn-sm btn-danger position-absolute remove-row" style="top: 10px; right: 10px; z-index: 10; border-radius: 8px;" title="Remove Test"><i class="fa fa-trash"></i></button>
-                    <div class="row g-3 align-items-end">
+                    <div class="row g-3 align-items-end mt-3">
                         <div class="col-md-4 col-sm-6">
-                            <label  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Master Category</label>
+                            <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Master Category</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select report-category-select" name="test_category[]" autocomplete="off" id="field_1110">
-                                    <option value="">Sub</option>
+                                <select class="form-select report-category-select" name="test_category[]" autocomplete="off">
+                                    <option value="">-- Select Category --</option>
                                     @foreach($categories as $cat)
                                         <option value="{{ $cat->name }}" data-id="{{ $cat->id }}">{{ $cat->name }}</option>
                                     @endforeach
@@ -931,10 +1133,10 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Sub Category</label>
+                            <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Sub Category</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off" id="field_1111">
-                                    <option value="">None</option>
+                                <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off">
+                                    <option value="">-- Select Sub Category --</option>
                                     @foreach($subCategories as $sub)
                                         <option value="{{ $sub->name }}" data-id="{{ $sub->id }}">{{ $sub->name }}</option>
                                     @endforeach
@@ -946,12 +1148,12 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label  class="form-label text-primary fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Parameter / Test Name <span class="text-danger">*</span></label>
+                            <label class="form-label text-primary fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Parameter / Test Name</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select test-selector-dynamic border-primary shadow-none" name="test_name[]" required autocomplete="off" id="field_1112">
+                                <select class="form-select test-selector-dynamic border-primary shadow-none" name="test_name[]" autocomplete="off">
                                     <option value="">-- Select Test --</option>
                                     @foreach($tests as $test)
-                                        <option value="{{ $test->name }}" 
+                                        <option value="{{ str_replace(['`', '${'], ['\`', '\${'], $test->name) }}" 
                                             data-id="{{ $test->id }}"
                                             data-price="{{ $test->price }}"
                                             data-unit="{{ $test->parameter->unit ?? '' }}"
@@ -966,7 +1168,7 @@
                                             data-reference-intervals='{{ $test->referenceIntervals->map->only(['gender', 'age_min', 'age_max', 'reference_text', 'min_value', 'max_value'])->values()->toJson() }}'
                                             data-is-immunoassay="{{ $test->parameter->is_immunoassay ?? 0 }}"
                                             data-bio-ref="{{ $test->parameter->biological_reference ?? '' }}"
-                                            data-normal="{{ $test->description }}">{{ $test->name }}</option>
+                                            data-normal="{{ str_replace(['`', '${'], ['\`', '\${'], $test->description) }}">{{ str_replace(['`', '${'], ['\`', '\${'], $test->name) }}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-success btn-sm btn-add-report-test" title="Add Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
@@ -976,9 +1178,9 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label  class="form-label text-success fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Observed Value <span class="text-danger">*</span></label>
+                            <label class="form-label text-success fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Observed Value</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select report-observed-select" name="observed_value[]" required autocomplete="off" id="field_1113">
+                                <select class="form-select report-observed-select" name="observed_value[]" autocomplete="off">
                                     <option value="">-- Select Observed --</option>
                                     @foreach($templates as $tmpl)
                                         <option value="{{ $tmpl->name }}" data-id="{{ $tmpl->id }}">{{ $tmpl->name }}</option>
@@ -991,10 +1193,10 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Unit</label>
+                            <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Unit</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select report-unit-select" name="test_unit[]" autocomplete="off" id="field_1114">
-                                    <option value="">Unit</option>
+                                <select class="form-select report-unit-select" name="test_unit[]" autocomplete="off">
+                                    <option value="">-- Select Unit --</option>
                                     @foreach($units as $u)
                                         <option value="{{ $u->name }}" data-id="{{ $u->id }}">{{ $u->name }}</option>
                                     @endforeach
@@ -1006,10 +1208,10 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label  class="form-label text-info fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Ref. Template</label>
+                            <label class="form-label text-info fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Referral Range</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select normal-val-dynamic" name="normal_value[]" autocomplete="off" id="field_1115">
-                                    <option value="">-- Select --</option>
+                                <select class="form-select normal-val-dynamic" name="normal_value[]" autocomplete="off">
+                                    <option value="">-- Select Reference --</option>
                                     @foreach($referenceTemplates as $ref)
                                         <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
                                     @endforeach
@@ -1021,12 +1223,12 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label  class="form-label text-warning fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Flag</label>
+                            <label class="form-label text-warning fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Flag</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select flag-selector" name="test_flag[]" autocomplete="off" id="field_1116">
-                                    <option value="">-- Select --</option>
+                                <select class="form-select flag-selector" name="test_flag[]" autocomplete="off">
+                                    <option value="">-- Select Flag --</option>
                                     @foreach($flagTemplates as $flg)
-                                        <option value="{{ $flg->name }}" data-id="{{ $flg->id }}">{{ $flg->name }}</option>
+                                        <option value="{{ str_replace(['`', '${'], ['\`', '\${'], $flg->name) }}" data-id="{{ $flg->id }}">{{ str_replace(['`', '${'], ['\`', '\${'], $flg->name) }}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-success btn-sm btn-add-flag" title="Add Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
@@ -1036,10 +1238,10 @@
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-12">
-                            <label  class="form-label text-dark fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Normal Range</label>
+                            <label class="form-label text-dark fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Normal Range</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select bio-val-dynamic" name="biological_reference[]" autocomplete="off" id="field_1117">
-                                    <option value="">-- Select --</option>
+                                <select class="form-select bio-val-dynamic" name="biological_reference[]" autocomplete="off">
+                                    <option value="">-- Select Range --</option>
                                     @foreach($referenceTemplates as $ref)
                                         <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
                                     @endforeach
@@ -1059,22 +1261,30 @@
               let selected = $(this).find(':selected');
 	              let row = $(this).closest('.test-item-row');
 	              let modal = $(this).closest('.modal');
-	              let gender = modal.find('select[name="patient_id"] :selected').data('gender') || 'M/F';
-	              let age = parseInt(modal.find('select[name="patient_id"] :selected').data('age'), 10);
+	              let gender = modal.find('select[name="patient_id"] :selected').attr('data-gender') || 'M/F';
+	              let age = parseInt(modal.find('select[name="patient_id"] :selected').attr('data-age'), 10);
 	              
 	              // Set Unit
-	              row.find('select[name="test_unit[]"]').val(selected.data('unit') || '');
+	              row.find('select[name="test_unit[]"]').val(selected.attr('data-unit') || '');
 	              
 	              // Set Reference Interval based on Gender
 	              let ageInterval = getMatchingReferenceInterval(selected, gender, age);
-	              let ref = ageInterval ? ageInterval.reference_text : (gender === 'Male' ? selected.data('male-ref') : selected.data('female-ref'));
-	              if (!ref) ref = selected.data('male-ref') || selected.data('female-ref') || selected.data('normal') || '';
+	              let ref = ageInterval ? ageInterval.reference_text : '';
+                  if (!ref) {
+                      let mRef = selected.attr('data-male-ref');
+                      let fRef = selected.attr('data-female-ref');
+                      if (mRef && fRef && mRef !== fRef) {
+                          ref = "Male: " + mRef + "\nFemale: " + fRef;
+                      } else {
+                          ref = mRef || fRef || selected.attr('data-normal') || '';
+                      }
+                  }
               
-              row.find('.normal-val-dynamic').val(ref);
+              setSelectValueWithDefault(row.find('.normal-val-dynamic'), ref);
               
               // Keep legacy JSON field filled for older reports while printing the normal value column.
-              let masterBio = selected.data('bio-ref');
-              row.find('.bio-val-dynamic').val(masterBio || ref);
+              let masterBio = selected.attr('data-bio-ref');
+              setSelectValueWithDefault(row.find('.bio-val-dynamic'), masterBio || ref);
               
                // Trigger calculation if value exists
                row.find('.report-observed-select').trigger('change');
@@ -1082,7 +1292,7 @@
 
           $(document).on('change', '.normal-val-dynamic', function() {
               let val = $(this).val();
-              $(this).closest('.test-item-row').find('.bio-val-dynamic').val(val);
+              setSelectValueWithDefault($(this).closest('.test-item-row').find('.bio-val-dynamic'), val);
           });
 
           // Keep hidden flag values compatible with older saved reports.
@@ -1091,8 +1301,8 @@
 	              let row = $(this).closest('.test-item-row');
 	              let selected = row.find('.test-selector-dynamic :selected');
 	              let modal = $(this).closest('.modal');
-	              let gender = modal.find('select[name="patient_id"] :selected').data('gender') || 'Male';
-	              let age = parseInt(modal.find('select[name="patient_id"] :selected').data('age'), 10);
+	              let gender = modal.find('select[name="patient_id"] :selected').attr('data-gender') || 'Male';
+	              let age = parseInt(modal.find('select[name="patient_id"] :selected').attr('data-age'), 10);
 	              let flagSelector = row.find('.flag-selector');
               
               if (isNaN(val)) {
@@ -1100,38 +1310,38 @@
                   return;
               }
 
-	              let isImmuno = selected.data('is-immunoassay') == 1;
-	              let criticalLow = parseFloat(selected.data('critical-low'));
-	              let criticalHigh = parseFloat(selected.data('critical-high'));
+	              let isImmuno = selected.attr('data-is-immunoassay') == 1;
+	              let criticalLow = parseFloat(selected.attr('data-critical-low'));
+	              let criticalHigh = parseFloat(selected.attr('data-critical-high'));
 	              let ageInterval = getMatchingReferenceInterval(selected, gender, age);
-	              let min = ageInterval ? ageInterval.min_value : (gender === 'Male' ? selected.data('male-min') : selected.data('female-min'));
-	              let max = ageInterval ? ageInterval.max_value : (gender === 'Male' ? selected.data('male-max') : selected.data('female-max'));
+	              let min = ageInterval ? ageInterval.min_value : (gender === 'Male' ? selected.attr('data-male-min') : selected.attr('data-female-min'));
+	              let max = ageInterval ? ageInterval.max_value : (gender === 'Male' ? selected.attr('data-male-max') : selected.attr('data-female-max'));
 
 	              if (!isNaN(criticalLow) && val <= criticalLow) {
-	                  setSelectValueWithDefault(flagSelector, 'C');
+	                  setSelectValueWithDefault(flagSelector, '↓↓');
 	                  return;
 	              }
 
 	              if (!isNaN(criticalHigh) && val >= criticalHigh) {
-	                  setSelectValueWithDefault(flagSelector, 'C');
+	                  setSelectValueWithDefault(flagSelector, '↑↑');
 	                  return;
 	              }
 
               if (isImmuno) {
                   // Immunoassay logic: <0.9 Neg, 0.9-1.1 Bord, >1.1 Pos
-                  if (val < 0.9) setSelectValueWithDefault(flagSelector, 'N');
-                  else if (val >= 0.9 && val <= 1.1) setSelectValueWithDefault(flagSelector, 'B');
-                  else if (val > 1.1) setSelectValueWithDefault(flagSelector, 'P');
+                  if (val < 0.9) setSelectValueWithDefault(flagSelector, '-');
+                  else if (val >= 0.9 && val <= 1.1) setSelectValueWithDefault(flagSelector, '+/-');
+                  else if (val > 1.1) setSelectValueWithDefault(flagSelector, '+');
               } else if (min !== undefined && max !== undefined) {
                   // Standard Min-Max logic
-	                  if (val < min) setSelectValueWithDefault(flagSelector, 'L');
-	                  else if (val > max) setSelectValueWithDefault(flagSelector, 'H');
-	                  else setSelectValueWithDefault(flagSelector, 'N');
+	                  if (val < min) setSelectValueWithDefault(flagSelector, '↓');
+	                  else if (val > max) setSelectValueWithDefault(flagSelector, '↑');
+	                  else setSelectValueWithDefault(flagSelector, '');
 	              }
 	          });
 
 	          function getMatchingReferenceInterval(selected, gender, age) {
-	              let intervals = selected.data('reference-intervals') || [];
+	              let intervals = JSON.parse(selected.attr('data-reference-intervals') || '[]');
 	              if (!Array.isArray(intervals) || isNaN(age)) return null;
 	              gender = (gender || '').toLowerCase();
 	              return intervals
@@ -1143,6 +1353,82 @@
 	                  })
 	                  .sort((a, b) => parseInt(b.age_min || 0, 10) - parseInt(a.age_min || 0, 10))[0] || null;
 	          }
+
+          function calculateCBC(containerSelector) {
+              let rbc = null;
+              let hb = null;
+              let hct = null;
+              
+              let rbcRow = null;
+              let hbRow = null;
+              let hctRow = null;
+              
+              let mcvRow = null;
+              let mchRow = null;
+              let mchcRow = null;
+              
+              // Iterate over all rows in this container
+              $(containerSelector).find('.test-item-row').each(function() {
+                  let testSelect = $(this).find('.test-selector-dynamic');
+                  let testName = (testSelect.val() || '').toLowerCase().trim();
+                  let observedVal = parseFloat($(this).find('.report-observed-select').val());
+                  
+                  // Check test names
+                  if (testName === 'rbc' || testName === 'rbc count' || testName.indexOf('red blood cell') > -1) {
+                      rbc = observedVal;
+                      rbcRow = $(this);
+                  } else if (testName === 'hemoglobin' || testName === 'hb' || testName === 'hgb') {
+                      hb = observedVal;
+                      hbRow = $(this);
+                  } else if (testName === 'pcv' || testName === 'hct' || testName === 'hematocrit' || testName === 'packed cell volume') {
+                      hct = observedVal;
+                      hctRow = $(this);
+                  } else if (testName === 'mcv' || testName.indexOf('mean corpuscular volume') > -1) {
+                      mcvRow = $(this);
+                  } else if (testName === 'mch' || testName.indexOf('mean corpuscular hemoglobin') > -1 && testName.indexOf('concentration') === -1) {
+                      mchRow = $(this);
+                  } else if (testName === 'mchc' || testName.indexOf('mchc') > -1 || testName.indexOf('mean corpuscular hemoglobin concentration') > -1) {
+                      mchcRow = $(this);
+                  }
+              });
+              
+              if (window._isCalculatingCBC) return;
+              window._isCalculatingCBC = true;
+              
+              try {
+                  // MCV = (HCT / RBC) * 10
+                  if (mcvRow && rbc !== null && hct !== null && !isNaN(rbc) && !isNaN(hct) && rbc > 0) {
+                      let mcv = ((hct / rbc) * 10).toFixed(1);
+                      let observedSelect = mcvRow.find('.report-observed-select');
+                      setSelectValueWithDefault(observedSelect, mcv);
+                      observedSelect.trigger('change');
+                  }
+                  
+                  // MCH = (Hb / RBC) * 10
+                  if (mchRow && rbc !== null && hb !== null && !isNaN(rbc) && !isNaN(hb) && rbc > 0) {
+                      let mch = ((hb / rbc) * 10).toFixed(1);
+                      let observedSelect = mchRow.find('.report-observed-select');
+                      setSelectValueWithDefault(observedSelect, mch);
+                      observedSelect.trigger('change');
+                  }
+                  
+                  // MCHC = (Hb / HCT) * 100
+                  if (mchcRow && hb !== null && hct !== null && !isNaN(hb) && !isNaN(hct) && hct > 0) {
+                      let mchc = ((hb / hct) * 100).toFixed(1);
+                      let observedSelect = mchcRow.find('.report-observed-select');
+                      setSelectValueWithDefault(observedSelect, mchc);
+                      observedSelect.trigger('change');
+                  }
+              } finally {
+                  window._isCalculatingCBC = false;
+              }
+          }
+
+          // Trigger CBC calculation when observed values change or test parameter is selected
+          $(document).on('change', '.report-observed-select, .test-selector-dynamic', function() {
+              let container = $(this).closest('#dynamic-tests-container').length ? '#dynamic-tests-container' : '#edit-dynamic-tests-container';
+              calculateCBC(container);
+          });
 
           // Re-trigger calculation when patient (gender) changes
           $(document).on('change', 'select[name="patient_id"]', function() {
@@ -1174,6 +1460,10 @@
                   select.val('');
                   return;
               }
+              if (select.is('input')) {
+                  select.val(value);
+                  return;
+              }
               let strVal = String(value);
               let found = false;
               select.find('option').each(function() {
@@ -1193,11 +1483,13 @@
 
           function initDynamicSelect2() {
               // Revert all select elements inside the reports modals to standard native HTML selects
-              $('#modal-add-report select, #modal-edit-report select').each(function() {
-                  if ($(this).hasClass('select2-hidden-accessible')) {
-                      $(this).select2('destroy');
-                  }
-              });
+              if ($.fn.select2) {
+                  $('#modal-add-report select, #modal-edit-report select').each(function() {
+                      if ($(this).hasClass('select2-hidden-accessible')) {
+                          $(this).select2('destroy');
+                      }
+                  });
+              }
           }
 
           // Modal clearing logic to fix 'titles not clearing'
@@ -1222,14 +1514,25 @@
           
           initDynamicSelect2();
 
+          function updateRowSlNo(target) {
+              $(target).find('.test-item-row').each(function(index) {
+                  $(this).find('.row-sl-no').text('SL ' + (index + 1));
+              });
+          }
+
           $('#btn-add-test-row, #btn-add-edit-test-row').click(function() {
               let target = $(this).attr('id') === 'btn-add-test-row' ? '#dynamic-tests-container' : '#edit-dynamic-tests-container';
               $(target).append(trTemplate);
+              updateRowSlNo(target);
               initDynamicSelect2();
           });
 
+
+
           $(document).on('click', '.remove-row', function() {
+              let target = $(this).closest('.test-item-row').parent();
               $(this).closest('.test-item-row').remove();
+              updateRowSlNo(target);
           });
 
           // =============================================
@@ -1238,7 +1541,7 @@
           function fetchReportDoctors(selectedValue = null) {
               $.get("{{ route('doctors.suggestions') }}", function(data) {
                   let options = '<option value="">-- Select Doctor --</option><option value="Self">Self</option>';
-                  data.forEach(function(doctor) {
+                  (Array.isArray(data) ? data : (data.data || [])).forEach(function(doctor) {
                       let qual = doctor.qualification ? doctor.qualification : '';
                       options += `<option value="${doctor.name}" data-id="${doctor.id}" data-phone="${doctor.phone || ''}" data-email="${doctor.email || ''}" data-qualification="${qual}">${doctor.name}${qual ? ' (' + qual + ')' : ''}</option>`;
                   });
@@ -1260,13 +1563,13 @@
           $(document).on('click', '.btn-edit-report-doctor', function() {
               let select = $(this).siblings('.report-doctor-select');
               let selectedOption = select.find('option:selected');
-              let docId = selectedOption.data('id');
+              let docId = selectedOption.attr('data-id');
               if (!docId) { alert('Please select a valid doctor to edit.'); return; }
               $('#edit-report-doc-id').val(docId);
               $('#edit-report-doc-name').val(selectedOption.val());
-              $('#edit-report-doc-qualification').val(selectedOption.data('qualification'));
-              $('#edit-report-doc-phone').val(selectedOption.data('phone'));
-              $('#edit-report-doc-email').val(selectedOption.data('email'));
+              $('#edit-report-doc-qualification').val(selectedOption.attr('data-qualification'));
+              $('#edit-report-doc-phone').val(selectedOption.attr('data-phone'));
+              $('#edit-report-doc-email').val(selectedOption.attr('data-email'));
               $('#modal-edit-report-doctor').modal('show');
           });
 
@@ -1319,9 +1622,9 @@
           // =============================================
           function fetchReportCategories(selectedValue = null) {
               $.get("{{ route('categories.index') }}", function(data) {
-                  let options = '<option value="">Sub</option>';
+                  let options = '<option value="">-- Select Category --</option>';
                   let modalOptions = '<option value="">-- Select Category --</option>';
-                  data.forEach(function(cat) {
+                  (Array.isArray(data) ? data : (data.data || [])).forEach(function(cat) {
                       options += `<option value="${cat.name}" data-id="${cat.id}">${cat.name}</option>`;
                       modalOptions += `<option value="${cat.id}">${cat.name}</option>`;
                   });
@@ -1355,7 +1658,7 @@
           $(document).on('click', '.btn-edit-report-category', function() {
               let select = $(this).siblings('.report-category-select');
               let selectedOption = select.find('option:selected');
-              let catId = selectedOption.data('id');
+              let catId = selectedOption.attr('data-id');
               if (!catId) { alert('Please select a valid category to edit.'); return; }
               $('.report-category-select').removeClass('active-category-select');
               select.addClass('active-category-select');
@@ -1400,8 +1703,8 @@
           // =============================================
           function fetchReportSubCategories(selectedValue = null) {
               $.get("{{ route('sub-categories.index') }}", function(data) {
-                  let options = '<option value="">None</option>';
-                  data.forEach(function(sub) {
+                  let options = '<option value="">-- Select Sub Category --</option>';
+                  (Array.isArray(data) ? data : (data.data || [])).forEach(function(sub) {
                       options += `<option value="${sub.name}" data-id="${sub.id}">${sub.name}</option>`;
                   });
                   $('.report-subcategory-select').each(function() {
@@ -1420,7 +1723,7 @@
               $('.report-subcategory-select').removeClass('active-subcategory-select');
               $(this).siblings('.report-subcategory-select').addClass('active-subcategory-select');
               
-              let catId = $(this).closest('.test-item-row').find('.report-category-select option:selected').data('id');
+              let catId = $(this).closest('.test-item-row').find('.report-category-select option:selected').attr('data-id');
               $('#add-report-sub-category-id').val(catId || '');
               
               $('#modal-add-report-subcategory').modal('show');
@@ -1429,12 +1732,12 @@
           $(document).on('click', '.btn-edit-report-subcategory', function() {
               let select = $(this).siblings('.report-subcategory-select');
               let selectedOption = select.find('option:selected');
-              let subId = selectedOption.data('id');
+              let subId = selectedOption.attr('data-id');
               if (!subId) { alert('Please select a valid sub-category to edit.'); return; }
               $('.report-subcategory-select').removeClass('active-subcategory-select');
               select.addClass('active-subcategory-select');
               
-              let catId = $(this).closest('.test-item-row').find('.report-category-select option:selected').data('id');
+              let catId = $(this).closest('.test-item-row').find('.report-category-select option:selected').attr('data-id');
               $('#edit-report-sub-category-id').val(catId || '');
               
               $('#edit-report-sub-id').val(subId);
@@ -1478,7 +1781,7 @@
           function fetchReportTests(selectedValue = null) {
               $.get("{{ route('api.tests') }}", function(data) {
                   let options = '<option value="">-- Select Test --</option>';
-                  data.forEach(function(test) {
+                  (Array.isArray(data) ? data : (data.data || [])).forEach(function(test) {
                       let param = test.parameter || {};
                       let refJson = '[]';
                       if(test.reference_intervals) {
@@ -1528,15 +1831,15 @@
           $(document).on('click', '.btn-edit-report-test', function() {
               let select = $(this).siblings('.test-selector-dynamic');
               let selectedOption = select.find('option:selected');
-              let testId = selectedOption.data('id');
+              let testId = selectedOption.attr('data-id');
               if (!testId) { alert('Please select a valid parameter to edit.'); return; }
               $('.test-selector-dynamic').removeClass('active-test-select');
               select.addClass('active-test-select');
               
               $('#edit-report-test-id').val(testId);
               $('#edit-report-test-name').val(selectedOption.val());
-              $('#edit-report-test-unit').val(selectedOption.data('unit'));
-              $('#edit-report-test-bio').val(selectedOption.data('bio-ref'));
+              $('#edit-report-test-unit').val(selectedOption.attr('data-unit'));
+              $('#edit-report-test-bio').val(selectedOption.attr('data-bio-ref'));
               $('#modal-edit-report-test').modal('show');
           });
 
@@ -1574,8 +1877,8 @@
           // =============================================
           function fetchReportUnits(selectedValue = null) {
               $.get("{{ route('units.index') }}", function(data) {
-                  let options = '<option value="">Unit</option>';
-                  data.forEach(function(u) {
+                  let options = '<option value="">-- Select Unit --</option>';
+                  (Array.isArray(data) ? data : (data.data || [])).forEach(function(u) {
                       options += `<option value="${u.name}" data-id="${u.id}">${u.name}</option>`;
                   });
                   $('.report-unit-select').each(function() {
@@ -1599,7 +1902,7 @@
           $(document).on('click', '.btn-edit-report-unit', function() {
               let select = $(this).siblings('.report-unit-select');
               let selectedOption = select.find('option:selected');
-              let unitId = selectedOption.data('id');
+              let unitId = selectedOption.attr('data-id');
               if (!unitId) { alert('Please select a valid unit to edit.'); return; }
               $('.report-unit-select').removeClass('active-unit-select');
               select.addClass('active-unit-select');
@@ -1640,13 +1943,13 @@
           // =============================================
           function fetchReportReferences(selectedValue = null) {
               $.get("{{ route('reference-templates.index') }}", function(data) {
-                  let options = '<option value="">-- Select --</option>';
-                  data.forEach(function(ref) {
+                  let options = '<option value="">-- Select Reference --</option>';
+                  (Array.isArray(data) ? data : (data.data || [])).forEach(function(ref) {
                       options += `<option value="${ref.name}" data-id="${ref.id}">${ref.name}</option>`;
                   });
                   $('.normal-val-dynamic, .bio-val-dynamic').each(function() {
                       let currentVal = $(this).val();
-                      let currentSelectedId = $(this).find('option:selected').data('id');
+                      let currentSelectedId = $(this).find('option:selected').attr('data-id');
                       $(this).html(options);
                       if (selectedValue && $(this).hasClass('active-reference-select')) {
                           $(this).val(selectedValue).removeClass('active-reference-select').trigger('change');
@@ -1665,12 +1968,12 @@
           function fetchReportObserved(selectedValue = null) {
               $.get("{{ route('result-templates.index') }}", function(data) {
                   let options = '<option value="">-- Select Observed --</option>';
-                  data.forEach(function(tmpl) {
+                  (Array.isArray(data) ? data : (data.data || [])).forEach(function(tmpl) {
                       options += `<option value="${tmpl.name}" data-id="${tmpl.id}">${tmpl.name}</option>`;
                   });
                   $('.report-observed-select').each(function() {
                       let currentVal = $(this).val();
-                      let currentSelectedId = $(this).find('option:selected').data('id');
+                      let currentSelectedId = $(this).find('option:selected').attr('data-id');
                       $(this).html(options);
                       if (selectedValue && $(this).hasClass('active-observed-select')) {
                           $(this).val(selectedValue).removeClass('active-observed-select').trigger('change');
@@ -1688,13 +1991,13 @@
 
           function fetchReportFlags(selectedValue = null) {
               $.get("{{ route('flag-templates.index') }}", function(data) {
-                  let options = '<option value="">-- Select --</option>';
-                  data.forEach(function(flg) {
+                  let options = '<option value="">-- Select Reference --</option>';
+                  (Array.isArray(data) ? data : (data.data || [])).forEach(function(flg) {
                       options += `<option value="${flg.name}" data-id="${flg.id}">${flg.name}</option>`;
                   });
                   $('.flag-selector').each(function() {
                       let currentVal = $(this).val();
-                      let currentSelectedId = $(this).find('option:selected').data('id');
+                      let currentSelectedId = $(this).find('option:selected').attr('data-id');
                       $(this).html(options);
                       if (selectedValue && $(this).hasClass('active-flag-select')) {
                           $(this).val(selectedValue).removeClass('active-flag-select').trigger('change');
@@ -1728,7 +2031,7 @@
               $('.report-observed-select').removeClass('active-observed-select');
               select.addClass('active-observed-select');
               
-              let observedId = selectedOption.data('id');
+              let observedId = selectedOption.attr('data-id');
               $('#edit-report-observed-id').val(observedId);
               $('#edit-report-observed-name').val(observedName);
               $('#modal-edit-report-observed').modal('show');
@@ -1785,7 +2088,7 @@
               $('.normal-val-dynamic').removeClass('active-reference-select');
               select.addClass('active-reference-select');
               
-              let referenceId = selectedOption.data('id');
+              let referenceId = selectedOption.attr('data-id');
               $('#edit-report-reference-id').val(referenceId);
               $('#edit-report-reference-name').val(referenceName);
               $('#modal-edit-report-reference').modal('show');
@@ -1826,7 +2129,7 @@
           $(document).on('click', '.btn-delete-reference', function() {
               let select = $(this).closest('.test-item-row').find('.normal-val-dynamic');
               let selectedOption = select.find('option:selected');
-              let referenceId = selectedOption.data('id');
+              let referenceId = selectedOption.attr('data-id');
               let referenceName = selectedOption.val();
               if (!referenceId) { alert('Please select a valid reference template to delete.'); return; }
               
@@ -1864,7 +2167,7 @@
               $('.flag-selector').removeClass('active-flag-select');
               select.addClass('active-flag-select');
               
-              let flagId = selectedOption.data('id');
+              let flagId = selectedOption.attr('data-id');
               $('#edit-report-flag-id').val(flagId);
               $('#edit-report-flag-name').val(flagName);
               $('#modal-edit-report-flag').modal('show');
@@ -1916,7 +2219,9 @@
 			  
 			  $.post("{{ route('reports.store') }}", $('#form-add-report').serialize(), function(response) {
 				  alert(response.success);
-				  location.reload();
+				  refreshReportsPageData('#modal-add-report', btn, 'Generate Report');
+                  $('#form-add-report')[0].reset();
+                  $('#dynamic-tests-container').empty();
 			  }).fail(function(xhr) {
                   let errorMsg = xhr.responseJSON.message || "Error saving report. Please check all fields.";
 				  alert(errorMsg);
@@ -1944,19 +2249,19 @@
                   
                   if(data.results && data.results.length > 0) {
                       data.results.forEach(item => {
-                          let catOptions = `<option value="">Sub</option>`;
+                          let catOptions = `<option value="">-- Select Category --</option>`;
                           @foreach($categories as $cat)
-                            catOptions += `<option value="{{ $cat->name }}" data-id="{{ $cat->id }}">{{ $cat->name }}</option>`;
+                            catOptions += `<option value="{{ str_replace(['`', '${'], ['\`', '\${'], $cat->name) }}" data-id="{{ $cat->id }}">{{ str_replace(['`', '${'], ['\`', '\${'], $cat->name) }}</option>`;
                           @endforeach
 
-                          let subOptions = `<option value="">None</option>`;
+                          let subOptions = `<option value="">-- Select Sub Category --</option>`;
                           @foreach($subCategories as $sub)
-                            subOptions += `<option value="{{ $sub->name }}" data-id="{{ $sub->id }}">{{ $sub->name }}</option>`;
+                            subOptions += `<option value="{{ str_replace(['`', '${'], ['\`', '\${'], $sub->name) }}" data-id="{{ $sub->id }}">{{ str_replace(['`', '${'], ['\`', '\${'], $sub->name) }}</option>`;
                           @endforeach
 
                            let testOptions = `<option value="">-- Select Test --</option>`;
                            @foreach($tests as $test)
-                             testOptions += `<option value="{{ $test->name }}" 
+                             testOptions += `<option value="{{ str_replace(['`', '${'], ['\`', '\${'], $test->name) }}" 
                                 data-unit="{{ $test->parameter->unit ?? '' }}"
                                 data-male-ref="{{ $test->parameter->male_reference ?? '' }}"
                                 data-female-ref="{{ $test->parameter->female_reference ?? '' }}"
@@ -1969,132 +2274,133 @@
                                 data-reference-intervals='{{ $test->referenceIntervals->map->only(['gender', 'age_min', 'age_max', 'reference_text', 'min_value', 'max_value'])->values()->toJson() }}'
                                 data-is-immunoassay="{{ $test->parameter->is_immunoassay ?? 0 }}"
                                 data-bio-ref="{{ $test->parameter->biological_reference ?? '' }}"
-                                data-normal="{{ $test->description }}">{{ $test->name }}</option>`;
+                                data-normal="{{ str_replace(['`', '${'], ['\`', '\${'], $test->description) }}">{{ str_replace(['`', '${'], ['\`', '\${'], $test->name) }}</option>`;
                            @endforeach
 
                            let flagOptions = `<option value="">-- Select --</option>`;
                            @foreach($flagTemplates as $flg)
-                             flagOptions += `<option value="{{ $flg->name }}" data-id="{{ $flg->id }}">{{ $flg->name }}</option>`;
+                             flagOptions += `<option value="{{ str_replace(['`', '${'], ['\`', '\${'], $flg->name) }}" data-id="{{ $flg->id }}">{{ str_replace(['`', '${'], ['\`', '\${'], $flg->name) }}</option>`;
                            @endforeach
 
                            let newRow = $(`
              <div class="test-item-row card border-0 shadow-sm mb-3" style="background: linear-gradient(145deg, #ffffff, #f8fafc); border-radius: 12px; position: relative; overflow: hidden;">
                  <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #6366f1;"></div>
                  <div class="card-body p-3">
+                     <span class="badge bg-primary text-white position-absolute row-sl-no" style="top: 10px; left: 15px; z-index: 10; border-radius: 6px;">SL 1</span>
                      <button type="button" class="btn btn-sm btn-danger position-absolute remove-row" style="top: 10px; right: 10px; z-index: 10; border-radius: 8px;" title="Remove Test"><i class="fa fa-trash"></i></button>
-                     <div class="row g-3 align-items-end">
-                         <div class="col-md-4 col-sm-6">
-                             <label  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Master Category</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select report-category-select" name="test_category[]" autocomplete="off" id="field_1118">
-                                     \${catOptions}
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-report-category" title="Add Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-report-category" title="Edit Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-report-category" title="View Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-report-category" title="Delete Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Sub Category</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off" id="field_1119">
-                                     \${subOptions}
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-report-subcategory" title="Add Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-report-subcategory" title="Edit Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-report-subcategory" title="View Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-report-subcategory" title="Delete Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label  class="form-label text-primary fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Parameter / Test Name <span class="text-danger">*</span></label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select test-selector-dynamic border-primary shadow-none" name="test_name[]" required autocomplete="off">
-                                     ${testOptions}
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-report-test" title="Add Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-report-test" title="Edit Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-report-test" title="View Parameter Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-report-test" title="Delete Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label  class="form-label text-success fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Observed Value <span class="text-danger">*</span></label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select report-observed-select" name="observed_value[]" required autocomplete="off" id="field_1121">
-                                     <option value="">-- Select Observed --</option>
-                                     @foreach($templates as $tmpl)
-                                         <option value="{{ $tmpl->name }}" data-id="{{ $tmpl->id }}">{{ $tmpl->name }}</option>
-                                     @endforeach
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-observed" title="Add Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-observed" title="Edit Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-observed" title="View Observed Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-observed" title="Delete Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Unit</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select report-unit-select" name="test_unit[]" autocomplete="off" id="field_1122">
-                                     <option value="">Unit</option>
-                                     @foreach($units as $u)
-                                         <option value="{{ $u->name }}" data-id="{{ $u->id }}">{{ $u->name }}</option>
-                                     @endforeach
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-report-unit" title="Add Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-report-unit" title="Edit Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-report-unit" title="View Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-report-unit" title="Delete Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label  class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Normal Range</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select normal-val-dynamic" name="normal_value[]" autocomplete="off" id="field_1123">
-                                     <option value="">-- Select --</option>
-                                     @foreach($referenceTemplates as $ref)
-                                         <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
-                                     @endforeach
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-4 col-sm-6">
-                             <label  class="form-label text-warning fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Flag</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select flag-selector" name="test_flag[]" autocomplete="off" id="field_1124">
-                                     \${flagOptions}
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-flag" title="Add Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-flag" title="Edit Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-flag" title="View Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-flag" title="Delete Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                         <div class="col-md-8 col-sm-12">
-                             <label  class="form-label text-dark fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Normal Range (Display)</label>
-                             <div class="input-group flex-nowrap">
-                                 <select class="form-select bio-val-dynamic" name="biological_reference[]" autocomplete="off" id="field_1125">
-                                     <option value="">-- Select --</option>
-                                     @foreach($referenceTemplates as $ref)
-                                         <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
-                                     @endforeach
-                                 </select>
-                                 <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                 <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                 <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-                            `);
+                     <div class="row g-3 align-items-end mt-3">
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Master Category</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select report-category-select" name="test_category[]" autocomplete="off">
+                                      ${catOptions}
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-report-category" title="Add Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-report-category" title="Edit Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-report-category" title="View Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-report-category" title="Delete Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Sub Category</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off">
+                                      ${subOptions}
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-report-subcategory" title="Add Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-report-subcategory" title="Edit Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-report-subcategory" title="View Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-report-subcategory" title="Delete Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-primary fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Parameter / Test Name</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select test-selector-dynamic border-primary shadow-none" name="test_name[]" autocomplete="off">
+                                      ${testOptions}
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-report-test" title="Add Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-report-test" title="Edit Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-report-test" title="View Parameter Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-report-test" title="Delete Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-success fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Observed Value</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select report-observed-select" name="observed_value[]" autocomplete="off">
+                                      <option value="">-- Select Observed --</option>
+                                      @foreach($templates as $tmpl)
+                                          <option value="{{ $tmpl->name }}" data-id="{{ $tmpl->id }}">{{ $tmpl->name }}</option>
+                                      @endforeach
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-observed" title="Add Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-observed" title="Edit Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-observed" title="View Observed Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-observed" title="Delete Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Unit</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select report-unit-select" name="test_unit[]" autocomplete="off">
+                                      <option value="">-- Select Unit --</option>
+                                      @foreach($units as $u)
+                                          <option value="{{ $u->name }}" data-id="{{ $u->id }}">{{ $u->name }}</option>
+                                      @endforeach
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-report-unit" title="Add Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-report-unit" title="Edit Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-report-unit" title="View Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-report-unit" title="Delete Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-info fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Referral Range</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select normal-val-dynamic" name="normal_value[]" autocomplete="off">
+                                      <option value="">-- Select Reference --</option>
+                                      @foreach($referenceTemplates as $ref)
+                                          <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
+                                      @endforeach
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6">
+                              <label class="form-label text-warning fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Flag</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select flag-selector" name="test_flag[]" autocomplete="off">
+                                      ${flagOptions}
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-flag" title="Add Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-flag" title="Edit Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-flag" title="View Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-flag" title="Delete Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                          <div class="col-md-8 col-sm-12">
+                              <label class="form-label text-dark fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Normal Range</label>
+                              <div class="input-group flex-nowrap">
+                                  <select class="form-select bio-val-dynamic" name="biological_reference[]" autocomplete="off">
+                                      <option value="">-- Select Range --</option>
+                                      @foreach($referenceTemplates as $ref)
+                                          <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
+                                      @endforeach
+                                  </select>
+                                  <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
+                                  <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
+                                  <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                             `);
                            container.append(newRow);
                            setSelectValueWithDefault(newRow.find('.report-category-select'), item.category);
                            setSelectValueWithDefault(newRow.find('.report-subcategory-select'), item.subcategory);
@@ -2105,9 +2411,11 @@
                            setSelectValueWithDefault(newRow.find('.normal-val-dynamic'), item.normal_value);
                            setSelectValueWithDefault(newRow.find('.bio-val-dynamic'), item.biological_reference);
                       });
+                      updateRowSlNo(container);
                       initDynamicSelect2();
                   } else {
                       container.append(trTemplate);
+                      updateRowSlNo(container);
                       initDynamicSelect2();
                   }
               });
@@ -2131,7 +2439,7 @@
                   data: $('#form-edit-report').serialize(),
                   success: function(response) {
                       alert(response.success);
-                      location.reload();
+                      refreshReportsPageData('#modal-edit-report', btn, 'Update Report');
                   },
                   error: function(xhr) {
                       alert(xhr.responseJSON.message || "Error updating report.");
@@ -2145,6 +2453,7 @@
           const ZOOM_STEP = 0.1;
           const MAX_ZOOM = 2.0;
           const MIN_ZOOM = 0.25;
+
 
           // ── Header Toggle ──────────────────────────────────────
           let showReportHeader = true;
@@ -2416,10 +2725,9 @@
               const pageH = doc.internal.pageSize.getHeight();
               const left = 20;
               const tableW = 170;
-              const col1 = 70;
-              const col2 = 38;
-              const col4 = 14;
-              const col3 = tableW - col1 - col2 - col4;
+              const col1 = 75;
+              const col2 = 45;
+              const col3 = tableW - col1 - col2;
               const footerTop = 269;
               let pageNo = 1;
               let alternatingRowIdx = 0;
@@ -2428,7 +2736,7 @@
                   if (showHeader) {
                       const hProps = doc.getImageProperties(REPORT_HEADER_IMAGE);
                       const hHeight = (hProps.height * pageW) / hProps.width;
-                      doc.addImage(REPORT_HEADER_IMAGE, 'PNG', 0, 0, pageW, hHeight);
+                      doc.addImage(REPORT_HEADER_IMAGE, 'JPEG', 0, 0, pageW, hHeight, undefined, 'FAST');
                   }
 
                   const fProps = doc.getImageProperties(REPORT_FOOTER_IMAGE);
@@ -2529,17 +2837,18 @@
                   doc.text('PARAMETER', left + 4, y + 5.5);
                   doc.text('OBSERVED VALUE', left + col1 + 4, y + 5.5);
                   doc.text('REFERENCE VALUE', left + col1 + col2 + 4, y + 5.5);
-                  doc.text('FLAG', left + col1 + col2 + col3 + col4 / 2, y + 5.5, { align: 'center' });
                   return y + 8;
               }
 
-              function drawCellRow(y, name, observed, reference, flag = '', isSubheading = false) {
+              function drawCellRow(y, name, observedValue, unit, reference, flag = '', isSubheading = false) {
                   doc.setFontSize(9.5);
                   doc.setLineWidth(0.2);
                   doc.setDrawColor(226, 232, 240);
 
                   const nameLines = doc.splitTextToSize(name || '', col1 - 6);
-                  const observedLines = doc.splitTextToSize(observed || '', col2 - 6);
+                  // Approximate calculation for width checking
+                  const observedStr = `${observedValue || ''} ${unit || ''} ${flag || ''}`.trim();
+                  const observedLines = doc.splitTextToSize(observedStr, col2 - 6);
                   const refLines = doc.splitTextToSize(reference || '', col3 - 6);
                   const lineCount = Math.max(nameLines.length, observedLines.length, refLines.length, 1);
                   const rowH = isSubheading ? 7 : Math.max(6.5, lineCount * 5);
@@ -2569,42 +2878,82 @@
                       }
                       alternatingRowIdx++;
 
-                      // Draw observed value with proper flag highlighting
+                      // Parameter Name
                       doc.setTextColor(15, 23, 42);
                       doc.setFont('helvetica', 'normal');
                       doc.text(nameLines, left + 4, y + 4.5);
                       
+                      // Render Observed Value + Flag + Unit dynamically
+                      let currentX = left + col1 + 4;
+                      doc.setFont('helvetica', 'bold');
+                      
                       // Highlight observed value if flagged
                       if (flag) {
-                          doc.setFont('helvetica', 'bold');
-                          if (flag === 'C') doc.setTextColor(220, 38, 38);
-                          else if (flag === 'H') doc.setTextColor(234, 88, 12);
-                          else if (flag === 'L') doc.setTextColor(37, 99, 235);
+                          if (flag.includes('H') || flag.includes('↑')) doc.setTextColor(234, 88, 12);
+                          else if (flag.includes('L') || flag.includes('↓')) doc.setTextColor(37, 99, 235);
+                          else doc.setTextColor(220, 38, 38); // Critical / other
                       } else {
-                          doc.setFont('helvetica', 'bold');
+                          doc.setTextColor(15, 23, 42);
                       }
-                      doc.text(observedLines, left + col1 + 4, y + 4.5);
-                      
-                      // Reference value
+
+                      if (observedValue !== null && observedValue !== undefined && observedValue !== '') {
+                          const obsStr = String(observedValue);
+                          doc.text(obsStr, currentX, y + 4.5);
+                          currentX += doc.getTextWidth(obsStr) + 1.5;
+                      }
+
+                      // Draw arrows next to observed value
+                      if (flag) {
+                          const flagStr = String(flag);
+                          doc.setLineWidth(0.3);
+                          const bottomY = y + 4.5;
+                          const topY = y + 1.5;
+
+                          if (flagStr.includes('↑')) {
+                              doc.setDrawColor(220, 38, 38);
+                              doc.line(currentX + 1.5, bottomY, currentX + 1.5, topY);
+                              doc.line(currentX + 1.5, topY, currentX + 0.5, topY + 1);
+                              doc.line(currentX + 1.5, topY, currentX + 2.5, topY + 1);
+                              currentX += 3.5;
+                              if (flagStr === '↑↑') {
+                                  doc.line(currentX + 1.5, bottomY, currentX + 1.5, topY);
+                                  doc.line(currentX + 1.5, topY, currentX + 0.5, topY + 1);
+                                  doc.line(currentX + 1.5, topY, currentX + 2.5, topY + 1);
+                                  currentX += 3.5;
+                              }
+                          } else if (flagStr.includes('↓')) {
+                              doc.setDrawColor(37, 99, 235);
+                              doc.line(currentX + 1.5, topY, currentX + 1.5, bottomY);
+                              doc.line(currentX + 1.5, bottomY, currentX + 0.5, bottomY - 1);
+                              doc.line(currentX + 1.5, bottomY, currentX + 2.5, bottomY - 1);
+                              currentX += 3.5;
+                              if (flagStr === '↓↓') {
+                                  doc.line(currentX + 1.5, topY, currentX + 1.5, bottomY);
+                                  doc.line(currentX + 1.5, bottomY, currentX + 0.5, bottomY - 1);
+                                  doc.line(currentX + 1.5, bottomY, currentX + 2.5, bottomY - 1);
+                                  currentX += 3.5;
+                              }
+                          } else {
+                              if (flagStr.includes('H')) doc.setTextColor(234, 88, 12);
+                              else if (flagStr.includes('L')) doc.setTextColor(37, 99, 235);
+                              else doc.setTextColor(220, 38, 38);
+                              doc.text(flagStr, currentX, y + 4.5);
+                              currentX += doc.getTextWidth(flagStr) + 1.5;
+                          }
+                          doc.setDrawColor(226, 232, 240);
+                      }
+
+                      // Unit
+                      if (unit) {
+                          doc.setFont('helvetica', 'normal');
+                          doc.setTextColor(100, 116, 139);
+                          doc.text(String(unit), currentX, y + 4.5);
+                      }
+
+                      // Reference Value
                       doc.setTextColor(51, 65, 85);
                       doc.setFont('helvetica', 'normal');
                       doc.text(refLines, left + col1 + col2 + 4, y + 4.5);
-                      
-                      // Flag pill style or text color
-                      if (flag) {
-                          doc.setFont('helvetica', 'bold');
-                          if (flag === 'C') {
-                              doc.setTextColor(220, 38, 38);
-                          } else if (flag === 'H') {
-                              doc.setTextColor(234, 88, 12);
-                          } else if (flag === 'L') {
-                              doc.setTextColor(37, 99, 235);
-                          }
-                          doc.text(flag, left + col1 + col2 + col3 + col4 / 2, y + 4.5, { align: 'center' });
-                      } else {
-                          doc.setTextColor(203, 213, 225);
-                          doc.text('-', left + col1 + col2 + col3 + col4 / 2, y + 4.5, { align: 'center' });
-                      }
                   }
 
                   // Underline row
@@ -2641,13 +2990,15 @@
                   groupedResults[cat].forEach(r => {
                       const subheading = (r.subcategory || '').trim();
                       if (subheading && subheading !== lastSubheading) {
-                          y = drawCellRow(y, subheading, '', '', '', true);
+                          y = drawCellRow(y, subheading, '', '', '', '', true);
                           lastSubheading = subheading;
                       }
 
-                      const observed = `${r.observed_value || ''}${r.unit ? ' ' + r.unit : ''}`.trim();
-                      const reference = r.normal_value || r.biological_reference || '';
-                      y = drawCellRow(y, r.name || '', observed, reference, r.flag || '');
+                      const refVal = r.normal_value !== null && r.normal_value !== undefined && r.normal_value !== '' ? r.normal_value : r.biological_reference;
+                      const reference = refVal !== null && refVal !== undefined ? refVal : '';
+                      const obsVal = r.observed_value !== null && r.observed_value !== undefined ? r.observed_value : '';
+                      const flgVal = r.flag !== null && r.flag !== undefined ? r.flag : '';
+                      y = drawCellRow(y, r.name || '', obsVal, r.unit || '', reference, flgVal);
                   });
 
                   y += 6;
@@ -2759,7 +3110,7 @@
                       // Share API available but no file support — share link/text
                       navigator.share({
                           title: `Lab Report - ${p.first_name} ${p.last_name}`,
-                          text: `Lab Report for ${p.first_name} ${p.last_name} (ID: ${p.patient_id}). Generated from SUHAIM SOFT Management System.`,
+                          text: `Lab Report for ${p.first_name} ${p.last_name} (ID: ${p.patient_id}). Generated from SUHAIM SOFT LAB Management System.`,
                       }).catch(err => console.warn('Share failed:', err));
                   } else {
                       // Desktop fallback: WhatsApp + auto-download
@@ -2811,7 +3162,7 @@
                       type: 'DELETE',
                       success: function(response) {
                           alert(response.success);
-                          location.reload();
+                          refreshReportsPageData();
                       }
                   });
               }
@@ -2833,19 +3184,19 @@
 			<form id="form-add-report-doctor">
 				@csrf
 				<div class="form-group">
-					<label  class="form-label-aw">Doctor Name <span class="text-danger">*</span></label>
+					<label for="field_1126"  class="form-label-aw">Doctor Name <span class="text-danger">*</span></label>
 					<input type="text" class="form-control-aw" name="name" required placeholder="e.g. Dr. John Doe" autocomplete="off" id="field_1126">
 				</div>
 				<div class="form-group mt-3">
-					<label  class="form-label-aw">Qualification</label>
+					<label for="field_1127"  class="form-label-aw">Qualification</label>
 					<input type="text" class="form-control-aw" name="qualification" placeholder="e.g. MBBS, MD" autocomplete="off" id="field_1127">
 				</div>
 				<div class="form-group mt-3">
-					<label  class="form-label-aw">Phone No</label>
+					<label for="field_1128"  class="form-label-aw">Phone No</label>
 					<input type="text" class="form-control-aw" name="phone" placeholder="Phone Number" autocomplete="off" id="field_1128">
 				</div>
 				<div class="form-group mt-3">
-					<label  class="form-label-aw">Email</label>
+					<label for="field_1129"  class="form-label-aw">Email</label>
 					<input type="email" class="form-control-aw" name="email" placeholder="Email Address" autocomplete="new-password" id="field_1129">
 				</div>
 			</form>
@@ -2908,7 +3259,7 @@
 			<form id="form-add-report-category">
 				@csrf
 				<div class="form-group">
-					<label  class="form-label-aw">Category Name <span class="text-danger">*</span></label>
+					<label for="field_1130"  class="form-label-aw">Category Name <span class="text-danger">*</span></label>
 					<input type="text" class="form-control-aw" name="name" required placeholder="e.g. BIOCHEMISTRY" autocomplete="off" id="field_1130">
 				</div>
 			</form>
@@ -2968,7 +3319,7 @@
 					</select>
 				</div>
 				<div class="form-group mt-3">
-					<label  class="form-label-aw">Sub-Category Name <span class="text-danger">*</span></label>
+					<label for="field_1131"  class="form-label-aw">Sub-Category Name <span class="text-danger">*</span></label>
 					<input type="text" class="form-control-aw" name="name" required placeholder="e.g. SEROLOGY" autocomplete="off" id="field_1131">
 				</div>
 			</form>
@@ -3029,7 +3380,7 @@
                    <form id="form-add-report-reference">
                        @csrf
                        <div class="form-group">
-                           <label  class="form-label">Template Name</label>
+                           <label for="field_1132"  class="form-label">Template Name</label>
                            <input type="text" class="form-control" name="name" required placeholder="e.g. 70 - 110 mg/dl" autocomplete="off" id="field_1132">
                        </div>
                    </form>
@@ -3080,7 +3431,7 @@
                    <form id="form-add-report-flag">
                        @csrf
                        <div class="form-group">
-                           <label  class="form-label">Flag Name</label>
+                           <label for="field_1134"  class="form-label">Flag Name</label>
                            <input type="text" class="form-control" name="name" required placeholder="e.g. H, L, N" autocomplete="off" id="field_1134">
                        </div>
                    </form>
@@ -3129,7 +3480,7 @@
                    <form id="form-add-report-observed">
                        @csrf
                        <div class="form-group">
-                           <label  class="form-label">Template Name</label>
+                           <label for="field_1136"  class="form-label">Template Name</label>
                            <input type="text" class="form-control" name="name" required placeholder="e.g. Negative, Positive, Trace" autocomplete="off" id="field_1136">
                        </div>
                    </form>
@@ -3179,11 +3530,11 @@
 			<form id="form-add-report-test">
 				@csrf
 				<div class="form-group mb-3">
-					<label  class="form-label-aw">Parameter Name <span class="text-danger">*</span></label>
+					<label for="field_1138"  class="form-label-aw">Parameter Name <span class="text-danger">*</span></label>
 					<input type="text" class="form-control-aw" name="name" required placeholder="e.g. Glucose Fasting" autocomplete="off" id="field_1138">
 				</div>
 				<div class="form-group mb-3">
-					<label  class="form-label-aw">Unit</label>
+					<label for="field_1139"  class="form-label-aw">Unit</label>
 					<select class="form-select form-control-aw" name="unit" autocomplete="off" id="field_1139">
 						<option value="">-- Select Unit --</option>
 						@foreach($units as $u)
@@ -3192,7 +3543,7 @@
 					</select>
 				</div>
 				<div class="form-group mb-3">
-					<label  class="form-label-aw">Biological Reference</label>
+					<label for="field_1140"  class="form-label-aw">Biological Reference</label>
 					<input type="text" class="form-control-aw" name="biological_reference" placeholder="e.g. 70 - 110" autocomplete="off" id="field_1140">
 				</div>
 			</form>
@@ -3256,7 +3607,7 @@
 			<form id="form-add-report-unit">
 				@csrf
 				<div class="form-group">
-					<label  class="form-label-aw">Unit Name <span class="text-danger">*</span></label>
+					<label for="field_1141"  class="form-label-aw">Unit Name <span class="text-danger">*</span></label>
 					<input type="text" class="form-control-aw" name="name" required placeholder="e.g. mg/dL" autocomplete="off" id="field_1141">
 				</div>
 			</form>
@@ -3392,10 +3743,10 @@
               
               $('#view-detail-title').html('<i class="fa fa-user-md me-2"></i>Doctor Details');
               
-              let qualification = selectedOption.data('qualification') || 'N/A';
-              let phone = selectedOption.data('phone') || 'N/A';
-              let email = selectedOption.data('email') || 'N/A';
-              let doctorId = selectedOption.data('id');
+              let qualification = selectedOption.attr('data-qualification') || 'N/A';
+              let phone = selectedOption.attr('data-phone') || 'N/A';
+              let email = selectedOption.attr('data-email') || 'N/A';
+              let doctorId = selectedOption.attr('data-id');
               
               let html = `
                   <div class="table-responsive-modern">
@@ -3425,8 +3776,8 @@
               
               $('#view-detail-title').html('<i class="fa fa-signature me-2"></i>Signature Details');
               
-              let name = selectedOption.data('name');
-              let imageUrl = selectedOption.data('image');
+              let name = selectedOption.attr('data-name');
+              let imageUrl = selectedOption.attr('data-image');
               
               let html = `
                   <div class="table-responsive-modern">
@@ -3450,19 +3801,19 @@
               $('#modal-view-detail').modal('show');
           });
 
-          $(document).on('click', '.btn-edit-report-category', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.data('id'); let name = selectedOption.val(); if (!id) { alert('Please select a category first.'); return; } $('#edit-report-cat-id').val(id); $('#edit-report-cat-name').val(name || selectedOption.text()); $('#modal-edit-report-category').modal('show'); });
+          $(document).on('click', '.btn-edit-report-category', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a category first.'); return; } $('#edit-report-cat-id').val(id); $('#edit-report-cat-name').val(name || selectedOption.text()); $('#modal-edit-report-category').modal('show'); });
 
-          $(document).on('click', '.btn-edit-report-subcategory', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.data('id'); let name = selectedOption.val(); if (!id) { alert('Please select a sub-category first.'); return; } $('#edit-report-sub-id').val(id); $('#edit-report-sub-name').val(name || selectedOption.text()); $('#modal-edit-report-subcategory').modal('show'); });
+          $(document).on('click', '.btn-edit-report-subcategory', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a sub-category first.'); return; } $('#edit-report-sub-id').val(id); $('#edit-report-sub-name').val(name || selectedOption.text()); $('#modal-edit-report-subcategory').modal('show'); });
 
-          $(document).on('click', '.btn-edit-report-test', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.data('id'); let name = selectedOption.val(); if (!id) { alert('Please select a parameter first.'); return; } $('#edit-report-test-id').val(id); $('#edit-report-test-name').val(name || selectedOption.text()); $('#edit-report-test-unit').val(selectedOption.data('unit')); $('#edit-report-test-bio').val(selectedOption.data('bio-ref')); $('#modal-edit-report-test').modal('show'); });
+          $(document).on('click', '.btn-edit-report-test', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a parameter first.'); return; } $('#edit-report-test-id').val(id); $('#edit-report-test-name').val(name || selectedOption.text()); $('#edit-report-test-unit').val(selectedOption.attr('data-unit')); $('#edit-report-test-bio').val(selectedOption.attr('data-bio-ref')); $('#modal-edit-report-test').modal('show'); });
 
-          $(document).on('click', '.btn-edit-observed', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.data('id'); let name = selectedOption.val(); if (!id) { alert('Please select an observed value first.'); return; } $('#edit-report-observed-id').val(id); $('#edit-report-observed-name').val(name || selectedOption.text()); $('#modal-edit-report-observed').modal('show'); });
+          $(document).on('click', '.btn-edit-observed', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select an observed value first.'); return; } $('#edit-report-observed-id').val(id); $('#edit-report-observed-name').val(name || selectedOption.text()); $('#modal-edit-report-observed').modal('show'); });
 
-          $(document).on('click', '.btn-edit-report-unit', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.data('id'); let name = selectedOption.val(); if (!id) { alert('Please select a unit first.'); return; } $('#edit-report-unit-id').val(id); $('#edit-report-unit-name').val(name || selectedOption.text()); $('#modal-edit-report-unit').modal('show'); });
+          $(document).on('click', '.btn-edit-report-unit', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a unit first.'); return; } $('#edit-report-unit-id').val(id); $('#edit-report-unit-name').val(name || selectedOption.text()); $('#modal-edit-report-unit').modal('show'); });
 
-          $(document).on('click', '.btn-edit-reference', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.data('id'); let name = selectedOption.val(); if (!id) { alert('Please select a reference template first.'); return; } $('#edit-report-reference-id').val(id); $('#edit-report-reference-name').val(name || selectedOption.text()); $('#modal-edit-report-reference').modal('show'); });
+          $(document).on('click', '.btn-edit-reference', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a reference template first.'); return; } $('#edit-report-reference-id').val(id); $('#edit-report-reference-name').val(name || selectedOption.text()); $('#modal-edit-report-reference').modal('show'); });
 
-          $(document).on('click', '.btn-edit-flag', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.data('id'); let name = selectedOption.val(); if (!id) { alert('Please select a flag template first.'); return; } $('#edit-report-flag-id').val(id); $('#edit-report-flag-name').val(name || selectedOption.text()); $('#modal-edit-report-flag').modal('show'); });
+          $(document).on('click', '.btn-edit-flag', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a flag template first.'); return; } $('#edit-report-flag-id').val(id); $('#edit-report-flag-name').val(name || selectedOption.text()); $('#modal-edit-report-flag').modal('show'); });
 
           // Handle Dynamic Row View/Delete Buttons
           $(document).on('click', '.btn-delete-report-category', function() { handleDeleteClick($(this), 'category', 'category'); });
@@ -3475,7 +3826,7 @@
 
           function handleDeleteClick(btn, label, type) {
               let select = btn.siblings('select');
-              let id = select.find('option:selected').data('id');
+              let id = select.find('option:selected').attr('data-id');
               if (!id) { alert('Please select a ' + label + ' first.'); return; }
               $('#btn-detail-delete').data('id', id).data('type', type).click();
           }
@@ -3485,7 +3836,7 @@
           $(document).on('click', '.btn-view-report-test', function() {
               let select = $(this).siblings('select');
               let selectedOption = select.find('option:selected');
-              let id = selectedOption.data('id');
+              let id = selectedOption.attr('data-id');
               let name = selectedOption.val() || selectedOption.text();
               if (!id) { alert('Please select a parameter first.'); return; }
               
@@ -3497,12 +3848,12 @@
                   <div class="table-responsive-modern">
                       <table class="table table-bordered table-striped mb-0">
                           <tr><th width="35%">Test Name</th><td><strong class="text-primary">${name}</strong></td></tr>
-                          <tr><th>Price</th><td>${selectedOption.data('price') || 'N/A'}</td></tr>
-                          <tr><th>Unit</th><td>${selectedOption.data('unit') || 'N/A'}</td></tr>
-                          <tr><th>Male Ref.</th><td>${selectedOption.data('male-ref') || 'N/A'}</td></tr>
-                          <tr><th>Female Ref.</th><td>${selectedOption.data('female-ref') || 'N/A'}</td></tr>
-                          <tr><th>Critical Low</th><td>${selectedOption.data('critical-low') || 'N/A'}</td></tr>
-                          <tr><th>Critical High</th><td>${selectedOption.data('critical-high') || 'N/A'}</td></tr>
+                          <tr><th>Price</th><td>${selectedOption.attr('data-price') || 'N/A'}</td></tr>
+                          <tr><th>Unit</th><td>${selectedOption.attr('data-unit') || 'N/A'}</td></tr>
+                          <tr><th>Male Ref.</th><td>${selectedOption.attr('data-male-ref') || 'N/A'}</td></tr>
+                          <tr><th>Female Ref.</th><td>${selectedOption.attr('data-female-ref') || 'N/A'}</td></tr>
+                          <tr><th>Critical Low</th><td>${selectedOption.attr('data-critical-low') || 'N/A'}</td></tr>
+                          <tr><th>Critical High</th><td>${selectedOption.attr('data-critical-high') || 'N/A'}</td></tr>
                       </table>
                   </div>
               `;
@@ -3517,7 +3868,7 @@
 
           function handleViewClick(btn, type, label, icon) {
               let select = btn.siblings('select');
-              let id = select.find('option:selected').data('id');
+              let id = select.find('option:selected').attr('data-id');
               let name = select.val() || select.find('option:selected').text();
               if (!id) { alert('Please select a ' + label + ' first.'); return; }
               
@@ -3554,9 +3905,9 @@
                   let selectedOption = select.find(`option[data-id="${id}"]`);
                   $('#edit-report-doc-id').val(id);
                   $('#edit-report-doc-name').val(selectedOption.val() || selectedOption.text());
-                  $('#edit-report-doc-qualification').val(selectedOption.data('qualification'));
-                  $('#edit-report-doc-phone').val(selectedOption.data('phone'));
-                  $('#edit-report-doc-email').val(selectedOption.data('email'));
+                  $('#edit-report-doc-qualification').val(selectedOption.attr('data-qualification'));
+                  $('#edit-report-doc-phone').val(selectedOption.attr('data-phone'));
+                  $('#edit-report-doc-email').val(selectedOption.attr('data-email'));
                   $('#modal-edit-report-doctor').modal('show');
               } else if (type === 'category') {
                   $('#modal-view-detail').modal('hide');
@@ -3578,8 +3929,8 @@
                   let selectedOption = select.find(`option[data-id="${id}"]`);
                   $('#edit-report-test-id').val(id);
                   $('#edit-report-test-name').val(selectedOption.val() || selectedOption.text());
-                  $('#edit-report-test-unit').val(selectedOption.data('unit'));
-                  $('#edit-report-test-bio').val(selectedOption.data('bio-ref'));
+                  $('#edit-report-test-unit').val(selectedOption.attr('data-unit'));
+                  $('#edit-report-test-bio').val(selectedOption.attr('data-bio-ref'));
                   $('#modal-edit-report-test').modal('show');
               } else if (type === 'observed') {
                   $('#modal-view-detail').modal('hide');
@@ -3645,7 +3996,7 @@
                               } else if (type === 'flag') {
                                   fetchReportFlags();
                               } else {
-                                  location.reload();
+                                  refreshReportsPageData();
                               }
                           },
                           error: function(xhr) {
@@ -3664,3 +4015,6 @@
 
 
 
+
+
+<!-- File Structure Optimized -->

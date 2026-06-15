@@ -115,6 +115,20 @@
         border: 1px solid #e2e8f0;
     }
 
+    /* Payment mode badge */
+    .payment-mode-badge {
+        font-weight: 600;
+        font-size: 11.5px;
+        background: #eff6ff;
+        color: #1a56db;
+        padding: 4px 10px;
+        border-radius: 20px;
+        border: 1px solid #bfdbfe;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
     /* Action buttons styling */
     .action-buttons {
         display: inline-flex;
@@ -376,16 +390,17 @@
                 <table class="table-modern" id="patient-table">
                     <thead>
                         <tr>
-                            <th class="d-none d-md-table-cell">SL No</th>
+                            <th>SL No</th>
                             <th>Patient Details</th>
-                            <th class="d-none d-sm-table-cell">Contact</th>
-                            <th class="d-none d-md-table-cell">Financial Status</th>
-                            <th class="d-none d-lg-table-cell">Status</th>
+                            <th>Contact</th>
+                            <th>Financial Status</th>
+                            <th>Payment Mode</th>
+                            <th>Status</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($patients as $patient)
+                        @foreach($patients as $patient)
                             @php
                                 $latestApp = $patient->appointments->last();
                                 $totalPrice = $latestApp->test_price ?? 0;
@@ -409,12 +424,12 @@
                             @endphp
                             <tr>
                                 <!-- ID Column -->
-                                <td class="d-none d-md-table-cell">
+                                <td data-label="SL No">
                                     <span class="patient-id-badge">{{ str_replace(['#P-', '#'], '', $patient->patient_id) }}</span>
                                 </td>
                                 
                                 <!-- Patient Details (Avatar, Name, Gender, Age) -->
-                                <td>
+                                <td data-label="Patient Details">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="patient-avatar" style="background-color: {{ $avatarBg }}; color: {{ $avatarText }};">
                                             {{ $initials }}
@@ -431,7 +446,7 @@
                                 </td>
                                 
                                 <!-- Contact Details (Phone, Email) -->
-                                <td class="d-none d-sm-table-cell">
+                                <td data-label="Contact">
                                     <div class="contact-info">
                                         <div class="contact-item">
                                             <i class="fa-solid fa-phone"></i>
@@ -447,7 +462,7 @@
                                 </td>
                                 
                                 <!-- Financial Status (Amount, Discount, Balance) -->
-                                <td class="d-none d-md-table-cell">
+                                <td data-label="Financial Status">
                                     <div class="financial-block">
                                         @if($netBalance == 0)
                                             <div class="net-balance paid">
@@ -467,8 +482,19 @@
                                     </div>
                                 </td>
                                 
+                                <!-- Payment Mode -->
+                                <td data-label="Payment Mode">
+                                    @if($patient->payment_method)
+                                        <span class="payment-mode-badge">
+                                            <i class="fa-solid fa-wallet"></i>{{ $patient->payment_method }}
+                                        </span>
+                                    @else
+                                        <span style="color:var(--text-muted); font-size:12px; font-style:italic;">—</span>
+                                    @endif
+                                </td>
+
                                 <!-- Status (Active / Inactive) -->
-                                <td class="d-none d-lg-table-cell">
+                                <td data-label="Status">
                                     <span class="status-dot-badge {{ strtolower($patient->status) == 'active' ? 'active' : 'inactive' }}">
                                         <span class="status-dot {{ strtolower($patient->status) == 'active' ? 'active' : 'inactive' }}"></span>
                                         {{ $patient->status }}
@@ -476,10 +502,13 @@
                                 </td>
                                 
                                 <!-- Action Buttons -->
-                                <td class="text-end">												
+                                <td class="text-end" data-label="Actions">												
                                     <div class="action-buttons justify-content-end">
                                         <button class="btn-action-circle btn-view" data-id="{{ $patient->id }}" data-bs-toggle="modal" data-bs-target="#modal-view-patient" title="View Details">
                                             <i class="fa fa-eye"></i>
+                                        </button>
+                                        <button class="btn-action-circle btn-followup" data-id="{{ $patient->id }}" data-name="{{ $patient->first_name }} {{ $patient->last_name }}" data-bs-toggle="modal" data-bs-target="#modal-followup-patient" title="Book Follow-up">
+                                            <i class="fa fa-calendar-check text-primary"></i>
                                         </button>
                                         <button class="btn-action-circle btn-invoice" data-id="{{ $patient->id }}" title="PDF Invoice">
                                             <i class="fa fa-file-pdf"></i>
@@ -493,14 +522,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center" style="padding:48px;color:var(--text-muted);">
-                                    <i class="fa fa-user-slash" style="font-size:40px;display:block;margin-bottom:12px;opacity:0.4;"></i>
-                                    <span style="font-size:15px;">No patients found in the database.</span>
-                                </td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -522,7 +544,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="field_1035" class="form-label">Patient ID</label>
-							<input type="text" class="form-control" name="patient_id" placeholder="Auto-generated if blank" autocomplete="new-password" id="field_1035">
+							<input type="text" class="form-control" name="patient_id" placeholder="Auto-generated if blank" value="{{ $nextPatientId ?? '' }}" readonly autocomplete="new-password" id="field_1035">
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -561,8 +583,8 @@
 						<div class="form-group">
 							<label for="field_1040" class="form-label">Age</label>
 							<div class="input-group flex-nowrap">
-								<input type="number" class="form-control" name="age" placeholder="Age" autocomplete="off" id="field_1040">
-								<select class="form-select" name="age_type" autocomplete="off" style="max-width: 110px;">
+								<input type="number" class="form-control" name="age" placeholder="Age" autocomplete="off" id="field_1040" min="0" max="150">
+								<select class="form-select" name="age_type" autocomplete="off" style="max-width: 110px;" id="field_1000">
 									<option value="Years">Years</option>
 									<option value="Months">Months</option>
 									<option value="Days">Days</option>
@@ -574,7 +596,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="field_1041" class="form-label">Email</label>
+							<label for="field_1041" class="form-label">Email <small class="text-muted">(Optional)</small></label>
 							<input type="email" class="form-control" name="email" placeholder="Email (Optional)" autocomplete="new-password" id="field_1041">
 						</div>
 					</div>
@@ -589,32 +611,37 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<div class="form-group">
-							<label for="field_1043" class="form-label">Reference Dr.</label>
-							<div class="reference-dr-container">
-								<input type="hidden" class="reference-dr-value" name="reference_dr" value="" id="field_1043">
-								<div class="input-group flex-nowrap reference-dr-input-group">
-									<select class="form-select reference-dr-select" autocomplete="off" id="field_1044" name="name_1045">
-										<option value="">-- Select Doctor --</option>
-									</select>
-									<button type="button" class="btn btn-success btn-add-doctor" title="Add New"><i class="fa fa-plus"></i></button>
-									<button type="button" class="btn btn-warning btn-edit-doctor" title="Edit Selected"><i class="fa fa-edit"></i></button>
-									<button type="button" class="btn btn-danger btn-delete-doctor" title="Delete Selected"><i class="fa fa-trash"></i></button>
-								</div>
-								<div class="reference-dr-custom-wrap" style="display:none;">
-									<div class="input-group">
-										<input type="text" class="form-control reference-dr-custom-input" placeholder="Enter custom doctor name" autocomplete="off" id="field_1046" name="name_1047">
-										<button type="button" class="btn btn-outline-secondary btn-back-to-dr-select" title="Back to dropdown" style="font-size:12px;"><i class="fa fa-list"></i></button>
-									</div>
-								</div>
+							<label for="field_1044" class="form-label">Reference Dr. (Optional)</label>
+							<div class="input-group flex-nowrap">
+								<select class="form-select reference-dr-select" autocomplete="off" id="field_1044" name="reference_dr">
+									<option value="">-- Select Doctor --</option>
+								</select>
+								<button type="button" class="btn btn-secondary btn-clear-doctor" title="Clear Selection"><i class="fa fa-times"></i></button>
+								<button type="button" class="btn btn-success btn-add-doctor" title="Add New"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-warning btn-edit-doctor" title="Edit Selected"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-danger btn-delete-doctor" title="Delete Selected"><i class="fa fa-trash"></i></button>
 							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="field_payment_method" class="form-label">Payment Mode</label>
+							<select class="form-select" name="payment_method" autocomplete="off" id="field_payment_method">
+								<option value="">-- Select Payment Mode --</option>
+								<option value="Cash">Cash</option>
+								<option value="Card">Card</option>
+								<option value="UPI">UPI</option>
+								<option value="Net Banking">Net Banking</option>
+							</select>
 						</div>
 					</div>
 				</div>
 				
-				<h5 class="mt-4 mb-2 text-primary fw-bold"><i class="fa fa-flask me-2"></i>Select Tests & Financial Details</h5>
-				
+				<div class="d-flex justify-content-between align-items-center mt-4 mb-2">
+					<h5 class="text-primary fw-bold mb-0"><i class="fa fa-flask me-2"></i>Select Tests & Financial Details</h5>
+				</div>
                 <div class="d-none d-md-flex row fw-bold text-muted mb-2 px-3" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">
                     <div class="col-md-5">Test Name</div>
                     <div class="col-md-3">Amount (₹)</div>
@@ -631,15 +658,17 @@
 								<select class="form-select add-patient-test-name test-name-select" autocomplete="off" id="field_1049" name="name_1050">
 									<option value="">-- Select Test --</option>
 									@foreach($labTests as $test)
-										<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}">{{ $test->name }}</option>
+										<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
 									@endforeach
-									<option value="__custom__">✏️ Custom (type below)</option>
+									<option value="__custom__">Custom (type below)</option>
 								</select>
 								<button type="button" class="btn btn-success btn-add-test" style="background-color: #d1fae5; color: #059669; border-color: #cbd5e1;" title="Add New Test"><i class="fa fa-plus"></i></button>
 								<button type="button" class="btn btn-primary btn-edit-test" style="background-color: #dbeafe; color: #2563eb; border-color: #cbd5e1;" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-danger btn-delete-test" style="background-color: #fee2e2; color: #dc2626; border-color: #cbd5e1;" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
 							</div>
                             <div class="test-name-custom-wrap" style="display:none;">
                                 <div class="input-group">
+                                    <span class="input-group-text bg-light text-primary"><i class="fa fa-pencil"></i></span>
                                     <input type="text" class="form-control test-name-custom-input" placeholder="Enter custom test name" autocomplete="off" id="field_1051" name="name_1052">
                                     <button type="button" class="btn btn-outline-secondary btn-back-to-select" title="Back to dropdown" style="font-size:12px;"><i class="fa fa-list"></i></button>
                                 </div>
@@ -653,7 +682,8 @@
                             <div class="d-md-none fw-bold fs-11 text-uppercase text-muted mb-1">Discount</div>
 							<input type="number" step="0.01" class="form-control add-patient-test-discount" name="test_discount[]" value="0.00" autocomplete="off" id="field_1054">
 						</div>
-						<div class="col-md-1 col-12 text-center pt-md-0 pt-2">
+						<div class="col-md-1 col-12 pt-md-0 pt-3 d-flex justify-content-between align-items-center">
+							<div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Action</div>
 							<button type="button" class="btn btn-success btn-sm btn-add-add-test-row" style="height: 38px; width: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px;"><i class="fa fa-plus"></i></button>
 						</div>
 					</div>
@@ -689,9 +719,9 @@
           <div class="vp-name" id="view-full-name">Patient Name</div>
           <div class="vp-meta">
             <span class="vp-id-badge" id="view-patient-id">#0000</span>
-            <span>·</span>
+            <span>Â·</span>
             <span id="view-gender">—</span>
-            <span>·</span>
+            <span>Â·</span>
             <span id="view-age">—</span>
           </div>
         </div>
@@ -736,6 +766,62 @@
       </div>
     </div>
   </div>
+
+<!-- Book Follow-up Modal -->
+<div class="modal fade modal-aw" id="modal-followup-patient" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa fa-calendar-check me-2 text-primary"></i>Book Follow-up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-followup-patient">
+                    <input type="hidden" name="patient_id" id="followup-patient-id">
+                    <input type="hidden" name="status" value="Pending">
+                    <input type="hidden" name="test_price" value="0">
+                    <input type="hidden" name="discount" value="0">
+                    <input type="hidden" name="balance" value="0">
+                    
+                    <div class="mb-3">
+                        <label class="form-label-aw">Patient Name</label>
+                        <input type="text" id="followup-patient-name" class="form-control-aw bg-light" readonly>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label-aw">Follow-up Date <span class="text-danger">*</span></label>
+                            <input type="date" name="appointment_date" class="form-control-aw" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label-aw">Time <span class="text-danger">*</span></label>
+                            <input type="time" name="appointment_time" class="form-control-aw" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-aw">Consultation / Test Name <span class="text-danger">*</span></label>
+                        <input type="text" name="test_name" class="form-control-aw" value="Follow-up Consultation" required autocomplete="off">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-aw">Doctor Name</label>
+                        <input type="text" name="doctor_name" class="form-control-aw" placeholder="Leave empty for Self" autocomplete="off">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-aw">Notes / Reason</label>
+                        <textarea name="notes" class="form-control-aw" rows="2" placeholder="Brief reason for follow-up..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn-aw-primary" id="btn-save-followup"><i class="fa fa-save"></i> Confirm Booking</button>
+            </div>
+        </div>
+    </div>
+</div>
 
   <!-- Edit Modal -->
   <div class="modal fade modal-aw" id="modal-edit-patient" tabindex="-1" aria-hidden="true">
@@ -791,7 +877,7 @@
 						<div class="form-group">
 							<label for="edit-age" class="form-label">Age</label>
 							<div class="input-group flex-nowrap">
-								<input type="number" class="form-control" id="edit-age" name="age" placeholder="Age" autocomplete="off">
+								<input type="number" class="form-control" id="edit-age" name="age" placeholder="Age" autocomplete="off" min="0" max="150">
 								<select class="form-select" id="edit-age-type" name="age_type" autocomplete="off" style="max-width: 110px;">
 									<option value="Years">Years</option>
 									<option value="Months">Months</option>
@@ -804,7 +890,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="edit-email" class="form-label">Email</label>
+							<label for="edit-email" class="form-label">Email <small class="text-muted">(Optional)</small></label>
 							<input type="email" class="form-control" id="edit-email" name="email" placeholder="Email" autocomplete="new-password">
 						</div>
 					</div>
@@ -819,31 +905,37 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<div class="form-group">
-							<label for="field_1056" class="form-label">Reference Dr.</label>
-							<div class="reference-dr-container">
-								<input type="hidden" class="reference-dr-value" name="reference_dr" value="" id="field_1056">
-								<div class="input-group flex-nowrap reference-dr-input-group">
-									<select class="form-select reference-dr-select" id="edit-reference-dr" autocomplete="off" name="name_1057">
-										<option value="">-- Select Doctor --</option>
-									</select>
-									<button type="button" class="btn btn-success btn-add-doctor" title="Add New"><i class="fa fa-plus"></i></button>
-									<button type="button" class="btn btn-warning btn-edit-doctor" title="Edit Selected"><i class="fa fa-edit"></i></button>
-									<button type="button" class="btn btn-danger btn-delete-doctor" title="Delete Selected"><i class="fa fa-trash"></i></button>
-								</div>
-								<div class="reference-dr-custom-wrap" style="display:none;">
-									<div class="input-group">
-										<input type="text" class="form-control reference-dr-custom-input" placeholder="Enter custom doctor name" autocomplete="off" id="field_1058" name="name_1059">
-										<button type="button" class="btn btn-outline-secondary btn-back-to-dr-select" title="Back to dropdown" style="font-size:12px;"><i class="fa fa-list"></i></button>
-									</div>
-								</div>
+							<label for="edit-reference-dr" class="form-label">Reference Dr. (Optional)</label>
+							<div class="input-group flex-nowrap">
+								<select class="form-select reference-dr-select" id="edit-reference-dr" autocomplete="off" name="reference_dr">
+									<option value="">-- Select Doctor --</option>
+								</select>
+								<button type="button" class="btn btn-secondary btn-clear-doctor" title="Clear Selection"><i class="fa fa-times"></i></button>
+								<button type="button" class="btn btn-success btn-add-doctor" title="Add New"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-warning btn-edit-doctor" title="Edit Selected"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-danger btn-delete-doctor" title="Delete Selected"><i class="fa fa-trash"></i></button>
 							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="edit-payment-method" class="form-label">Payment Mode</label>
+							<select class="form-select" name="payment_method" id="edit-payment-method" autocomplete="off">
+								<option value="">-- Select Payment Mode --</option>
+								<option value="Cash">Cash</option>
+								<option value="Card">Card</option>
+								<option value="UPI">UPI</option>
+								<option value="Net Banking">Net Banking</option>
+							</select>
 						</div>
 					</div>
 				</div>
 
-				<h5 class="mt-4 mb-2 text-primary fw-bold"><i class="fa fa-flask me-2"></i>Select Tests & Financial Details</h5>
+				<div class="d-flex justify-content-between align-items-center mt-4 mb-2">
+					<h5 class="text-primary fw-bold mb-0"><i class="fa fa-flask me-2"></i>Select Tests & Financial Details</h5>
+				</div>
 				
                 <div class="d-none d-md-flex row fw-bold text-muted mb-2 px-3" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">
                     <div class="col-md-5">Test Name</div>
@@ -900,9 +992,9 @@
   <div class="modal center-modal fade" id="modal-patient-book-test" tabindex="-1" aria-hidden="true">
 	  <div class="modal-dialog">
 		<div class="modal-content">
-		  <div class="modal-header bg-primary">
-			<h5 class="modal-title text-white">Book Lab Test for <span id="book-test-patient-name"></span></h5>
-			<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+		  <div class="modal-header">
+			<h5 class="modal-title">Book Lab Test for <span id="book-test-patient-name" class="text-primary ms-1"></span></h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		  </div>
 		  <div class="modal-body">
 			<form id="form-quick-book">
@@ -1009,12 +1101,22 @@
 			<form id="form-add-test">
                 @csrf
 				<div class="form-group">
-					<label class="form-label-aw">Test Name <span class="text-danger">*</span></label>
-					<input type="text" class="form-control-aw" name="name" required placeholder="e.g. CBC" autocomplete="off">
+					<label for="field_1001" class="form-label-aw">Test Name <span class="text-danger">*</span></label>
+					<input type="text" class="form-control-aw" name="name" required placeholder="e.g. CBC" autocomplete="off" id="field_1001">
 				</div>
 				<div class="form-group mt-3">
-					<label class="form-label-aw">Price</label>
-					<input type="number" step="0.01" class="form-control-aw" name="price" placeholder="e.g. 500" autocomplete="off">
+					<label for="field_1002" class="form-label-aw">Price</label>
+					<input type="number" step="0.01" class="form-control-aw" name="price" placeholder="e.g. 500" autocomplete="off" id="field_1002">
+				</div>
+				<div class="form-group mt-3">
+					<label for="field_add_test_payment_method" class="form-label-aw">Payment Mode</label>
+					<select class="form-select" name="payment_method" autocomplete="off" id="field_add_test_payment_method">
+						<option value="">-- Select Payment Mode --</option>
+						<option value="Cash">Cash</option>
+						<option value="Card">Card</option>
+						<option value="UPI">UPI</option>
+						<option value="Net Banking">Net Banking</option>
+					</select>
 				</div>
 			</form>
 		  </div>
@@ -1039,12 +1141,22 @@
                 @csrf
 				<input type="hidden" name="test_id" id="edit-test-id">
 				<div class="form-group">
-					<label class="form-label-aw">Test Name <span class="text-danger">*</span></label>
+					<label for="edit-test-name" class="form-label-aw">Test Name <span class="text-danger">*</span></label>
 					<input type="text" class="form-control-aw" name="name" id="edit-test-name" required autocomplete="off">
 				</div>
 				<div class="form-group mt-3">
-					<label class="form-label-aw">Price</label>
+					<label for="edit-test-price" class="form-label-aw">Price</label>
 					<input type="number" step="0.01" class="form-control-aw" name="price" id="edit-test-price" autocomplete="off">
+				</div>
+				<div class="form-group mt-3">
+					<label for="edit-test-payment-method" class="form-label-aw">Payment Mode</label>
+					<select class="form-select" name="payment_method" id="edit-test-payment-method" autocomplete="off">
+						<option value="">-- Select Payment Mode --</option>
+						<option value="Cash">Cash</option>
+						<option value="Card">Card</option>
+						<option value="UPI">UPI</option>
+						<option value="Net Banking">Net Banking</option>
+					</select>
 				</div>
 			</form>
 		  </div>
@@ -1109,11 +1221,13 @@
           // Select2 initialization function
           function initDynamicSelect2() {
               // Revert all select elements inside the patient modals to standard native HTML selects
-              $('#modal-add-patient select, #modal-edit-patient select, #modal-patient-book-test select').each(function() {
-                  if ($(this).hasClass('select2-hidden-accessible')) {
-                      $(this).select2('destroy');
-                  }
-              });
+              if ($.fn.select2) {
+                  $('#modal-add-patient select, #modal-edit-patient select, #modal-patient-book-test select').each(function() {
+                      if ($(this).hasClass('select2-hidden-accessible')) {
+                          $(this).select2('destroy');
+                      }
+                  });
+              }
           }
 
           $(document).on('shown.bs.modal', '#modal-add-patient, #modal-edit-patient, #modal-patient-book-test', function() {
@@ -1122,12 +1236,28 @@
 
           initDynamicSelect2();
 
-		  // Live Search for Patients
+		  // Initialize DataTables for Patients with custom search wrapper
+		  var patientTable = $('#patient-table').DataTable({
+			  dom: "<'row mb-3'<'col-sm-12 col-md-6'l>>" +
+				   "<'row'<'col-sm-12'tr>>" +
+				   "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			  pageLength: 10,
+			  lengthMenu: [5, 10, 25, 50, 100],
+			  ordering: false,
+			  language: {
+				  lengthMenu: "Show _MENU_ records",
+				  info: "Showing _START_ to _END_ of _TOTAL_ patients",
+				  infoEmpty: "Showing 0 to 0 of 0 patients",
+				  infoFiltered: "(filtered from _MAX_ total patients)",
+				  emptyTable: "No patients found in the database.",
+				  paginate: {
+					  previous: "<i class='fa fa-angle-left'></i>",
+					  next: "<i class='fa fa-angle-right'></i>"
+				  }
+			  }
+		  });
 		  $("#patient-search").on("keyup", function() {
-			  var value = $(this).val().toLowerCase();
-			  $("#patient-table tbody tr").filter(function() {
-				  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-			  });
+			  patientTable.search($(this).val()).draw();
 		  });
 
 		  // Generate Invoice
@@ -1196,14 +1326,17 @@
 
 					  // Column 2
 					  doc.setFont("helvetica", "bold"); doc.text("Ref. Dr:", 105, 60);
-					  doc.setFont("helvetica", "normal"); doc.text(`${patient.reference_dr || 'Self'}`, 125, 60);
+					  doc.setFont("helvetica", "normal"); doc.text(`${patient.reference_dr || 'Self'}`, 135, 60);
 					  
-					  doc.setFont("helvetica", "bold"); doc.text("Address:", 105, 65);
+					  doc.setFont("helvetica", "bold"); doc.text("Payment Mode:", 105, 65);
+					  doc.setFont("helvetica", "normal"); doc.text(`${patient.payment_method || 'N/A'}`, 135, 65);
+					  
+					  doc.setFont("helvetica", "bold"); doc.text("Address:", 105, 70);
 					  doc.setFont("helvetica", "normal"); 
                       let addressText = patient.address || 'N/A';
                       // Split address if it's too long
-                      let splitAddress = doc.splitTextToSize(addressText, 70);
-                      doc.text(splitAddress, 125, 65);
+                      let splitAddress = doc.splitTextToSize(addressText, 55);
+                      doc.text(splitAddress, 135, 70);
 
 					  // --- Table ---
 					  const tableData = patientAppointments.map((app, index) => [
@@ -1294,7 +1427,6 @@
 					  let qual = doctor.qualification ? doctor.qualification : '';
 					  options += '<option value="' + doctor.name + '" data-id="'+doctor.id+'" data-phone="'+phone+'" data-email="'+email+'" data-qualification="'+qual+'">' + doctor.name + '</option>';
 				  });
-				  options += '<option value="__custom__">✏️ Custom (type below)</option>';
 				  $('.reference-dr-select').html(options);
                    if (selectedValue) {
                        $('.reference-dr-select').val(selectedValue).trigger('change');
@@ -1311,7 +1443,7 @@
           $(document).on('click', '.btn-edit-doctor', function() {
               let select = $(this).siblings('.reference-dr-select');
               let selectedOption = select.find('option:selected');
-              let docId = selectedOption.data('id');
+              let docId = selectedOption.attr('data-id');
               
               if (!docId) {
                   alert('Please select a valid doctor to edit.');
@@ -1320,16 +1452,16 @@
               
               $('#edit-doc-id').val(docId);
               $('#edit-doc-name').val(selectedOption.val());
-              $('#edit-doc-qualification').val(selectedOption.data('qualification'));
-              $('#edit-doc-phone').val(selectedOption.data('phone'));
-              $('#edit-doc-email').val(selectedOption.data('email'));
+              $('#edit-doc-qualification').val(selectedOption.attr('data-qualification'));
+              $('#edit-doc-phone').val(selectedOption.attr('data-phone'));
+              $('#edit-doc-email').val(selectedOption.attr('data-email'));
               $('#modal-edit-doctor').modal('show');
           });
 
           $(document).on('click', '.btn-delete-doctor', function() {
               let select = $(this).siblings('.reference-dr-select');
               let selectedOption = select.find('option:selected');
-              let docId = selectedOption.data('id');
+              let docId = selectedOption.attr('data-id');
               
               if (!docId) {
                   alert('Please select a valid doctor to delete.');
@@ -1349,6 +1481,11 @@
                       }
                   });
               }
+          });
+
+          $(document).on('click', '.btn-clear-doctor', function() {
+              let select = $(this).siblings('.reference-dr-select');
+              select.val('');
           });
 
           $('#btn-save-doctor').click(function() {
@@ -1500,18 +1637,17 @@
 				  $('#edit-email').val(data.email);
 				  let refDr = data.reference_dr || '';
 				  let refDrSelect = $('#edit-reference-dr');
-				  let isCustomDr = refDr !== '' && !refDrSelect.find(`option[value="${refDr}"]`).length;
-				  
-				  if (isCustomDr) {
-					  refDrSelect.val('__custom__').trigger('change').closest('.reference-dr-input-group').hide();
-					  refDrSelect.closest('.reference-dr-container').find('.reference-dr-custom-wrap').show();
-					  refDrSelect.closest('.reference-dr-container').find('.reference-dr-custom-input').val(refDr);
+				  if (refDrSelect.find("option[value='" + refDr + "']").length) {
+					  refDrSelect.val(refDr).trigger('change');
+				  } else if (refDr) {
+					  // Not found in options, it must have been a custom name or self, so we add it dynamically and select it
+                      refDrSelect.append('<option value="' + refDr + '">' + refDr + '</option>');
+					  refDrSelect.val(refDr).trigger('change');
 				  } else {
-					  refDrSelect.val(refDr).trigger('change').closest('.reference-dr-input-group').show();
-					  refDrSelect.closest('.reference-dr-container').find('.reference-dr-custom-wrap').hide();
-				  }
-				  refDrSelect.closest('.reference-dr-container').find('.reference-dr-value').val(refDr);
+                      refDrSelect.val('Self').trigger('change');
+                  }
 				  $('#edit-status').val(data.status).trigger('change');
+				  $('#edit-payment-method').val(data.payment_method || '').trigger('change');
 				  $('#edit-address').val(data.address);
 
                   // Collect known test names from server (rendered by Blade)
@@ -1529,9 +1665,9 @@
                           let isCustom = testName !== '' && !knownTestNames.includes(testName);
                           let optionsHtml = `<option value="">-- Select Test --</option>`;
                           @foreach($labTests as $test)
-                              optionsHtml += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" ${!isCustom && app.test_name == '{{ $test->name }}' ? 'selected' : ''}>{{ $test->name }}</option>`;
+                              optionsHtml += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}" ${!isCustom && app.test_name == '{{ $test->name }}' ? 'selected' : ''}>{{ $test->name }}</option>`;
                           @endforeach
-                          optionsHtml += `<option value="__custom__">✏️ Custom (type below)</option>`;
+                          optionsHtml += `<option value="__custom__">âœï¸ Custom (type below)</option>`;
 
                           testRowsHtml += `
                             <div class="row test-row mb-2 align-items-center">
@@ -1545,6 +1681,7 @@
                                         </select>
                                         <button type="button" class="btn btn-success btn-add-test" style="background-color: #d1fae5; color: #059669; border-color: #cbd5e1;" title="Add New Test"><i class="fa fa-plus"></i></button>
                                         <button type="button" class="btn btn-primary btn-edit-test" style="background-color: #dbeafe; color: #2563eb; border-color: #cbd5e1;" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger btn-delete-test" style="background-color: #fee2e2; color: #dc2626; border-color: #cbd5e1;" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
                                     </div>
                                     <div class="test-name-custom-wrap" ${isCustom ? '' : 'style="display:none;"'}>
                                         <div class="input-group">
@@ -1570,9 +1707,9 @@
                       // Default empty row if no appointments found
                       let emptyOptions = `<option value="" selected>-- Select Test (Optional) --</option>`;
                       @foreach($labTests as $test)
-                          emptyOptions += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}">{{ $test->name }}</option>`;
+                          emptyOptions += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>`;
                       @endforeach
-                      emptyOptions += `<option value="__custom__">✏️ Custom (type below)</option>`;
+                      emptyOptions += `<option value="__custom__">âœï¸ Custom (type below)</option>`;
 
                       testRowsHtml = `
                         <div class="row test-row mb-2 align-items-center">
@@ -1585,6 +1722,7 @@
                                     </select>
                                     <button type="button" class="btn btn-success btn-add-test" style="background-color: #d1fae5; color: #059669; border-color: #cbd5e1;" title="Add New Test"><i class="fa fa-plus"></i></button>
                                     <button type="button" class="btn btn-primary btn-edit-test" style="background-color: #dbeafe; color: #2563eb; border-color: #cbd5e1;" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-delete-test" style="background-color: #fee2e2; color: #dc2626; border-color: #cbd5e1;" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
                                 </div>
                                 <div class="test-name-custom-wrap" style="display:none;">
                                     <div class="input-group">
@@ -1601,7 +1739,8 @@
                                 <div class="d-md-none fw-bold fs-11 text-uppercase text-muted mb-1">Discount</div>
                                 <input type="number" step="0.01" class="form-control edit-patient-test-discount" name="test_discount[]" placeholder="0.00" value="0.00" autocomplete="off" id="field_1081">
                             </div>
-                            <div class="col-md-1 col-12 text-center pt-md-0 pt-2">
+                            <div class="col-md-1 col-12 pt-md-0 pt-3 d-flex justify-content-between align-items-center">
+                                <div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Action</div>
                                 <button type="button" class="btn btn-success btn-sm btn-edit-add-test-row" style="height: 38px; width: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px;"><i class="fa fa-plus"></i></button>
                             </div>
                         </div>`;
@@ -1623,12 +1762,13 @@
 						<select class="form-select add-patient-test-name test-name-select" autocomplete="off" id="field_1083" name="name_1084">
 							<option value="">-- Select Test --</option>
 							@foreach($labTests as $test)
-								<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}">{{ $test->name }}</option>
+								<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
 							@endforeach
-							<option value="__custom__">✏️ Custom (type below)</option>
+							<option value="__custom__">âœï¸ Custom (type below)</option>
 						</select>
 						<button type="button" class="btn btn-success btn-add-test" style="background-color: #d1fae5; color: #059669; border-color: #cbd5e1;" title="Add New Test"><i class="fa fa-plus"></i></button>
 						<button type="button" class="btn btn-primary btn-edit-test" style="background-color: #dbeafe; color: #2563eb; border-color: #cbd5e1;" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+						<button type="button" class="btn btn-danger btn-delete-test" style="background-color: #fee2e2; color: #dc2626; border-color: #cbd5e1;" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
 					</div>
 					<div class="test-name-custom-wrap" style="display:none;">
 						<div class="input-group">
@@ -1645,7 +1785,8 @@
 					<div class="d-md-none fw-bold fs-11 text-uppercase text-muted mb-1">Discount</div>
 					<input type="number" step="0.01" class="form-control add-patient-test-discount" name="test_discount[]" value="0.00" autocomplete="off" id="field_1088">
 				</div>
-				<div class="col-md-1 col-12 text-center pt-md-0 pt-2">
+				<div class="col-md-1 col-12 pt-md-0 pt-3 d-flex justify-content-between align-items-center">
+					<div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Action</div>
 					<button type="button" class="btn btn-danger btn-sm btn-add-remove-test-row" style="height: 38px; width: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px;"><i class="fa fa-trash"></i></button>
 				</div>
 			</div>`;
@@ -1654,6 +1795,8 @@
 			  $('#add-patient-tests-container').append(addTestRowTemplate);
               initDynamicSelect2();
 		  });
+
+
 
 		  $(document).on('click', '.btn-add-remove-test-row', function() {
 			  $(this).closest('.test-row').remove();
@@ -1670,9 +1813,9 @@
 					<select class="form-select edit-patient-test-name test-name-select" autocomplete="off" id="field_1091" name="name_1092">
 						<option value="">-- Select Test --</option>
 						@foreach($labTests as $test)
-							<option value="{{ $test->name }}" data-price="{{ $test->price }}">{{ $test->name }}</option>
+							<option value="{{ $test->name }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
 						@endforeach
-						<option value="__custom__">✏️ Custom (type below)</option>
+						<option value="__custom__">âœï¸ Custom (type below)</option>
 					</select>
 					<div class="test-name-custom-wrap" style="display:none;">
 						<div class="input-group">
@@ -1689,7 +1832,8 @@
 					<div class="d-md-none fw-bold fs-11 text-uppercase text-muted mb-1">Discount</div>
 					<input type="number" step="0.01" class="form-control edit-patient-test-discount" name="test_discount[]" value="0.00" autocomplete="off" id="field_1096">
 				</div>
-				<div class="col-md-1 col-12 text-center pt-md-0 pt-2">
+				<div class="col-md-1 col-12 pt-md-0 pt-3 d-flex justify-content-between align-items-center">
+					<div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Action</div>
 					<button type="button" class="btn btn-danger btn-sm btn-remove-test-row" style="height: 38px; width: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px;"><i class="fa fa-trash"></i></button>
 				</div>
 			</div>`;
@@ -1753,32 +1897,7 @@
 		  });
 		  // ── End custom test name logic ─────────────────────────────────────
 
-		  // ── Custom reference doctor name toggle logic ─────────────────────────
-		  $(document).on('change', '.reference-dr-select', function() {
-			  let val = $(this).val();
-			  let container = $(this).closest('.reference-dr-container');
-			  if (val === '__custom__') {
-				  $(this).closest('.reference-dr-input-group').hide();
-				  container.find('.reference-dr-custom-wrap').show();
-				  container.find('.reference-dr-custom-input').focus();
-				  container.find('.reference-dr-value').val('');
-			  } else {
-				  container.find('.reference-dr-value').val(val);
-			  }
-		  });
 
-		  $(document).on('input', '.reference-dr-custom-input', function() {
-			  $(this).closest('.reference-dr-container').find('.reference-dr-value').val($(this).val().trim());
-		  });
-
-		  $(document).on('click', '.btn-back-to-dr-select', function() {
-			  let container = $(this).closest('.reference-dr-container');
-			  container.find('.reference-dr-custom-wrap').hide();
-			  container.find('.reference-dr-custom-input').val('');
-			  container.find('.reference-dr-value').val('');
-			  container.find('.reference-dr-select').val('').closest('.reference-dr-input-group').show();
-		  });
-		  // ── End custom reference doctor logic ─────────────────────────────────
 
 		  // Auto-fill price and calculate net (kept for backward compat; now handled in .test-name-select change)
 		  $(document).on('change', '.add-patient-test-name', function() {
@@ -1853,6 +1972,13 @@
 				  success: function(response) {
 					  alert(response.success);
 					  location.reload();
+				  },
+				  error: function(xhr) {
+					  let msg = "Error deleting patient.";
+					  if (xhr.responseJSON) {
+						  msg = xhr.responseJSON.error || xhr.responseJSON.message || msg;
+					  }
+					  alert(msg);
 				  }
 			  });
 		  });
@@ -1869,7 +1995,7 @@
           $(document).on('click', '.btn-edit-test', function() {
               currentTestSelect = $(this).siblings('.test-name-select');
               let selectedOption = currentTestSelect.find('option:selected');
-              let testId = selectedOption.data('id');
+              let testId = selectedOption.attr('data-id');
               
               if (!testId || currentTestSelect.val() === '__custom__' || currentTestSelect.val() === '') {
                   alert('Please select a valid test from the dropdown to edit.');
@@ -1878,8 +2004,37 @@
 
               $('#edit-test-id').val(testId);
               $('#edit-test-name').val(selectedOption.val());
-              $('#edit-test-price').val(selectedOption.data('price'));
+              $('#edit-test-price').val(selectedOption.attr('data-price'));
+              $('#edit-test-payment-method').val(selectedOption.attr('data-payment_method') || '');
               $('#modal-edit-test').modal('show');
+          });
+
+          $(document).on('click', '.btn-delete-test', function() {
+              let select = $(this).siblings('.test-name-select');
+              let selectedOption = select.find('option:selected');
+              let testId = selectedOption.attr('data-id');
+              
+              if (!testId || select.val() === '__custom__' || select.val() === '') {
+                  alert('Please select a valid test from the dropdown to delete.');
+                  return;
+              }
+              
+              if (confirm('Are you sure you want to delete ' + selectedOption.val() + '?')) {
+                  $.ajax({
+                      url: "/lab-tests/" + testId,
+                      type: 'DELETE',
+                      data: {
+                          _token: '{{ csrf_token() }}'
+                      },
+                      success: function(response) {
+                          alert(response.success || 'Test deleted successfully.');
+                          location.reload();
+                      },
+                      error: function(xhr) {
+                          alert('Error: ' + xhr.responseText);
+                      }
+                  });
+              }
           });
 
           $('#btn-save-test').click(function() {
@@ -1900,7 +2055,7 @@
                   success: function(response) {
                       if(response.success) {
                           let t = response.test;
-                          let newOption = `<option value="${t.name}" data-id="${t.id}" data-price="${t.price}">${t.name}</option>`;
+                          let newOption = `<option value="${t.name}" data-id="${t.id}" data-price="${t.price}" data-payment_method="${t.payment_method || ''}">${t.name}</option>`;
                           
                           // Update all test selects
                           $('.test-name-select').each(function() {
@@ -1952,6 +2107,8 @@
                                   opt.text(t.name);
                                   opt.data('price', t.price);
                                   opt.attr('data-price', t.price);
+                                  opt.data('payment_method', t.payment_method);
+                                  opt.attr('data-payment_method', t.payment_method);
                               }
                           });
 
@@ -1971,11 +2128,76 @@
               });
           });
 
+          // =============================================
+          // FOLLOW-UP BOOKING JS
+          // =============================================
+          $(document).on('click', '.btn-followup', function() {
+              let patientId = $(this).data('id');
+              let patientName = $(this).data('name');
+              
+              $('#form-followup-patient')[0].reset();
+              $('#followup-patient-id').val(patientId);
+              $('#followup-patient-name').val(patientName);
+              
+              // Set default date to today
+              let today = new Date().toISOString().split('T')[0];
+              $('#form-followup-patient input[name="appointment_date"]').val(today);
+              
+              // Set default time to current time rounded to nearest 30 mins
+              let d = new Date();
+              d.setMinutes(Math.round(d.getMinutes()/30) * 30);
+              let timeStr = d.toTimeString().substring(0, 5);
+              $('#form-followup-patient input[name="appointment_time"]').val(timeStr);
+              
+              // Ensure defaults for hidden fields
+              $('#form-followup-patient input[name="status"]').val('Pending');
+              $('#form-followup-patient input[name="test_price"]').val('0');
+              $('#form-followup-patient input[name="discount"]').val('0');
+              $('#form-followup-patient input[name="balance"]').val('0');
+              $('#form-followup-patient input[name="test_name"]').val('Follow-up Consultation');
+          });
+
+          $('#btn-save-followup').click(function() {
+              let form = $('#form-followup-patient');
+              
+              if(!form[0].checkValidity()) {
+                  form[0].reportValidity();
+                  return;
+              }
+
+              let btn = $(this);
+              let originalHtml = btn.html();
+              btn.html('<i class="fa fa-spinner fa-spin me-1"></i>Booking...').prop('disabled', true);
+
+              $.ajax({
+                  url: "{{ route('appointments.store') }}",
+                  type: 'POST',
+                  data: form.serialize(),
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  success: function(response) {
+                      $('#modal-followup-patient').modal('hide');
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'Success!',
+                          text: response.success || 'Follow-up booked successfully',
+                          timer: 2000,
+                          showConfirmButton: false
+                      }).then(() => {
+                          // redirect to appointments page
+                          window.location.href = "{{ route('appointments') }}";
+                      });
+                  },
+                  error: function(xhr) {
+                      alert('Error: ' + (xhr.responseJSON?.message || 'Failed to book follow-up.'));
+                      btn.html(originalHtml).prop('disabled', false);
+                  }
+              });
+          });
+
 	  });
   </script>
   @endpush
 
 @endsection
-
-
-

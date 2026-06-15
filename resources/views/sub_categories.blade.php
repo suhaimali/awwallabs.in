@@ -74,20 +74,7 @@
         font-size: 15px;
     }
 
-    @media (max-width: 767px) {
-    
-        .table-patients tbody td:last-child { border-bottom: none !important; }
-        .table-patients tbody td::before { 
-            content: attr(data-label); 
-            font-weight: 600; 
-            color: #94a3b8; 
-            font-size: 12px; 
-            text-transform: uppercase;
-        }
-        .table-patients .text-end { justify-content: center; width: 100%; border-top: 1px solid #f1f5f9 !important; margin-top: 15px; padding-top: 15px !important; }
-        .action-btn-group { width: 100%; justify-content: center; gap: 16px; }
-        .cat-name-cell { justify-content: flex-end; }
-    }
+
 </style>
 
 <div class="aw-card mb-4">
@@ -112,7 +99,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($subCategories as $sub)
+                        @foreach($subCategories as $sub)
                         <tr>
                             <td data-label="SL No">
                                 <span class="badge-aw" style="background:#f1f5f9;color:#475569;font-family:monospace;font-size:12px;padding:6px 10px;border-radius:6px;border:1px solid #e2e8f0;">#{{ str_pad($sub->id, 4, '0', STR_PAD_LEFT) }}</span>
@@ -146,23 +133,7 @@
                                 </div>
                             </td>
                         </tr>
-                        @empty
-                        <tr>
-                            <td colspan="5" class="text-center" style="padding:48px;color:var(--text-muted);">
-                                <i class="fa fa-list-ul" style="font-size:40px;display:block;margin-bottom:12px;opacity:0.4;"></i>
-                                <span style="font-size:15px;">No sub-categories found.</span>
-                            </td>
-                        </tr>
-                        @endforelse
-                        <tr class="no-results-row" style="display: none;">
-                            <td colspan="5" class="text-center py-5">
-                                <div style="color:var(--text-muted);">
-                                    <i class="fa fa-search fa-3x mb-3" style="opacity: 0.5;"></i>
-                                    <br>
-                                    <span style="font-size:15px;">No matching sub-categories found.</span>
-                                </div>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -272,23 +243,28 @@
 			  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
 		  });
 
-		  // Live Search
-		  $("#subcategory-search").on("keyup", function() {
-			  var value = $(this).val().toLowerCase();
-			  let rows = $('#subcategories-table tbody tr:not(.no-results-row)');
-			  let matched = 0;
-			  
-			  rows.each(function() {
-				  let matches = $(this).text().toLowerCase().indexOf(value) > -1;
-				  $(this).toggle(matches);
-				  if (matches) matched++;
-			  });
-			  
-			  if (matched === 0) {
-				  $('.no-results-row').show();
-			  } else {
-				  $('.no-results-row').hide();
+		  // Initialize DataTables for Sub-Categories
+		  var subcategoriesTable = $('#subcategories-table').DataTable({
+			  dom: "<'row mb-3'<'col-sm-12 col-md-6'l>>" +
+				   "<'row'<'col-sm-12'tr>>" +
+				   "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			  pageLength: 10,
+			  lengthMenu: [5, 10, 25, 50, 100],
+			  ordering: false,
+			  language: {
+				  lengthMenu: "Show _MENU_ records",
+				  info: "Showing _START_ to _END_ of _TOTAL_ sub-categories",
+				  infoEmpty: "Showing 0 to 0 of 0 sub-categories",
+				  infoFiltered: "(filtered from _MAX_ total sub-categories)",
+				  emptyTable: "No sub-categories found.",
+				  paginate: {
+					  previous: "<i class='fa fa-angle-left'></i>",
+					  next: "<i class='fa fa-angle-right'></i>"
+				  }
 			  }
+		  });
+		  $("#subcategory-search").on("keyup", function() {
+			  subcategoriesTable.search($(this).val()).draw();
 		  });
 
 		  // Save

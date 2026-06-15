@@ -39,7 +39,7 @@
             transition: var(--transition);
             overflow: hidden;
         }
-        body.sidebar-collapsed #awlab-sidebar { width: var(--sidebar-collapsed); }
+
 
         .sidebar-brand {
             height: var(--header-h);
@@ -64,7 +64,7 @@
             color: var(--primary); white-space: nowrap;
             transition: var(--transition);
         }
-        body.sidebar-collapsed .sidebar-brand .brand-name { opacity: 0; width: 0; }
+
 
         .sidebar-nav {
             flex: 1;
@@ -85,7 +85,7 @@
             overflow: hidden;
             transition: var(--transition);
         }
-        body.sidebar-collapsed .sidebar-section-label { opacity: 0; }
+
 
         .nav-item-link {
             display: flex; align-items: center;
@@ -115,28 +115,9 @@
             font-size: 15px; flex-shrink: 0;
         }
         .nav-item-link .nav-label { flex: 1; transition: var(--transition); }
-        body.sidebar-collapsed .nav-item-link .nav-label { opacity: 0; width: 0; overflow: hidden; }
-        body.sidebar-collapsed .nav-item-link { justify-content: center; padding: 12px; }
-        body.sidebar-collapsed .nav-item-link .nav-icon { margin: 0; }
 
-        /* Tooltip for collapsed state */
-        body.sidebar-collapsed .nav-item-link::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            left: calc(var(--sidebar-collapsed) + 8px);
-            top: 50%; transform: translateY(-50%);
-            background: var(--text-dark);
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.15s;
-            z-index: 2000;
-        }
-        body.sidebar-collapsed .nav-item-link:hover::after { opacity: 1; }
+
+
 
         .sidebar-footer {
             padding: 12px 14px;
@@ -148,7 +129,7 @@
             overflow: hidden;
             white-space: nowrap;
         }
-        body.sidebar-collapsed .sidebar-footer { opacity: 0; }
+
 
         /* ── HEADER ── */
         #awlab-header {
@@ -165,7 +146,7 @@
             z-index: 1030;
             transition: left var(--transition);
         }
-        body.sidebar-collapsed #awlab-header { left: var(--sidebar-collapsed); }
+
 
         .header-toggle-btn {
             width: 36px; height: 36px;
@@ -222,7 +203,7 @@
             padding: 28px 28px 0;
             transition: margin-left var(--transition);
         }
-        body.sidebar-collapsed #awlab-main { margin-left: var(--sidebar-collapsed); }
+
 
         /* ── FOOTER ── */
         #awlab-footer {
@@ -235,7 +216,7 @@
             display: flex; align-items: center; justify-content: space-between;
             transition: margin-left var(--transition);
         }
-        body.sidebar-collapsed #awlab-footer { margin-left: var(--sidebar-collapsed); }
+
         #awlab-footer a { color: var(--primary); text-decoration: none; }
         #awlab-footer a:hover { text-decoration: underline; }
 
@@ -259,6 +240,36 @@
             display: flex; align-items: center; gap: 8px;
         }
         .aw-card-body { padding: 20px 24px; }
+
+        /* ── WELCOME BANNER ── */
+        .welcome-banner {
+            background: linear-gradient(135deg, #1a56db 0%, #3b82f6 60%, #60a5fa 100%);
+            border: none;
+            color: #fff;
+            min-height: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+        .wb-bg-circle-1 { position: absolute; right: -20px; top: -20px; width: 180px; height: 180px; background: rgba(255,255,255,0.07); border-radius: 50%; }
+        .wb-bg-circle-2 { position: absolute; right: 60px; bottom: -40px; width: 140px; height: 140px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+        .welcome-banner-body { position: relative; z-index: 1; padding: 32px; }
+        .wb-subtitle { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.75; margin-bottom: 8px; }
+        .wb-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
+        .wb-text { font-size: 13.5px; opacity: 0.85; max-width: 550px; line-height: 1.6; }
+        
+        .wb-actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+        .wb-btn {
+            background: rgba(255,255,255,0.2); color: #fff; padding: 9px 20px; border-radius: 9px;
+            text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px;
+            backdrop-filter: blur(4px); transition: all 0.2s; border: 1px solid rgba(255,255,255,0.3);
+        }
+        .wb-btn:hover { background: rgba(255,255,255,0.3); color: #fff; }
+        .wb-btn-outline {
+            background: rgba(255,255,255,0.1); color: #fff; padding: 9px 20px; border-radius: 9px;
+            text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px;
+            border: 1px solid rgba(255,255,255,0.25); transition: all 0.2s;
+        }
+        .wb-btn-outline:hover { background: rgba(255,255,255,0.18); color: #fff; }
 
         /* ── STAT CARDS ── */
         .stat-card-new {
@@ -303,41 +314,56 @@
         .table-modern { 
             width: 100%; 
             border-collapse: separate; 
-            border-spacing: 0; 
-            margin: 0 !important;
+            border-spacing: 0 10px; 
+            margin: -10px 0 0 0 !important;
         }
         .table-modern thead th {
-            background: #f8fafc;
-            color: var(--text-muted);
+            background: transparent;
+            color: #64748b;
             font-size: 11.5px; 
             font-weight: 700;
             text-transform: uppercase; 
-            letter-spacing: 0.8px;
-            padding: 16px 20px;
-            border-bottom: 2px solid #e2e8f0;
+            letter-spacing: 1.2px;
+            padding: 12px 18px 4px 18px;
+            border-bottom: none;
             white-space: nowrap;
             vertical-align: middle;
         }
         .table-modern tbody tr { 
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
             background: var(--white);
-        }
-        .table-modern tbody tr:hover { 
-            background: #eef2ff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            position: relative;
         }
         .table-modern tbody tr:hover:not(:has(td[colspan])):not(.no-results-row) { 
-            background: #eef2ff;
-            box-shadow: inset 0 0 0 9999px rgba(26,86,219,0.06), inset 3px 0 0 var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(26,86,219,0.08), 0 4px 8px rgba(26,86,219,0.04);
+            z-index: 10;
         }
         .table-modern tbody td {
-            padding: 16px 20px;
+            padding: 16px 18px;
             font-size: 13.5px;
-            color: #334155;
-            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+            border: none;
             vertical-align: middle;
+            background: var(--white);
         }
-        .table-modern tbody tr:last-child td {
-            border-bottom: none;
+        .table-modern tbody td:first-child {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+            border-left: 3px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        .table-modern tbody td:last-child {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        .table-modern tbody tr:hover:not(:has(td[colspan])):not(.no-results-row) td:first-child {
+            border-left-color: var(--primary);
+        }
+        .table-modern tbody tr:has(td[colspan]) td {
+            background: transparent;
+            box-shadow: none;
         }
         /* DataTables Overrides for Modern Look */
         div.dataTables_wrapper div.dataTables_filter input {
@@ -434,20 +460,23 @@
 
         /* ── MODALS ── */
         .modal-aw .modal-content {
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            background: var(--white);
         }
         .modal-aw .modal-header {
-            background: linear-gradient(135deg, var(--primary), #3b82f6);
-            border-radius: 16px 16px 0 0;
-            padding: 18px 24px;
-            border: none;
+            background: var(--white);
+            border-radius: 12px 12px 0 0;
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--border-color);
         }
-        .modal-aw .modal-title { color: #fff; font-size: 16px; font-weight: 700; }
-        .modal-aw .btn-close { filter: invert(1); }
-        .modal-aw .modal-body { padding: 24px; }
-        .modal-aw .modal-footer { padding: 16px 24px; border-color: var(--border-color); }
+        .modal-aw .modal-title { color: var(--text-dark); font-size: 17px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .modal-aw .modal-title i { color: var(--primary); }
+        .modal-aw .btn-close { filter: none; opacity: 0.5; transition: opacity 0.2s; }
+        .modal-aw .btn-close:hover { opacity: 1; }
+        .modal-aw .modal-body { padding: 24px; color: var(--text-dark); }
+        .modal-aw .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border-color); background: #f8fafc; border-radius: 0 0 12px 12px; }
 
         /* ── PAGE HEADER ── */
         .page-header-aw {
@@ -507,17 +536,85 @@
             #awlab-main { margin-left: 0 !important; padding: 20px 16px 0; }
             #awlab-footer { margin-left: 0 !important; }
         }
+
+        /* ── MOBILE CARD HEADER: stack search + title on small screens ── */
+        @media (max-width: 640px) {
+            .aw-card-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+                padding: 14px 16px !important;
+            }
+            .aw-card-header > div,
+            .aw-card-header > span {
+                width: 100%;
+            }
+            /* Make search input stretch full width */
+            .aw-card-header [style*="position:relative"],
+            .aw-card-header div[style*="position: relative"] {
+                width: 100% !important;
+            }
+            .aw-card-header input[type="text"] {
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            .aw-card-header .d-flex {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            /* Page header stack on small mobile */
+            .page-header-aw {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px;
+            }
+            .page-header-aw .btn-aw-primary {
+                width: 100%;
+                justify-content: center;
+            }
+            /* Page title smaller on mobile */
+            .page-header-aw .page-title-aw {
+                font-size: 18px !important;
+            }
+        }
+
         @media (max-width: 575px) {
             .header-clock { display: none; }
             #awlab-main { padding: 14px 12px 0; }
             
+            /* Welcome Banner Mobile */
+            .welcome-banner-body { padding: 20px 16px; }
+            .wb-title { font-size: 20px; }
+            .wb-text { font-size: 12.5px; }
+            .wb-actions { flex-direction: column; width: 100%; gap: 10px; }
+            .wb-actions a { width: 100%; justify-content: center; }
+            .aw-card-body { padding: 15px 15px; }
+
             /* Mobile Modal Responsiveness */
             .modal-dialog {
-                margin: 10px;
+                margin: 10px auto;
                 max-width: calc(100% - 20px) !important;
+            }
+            .modal-aw .modal-content {
+                border-radius: 12px;
+            }
+            .modal-aw .modal-header {
+                padding: 14px 16px;
+                border-radius: 12px 12px 0 0;
             }
             .modal-aw .modal-body {
                 padding: 16px;
+                overflow-x: hidden;
+            }
+            .modal-aw .modal-footer {
+                padding: 12px 16px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .modal-aw .modal-footer .btn,
+            .modal-aw .modal-footer button {
+                flex: 1 1 100%;
+                margin: 0 !important;
             }
 
             /* Fix input groups with many buttons wrapping nicely */
@@ -565,6 +662,13 @@
         }
 
         /* DataTables override */
+        div.dataTables_wrapper {
+            padding: 16px 20px;
+        }
+        /* Hide the built-in DataTables search box — custom inputs are used on all pages */
+        .dataTables_wrapper .dataTables_filter {
+            display: none !important;
+        }
         .dataTables_wrapper .dataTables_filter input {
             border: 1.5px solid var(--border-color);
             border-radius: 8px; padding: 6px 12px;
@@ -573,6 +677,24 @@
         .dataTables_wrapper .dataTables_length select {
             border: 1.5px solid var(--border-color);
             border-radius: 8px; padding: 4px 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+        }
+        .dataTables_wrapper .dataTables_length label {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .dataTables_wrapper .dataTables_info {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding-top: 8px;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border: none !important;
+            padding: 4px 10px !important;
+            margin: 0 2px !important;
         }
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
             background: var(--primary) !important;
@@ -585,6 +707,25 @@
             border-color: var(--primary-light) !important;
             color: var(--primary) !important;
             border-radius: 6px;
+        }
+        /* Mobile spacing for DataTables */
+        @media (max-width: 767px) {
+            div.dataTables_wrapper {
+                padding: 12px 10px;
+            }
+            div.dataTables_wrapper .dataTables_length,
+            div.dataTables_wrapper .dataTables_info,
+            div.dataTables_wrapper .dataTables_paginate {
+                text-align: center !important;
+                justify-content: center !important;
+                display: flex;
+                margin-top: 8px;
+                margin-bottom: 8px;
+            }
+            div.dataTables_wrapper .dataTables_paginate .pagination {
+                justify-content: center !important;
+                display: flex;
+            }
         }
 
         /* Select2 override */
@@ -605,5 +746,130 @@
         .input-group > .select2-container--bootstrap-5 .select2-selection {
             border-top-right-radius: 0 !important;
             border-bottom-right-radius: 0 !important;
+        }
+
+        /* ── MOBILE TABLE RESPONSIVENESS (STACKING CARD VIEW) ── */
+        @media (max-width: 767px) {
+            .table-responsive-modern {
+                border: none !important;
+                box-shadow: none !important;
+                background: transparent !important;
+                overflow-x: visible !important;
+            }
+            .table-modern, 
+            .table-modern tbody, 
+            .table-modern tr, 
+            .table-modern td {
+                display: block !important;
+                width: 100% !important;
+            }
+            .table-modern thead {
+                display: none !important;
+            }
+            .table-modern tbody tr {
+                background: transparent !important;
+                border-radius: 0 !important;
+                margin-bottom: 16px !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                position: relative;
+            }
+            .table-modern tbody tr:not(:has(td[colspan])):not(.no-results-row) {
+                background: var(--white) !important;
+                border-radius: 16px !important;
+                padding: 16px !important;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.04) !important;
+                border: 1px solid #f1f5f9 !important;
+            }
+            .table-modern tbody tr:hover,
+            .table-modern tbody tr:hover:not(:has(td[colspan])):not(.no-results-row) {
+                background: var(--white) !important;
+                box-shadow: 0 8px 25px rgba(26,86,219,0.08) !important;
+                transform: translateY(-2px);
+            }
+            .table-modern tbody td {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                text-align: right !important;
+                padding: 8px 0 !important;
+                border-bottom: 1px dashed #f1f5f9 !important;
+                font-size: 13px !important;
+            }
+            .table-modern tbody td:last-child {
+                border-bottom: none !important;
+            }
+            .table-modern tbody td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                font-size: 10px;
+                letter-spacing: 0.5px;
+                text-align: left;
+                padding-right: 12px;
+                flex-shrink: 0;
+            }
+            /* If cell has no data-label, display normally */
+            .table-modern tbody td:not([data-label]) {
+                justify-content: flex-end !important;
+            }
+            .table-modern tbody td:not([data-label])::before {
+                display: none !important;
+            }
+            /* Exclude empty/no results state rows from stacking layout */
+            .table-modern tbody tr:has(td[colspan]) {
+                display: block !important;
+                text-align: center !important;
+                padding: 24px 16px !important;
+            }
+            .table-modern tbody tr:has(td[colspan]) td {
+                display: block !important;
+                text-align: center !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+            .table-modern tbody tr:has(td[colspan]) td::before {
+                display: none !important;
+            }
+            /* Action alignment inside card */
+            .action-btn-group, .action-buttons {
+                width: 100% !important;
+                justify-content: flex-end !important;
+            }
+        }
+
+        /* ── DESKTOP ONLY COLLAPSED SIDEBAR RULES ── */
+        @media (min-width: 992px) {
+            body.sidebar-collapsed #awlab-sidebar { width: var(--sidebar-collapsed); }
+            body.sidebar-collapsed .sidebar-brand .brand-name { opacity: 0; width: 0; }
+            body.sidebar-collapsed .sidebar-section-label { opacity: 0; }
+            body.sidebar-collapsed .nav-item-link .nav-label { opacity: 0; width: 0; overflow: hidden; }
+            body.sidebar-collapsed .nav-item-link { justify-content: center; padding: 12px; }
+            body.sidebar-collapsed .nav-item-link .nav-icon { margin: 0; }
+            body.sidebar-collapsed .sidebar-footer { opacity: 0; }
+            body.sidebar-collapsed #awlab-header { left: var(--sidebar-collapsed); }
+            body.sidebar-collapsed #awlab-main { margin-left: var(--sidebar-collapsed); }
+            body.sidebar-collapsed #awlab-footer { margin-left: var(--sidebar-collapsed); }
+            
+            /* Tooltip for collapsed state */
+            body.sidebar-collapsed .nav-item-link::after {
+                content: attr(data-tooltip);
+                position: absolute;
+                left: calc(var(--sidebar-collapsed) + 8px);
+                top: 50%; transform: translateY(-50%);
+                background: var(--text-dark);
+                color: #fff;
+                padding: 5px 10px;
+                border-radius: 6px;
+                font-size: 12px;
+                white-space: nowrap;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.15s;
+                z-index: 2000;
+            }
+            body.sidebar-collapsed .nav-item-link:hover::after { opacity: 1; }
         }
     </style>

@@ -74,19 +74,7 @@
         background: #fef2f2;
     }
 
-    @media (max-width: 767px) {
-    
-        .table-patients tbody td:last-child { border-bottom: none !important; }
-        .table-patients tbody td::before { 
-            content: attr(data-label); 
-            font-weight: 600; 
-            color: #94a3b8; 
-            font-size: 12px; 
-            text-transform: uppercase;
-        }
-        .table-patients .text-end { justify-content: center; width: 100%; border-top: 1px solid #f1f5f9 !important; margin-top: 15px; padding-top: 15px !important; }
-        .action-btn-group { width: 100%; justify-content: center; gap: 16px; }
-    }
+
 
     /* Premium Form Inputs inside Modals */
     .modal-aw .form-label {
@@ -155,6 +143,21 @@
         border-bottom-right-radius: 9px !important;
     }
 
+    /* Fix Select2 inside Input Group */
+    .modal-aw .input-group .select2-container .select2-selection {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border: 1.5px solid #cbd5e1;
+        height: 38px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .modal-aw .input-group .select2-container--bootstrap-5.select2-container--focus .select2-selection {
+        border-color: #cbd5e1;
+        box-shadow: none;
+    }
+
     .modal-aw .input-group .btn-success {
         background: #d1fae5 !important;
         color: #059669 !important;
@@ -166,15 +169,15 @@
         border-color: #059669 !important;
     }
 
-    .modal-aw .input-group .btn-warning {
-        background: #ffedd5 !important;
-        color: #d97706 !important;
+    .modal-aw .input-group .btn-primary {
+        background: #dbeafe !important;
+        color: #2563eb !important;
         border-color: #cbd5e1 !important;
     }
-    .modal-aw .input-group .btn-warning:hover {
-        background: #d97706 !important;
+    .modal-aw .input-group .btn-primary:hover {
+        background: #2563eb !important;
         color: #fff !important;
-        border-color: #d97706 !important;
+        border-color: #2563eb !important;
     }
 
     .modal-aw .input-group .btn-danger {
@@ -207,28 +210,28 @@
     <table class="table-modern" id="booking-table">
         <thead>
             <tr>
-                <th class="d-none d-md-table-cell">Booking ID</th>
+                <th>Booking ID</th>
                 <th>Patient Name</th>
-                <th class="d-none d-lg-table-cell">Test Name</th>
+                <th>Test Name</th>
                 <th>Date</th>
-                <th class="d-none d-sm-table-cell">Amount</th>
+                <th>Amount</th>
                 <th>Status</th>
                 <th class="text-end">Action</th>
             </tr>
         </thead>
         <tbody>
-        @forelse($appointments as $booking)
+        @foreach($appointments as $booking)
         <tr>
-            <td class="d-none d-md-table-cell" data-label="SL No"><span class="badge-aw" style="background:#f1f5f9;color:#475569;font-family:monospace;font-size:12px;padding:6px 10px;border-radius:6px;border:1px solid #e2e8f0;">#B-{{ $booking->id }}</span></td>
+            <td data-label="Booking ID"><span class="badge-aw" style="background:#f1f5f9;color:#475569;font-family:monospace;font-size:12px;padding:6px 10px;border-radius:6px;border:1px solid #e2e8f0;">#B-{{ $booking->id }}</span></td>
             <td data-label="Patient Name" style="font-weight:600; color:#1e293b;">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <div class="cat-icon-box" style="width:32px;height:32px;font-size:14px;"><i class="fa fa-user"></i></div>
                     {{ $booking->patient->first_name }} {{ $booking->patient->last_name }}
                 </div>
             </td>
-            <td class="d-none d-lg-table-cell" data-label="Test Name" style="color:#64748b;">{{ $booking->test_name }}</td>
+            <td data-label="Test Name" style="color:#64748b;">{{ $booking->test_name }}</td>
             <td data-label="Date" style="color:#64748b;font-size:13px;"><i class="fa fa-calendar-alt me-2" style="opacity:0.5;"></i>{{ \Carbon\Carbon::parse($booking->appointment_date)->format('d M Y') }}</td>
-            <td class="d-none d-sm-table-cell" data-label="Amount" style="font-weight:600;color:#3b82f6;">₹{{ number_format($booking->test_price, 2) }}</td>
+            <td data-label="Amount" style="font-weight:600;color:#3b82f6;">₹{{ number_format($booking->test_price, 2) }}</td>
             <td data-label="Status">
                 @if($booking->status == 'Completed')
                     <span class="badge-aw" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0;">Completed</span>
@@ -245,14 +248,7 @@
                 </div>
             </td>
         </tr>
-        @empty
-        <tr>
-            <td colspan="7" class="text-center" style="padding:48px;color:var(--text-muted);">
-                <i class="fa fa-folder-open" style="font-size:40px;display:block;margin-bottom:12px;opacity:0.4;"></i>
-                <span style="font-size:15px;">No laboratory bookings found.</span>
-            </td>
-        </tr>
-        @endforelse
+        @endforeach
         </tbody>
     </table>
 </div>
@@ -307,7 +303,8 @@
 									@endforeach
 								</select>
 								<button type="button" class="btn btn-success btn-add-booking-test" title="Add New Test"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-warning btn-edit-booking-test" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-primary btn-edit-booking-test" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-danger btn-delete-booking-test" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
 							</div>
 						</div>
 					</div>
@@ -422,7 +419,8 @@
 									@endforeach
 								</select>
 								<button type="button" class="btn btn-success btn-add-booking-test" title="Add New Test"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-warning btn-edit-booking-test" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-primary btn-edit-booking-test" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-danger btn-delete-booking-test" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
 							</div>
 						</div>
 					</div>
@@ -676,28 +674,12 @@
 			  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
 		  });
 
-          // Select2 initialization function
+          // Select2 initialization function (Now only destroys to leave native dropdowns)
           function initDynamicSelect2() {
-              $('#modal-add-booking select').each(function() {
+              $('#modal-add-booking select, #modal-edit-booking select').each(function() {
                   if ($(this).hasClass('select2-hidden-accessible')) {
                       $(this).select2('destroy');
                   }
-                  $(this).select2({
-                      theme: 'bootstrap-5',
-                      width: '100%',
-                      dropdownParent: $('#modal-add-booking')
-                  });
-              });
-
-              $('#modal-edit-booking select').each(function() {
-                  if ($(this).hasClass('select2-hidden-accessible')) {
-                      $(this).select2('destroy');
-                  }
-                  $(this).select2({
-                      theme: 'bootstrap-5',
-                      width: '100%',
-                      dropdownParent: $('#modal-edit-booking')
-                  });
               });
           }
 
@@ -755,7 +737,7 @@
           $(document).on('click', '.btn-edit-booking-test', function() {
               let select = $(this).siblings('.book-test-select');
               let selectedOption = select.find('option:selected');
-              let testId = selectedOption.data('id');
+              let testId = selectedOption.attr('data-id');
               
               if (!testId) {
                   alert('Please select a valid test to edit.');
@@ -767,9 +749,9 @@
 
               $('#edit-booking-test-id').val(testId);
               $('#edit-booking-test-name').val(selectedOption.val());
-              $('#edit-booking-test-price-val').val(selectedOption.data('price') || 0);
-              $('#edit-booking-test-unit').val(selectedOption.data('unit') || '');
-              $('#edit-booking-test-bio').val(selectedOption.data('bio-ref') || '');
+              $('#edit-booking-test-price-val').val(selectedOption.attr('data-price') || 0);
+              $('#edit-booking-test-unit').val(selectedOption.attr('data-unit') || '');
+              $('#edit-booking-test-bio').val(selectedOption.attr('data-bio-ref') || '');
               $('#modal-edit-booking-test').modal('show');
           });
 
@@ -817,6 +799,35 @@
               });
           });
 
+          $(document).on('click', '.btn-delete-booking-test', function() {
+              let select = $(this).siblings('.book-test-select');
+              let selectedOption = select.find('option:selected');
+              let testId = selectedOption.attr('data-id');
+              
+              if (!testId) {
+                  alert('Please select a valid test to delete.');
+                  return;
+              }
+              
+              if (confirm('Are you sure you want to delete ' + selectedOption.val() + '?')) {
+                  $.ajax({
+                      url: "/lab-tests/" + testId,
+                      type: 'DELETE',
+                      success: function(response) {
+                          alert(response.success);
+                          fetchBookingTests();
+                      },
+                      error: function(xhr) {
+                          let msg = "Error deleting test.";
+                          if (xhr.responseJSON) {
+                              msg = xhr.responseJSON.error || xhr.responseJSON.message || msg;
+                          }
+                          alert(msg);
+                      }
+                  });
+              }
+          });
+
 		  // Fetch Doctor Suggestions
 		  function fetchDoctorSuggestions(selectedValue = null) {
 			  $.get("{{ route('doctors.suggestions') }}", function(data) {
@@ -845,7 +856,7 @@
 		  $(document).on('click', '.btn-edit-doctor', function() {
 			  let select = $(this).siblings('.reference-dr-select');
 			  let selectedOption = select.find('option:selected');
-			  let docId = selectedOption.data('id');
+			  let docId = selectedOption.attr('data-id');
 			  
 			  if (!docId) {
 				  alert('Please select a valid doctor to edit.');
@@ -854,16 +865,16 @@
 			  
 			  $('#edit-doc-id').val(docId);
 			  $('#edit-doc-name').val(selectedOption.val());
-			  $('#edit-doc-qualification').val(selectedOption.data('qualification'));
-			  $('#edit-doc-phone').val(selectedOption.data('phone'));
-			  $('#edit-doc-email').val(selectedOption.data('email'));
+			  $('#edit-doc-qualification').val(selectedOption.attr('data-qualification'));
+			  $('#edit-doc-phone').val(selectedOption.attr('data-phone'));
+			  $('#edit-doc-email').val(selectedOption.attr('data-email'));
 			  $('#modal-edit-doctor').modal('show');
 		  });
 
 		  $(document).on('click', '.btn-delete-doctor', function() {
 			  let select = $(this).siblings('.reference-dr-select');
 			  let selectedOption = select.find('option:selected');
-			  let docId = selectedOption.data('id');
+			  let docId = selectedOption.attr('data-id');
 			  
 			  if (!docId) {
 				  alert('Please select a valid doctor to delete.');
@@ -929,12 +940,28 @@
 			  });
 		  });
 
-		  // Live Search for Bookings
+		  // Initialize DataTables for Bookings
+		  var bookingTable = $('#booking-table').DataTable({
+			  dom: "<'row mb-3'<'col-sm-12 col-md-6'l>>" +
+				   "<'row'<'col-sm-12'tr>>" +
+				   "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			  pageLength: 10,
+			  lengthMenu: [5, 10, 25, 50, 100],
+			  ordering: false,
+			  language: {
+				  lengthMenu: "Show _MENU_ records",
+				  info: "Showing _START_ to _END_ of _TOTAL_ bookings",
+				  infoEmpty: "Showing 0 to 0 of 0 bookings",
+				  infoFiltered: "(filtered from _MAX_ total bookings)",
+				  emptyTable: "No laboratory bookings found.",
+				  paginate: {
+					  previous: "<i class='fa fa-angle-left'></i>",
+					  next: "<i class='fa fa-angle-right'></i>"
+				  }
+			  }
+		  });
 		  $("#booking-search").on("keyup", function() {
-			  var value = $(this).val().toLowerCase();
-			  $("#booking-table tbody tr").filter(function() {
-				  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-			  });
+			  bookingTable.search($(this).val()).draw();
 		  });
 
 		  // Auto-fill test price and calculate net
@@ -1061,6 +1088,13 @@
 				  success: function(response) {
 					  alert(response.success);
 					  location.reload();
+				  },
+				  error: function(xhr) {
+					  let msg = "Error deleting appointment.";
+					  if (xhr.responseJSON) {
+						  msg = xhr.responseJSON.error || xhr.responseJSON.message || msg;
+					  }
+					  alert(msg);
 				  }
 			  });
 		  });
@@ -1069,6 +1103,7 @@
 @endpush
 
 @endsection
+
 
 
 

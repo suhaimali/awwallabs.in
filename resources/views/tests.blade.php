@@ -30,10 +30,7 @@
     .btn-icon-circle.edit:hover { color: #3b82f6; border-color: #bfdbfe; background: #eff6ff; }
     .btn-icon-circle.sliders:hover { color: #10b981; border-color: #a7f3d0; background: #ecfdf5; }
     .btn-icon-circle.delete:hover { color: #ef4444; border-color: #fecaca; background: #fef2f2; }
-    @media (max-width: 767px) {
-        .table-modern .text-end { justify-content: center; width: 100%; border-top: 1px solid #f1f5f9 !important; margin-top: 15px; padding-top: 15px !important; }
-        .action-btn-group { width: 100%; justify-content: center; gap: 16px; }
-    }
+
 </style>
 
 <div class="aw-card mb-4">
@@ -59,7 +56,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($tests as $test)
+                        @foreach($tests as $test)
                         <tr>
                             <td data-label="SL No"><span class="badge-aw" style="background:#f1f5f9;color:#475569;font-family:monospace;font-size:12px;padding:6px 10px;border-radius:6px;border:1px solid #e2e8f0;">#{{ $test->id }}</span></td>
                             <td data-label="Test Name" style="font-weight:600; color:#1e293b;">
@@ -94,25 +91,7 @@
                                 </div>
                             </td>
                         </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6" class="text-center" style="padding:48px;color:var(--text-muted);">
-                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                                    <i class="fa fa-flask" style="font-size:40px;margin-bottom:12px;opacity:0.4;"></i>
-                                    <span style="font-size:15px;">No laboratory tests found.</span>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforelse
-                        <tr class="no-results-row" style="display: none;">
-                            <td colspan="5" class="text-center py-5">
-                                <div style="color:var(--text-muted);">
-                                    <i class="fa fa-search fa-3x mb-3" style="opacity: 0.5;"></i>
-                                    <br>
-                                    <span style="font-size:15px; display: block; text-align: center;">No matching tests found.</span>
-                                </div>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -236,23 +215,28 @@
 			  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
 		  });
 
-		  // Live Search for Tests
-		  $("#test-search").on("keyup", function() {
-			  var value = $(this).val().toLowerCase();
-			  let rows = $('#tests-table tbody tr:not(.no-results-row)');
-			  let matched = 0;
-			  
-			  rows.each(function() {
-				  let matches = $(this).text().toLowerCase().indexOf(value) > -1;
-				  $(this).toggle(matches);
-				  if (matches) matched++;
-			  });
-			  
-			  if (matched === 0) {
-				  $('.no-results-row').show();
-			  } else {
-				  $('.no-results-row').hide();
+		  // Initialize DataTables for Tests
+		  var testsTable = $('#tests-table').DataTable({
+			  dom: "<'row mb-3'<'col-sm-12 col-md-6'l>>" +
+				   "<'row'<'col-sm-12'tr>>" +
+				   "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			  pageLength: 10,
+			  lengthMenu: [5, 10, 25, 50, 100],
+			  ordering: false,
+			  language: {
+				  lengthMenu: "Show _MENU_ records",
+				  info: "Showing _START_ to _END_ of _TOTAL_ tests",
+				  infoEmpty: "Showing 0 to 0 of 0 tests",
+				  infoFiltered: "(filtered from _MAX_ total tests)",
+				  emptyTable: "No laboratory tests found.",
+				  paginate: {
+					  previous: "<i class='fa fa-angle-left'></i>",
+					  next: "<i class='fa fa-angle-right'></i>"
+				  }
 			  }
+		  });
+		  $("#test-search").on("keyup", function() {
+			  testsTable.search($(this).val()).draw();
 		  });
 
 		  // Save Test
@@ -319,7 +303,11 @@
 					  location.reload();
 				  },
 				  error: function(xhr) {
-					  alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete test.");
+					  let msg = "Failed to delete test.";
+					  if (xhr.responseJSON) {
+						  msg = xhr.responseJSON.error || xhr.responseJSON.message || msg;
+					  }
+					  alert(msg);
 					  btn.prop('disabled', false).html('Delete Permanently');
 				  }
 			  });

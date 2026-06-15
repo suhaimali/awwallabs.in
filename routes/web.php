@@ -8,7 +8,6 @@ use App\Http\Controllers\AuthController;
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1')->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
 
 // Public Landing Page
 Route::get('/', function() {
@@ -28,7 +27,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/reports', [HomeController::class, 'storeReport'])->name('reports.store');
     Route::get('/reports/{id}', [HomeController::class, 'getReport'])->name('reports.show');
     Route::put('/reports/{id}', [HomeController::class, 'updateReport'])->name('reports.update');
-    Route::get('/reports/{id}/pdf', [HomeController::class, 'downloadPDF'])->name('reports.pdf');
     Route::delete('/reports/{id}', [HomeController::class, 'deleteReport'])->name('reports.delete');
 
     // Report Signatures
@@ -37,7 +35,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/report-signatures/{id}/image', [HomeController::class, 'reportSignatureImage'])->name('report-signatures.image');
     Route::put('/report-signatures/{id}', [HomeController::class, 'updateReportSignature'])->name('report-signatures.update');
     Route::delete('/report-signatures/{id}', [HomeController::class, 'deleteReportSignature'])->name('report-signatures.delete');
-    
 
     Route::get('/patients', [HomeController::class, 'patients'])->name('patients');
 
@@ -51,6 +48,19 @@ Route::middleware(['auth'])->group(function () {
     // Income Report
     Route::get('/income-report', [HomeController::class, 'incomeReport'])->name('income-report');
     Route::post('/income-report/unlock', [HomeController::class, 'unlockIncomeReport'])->name('income-report.unlock');
+
+    // Daily Collection
+    Route::get('/daily-collection', [HomeController::class, 'dailyCollection'])->name('daily-collection');
+
+    // Accounts & Purchase Management
+    Route::get('/products', [HomeController::class, 'productsIndex'])->name('products.index');
+    Route::post('/products/store', [HomeController::class, 'storeProduct'])->name('products.store');
+    Route::post('/products/{id}', [HomeController::class, 'updateProduct'])->name('products.update');
+    Route::delete('/products/{id}', [HomeController::class, 'deleteProduct'])->name('products.destroy');
+
+    Route::get('/purchases', [HomeController::class, 'purchasesIndex'])->name('purchases.index');
+    Route::post('/purchases/store', [HomeController::class, 'storePurchase'])->name('purchases.store');
+    Route::get('/purchases/api-products', [HomeController::class, 'apiProducts'])->name('purchases.api-products');
 
     // Patient AJAX Routes
     Route::post('/patients/store', [HomeController::class, 'storePatient'])->name('patients.store');
@@ -80,6 +90,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/test-parameters/{id}/intervals', [HomeController::class, 'storeReferenceInterval'])->name('reference-intervals.store');
     Route::get('/test-parameters/{id}/intervals', [HomeController::class, 'getReferenceIntervals'])->name('reference-intervals.get');
     Route::delete('/test-parameters/intervals/{id}', [HomeController::class, 'deleteReferenceInterval'])->name('reference-intervals.delete');
+
+
+
     // Category Routes
     Route::get('/categories', [HomeController::class, 'categories'])->name('categories.index');
     Route::post('/categories', [HomeController::class, 'storeCategory'])->name('categories.store');
@@ -117,12 +130,19 @@ Route::middleware(['auth'])->group(function () {
     
     // Sidebar Toggle
     Route::post('/sidebar-toggle', [HomeController::class, 'toggleSidebar'])->name('sidebar.toggle');
-});
 
-// Doctor Routes
-Route::get('/doctors/suggestions', [HomeController::class, 'getDoctorSuggestions'])->name('doctors.suggestions');
-Route::post('/doctors', [HomeController::class, 'storeDoctor'])->name('doctors.store');
-Route::put('/doctors/{id}', [HomeController::class, 'updateDoctor'])->name('doctors.update');
-Route::delete('/doctors/{id}', [HomeController::class, 'deleteDoctor'])->name('doctors.delete');
+    // Doctor Routes
+    Route::get('/doctors/suggestions', [HomeController::class, 'getDoctorSuggestions'])->name('doctors.suggestions');
+    Route::post('/doctors', [HomeController::class, 'storeDoctor'])->name('doctors.store');
+    Route::put('/doctors/{id}', [HomeController::class, 'updateDoctor'])->name('doctors.update');
+    Route::delete('/doctors/{id}', [HomeController::class, 'deleteDoctor'])->name('doctors.delete');
+
+    // Vital Signs Routes
+    Route::get('/vital-signs', [HomeController::class, 'vitalSigns'])->name('vital-signs.index');
+    Route::post('/vital-signs/store', [HomeController::class, 'storeVitalSign'])->name('vital-signs.store');
+    Route::get('/vital-signs/{id}', [HomeController::class, 'getVitalSign'])->name('vital-signs.show');
+    Route::post('/vital-signs/update/{id}', [HomeController::class, 'updateVitalSign'])->name('vital-signs.update');
+    Route::delete('/vital-signs/{id}', [HomeController::class, 'deleteVitalSign'])->name('vital-signs.delete');
+});
 
 

@@ -74,18 +74,45 @@
 <div class="row g-3 mb-4">
     <!-- Welcome banner -->
     <div class="col-lg-8">
-        <div class="aw-card" style="background: linear-gradient(135deg, #1a56db 0%, #3b82f6 60%, #60a5fa 100%); border:none; color:#fff; min-height:180px; position:relative; overflow:hidden;">
-            <div style="position:absolute; right:-20px; top:-20px; width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%;"></div>
-            <div style="position:absolute; right:60px; bottom:-40px; width:140px; height:140px; background:rgba(255,255,255,0.06); border-radius:50%;"></div>
-            <div class="aw-card-body" style="position:relative; z-index:1; padding:32px;">
-                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:2px; opacity:0.75; margin-bottom:8px;">Laboratory Management System</div>
-                <h2 style="font-size:24px; font-weight:800; margin-bottom:10px; line-height:1.2;">Welcome to AWWAL LAB </h2>
-                <p style="font-size:13.5px; opacity:0.85; max-width:480px; line-height:1.6;">Streamline your daily workflow with our beautifully designed, responsive management system. Manage patients, track appointments, and generate accurate reports.</p>
-                <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
-                    <a href="{{ route('patients') }}" style="background:rgba(255,255,255,0.2); color:#fff; padding:9px 20px; border-radius:9px; text-decoration:none; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:7px; backdrop-filter:blur(4px); transition:all 0.2s; border:1px solid rgba(255,255,255,0.3);" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+        <div class="welcome-banner aw-card">
+            <div class="wb-bg-circle-1"></div>
+            <div class="wb-bg-circle-2"></div>
+            <div class="welcome-banner-body aw-card-body">
+                @php
+                    $hour = date('H');
+                    if ($hour < 12) {
+                        $greeting = 'Good Morning';
+                    } elseif ($hour < 17) {
+                        $greeting = 'Good Afternoon';
+                    } else {
+                        $greeting = 'Good Evening';
+                    }
+                @endphp
+                <div class="wb-subtitle">Command Center</div>
+                <h2 class="wb-title">
+                    <span id="dashboard-dynamic-greeting">{{ $greeting }}</span>, {{ auth()->user()->name ?? 'Administrator' }}
+                </h2>
+                <p class="wb-text">Your diagnostic center dashboard is active. Today, you have registered <strong>{{ $totalPatients }} patients</strong> and finalized <strong>{{ $totalCompleted }} test reports</strong>. There are currently <strong>{{ $pendingReports }} pending reports</strong> awaiting action.</p>
+                <script>
+                    (function() {
+                        const hour = new Date().getHours();
+                        let greeting = 'Good Evening';
+                        if (hour < 12) {
+                            greeting = 'Good Morning';
+                        } else if (hour < 17) {
+                            greeting = 'Good Afternoon';
+                        }
+                        const greetingEl = document.getElementById('dashboard-dynamic-greeting');
+                        if (greetingEl) {
+                            greetingEl.textContent = greeting;
+                        }
+                    })();
+                </script>
+                <div class="wb-actions">
+                    <a href="{{ route('patients') }}" class="wb-btn">
                         <i class="fa fa-users"></i> Manage Patients
                     </a>
-                    <a href="{{ route('reports') }}" style="background:rgba(255,255,255,0.1); color:#fff; padding:9px 20px; border-radius:9px; text-decoration:none; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:7px; border:1px solid rgba(255,255,255,0.25); transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                    <a href="{{ route('reports') }}" class="wb-btn-outline">
                         <i class="fa fa-file-medical"></i> View Reports
                     </a>
                 </div>
@@ -124,11 +151,19 @@
                     </div>
                     <i class="fa fa-chevron-right ms-auto" style="font-size:11px;color:var(--text-muted);"></i>
                 </a>
-                <a href="#" onclick="openIncomeReport(event)" class="d-flex align-items-center gap-12 p-10 rounded-3 text-decoration-none" style="gap:12px; padding:10px 12px; border-radius:10px; transition:all 0.2s; color:var(--text-dark);" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'">
+                <a href="#" onclick="openIncomeReport(event)" class="d-flex align-items-center gap-12 p-10 rounded-3 mb-2 text-decoration-none" style="gap:12px; padding:10px 12px; border-radius:10px; transition:all 0.2s; color:var(--text-dark);" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'">
                     <div style="width:36px;height:36px;background:#f3e8ff;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa fa-chart-line" style="color:#9333ea;"></i></div>
                     <div>
                         <div style="font-size:13px;font-weight:600;">Income Report</div>
                         <div style="font-size:11px;color:var(--text-muted);">Financial overview</div>
+                    </div>
+                    <i class="fa fa-chevron-right ms-auto" style="font-size:11px;color:var(--text-muted);"></i>
+                </a>
+                <a href="{{ route('daily-collection') }}" class="d-flex align-items-center gap-12 p-10 rounded-3 text-decoration-none" style="gap:12px; padding:10px 12px; border-radius:10px; transition:all 0.2s; color:var(--text-dark);" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'">
+                    <div style="width:36px;height:36px;background:#dcfce7;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa fa-cash-register" style="color:#16a34a;"></i></div>
+                    <div>
+                        <div style="font-size:13px;font-weight:600;">Daily Collection</div>
+                        <div style="font-size:11px;color:var(--text-muted);">EOD cash tally</div>
                     </div>
                     <i class="fa fa-chevron-right ms-auto" style="font-size:11px;color:var(--text-muted);"></i>
                 </a>

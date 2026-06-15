@@ -21,9 +21,15 @@ class Patient extends Model
         'total_amount',
         'discount',
         'balance',
+        'payment_method',
     ];
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function vitalSigns()
+    {
+        return $this->hasMany(VitalSign::class);
     }
 }

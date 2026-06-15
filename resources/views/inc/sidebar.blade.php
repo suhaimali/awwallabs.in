@@ -1,10 +1,15 @@
 <aside id="awlab-sidebar">
     <!-- Brand -->
-    <div class="sidebar-brand">
-        <div class="brand-icon">
-            <i class="fa fa-flask"></i>
+    <div class="sidebar-brand d-flex justify-content-between align-items-center w-100">
+        <div class="d-flex align-items-center gap-2">
+            <div class="brand-icon">
+                <i class="fa fa-flask"></i>
+            </div>
+            <span class="brand-name">AWWAL LAB</span>
         </div>
-        <span class="brand-name">AWWAL LAB</span>
+        <button class="btn btn-sm btn-light d-lg-none" onclick="closeSidebar()" style="padding: 2px 8px; border-radius: 6px;">
+            <i class="fa fa-times"></i>
+        </button>
     </div>
 
     <!-- Nav -->
@@ -23,6 +28,13 @@
            data-tooltip="Patients">
             <span class="nav-icon"><i class="fa fa-user-group"></i></span>
             <span class="nav-label">Patients</span>
+        </a>
+
+        <a href="{{ route('vital-signs.index') }}"
+           class="nav-item-link {{ request()->routeIs('vital-signs*') ? 'active' : '' }}"
+           data-tooltip="Vital Signs">
+            <span class="nav-icon"><i class="fa fa-heartbeat"></i></span>
+            <span class="nav-label">Vital Signs</span>
         </a>
 
         <a href="{{ route('appointments') }}"
@@ -99,6 +111,28 @@
            data-tooltip="Income Report">
             <span class="nav-icon"><i class="fa fa-chart-line"></i></span>
             <span class="nav-label">Income Report</span>
+        </a>
+        <a href="{{ route('daily-collection') }}"
+           class="nav-item-link {{ request()->routeIs('daily-collection*') ? 'active' : '' }}"
+           data-tooltip="Daily Collection">
+            <span class="nav-icon"><i class="fa fa-cash-register"></i></span>
+            <span class="nav-label">Daily Collection</span>
+        </a>
+
+        <div class="sidebar-section-label" style="margin-top:8px;">Inventory & Accounts</div>
+
+        <a href="{{ route('products.index') }}"
+           class="nav-item-link {{ request()->routeIs('products*') ? 'active' : '' }}"
+           data-tooltip="Products">
+            <span class="nav-icon"><i class="fa fa-boxes"></i></span>
+            <span class="nav-label">Products</span>
+        </a>
+
+        <a href="{{ route('purchases.index') }}"
+           class="nav-item-link {{ request()->routeIs('purchases*') ? 'active' : '' }}"
+           data-tooltip="Purchase Receipts">
+            <span class="nav-icon"><i class="fa fa-file-invoice-dollar"></i></span>
+            <span class="nav-label">Purchase Receipts</span>
         </a>
     </nav>
 

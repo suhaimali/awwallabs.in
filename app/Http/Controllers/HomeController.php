@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -77,9 +78,9 @@ class HomeController extends Controller
         $referenceTemplates = \App\Models\ReferenceTemplate::orderBy('name')->get();
         $flagTemplates = \App\Models\FlagTemplate::orderBy('name')->get();
         $signatures = \App\Models\ReportSignature::orderBy('name')->get();
-
         return view('reports', compact('reports', 'patients', 'tests', 'categories', 'subCategories', 'units', 'templates', 'referenceTemplates', 'flagTemplates', 'signatures'));
     }
+
 
     public function reportSignatures()
     {
@@ -159,8 +160,8 @@ class HomeController extends Controller
             'notes' => 'nullable|string',
             'report_signature_id' => 'nullable|exists:report_signatures,id',
             'signature_pin' => 'required_with:report_signature_id|nullable|string',
-            'test_name.*' => 'required',
-            'observed_value.*' => 'required',
+            'test_name.*' => 'nullable',
+            'observed_value.*' => 'nullable',
         ]);
 
         $patient = \App\Models\Patient::findOrFail($request->patient_id);
@@ -172,7 +173,7 @@ class HomeController extends Controller
             'doctor_name' => $request->doctor_name,
             'sample_received_on' => $request->sample_received_on,
             'report_released_on' => $request->report_released_on,
-            'barcode' => rand(100000, 999999),
+            'barcode' => now()->format('ymd') . mt_rand(1000, 9999),
             'status' => $request->status ?? 'Completed',
             'notes' => $request->notes,
             'report_signature_id' => $signatureId,
@@ -204,8 +205,8 @@ class HomeController extends Controller
             'notes' => 'nullable|string',
             'report_signature_id' => 'nullable|exists:report_signatures,id',
             'signature_pin' => 'required_with:report_signature_id|nullable|string',
-            'test_name.*' => 'required',
-            'observed_value.*' => 'required',
+            'test_name.*' => 'nullable',
+            'observed_value.*' => 'nullable',
         ]);
 
         $oldData = $this->reportSnapshot($report->load(['patient', 'items', 'signature']));
@@ -246,37 +247,17 @@ class HomeController extends Controller
         return response()->json(['success' => 'Report deleted successfully!']);
     }
 
-    public function downloadPDF($id)
-    {
-        $report = \App\Models\TestReport::with(['patient', 'items', 'signature'])->findOrFail($id);
-        $patient = $report->patient;
-        
-        // Group results by category
-        $groupedResults = [];
-        foreach ($report->items as $item) {
-            $result = $this->serializeReportItem($item);
-            $cat = strtoupper($result['category'] ?? 'GENERAL');
-            $groupedResults[$cat][] = $result;
-        }
-
-        $data = [
-            'report' => $report,
-            'patient' => $patient,
-            'groupedResults' => $groupedResults,
-            'generatedAt' => date('d-M-Y h:i A')
-        ];
-
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.report', $data);
-        
-        $filename = 'Report_' . str_replace(' ', '_', $patient->first_name) . '_' . $report->id . '.pdf';
-        return $pdf->download($filename);
-    }
 
     public function patients()
     {
         $patients = \App\Models\Patient::with('appointments')->latest()->get();
         $labTests = \App\Models\LabTest::orderBy('name')->get();
-        return view('patients', compact('patients', 'labTests'));
+        
+        $latest = \App\Models\Patient::latest('id')->first();
+        $nextId = ($latest ? $latest->id : 0) + 1;
+        $nextPatientId = date('Y') . '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
+        
+        return view('patients', compact('patients', 'labTests', 'nextPatientId'));
     }
 
     /**
@@ -297,14 +278,14 @@ class HomeController extends Controller
     public function storePayment(\Illuminate\Http\Request $request)
     {
         $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id',
-            'total_amount' => 'required|numeric',
-            'discount' => 'nullable|numeric',
-            'advance_paid' => 'nullable|numeric',
-            'payment_status' => 'required',
-            'payment_method' => 'required',
-            'bill_date' => 'required|date',
-            'remarks' => 'nullable'
+            'patient_id'     => 'required|exists:patients,id',
+            'total_amount'   => 'required|numeric|min:0',
+            'discount'       => 'nullable|numeric|min:0',
+            'advance_paid'   => 'nullable|numeric|min:0',
+            'payment_status' => 'required|in:Paid,Partial,Unpaid,Refunded',
+            'payment_method' => 'required|in:Cash,Card,Bank Transfer,Online,Other',
+            'bill_date'      => 'required|date',
+            'remarks'        => 'nullable|string|max:500',
         ]);
 
         $validated['discount'] = $validated['discount'] ?? 0;
@@ -328,14 +309,14 @@ class HomeController extends Controller
         $payment = \App\Models\Payment::findOrFail($id);
         
         $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id',
-            'total_amount' => 'required|numeric',
-            'discount' => 'nullable|numeric',
-            'advance_paid' => 'nullable|numeric',
-            'payment_status' => 'required',
-            'payment_method' => 'required',
-            'bill_date' => 'required|date',
-            'remarks' => 'nullable'
+            'patient_id'     => 'required|exists:patients,id',
+            'total_amount'   => 'required|numeric|min:0',
+            'discount'       => 'nullable|numeric|min:0',
+            'advance_paid'   => 'nullable|numeric|min:0',
+            'payment_status' => 'required|in:Paid,Partial,Unpaid,Refunded',
+            'payment_method' => 'required|in:Cash,Card,Bank Transfer,Online,Other',
+            'bill_date'      => 'required|date',
+            'remarks'        => 'nullable|string|max:500',
         ]);
 
         $validated['discount'] = $validated['discount'] ?? 0;
@@ -359,23 +340,26 @@ class HomeController extends Controller
     public function storePatient(\Illuminate\Http\Request $request)
     {
         $validated = $request->validate([
-            'patient_id' => 'nullable|unique:patients',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'gender' => 'required',
-            'age' => 'required|numeric',
-            'age_type' => 'nullable|in:Years,Months,Days',
-            'phone' => 'nullable',
-            'email' => 'nullable|email|unique:patients,email',
-            'reference_dr' => 'nullable',
-            'status' => 'nullable',
-            'address' => 'nullable',
+            'patient_id'     => 'nullable|unique:patients',
+            'first_name'     => 'required|string|max:100',
+            'last_name'      => 'required|string|max:100',
+            'gender'         => 'required|in:Male,Female,Other',
+            'age'            => 'required|numeric|min:0|max:150',
+            'age_type'       => 'nullable|in:Years,Months,Days',
+            'phone'          => 'nullable|string|max:20',
+            'email'          => 'nullable|email|max:255',
+            'reference_dr'   => 'nullable|string|max:150',
+            'status'         => 'nullable|string|max:50',
+            'address'        => 'nullable|string|max:500',
+            'payment_method' => 'nullable|string|max:50',
         ]);
 
         if (empty($validated['patient_id'])) {
-            $latest = \App\Models\Patient::latest()->first();
-            $nextId = ($latest ? $latest->id : 0) + 1;
-            $validated['patient_id'] = date('Y') . '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
+            $validated['patient_id'] = DB::transaction(function () {
+                $latest = \App\Models\Patient::lockForUpdate()->latest('id')->first();
+                $nextId = ($latest ? $latest->id : 0) + 1;
+                return date('Y') . '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
+            });
         }
 
         // Calculate totals from input test arrays
@@ -437,17 +421,18 @@ class HomeController extends Controller
         $patient = \App\Models\Patient::findOrFail($id);
         
         $validated = $request->validate([
-            'patient_id' => 'required|unique:patients,patient_id,' . $id,
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'gender' => 'required',
-            'age' => 'required|numeric',
-            'age_type' => 'nullable|in:Years,Months,Days',
-            'phone' => 'nullable',
-            'email' => 'nullable|email|unique:patients,email,' . $id,
-            'reference_dr' => 'nullable',
-            'status' => 'nullable',
-            'address' => 'nullable',
+            'patient_id'     => 'required|unique:patients,patient_id,' . $id,
+            'first_name'     => 'required|string|max:100',
+            'last_name'      => 'required|string|max:100',
+            'gender'         => 'required|in:Male,Female,Other',
+            'age'            => 'required|numeric|min:0|max:150',
+            'age_type'       => 'nullable|in:Years,Months,Days',
+            'phone'          => 'nullable|string|max:20',
+            'email'          => 'nullable|email|max:255',
+            'reference_dr'   => 'nullable|string|max:150',
+            'status'         => 'nullable|string|max:50',
+            'address'        => 'nullable|string|max:500',
+            'payment_method' => 'nullable|string|max:50',
         ]);
 
         // Calculate totals from input test arrays
@@ -525,6 +510,23 @@ class HomeController extends Controller
     public function deletePatient($id)
     {
         $patient = \App\Models\Patient::findOrFail($id);
+
+        if (\App\Models\TestReport::where('patient_id', $patient->id)->exists()) {
+            return response()->json(['error' => 'Cannot delete patient with existing reports. Delete or reassign reports first.'], 409);
+        }
+        
+        if (\App\Models\Appointment::where('patient_id', $patient->id)->exists()) {
+            return response()->json(['error' => 'Cannot delete patient with existing appointments. Delete appointments first.'], 409);
+        }
+        
+        if (\App\Models\Payment::where('patient_id', $patient->id)->exists()) {
+            return response()->json(['error' => 'Cannot delete patient with existing payment records. Delete payments first.'], 409);
+        }
+        
+        if (\App\Models\VitalSign::where('patient_id', $patient->id)->exists()) {
+            return response()->json(['error' => 'Cannot delete patient with existing vital signs. Delete vital signs first.'], 409);
+        }
+
         $patient->delete();
 
         return response()->json(['success' => 'Patient deleted successfully!']);
@@ -536,17 +538,17 @@ class HomeController extends Controller
     public function storeAppointment(\Illuminate\Http\Request $request)
     {
         $validated = $request->validate([
-            'patient_id' => 'required',
-            'doctor_name' => 'nullable',
-            'test_name' => 'required',
-            'test_price' => 'required|numeric',
-            'discount' => 'nullable|numeric',
+            'patient_id' => 'required|exists:patients,id',
+            'doctor_name' => 'nullable|string|max:150',
+            'test_name' => 'required|string|max:255',
+            'test_price' => 'required|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
             'balance' => 'nullable|numeric',
             'appointment_date' => 'required|date',
             'appointment_time' => 'required',
-            'status' => 'required',
-            'reason' => 'nullable',
-            'notes' => 'nullable',
+            'status' => 'required|in:Pending,Completed,Cancelled',
+            'reason' => 'nullable|string|max:500',
+            'notes' => 'nullable|string|max:1000',
         ]);
 
         // Auto-fill fields
@@ -571,16 +573,16 @@ class HomeController extends Controller
         $appointment = \App\Models\Appointment::findOrFail($id);
         
         $validated = $request->validate([
-            'patient_id' => 'required',
-            'doctor_name' => 'required',
-            'test_name' => 'required',
-            'test_price' => 'required|numeric',
-            'discount' => 'nullable|numeric',
+            'patient_id' => 'required|exists:patients,id',
+            'doctor_name' => 'required|string|max:150',
+            'test_name' => 'required|string|max:255',
+            'test_price' => 'required|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
             'balance' => 'nullable|numeric',
             'appointment_date' => 'required|date',
             'appointment_time' => 'required',
-            'status' => 'required',
-            'notes' => 'nullable',
+            'status' => 'required|in:Pending,Completed,Cancelled',
+            'notes' => 'nullable|string|max:1000',
         ]);
 
         $validated['total_amount'] = $validated['test_price'];
@@ -653,6 +655,32 @@ class HomeController extends Controller
     // PAYMENT MANAGEMENT
     // ==========================================
 
+    public function dailyCollection(\Illuminate\Http\Request $request)
+    {
+        $date = $request->input('date', date('Y-m-d'));
+        
+        $payments = \App\Models\Payment::with('patient')
+            ->whereDate('bill_date', $date)
+            ->get();
+
+        $totalCollection = $payments->sum('net_amount');
+        $totalTransactions = $payments->count();
+
+        // Group by payment method
+        $methods = collect();
+        foreach($payments->groupBy('payment_method') as $method => $group) {
+            $methods->push([
+                'method' => $method ?: 'Unknown',
+                'amount' => $group->sum('net_amount'),
+                'count' => $group->count()
+            ]);
+        }
+
+        return view('daily_collection', compact(
+            'date', 'payments', 'totalCollection', 'totalTransactions', 'methods'
+        ));
+    }
+
     public function incomeReport(\Illuminate\Http\Request $request)
     {
         if (!$request->session()->get('income_report_unlocked')) {
@@ -722,6 +750,10 @@ class HomeController extends Controller
 
     public function updateReportStatus(\Illuminate\Http\Request $request, $id)
     {
+        $request->validate([
+            'status' => 'required|in:Pending,In Progress,Completed,Cancelled',
+        ]);
+
         $report = \App\Models\TestReport::findOrFail($id);
         $report->update(['status' => $request->status]);
         return response()->json(['success' => 'Report status updated live!']);
@@ -784,7 +816,7 @@ class HomeController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'price' => 'required|numeric',
-            'payment_method' => 'required',
+            'payment_method' => 'nullable',
             'description' => 'nullable',
         ]);
 
@@ -832,6 +864,11 @@ class HomeController extends Controller
     public function deleteLabTest($id)
     {
         $test = \App\Models\LabTest::findOrFail($id);
+
+        if (\App\Models\TestReportItem::where('lab_test_id', $test->id)->exists()) {
+            return response()->json(['error' => 'Cannot delete test that is used in existing reports.'], 409);
+        }
+
         $test->delete();
 
         return response()->json(['success' => 'Laboratory test removed successfully!']);
@@ -945,16 +982,16 @@ class HomeController extends Controller
 
     public function storeUnit(\Illuminate\Http\Request $request)
     {
-        $request->validate(['name' => 'required|unique:units']);
-        $unit = \App\Models\Unit::create($request->all());
+        $validated = $request->validate(['name' => 'required|unique:units']);
+        $unit = \App\Models\Unit::create($validated);
         return response()->json(['success' => 'Unit added successfully!', 'unit' => $unit]);
     }
 
     public function updateUnit(\Illuminate\Http\Request $request, $id)
     {
-        $request->validate(['name' => 'required|unique:units,name,'.$id]);
+        $validated = $request->validate(['name' => 'required|unique:units,name,'.$id]);
         $unit = \App\Models\Unit::findOrFail($id);
-        $unit->update($request->all());
+        $unit->update($validated);
         return response()->json(['success' => 'Unit updated!', 'unit' => $unit]);
     }
 
@@ -966,16 +1003,16 @@ class HomeController extends Controller
 
     public function storeResultTemplate(\Illuminate\Http\Request $request)
     {
-        $request->validate(['name' => 'required|unique:result_templates']);
-        \App\Models\ResultTemplate::create($request->all());
+        $validated = $request->validate(['name' => 'required|unique:result_templates']);
+        \App\Models\ResultTemplate::create($validated);
         return response()->json(['success' => 'Result template added!']);
     }
 
     public function updateResultTemplate(\Illuminate\Http\Request $request, $id)
     {
-        $request->validate(['name' => 'required|unique:result_templates,name,'.$id]);
+        $validated = $request->validate(['name' => 'required|unique:result_templates,name,'.$id]);
         $template = \App\Models\ResultTemplate::findOrFail($id);
-        $template->update($request->all());
+        $template->update($validated);
         return response()->json(['success' => 'Template updated!']);
     }
 
@@ -987,16 +1024,16 @@ class HomeController extends Controller
 
     public function storeReferenceTemplate(\Illuminate\Http\Request $request)
     {
-        $request->validate(['name' => 'required|unique:reference_templates']);
-        \App\Models\ReferenceTemplate::create($request->all());
+        $validated = $request->validate(['name' => 'required|unique:reference_templates']);
+        \App\Models\ReferenceTemplate::create($validated);
         return response()->json(['success' => 'Reference template added!']);
     }
 
     public function updateReferenceTemplate(\Illuminate\Http\Request $request, $id)
     {
-        $request->validate(['name' => 'required|unique:reference_templates,name,'.$id]);
+        $validated = $request->validate(['name' => 'required|unique:reference_templates,name,'.$id]);
         $template = \App\Models\ReferenceTemplate::findOrFail($id);
-        $template->update($request->all());
+        $template->update($validated);
         return response()->json(['success' => 'Template updated!']);
     }
 
@@ -1008,16 +1045,16 @@ class HomeController extends Controller
 
     public function storeFlagTemplate(\Illuminate\Http\Request $request)
     {
-        $request->validate(['name' => 'required|unique:flag_templates']);
-        \App\Models\FlagTemplate::create($request->all());
+        $validated = $request->validate(['name' => 'required|unique:flag_templates']);
+        \App\Models\FlagTemplate::create($validated);
         return response()->json(['success' => 'Flag template added!']);
     }
 
     public function updateFlagTemplate(\Illuminate\Http\Request $request, $id)
     {
-        $request->validate(['name' => 'required|unique:flag_templates,name,'.$id]);
+        $validated = $request->validate(['name' => 'required|unique:flag_templates,name,'.$id]);
         $template = \App\Models\FlagTemplate::findOrFail($id);
-        $template->update($request->all());
+        $template->update($validated);
         return response()->json(['success' => 'Template updated!']);
     }
 
@@ -1083,6 +1120,11 @@ class HomeController extends Controller
         $items = [];
 
         foreach ($request->test_name ?? [] as $key => $name) {
+            // Skip empty rows — Dynamic Test Results is fully optional
+            if (empty(trim((string) $name))) {
+                continue;
+            }
+
             $labTest = $tests->get($name);
             $parameter = $labTest?->parameter;
             $reference = $this->resolveReferenceInterval($labTest, $patient);
@@ -1101,7 +1143,7 @@ class HomeController extends Controller
                 'category' => ($request->test_category[$key] ?? '') ?: 'General',
                 'subcategory' => $request->test_subcategory[$key] ?? '',
                 'name' => $name,
-                'observed_value' => $request->observed_value[$key],
+                'observed_value' => $request->observed_value[$key] ?? null,
                 'unit' => $unit,
                 'normal_value' => $normalValue,
                 'biological_reference' => $request->biological_reference[$key] ?? $normalValue,
@@ -1124,13 +1166,17 @@ class HomeController extends Controller
         $ageType = strtolower((string) ($patient->age_type ?: 'Years'));
         $interval = $labTest->referenceIntervals
             ->filter(function ($interval) use ($age, $gender, $ageType) {
-                $genderMatches = !$interval->gender || strtolower($interval->gender) === $gender;
+                $genderMatches = !$interval->gender || strtolower($interval->gender) === $gender || strtolower($interval->gender) === 'any';
                 $minMatches = $interval->age_min === null || $age >= (int) $interval->age_min;
                 $maxMatches = $interval->age_max === null || $age <= (int) $interval->age_max;
-                $ageTypeMatches = !$interval->age_type || strtolower($interval->age_type) === $ageType;
+                $ageTypeMatches = !$interval->age_type || strtolower($interval->age_type) === $ageType || strtolower($interval->age_type) === 'any';
                 return $genderMatches && $minMatches && $maxMatches && $ageTypeMatches;
             })
-            ->sortByDesc('age_min')
+            ->sortBy(function ($interval) {
+                $min = $interval->age_min ?? 0;
+                $max = $interval->age_max ?? 200;
+                return $max - $min;
+            })
             ->first();
 
         if ($interval) {
@@ -1146,16 +1192,26 @@ class HomeController extends Controller
             return [];
         }
 
+        $maleRef = $parameter->male_reference;
+        $femaleRef = $parameter->female_reference;
+        
+        $textStr = '';
+        if ($maleRef && $femaleRef && $maleRef !== $femaleRef) {
+            $textStr = "Male: " . $maleRef . "\nFemale: " . $femaleRef;
+        } else {
+            $textStr = ($gender === 'female') ? ($femaleRef ?: $parameter->biological_reference) : ($maleRef ?: $parameter->biological_reference);
+        }
+
         if ($gender === 'female') {
             return [
-                'text' => $parameter->female_reference ?: $parameter->biological_reference,
+                'text' => $textStr,
                 'min' => $parameter->female_min,
                 'max' => $parameter->female_max,
             ];
         }
 
         return [
-            'text' => $parameter->male_reference ?: $parameter->biological_reference,
+            'text' => $textStr,
             'min' => $parameter->male_min,
             'max' => $parameter->male_max,
         ];
@@ -1170,21 +1226,21 @@ class HomeController extends Controller
         $value = (float) $observedValue;
 
         if ($parameter->critical_low !== null && $parameter->critical_low !== '' && $value <= (float) $parameter->critical_low) {
-            return 'C';
+            return '↓↓';
         }
 
         if ($parameter->critical_high !== null && $parameter->critical_high !== '' && $value >= (float) $parameter->critical_high) {
-            return 'C';
+            return '↑↑';
         }
 
         if ($parameter->is_immunoassay) {
             if ($value < 0.9) {
-                return 'N';
+                return '-';
             }
             if ($value <= 1.1) {
-                return 'B';
+                return '+/-';
             }
-            return 'P';
+            return '+';
         }
 
         $min = $reference['min'] ?? null;
@@ -1197,14 +1253,14 @@ class HomeController extends Controller
         }
 
         if ($min !== null && $value < (float) $min) {
-            return 'L';
+            return '↓';
         }
 
         if ($max !== null && $value > (float) $max) {
-            return 'H';
+            return '↑';
         }
 
-        return ($min !== null || $max !== null) ? 'N' : null;
+        return ($min !== null || $max !== null) ? '' : null;
     }
 
     private function serializeReportItem(\App\Models\TestReportItem $item): array
@@ -1331,7 +1387,7 @@ class HomeController extends Controller
             'max_value' => 'nullable|numeric',
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['gender', 'age_min', 'age_max', 'age_type', 'reference_text', 'min_value', 'max_value']);
         // Database requires age_min to be non-null. Default to 0.
         if (empty($data['age_min'])) {
             $data['age_min'] = 0;
@@ -1355,29 +1411,216 @@ class HomeController extends Controller
         return response()->json(['success' => 'Interval deleted successfully']);
     }
 
-    public function reportsTrash()
+
+    // ── VITAL SIGNS METHODS ──
+
+    public function vitalSigns()
     {
-        $reports = \App\Models\TestReport::onlyTrashed()->with('patient')->latest()->get();
-        return view('reports_trash', compact('reports'));
+        $vitalSigns = \App\Models\VitalSign::with('patient')->latest()->get();
+        $patients = \App\Models\Patient::orderBy('first_name')->get();
+        return view('vital_signs', compact('vitalSigns', 'patients'));
     }
 
-    public function restoreReport($id)
+    public function storeVitalSign(\Illuminate\Http\Request $request)
     {
-        $report = \App\Models\TestReport::onlyTrashed()->findOrFail($id);
-        $report->restore();
+        $validated = $request->validate([
+            'patient_id'       => 'required|exists:patients,id',
+            'temperature'      => 'nullable|numeric|between:10,120',
+            'temp_unit'        => 'nullable|in:C,F',
+            'pulse'            => 'nullable|integer|between:10,300',
+            'respiratory_rate' => 'nullable|integer|between:2,100',
+            'blood_pressure'   => 'nullable|string|max:20',
+            'spo2'             => 'nullable|integer|between:0,100',
+            'weight'           => 'nullable|numeric|between:0.1,500',
+            'height'           => 'nullable|numeric|between:10,300',
+            'notes'            => 'nullable|string|max:1000',
+        ]);
+
+        if (empty($validated['temp_unit'])) {
+            $validated['temp_unit'] = 'F';
+        }
+
+        // Auto-calculate BMI if weight and height are provided
+        if (!empty($validated['weight']) && !empty($validated['height'])) {
+            $heightInMeters = $validated['height'] / 100;
+            $bmi = round($validated['weight'] / ($heightInMeters * $heightInMeters), 1);
+            $validated['bmi'] = min(999.9, $bmi);
+        } else {
+            $validated['bmi'] = null;
+        }
+
+        \App\Models\VitalSign::create($validated);
+
+        return response()->json(['success' => 'Vital Signs recorded successfully!']);
+    }
+
+    public function getVitalSign($id)
+    {
+        $vitalSign = \App\Models\VitalSign::with('patient')->findOrFail($id);
+        return response()->json($vitalSign);
+    }
+
+    public function updateVitalSign(\Illuminate\Http\Request $request, $id)
+    {
+        $vitalSign = \App\Models\VitalSign::findOrFail($id);
+
+        $validated = $request->validate([
+            'patient_id'       => 'required|exists:patients,id',
+            'temperature'      => 'nullable|numeric|between:10,120',
+            'temp_unit'        => 'nullable|in:C,F',
+            'pulse'            => 'nullable|integer|between:10,300',
+            'respiratory_rate' => 'nullable|integer|between:2,100',
+            'blood_pressure'   => 'nullable|string|max:20',
+            'spo2'             => 'nullable|integer|between:0,100',
+            'weight'           => 'nullable|numeric|between:0.1,500',
+            'height'           => 'nullable|numeric|between:10,300',
+            'notes'            => 'nullable|string|max:1000',
+        ]);
+
+        if (empty($validated['temp_unit'])) {
+            $validated['temp_unit'] = 'F';
+        }
+
+        // Auto-calculate BMI if weight and height are provided
+        if (!empty($validated['weight']) && !empty($validated['height'])) {
+            $heightInMeters = $validated['height'] / 100;
+            $bmi = round($validated['weight'] / ($heightInMeters * $heightInMeters), 1);
+            $validated['bmi'] = min(999.9, $bmi);
+        } else {
+            $validated['bmi'] = null;
+        }
+
+        $vitalSign->update($validated);
+
+        return response()->json(['success' => 'Vital Signs updated successfully!']);
+    }
+
+    public function deleteVitalSign($id)
+    {
+        $vitalSign = \App\Models\VitalSign::findOrFail($id);
+        $vitalSign->delete();
+
+        return response()->json(['success' => 'Vital Signs deleted successfully!']);
+    }
+    // ==========================================
+    // ACCOUNTS & PURCHASE MANAGEMENT
+    // ==========================================
+
+    public function productsIndex()
+    {
+        $products = \App\Models\Product::orderBy('name')->get();
+        return view('products', compact('products'));
+    }
+
+    public function storeProduct(\Illuminate\Http\Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+            'unit' => 'nullable',
+            'unit_price' => 'nullable|numeric',
+            'stock_quantity' => 'nullable|integer',
+        ]);
+
+        if (empty($validated['unit'])) $validated['unit'] = 'pcs';
+        if (empty($validated['unit_price'])) $validated['unit_price'] = 0;
+        if (empty($validated['stock_quantity'])) $validated['stock_quantity'] = 0;
+
+        $product = \App\Models\Product::create($validated);
+
+        return response()->json(['success' => 'Product added successfully!', 'product' => $product]);
+    }
+
+    public function updateProduct(\Illuminate\Http\Request $request, $id)
+    {
+        $product = \App\Models\Product::findOrFail($id);
         
-        $this->auditReport($report, 'restored', null, $this->reportSnapshot($report->fresh(['patient', 'items', 'signature'])));
+        $validated = $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+            'unit' => 'nullable',
+            'unit_price' => 'nullable|numeric',
+            'stock_quantity' => 'nullable|integer',
+        ]);
 
-        return response()->json(['success' => 'Report restored successfully!']);
+        if (empty($validated['unit'])) $validated['unit'] = 'pcs';
+        if (empty($validated['unit_price'])) $validated['unit_price'] = 0;
+        if (empty($validated['stock_quantity'])) $validated['stock_quantity'] = 0;
+
+        $product->update($validated);
+
+        return response()->json(['success' => 'Product updated successfully!']);
     }
 
-    public function forceDeleteReport($id)
+    public function deleteProduct($id)
     {
-        $report = \App\Models\TestReport::onlyTrashed()->findOrFail($id);
-        $this->auditReport($report, 'permanently_deleted', $this->reportSnapshot($report), null);
-        $report->forceDelete();
+        $product = \App\Models\Product::findOrFail($id);
+        
+        // Prevent deletion if linked to purchases
+        if (\App\Models\PurchaseItem::where('product_id', $product->id)->exists()) {
+            return response()->json(['error' => 'Cannot delete product linked to purchase receipts.'], 409);
+        }
 
-        return response()->json(['success' => 'Report permanently deleted!']);
+        $product->delete();
+        return response()->json(['success' => 'Product deleted successfully!']);
+    }
+
+    public function purchasesIndex()
+    {
+        $receipts = \App\Models\PurchaseReceipt::with('items.product')->orderBy('purchase_date', 'desc')->get();
+        $products = \App\Models\Product::orderBy('name')->get();
+        return view('purchases', compact('receipts', 'products'));
+    }
+
+    public function storePurchase(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'vendor_name' => 'nullable|string',
+            'purchase_date' => 'required|date',
+            'notes' => 'nullable|string',
+            'items' => 'required|string', // JSON string of items
+        ]);
+
+        $items = json_decode($request->items, true);
+        if (empty($items)) {
+            return response()->json(['error' => 'At least one item is required.'], 422);
+        }
+
+        $totalAmount = 0;
+        foreach($items as $item) {
+            $totalAmount += $item['quantity'] * $item['unit_price'];
+        }
+
+        $receipt = \App\Models\PurchaseReceipt::create([
+            'receipt_no' => 'PR-' . strtoupper(uniqid()),
+            'vendor_name' => $request->vendor_name,
+            'purchase_date' => $request->purchase_date,
+            'total_amount' => $totalAmount,
+            'notes' => $request->notes,
+        ]);
+
+        foreach($items as $item) {
+            \App\Models\PurchaseItem::create([
+                'purchase_receipt_id' => $receipt->id,
+                'product_id' => $item['product_id'],
+                'quantity' => $item['quantity'],
+                'unit_price' => $item['unit_price'],
+                'total_price' => $item['quantity'] * $item['unit_price']
+            ]);
+
+            // Update product stock automatically
+            $product = \App\Models\Product::find($item['product_id']);
+            if ($product) {
+                $product->increment('stock_quantity', $item['quantity']);
+            }
+        }
+
+        return response()->json(['success' => 'Purchase Receipt created successfully!']);
+    }
+
+    public function apiProducts()
+    {
+        return response()->json(\App\Models\Product::orderBy('name')->get());
     }
 }
 
