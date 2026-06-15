@@ -442,8 +442,9 @@ $(document).ready(function() {
                 
                 // Highlight observed value if flagged
                 if (flag) {
-                    if (flag.includes('H') || flag.includes('↑')) doc.setTextColor(234, 88, 12);
-                    else if (flag.includes('L') || flag.includes('↓')) doc.setTextColor(37, 99, 235);
+                    const fUpper = String(flag).toUpperCase();
+                    if (fUpper.includes('H') || fUpper.includes('↑')) doc.setTextColor(234, 88, 12);
+                    else if (fUpper.includes('L') || fUpper.includes('↓')) doc.setTextColor(37, 99, 235);
                     else doc.setTextColor(220, 38, 38); // Critical / other
                 } else {
                     doc.setTextColor(15, 23, 42);
@@ -462,10 +463,15 @@ $(document).ready(function() {
                 
                 // Flag (Centered in last column)
                 if (flag) {
-                    const flagStr = String(flag);
+                    const flagStr = String(flag).trim().toUpperCase();
                     let flagX = left + col1 + col2 + col3 + col4 + col5 / 2;
                     
-                    if (flagStr.includes('↑')) {
+                    const isHigh = flagStr.includes('H') || flagStr.includes('↑') || flagStr.includes('HIGH');
+                    const isLow = flagStr.includes('L') || flagStr.includes('↓') || flagStr.includes('LOW');
+                    const isDoubleHigh = flagStr.includes('HH') || flagStr.includes('↑↑') || flagStr.includes('CRITICAL HIGH');
+                    const isDoubleLow = flagStr.includes('LL') || flagStr.includes('↓↓') || flagStr.includes('CRITICAL LOW');
+                    
+                    if (isHigh) {
                         doc.setLineWidth(0.4);
                         doc.setDrawColor(220, 38, 38);
                         
@@ -476,12 +482,12 @@ $(document).ready(function() {
                         doc.line(flagX, topY, flagX - 1, topY + 1);
                         doc.line(flagX, topY, flagX + 1, topY + 1);
                         
-                        if (flagStr === '↑↑') {
+                        if (isDoubleHigh) {
                             doc.line(flagX + 2.5, bottomY, flagX + 2.5, topY);
                             doc.line(flagX + 2.5, topY, flagX + 1.5, topY + 1);
                             doc.line(flagX + 2.5, topY, flagX + 3.5, topY + 1);
                         }
-                    } else if (flagStr.includes('↓')) {
+                    } else if (isLow) {
                         doc.setLineWidth(0.4);
                         doc.setDrawColor(37, 99, 235);
                         
@@ -492,16 +498,14 @@ $(document).ready(function() {
                         doc.line(flagX, bottomY, flagX - 1, bottomY - 1);
                         doc.line(flagX, bottomY, flagX + 1, bottomY - 1);
                         
-                        if (flagStr === '↓↓') {
+                        if (isDoubleLow) {
                             doc.line(flagX + 2.5, topY, flagX + 2.5, bottomY);
                             doc.line(flagX + 2.5, bottomY, flagX + 1.5, bottomY - 1);
                             doc.line(flagX + 2.5, bottomY, flagX + 3.5, bottomY - 1);
                         }
                     } else {
                         doc.setFont('helvetica', 'bold');
-                        if (flagStr.includes('H')) doc.setTextColor(234, 88, 12);
-                        else if (flagStr.includes('L')) doc.setTextColor(37, 99, 235);
-                        else doc.setTextColor(220, 38, 38);
+                        doc.setTextColor(220, 38, 38);
                         doc.text(flagStr, flagX, y + 4.5, { align: 'center' });
                     }
                     doc.setDrawColor(226, 232, 240);
