@@ -577,6 +577,12 @@ $(document).ready(function () {
         // Notes & Signatures
         if (y > footerTop - 50) y = addNewPage();
 
+        // Separation line above notes
+        doc.setDrawColor(203, 213, 225);
+        doc.setLineWidth(0.5);
+        doc.line(left, y, left + tableW, y);
+        y += 4;
+
         // Note Box
         doc.setFillColor(248, 250, 252);
         doc.setDrawColor(226, 232, 240);
@@ -585,7 +591,7 @@ $(document).ready(function () {
         // Left Accent Line for note
         doc.setFillColor(138, 39, 125);
 
-        const noteBoxW = 120; // Increased from 100 to allow wider notes
+        const noteBoxW = 170; // Increased from 100 to allow wider notes
         const noteBoxH = Math.max(20, reportNotes ? (doc.splitTextToSize(reportNotes, noteBoxW - 8).length * 5 + 10) : 20);
         if (y + noteBoxH > footerTop - 15) {
             y = addNewPage();
