@@ -237,6 +237,7 @@
                                 <label for="field_1004" class="form-label-aw" style="font-size: 10px;">Gender</label>
                                 <select class="form-select" name="gender" autocomplete="off" required id="field_1004">
                                     <option value="Any">Any</option>
+                                    <option value="Both">Both</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
