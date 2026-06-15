@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // View Report (Chrome-like Viewer Logic)
     let currentZoom = 1;
     const ZOOM_STEP = 0.1;
@@ -8,7 +8,7 @@ $(document).ready(function() {
     // ── Header Toggle ──────────────────────────────────────
     let showReportHeader = true;
 
-    $(document).on('click', '.pdf-header-toggle', function() {
+    $(document).on('click', '.pdf-header-toggle', function () {
         showReportHeader = $(this).attr('id') === 'btn-with-header';
         $('.pdf-header-toggle').removeClass('is-active');
         $(this).addClass('is-active');
@@ -25,17 +25,17 @@ $(document).ready(function() {
         let id = $('#btn-viewer-download').data('current-id');
         if (!id) return;
         $('#pdf-canvas-container').html(`<div class="text-center py-100" style="color:#64748b;"><div style="width:40px;height:40px;border:3px solid rgba(99,102,241,0.3);border-top-color:#6366f1;border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 16px;"></div><p style="font-size:13px;">Re-generating...</p></div>`);
-        $.get("/reports/" + id, function(data) {
+        $.get("/reports/" + id, function (data) {
             const doc = createPDFDocument(data, showReportHeader);
             const pdfBlob = doc.output('blob');
             renderPDF(URL.createObjectURL(pdfBlob));
-        }).fail(function(xhr) {
+        }).fail(function (xhr) {
             $('#pdf-canvas-container').html(`<div class="alert alert-danger m-20">Could not reload report preview. ${xhr.responseJSON?.message || 'Please try again.'}</div>`);
         });
     });
     // ──────────────────────────────────────────────────────
 
-    $(document).on('click', '.btn-view', function(e) {
+    $(document).on('click', '.btn-view', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
 
@@ -46,11 +46,11 @@ $(document).ready(function() {
         showReportHeader = true;
         $('.pdf-header-toggle').removeClass('is-active');
         $('#btn-with-header').addClass('is-active');
-        
+
         $('#btn-viewer-download').data('current-id', id);
         $('#btn-viewer-print').data('current-id', id);
         $('#btn-viewer-share').data('current-id', id);
-        
+
         $('#pdf-canvas-container').html(`
           <div class="text-center py-100">
               <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
@@ -59,12 +59,12 @@ $(document).ready(function() {
               <p class="mt-20 text-muted fs-16">Generating real PDF preview...</p>
           </div>
         `);
-        
+
         // Reset zoom
         currentZoom = 1;
         applyZoom();
-        
-        $.get("/reports/" + id, function(data) {
+
+        $.get("/reports/" + id, function (data) {
             let p = data.patient;
             let filename = `Report_${p.first_name}_${id}.pdf`;
             $('#viewer-filename-link').text(filename);
@@ -82,7 +82,7 @@ $(document).ready(function() {
                     $('#fit-width').click();
                 }
             });
-        }).fail(function(xhr) {
+        }).fail(function (xhr) {
             $('#pdf-canvas-container').html(`<div class="alert alert-danger m-20">Could not load report preview. ${xhr.responseJSON?.message || 'Please try again.'}</div>`);
         });
     });
@@ -101,10 +101,10 @@ $(document).ready(function() {
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 const page = await pdf.getPage(pageNum);
                 const viewport = page.getViewport({ scale: 1.5 }); // High resolution render
-                
+
                 const wrapper = document.createElement('div');
                 wrapper.className = 'pdf-canvas-wrapper mb-20';
-                
+
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
                 canvas.height = viewport.height;
@@ -116,10 +116,10 @@ $(document).ready(function() {
                     canvasContext: context,
                     viewport: viewport
                 };
-                
+
                 wrapper.appendChild(canvas);
                 container.appendChild(wrapper);
-                
+
                 await page.render(renderContext).promise;
             }
 
@@ -133,28 +133,28 @@ $(document).ready(function() {
     // Zoom Functions
     function applyZoom() {
         $('#pdf-page-container').css('transform', 'none');
-        $('#pdf-canvas-container canvas').each(function() {
+        $('#pdf-canvas-container canvas').each(function () {
             const baseWidth = parseFloat(this.dataset.baseWidth || this.width || 794);
             $(this).css('width', `${baseWidth * currentZoom}px`);
         });
         $('#zoom-text').text(`${Math.round(currentZoom * 100)}%`);
     }
 
-    $('#zoom-in').click(function() {
+    $('#zoom-in').click(function () {
         if (currentZoom < MAX_ZOOM) {
             currentZoom += ZOOM_STEP;
             applyZoom();
         }
     });
 
-    $('#zoom-out').click(function() {
+    $('#zoom-out').click(function () {
         if (currentZoom > MIN_ZOOM) {
             currentZoom -= ZOOM_STEP;
             applyZoom();
         }
     });
 
-    $('#fit-width').click(function() {
+    $('#fit-width').click(function () {
         let containerWidth = $('#pdf-viewport').width() - (window.innerWidth < 768 ? 14 : 80);
         let firstCanvas = $('#pdf-canvas-container canvas').first()[0];
         let pageWidth = parseFloat(firstCanvas?.dataset.baseWidth || firstCanvas?.width || 794);
@@ -164,7 +164,7 @@ $(document).ready(function() {
         applyZoom();
     });
 
-    $('#fit-page').click(function() {
+    $('#fit-page').click(function () {
         let containerHeight = $('#pdf-viewport').height() - 80;
         let pageHeight = 1123; // A4 Height in px roughly
         currentZoom = containerHeight / pageHeight;
@@ -174,15 +174,15 @@ $(document).ready(function() {
     });
 
     // Keyboard Navigation
-    $(document).on('keydown', function(e) {
+    $(document).on('keydown', function (e) {
         // Only active when PDF viewer is open
         if (!$('#modal-view-report').hasClass('show')) return;
-        
+
         const viewport = $('#pdf-viewport')[0];
         const scrollStep = 100;
         const pageStep = $('#pdf-viewport').height() * 0.85;
-        
-        switch(e.key) {
+
+        switch (e.key) {
             case 'ArrowDown':
                 viewport.scrollTop += scrollStep;
                 e.preventDefault();
@@ -224,7 +224,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#btn-viewer-fullscreen').click(function() {
+    $('#btn-viewer-fullscreen').click(function () {
         const elem = document.querySelector('.pdf-viewer-wrapper');
         if (!document.fullscreenElement) {
             elem.requestFullscreen().catch(err => {
@@ -237,22 +237,22 @@ $(document).ready(function() {
         }
     });
 
-    $('#btn-viewer-print').click(function() {
+    $('#btn-viewer-print').click(function () {
         let id = $(this).data('current-id');
-        $.get("/reports/" + id, function(data) {
+        $.get("/reports/" + id, function (data) {
             const doc = createPDFDocument(data, showReportHeader);
             window.open(doc.output('bloburl'), '_blank');
         });
     });
 
-    $(document).on('click', '#viewer-filename-link', function() {
+    $(document).on('click', '#viewer-filename-link', function () {
         let id = $('#btn-viewer-download').data('current-id');
         generateAndOpenPDF(id);
     });
 
     function generateAndOpenPDF(reportId) {
         const { jsPDF } = window.jspdf;
-        $.get("/reports/" + reportId, function(data) {
+        $.get("/reports/" + reportId, function (data) {
             const doc = createPDFDocument(data, showReportHeader);
             window.open(doc.output('bloburl'), '_blank');
         });
@@ -295,20 +295,20 @@ $(document).ready(function() {
             const fHeight = (fProps.height * pageW) / fProps.width;
             const actualFooterTop = pageH - fHeight;
             doc.addImage(window.REPORT_FOOTER_IMAGE, 'PNG', 0, actualFooterTop, pageW, fHeight);
-            
+
             doc.setTextColor(30, 41, 59);
             doc.setDrawColor(226, 232, 240);
             doc.setLineWidth(0.25);
 
             const infoY = 44;
-            
+
             // Draw Patient Card Background
             doc.setFillColor(248, 250, 252);
             doc.roundedRect(left, infoY - 5, tableW, 26, 2, 2, 'FD');
 
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(9);
-            
+
             // Column 1 Labels & Values
             doc.setTextColor(100, 116, 139);
             doc.text('PATIENT NAME', left + 4, infoY + 1);
@@ -366,12 +366,12 @@ $(document).ready(function() {
             doc.setFontSize(11);
             doc.setTextColor(138, 39, 125);
             doc.text((title || 'GENERAL').toUpperCase(), left + 2, y);
-            
+
             // Category Underline
             doc.setDrawColor(138, 39, 125);
             doc.setLineWidth(0.5);
             doc.line(left, y + 2, left + tableW, y + 2);
-            
+
             return y + 7;
         }
 
@@ -379,21 +379,21 @@ $(document).ready(function() {
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(9);
             doc.setTextColor(71, 85, 105);
-            
+
             // Header box background
             doc.setFillColor(241, 245, 249);
             doc.rect(left, y, tableW, 8, 'F');
-            
+
             // Top/Bottom border lines
             doc.setDrawColor(203, 213, 225);
             doc.setLineWidth(0.3);
             doc.line(left, y, left + tableW, y);
             doc.line(left, y + 8, left + tableW, y + 8);
-            
+
             doc.text('PARAMETER', left + 4, y + 5.5);
             doc.text('RESULT', left + col1 + 4, y + 5.5);
             doc.text('UNIT', left + col1 + col2 + 4, y + 5.5);
-            doc.text('REFERENCE INTERVAL', left + col1 + col2 + col3 + 4, y + 5.5);
+            doc.text('REFERENCE RANGE', left + col1 + col2 + col3 + 4, y + 5.5);
             doc.text('FLAG', left + col1 + col2 + col3 + col4 + col5 / 2, y + 5.5, { align: 'center' });
             return y + 8;
         }
@@ -407,7 +407,7 @@ $(document).ready(function() {
             const observedLines = doc.splitTextToSize(observedValue || '', col2 - 4);
             const refLines = doc.splitTextToSize(reference || '', col4 - 4);
             const unitLines = doc.splitTextToSize(unit || '', col3 - 4);
-            
+
             const lineCount = Math.max(nameLines.length, observedLines.length, refLines.length, unitLines.length, 1);
             const rowH = isSubheading ? 7 : Math.max(6.5, lineCount * 5);
 
@@ -420,11 +420,11 @@ $(document).ready(function() {
                 // Subheading Background
                 doc.setFillColor(248, 250, 252);
                 doc.rect(left, y, tableW, rowH, 'F');
-                
+
                 // Left Accent Line
                 doc.setFillColor(138, 39, 125);
                 doc.rect(left, y, 1.5, rowH, 'F');
-                
+
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(71, 85, 105);
                 doc.text((name || '').toUpperCase(), left + 5, y + 4.5);
@@ -440,10 +440,10 @@ $(document).ready(function() {
                 doc.setTextColor(15, 23, 42);
                 doc.setFont('helvetica', 'normal');
                 doc.text(nameLines, left + 4, y + 4.5);
-                
+
                 // Observed Value (Result)
                 doc.setFont('helvetica', 'bold');
-                
+
                 // Highlight observed value if flagged
                 if (flag) {
                     const fUpper = String(flag).toUpperCase();
@@ -464,28 +464,28 @@ $(document).ready(function() {
                 // Reference Value
                 doc.setTextColor(51, 65, 85);
                 doc.text(refLines, left + col1 + col2 + col3 + 4, y + 4.5);
-                
+
                 // Flag (Centered in last column)
                 if (flag) {
                     const flagStr = String(flag).trim().toUpperCase();
                     let flagX = left + col1 + col2 + col3 + col4 + col5 / 2;
-                    
+
                     const isHigh = flagStr.includes('H') || flagStr.includes('↑') || flagStr.includes('HIGH');
                     const isLow = flagStr.includes('L') || flagStr.includes('↓') || flagStr.includes('LOW');
                     const isDoubleHigh = flagStr.includes('HH') || flagStr.includes('↑↑') || flagStr.includes('CRITICAL HIGH');
                     const isDoubleLow = flagStr.includes('LL') || flagStr.includes('↓↓') || flagStr.includes('CRITICAL LOW');
-                    
+
                     if (isHigh) {
                         doc.setLineWidth(0.4);
                         doc.setDrawColor(220, 38, 38);
-                        
+
                         const bottomY = y + 4.5;
                         const topY = y + 1.5;
-                        
+
                         doc.line(flagX, bottomY, flagX, topY);
                         doc.line(flagX, topY, flagX - 1, topY + 1);
                         doc.line(flagX, topY, flagX + 1, topY + 1);
-                        
+
                         if (isDoubleHigh) {
                             doc.line(flagX + 2.5, bottomY, flagX + 2.5, topY);
                             doc.line(flagX + 2.5, topY, flagX + 1.5, topY + 1);
@@ -494,14 +494,14 @@ $(document).ready(function() {
                     } else if (isLow) {
                         doc.setLineWidth(0.4);
                         doc.setDrawColor(37, 99, 235);
-                        
+
                         const bottomY = y + 4.5;
                         const topY = y + 1.5;
-                        
+
                         doc.line(flagX, topY, flagX, bottomY);
                         doc.line(flagX, bottomY, flagX - 1, bottomY - 1);
                         doc.line(flagX, bottomY, flagX + 1, bottomY - 1);
-                        
+
                         if (isDoubleLow) {
                             doc.line(flagX + 2.5, topY, flagX + 2.5, bottomY);
                             doc.line(flagX + 2.5, bottomY, flagX + 1.5, bottomY - 1);
@@ -522,7 +522,7 @@ $(document).ready(function() {
             // Underline row
             doc.setDrawColor(226, 232, 240);
             doc.line(left, y + rowH, left + tableW, y + rowH);
-            
+
             doc.setTextColor(15, 23, 42);
             return y + rowH;
         }
@@ -576,34 +576,34 @@ $(document).ready(function() {
 
         // Notes & Signatures
         if (y > footerTop - 50) y = addNewPage();
-        
+
         // Note Box
         doc.setFillColor(248, 250, 252);
         doc.setDrawColor(226, 232, 240);
         doc.setLineWidth(0.25);
-        
+
         // Left Accent Line for note
         doc.setFillColor(138, 39, 125);
-        
+
         const noteBoxH = Math.max(20, reportNotes ? (doc.splitTextToSize(reportNotes, 90).length * 5 + 10) : 20);
         if (y + noteBoxH > footerTop - 15) {
             y = addNewPage();
         }
-        
+
         doc.setFillColor(248, 250, 252);
         doc.rect(left, y + 2, 100, noteBoxH, 'FD');
         doc.setFillColor(138, 39, 125);
         doc.rect(left, y + 2, 1.5, noteBoxH, 'F');
-        
+
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(8.5);
         doc.setTextColor(15, 23, 42);
         doc.text('NOTES / INTERPRETATION', left + 4, y + 8);
-        
+
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(9);
         doc.setTextColor(71, 85, 105);
-        
+
         if (reportNotes) {
             const noteLines = doc.splitTextToSize(reportNotes, 92);
             doc.text(noteLines, left + 4, y + 14);
@@ -625,7 +625,7 @@ $(document).ready(function() {
         doc.setFontSize(9.5);
         doc.setTextColor(15, 23, 42);
         doc.text(signature?.name || 'Medi Technician', left + 138, footerTop - 8, { align: 'center' });
-        
+
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(100, 116, 139);
@@ -639,19 +639,19 @@ $(document).ready(function() {
         return doc;
     }
 
-    $('#btn-viewer-download').click(function() {
+    $('#btn-viewer-download').click(function () {
         let id = $(this).data('current-id');
         generateAndDownloadPDF(id, showReportHeader);
     });
 
     // Share Report PDF
-    $('#btn-viewer-share').click(function() {
+    $('#btn-viewer-share').click(function () {
         let id = $(this).data('current-id');
         let btn = $(this);
         let originalHtml = btn.html();
         btn.html('<i class="fa fa-spinner fa-spin"></i>').prop('disabled', true);
 
-        $.get("/reports/" + id, function(data) {
+        $.get("/reports/" + id, function (data) {
             const doc = createPDFDocument(data, showReportHeader);
             const p = data.patient;
             const filename = `Report_${p.first_name}_${p.last_name}_${id}.pdf`;
@@ -686,7 +686,7 @@ $(document).ready(function() {
             }
 
             btn.html(originalHtml).prop('disabled', false);
-        }).fail(function() {
+        }).fail(function () {
             alert('Failed to generate report for sharing.');
             btn.html(originalHtml).prop('disabled', false);
         });
@@ -712,7 +712,7 @@ $(document).ready(function() {
     }
 
     function generateAndDownloadPDF(reportId, withHeader = true, callback) {
-        $.get("/reports/" + reportId, function(data) {
+        $.get("/reports/" + reportId, function (data) {
             const doc = createPDFDocument(data, withHeader);
             const p = data.patient;
             doc.save(`Report_${p.first_name}_${reportId}.pdf`);
