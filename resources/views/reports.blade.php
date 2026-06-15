@@ -2734,15 +2734,76 @@
 
               function addShell(isFirstPage = true) {
                   if (showHeader) {
-                      const hProps = doc.getImageProperties(REPORT_HEADER_IMAGE);
-                      const hHeight = (hProps.height * pageW) / hProps.width;
-                      doc.addImage(REPORT_HEADER_IMAGE, 'JPEG', 0, 0, pageW, hHeight, undefined, 'FAST');
+                      // Top Accent Bar
+                      doc.setFillColor(138, 39, 125); // Deep Purple
+                      doc.rect(0, 0, pageW, 4, 'F');
+                      doc.setFillColor(20, 148, 71); // Teal
+                      doc.rect(0, 4, pageW, 1.5, 'F');
+
+                      // Brand Logo (Vector Icon)
+                      doc.setFillColor(20, 148, 71);
+                      doc.circle(26, 18, 6, 'F');
+                      doc.setFont('helvetica', 'bold');
+                      doc.setFontSize(13);
+                      doc.setTextColor(255, 255, 255);
+                      doc.text('A', 26, 22.2, { align: 'center' });
+
+                      // Brand Name
+                      doc.setFont('helvetica', 'bold');
+                      doc.setFontSize(19);
+                      doc.setTextColor(138, 39, 125);
+                      doc.text('AWWAL', 35, 19);
+                      
+                      doc.setFont('helvetica', 'bold');
+                      doc.setFontSize(8.5);
+                      doc.setTextColor(20, 148, 71);
+                      doc.text('QUALITY DIAGNOSTIC LABS', 35, 23.2);
+                      
+                      doc.setFont('helvetica', 'italic');
+                      doc.setFontSize(7.5);
+                      doc.setTextColor(100, 116, 139);
+                      doc.text('"Accurate Diagnosis for Effective Treatment"', 35, 27.2);
+
+                      // Header Right (Address & Contact Info)
+                      doc.setFont('helvetica', 'normal');
+                      doc.setFontSize(8);
+                      doc.setTextColor(71, 85, 105);
+                      const rightX = pageW - 20;
+                      doc.text('A Muhammed\'s Complex, Chenaykunnu Rd Jn.', rightX, 13, { align: 'right' });
+                      doc.text('PATHAPPIRIYAM, Vayanasala, Kerala', rightX, 17, { align: 'right' });
+                      doc.text('Ph: +91 7034 250 209, 7559 049 948', rightX, 21, { align: 'right' });
+                      doc.text('Email: awwallabppm@gmail.com', rightX, 25, { align: 'right' });
+                      doc.text('Web: www.awwallabs.in', rightX, 29, { align: 'right' });
+
+                      // Bottom border line for header
+                      doc.setDrawColor(226, 232, 240);
+                      doc.setLineWidth(0.5);
+                      doc.line(left, 33, pageW - 20, 33);
                   }
 
-                  const fProps = doc.getImageProperties(REPORT_FOOTER_IMAGE);
-                  const fHeight = (fProps.height * pageW) / fProps.width;
-                  const actualFooterTop = pageH - fHeight;
-                  doc.addImage(REPORT_FOOTER_IMAGE, 'PNG', 0, actualFooterTop, pageW, fHeight);
+                  // Footer Accents & Info
+                  const actualFooterTop = pageH - 24;
+                  doc.setDrawColor(20, 148, 71);
+                  doc.setLineWidth(0.5);
+                  doc.line(left, actualFooterTop, pageW - 20, actualFooterTop);
+
+                  // Left Side Quality Control Info
+                  doc.setFont('helvetica', 'bold');
+                  doc.setFontSize(7.5);
+                  doc.setTextColor(20, 148, 71);
+                  doc.text('QUALITY OF OUR LABORATORY IS CONTROLLED BY CMC VELLORE', left + 2, actualFooterTop + 5);
+
+                  // Right Side Working Hours
+                  doc.setFont('helvetica', 'normal');
+                  doc.setFontSize(7);
+                  doc.setTextColor(100, 116, 139);
+                  doc.text('Working Hours: 6.30 AM to 9.00 PM (Sunday: 7.00 AM to 12.00 PM)', pageW - 20 - 2, actualFooterTop + 5, { align: 'right' });
+
+                  // Page Numbers
+                  doc.setFont('helvetica', 'normal');
+                  doc.setFontSize(8);
+                  doc.setTextColor(148, 163, 184);
+                  doc.text(`Page ${pageNo}`, pageW / 2, pageH - 8, { align: 'center' });
                   
                   doc.setTextColor(30, 41, 59);
                   doc.setDrawColor(226, 232, 240);
