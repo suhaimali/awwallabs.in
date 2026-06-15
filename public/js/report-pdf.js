@@ -358,7 +358,7 @@ $(document).ready(function () {
             pageNo += 1;
             addShell(false);
             alternatingRowIdx = 0;
-            return 72;
+            return drawTableHeader(72) + 5;
         }
 
         function drawCategoryTitle(title, y) {
@@ -413,7 +413,6 @@ $(document).ready(function () {
 
             if (y + rowH > footerTop - 12) {
                 y = addNewPage();
-                y = drawTableHeader(y);
             }
 
             if (isSubheading) {
@@ -543,7 +542,8 @@ $(document).ready(function () {
             groupedResults[cat].push(r);
         });
 
-        let y = 77;
+        let y = 72;
+        y = drawTableHeader(y) + 5;
         const sortedCategories = Object.keys(groupedResults).sort((a, b) => {
             const isA = /H[AE]{1,2}M[AO]TOLOGY/i.test(a);
             const isB = /H[AE]{1,2}M[AO]TOLOGY/i.test(b);
@@ -554,7 +554,6 @@ $(document).ready(function () {
         sortedCategories.forEach(cat => {
             if (y > footerTop - 35) y = addNewPage();
             y = drawCategoryTitle(cat, y);
-            y = drawTableHeader(y);
 
             let lastSubheading = null;
             groupedResults[cat].forEach(r => {
