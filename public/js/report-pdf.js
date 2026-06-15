@@ -585,13 +585,14 @@ $(document).ready(function () {
         // Left Accent Line for note
         doc.setFillColor(138, 39, 125);
 
-        const noteBoxH = Math.max(20, reportNotes ? (doc.splitTextToSize(reportNotes, 90).length * 5 + 10) : 20);
+        const noteBoxW = 120; // Increased from 100 to allow wider notes
+        const noteBoxH = Math.max(20, reportNotes ? (doc.splitTextToSize(reportNotes, noteBoxW - 8).length * 5 + 10) : 20);
         if (y + noteBoxH > footerTop - 15) {
             y = addNewPage();
         }
 
         doc.setFillColor(248, 250, 252);
-        doc.rect(left, y + 2, 100, noteBoxH, 'FD');
+        doc.rect(left, y + 2, noteBoxW, noteBoxH, 'FD');
         doc.setFillColor(138, 39, 125);
         doc.rect(left, y + 2, 1.5, noteBoxH, 'F');
 
@@ -605,7 +606,7 @@ $(document).ready(function () {
         doc.setTextColor(71, 85, 105);
 
         if (reportNotes) {
-            const noteLines = doc.splitTextToSize(reportNotes, 92);
+            const noteLines = doc.splitTextToSize(reportNotes, noteBoxW - 8);
             doc.text(noteLines, left + 4, y + 14);
         } else {
             doc.setFont('helvetica', 'italic');
