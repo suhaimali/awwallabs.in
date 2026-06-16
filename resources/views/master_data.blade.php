@@ -325,6 +325,81 @@ body {
     }
 }
 
+/* DataTables UI Fixes & Neatness */
+.dataTables_wrapper .dataTables_info {
+    float: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #64748b !important;
+    font-size: 13px;
+}
+.dataTables_wrapper .dataTables_paginate {
+    float: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    margin: 0 !important;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    background: #ffffff !important;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #3b82f6 !important;
+    color: #ffffff !important;
+    border-color: #3b82f6 !important;
+    font-weight: 600;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.disabled) {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f8fafc !important;
+    color: #94a3b8 !important;
+}
+.dataTables_wrapper .dataTables_length label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 4px 8px;
+    background-color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    font-size: 13px;
+    color: #334155;
+}
+.dataTables_wrapper .dataTables_length select:focus {
+    border-color: #94a3b8;
+}
+
 </style>
 
 {{-- Page Header --}}
