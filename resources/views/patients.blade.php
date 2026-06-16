@@ -613,17 +613,16 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<div class="d-flex justify-content-between align-items-center mb-1">
-								<label for="field_1044" class="form-label mb-0">Reference Dr. (Optional)</label>
-								<div>
-									<a href="javascript:void(0)" class="btn-add-doctor text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Doctor"><i class="fa fa-plus"></i> Add</a>
-									<a href="javascript:void(0)" class="btn-edit-doctor text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Doctor"><i class="fa fa-edit"></i></a>
-									<a href="javascript:void(0)" class="btn-delete-doctor text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Doctor"><i class="fa fa-trash"></i></a>
-								</div>
+							<label for="field_1044" class="form-label">Reference Dr. (Optional)</label>
+							<div class="input-group flex-nowrap">
+								<select class="form-select reference-dr-select" autocomplete="off" id="field_1044" name="reference_dr">
+									<option value="">-- Select Doctor --</option>
+								</select>
+								<button type="button" class="btn btn-secondary btn-clear-doctor" title="Clear Selection"><i class="fa fa-times"></i></button>
+								<button type="button" class="btn btn-success btn-add-doctor" title="Add New"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-warning btn-edit-doctor" title="Edit Selected"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-danger btn-delete-doctor" title="Delete Selected"><i class="fa fa-trash"></i></button>
 							</div>
-							<select class="form-select reference-dr-select" autocomplete="off" id="field_1044" name="reference_dr">
-								<option value="">-- Select Doctor --</option>
-							</select>
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -653,24 +652,21 @@
 				<div id="add-patient-tests-container" class="mb-3">
 					<div class="row test-row mb-2 align-items-center">
 						<div class="col-md-5 col-12">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Test Name</div>
-                                <div class="d-none d-md-block"></div>
-                                <div>
-                                    <a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Test"><i class="fa fa-plus"></i> Add</a>
-                                    <a href="javascript:void(0)" class="btn-edit-test text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Test"><i class="fa fa-edit"></i></a>
-                                    <a href="javascript:void(0)" class="btn-delete-test text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Test"><i class="fa fa-trash"></i></a>
-                                </div>
-                            </div>
+                            <div class="d-md-none fw-bold fs-11 text-uppercase text-muted mb-1">Test Name</div>
                             <input type="hidden" class="test-name-value" name="test_name[]" value="" id="field_1048">
-							<select class="form-select add-patient-test-name test-name-select" autocomplete="off" id="field_1049" name="name_1050">
-								<option value="">-- Select Test --</option>
-								@foreach($labTests as $test)
-									<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
-								@endforeach
-								<option value="__custom__">Custom (type below)</option>
-							</select>
-                            <div class="test-name-custom-wrap mt-2" style="display:none;">
+							<div class="input-group flex-nowrap">
+								<select class="form-select add-patient-test-name test-name-select" autocomplete="off" id="field_1049" name="name_1050">
+									<option value="">-- Select Test --</option>
+									@foreach($labTests as $test)
+										<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
+									@endforeach
+									<option value="__custom__">Custom (type below)</option>
+								</select>
+								<button type="button" class="btn btn-success btn-add-test" style="background-color: #d1fae5; color: #059669; border-color: #cbd5e1;" title="Add New Test"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-primary btn-edit-test" style="background-color: #dbeafe; color: #2563eb; border-color: #cbd5e1;" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-danger btn-delete-test" style="background-color: #fee2e2; color: #dc2626; border-color: #cbd5e1;" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
+							</div>
+                            <div class="test-name-custom-wrap" style="display:none;">
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-primary"><i class="fa fa-pencil"></i></span>
                                     <input type="text" class="form-control test-name-custom-input" placeholder="Enter custom test name" autocomplete="off" id="field_1051" name="name_1052">
@@ -911,17 +907,16 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<div class="d-flex justify-content-between align-items-center mb-1">
-								<label for="edit-reference-dr" class="form-label mb-0">Reference Dr. (Optional)</label>
-								<div>
-									<a href="javascript:void(0)" class="btn-add-doctor text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Doctor"><i class="fa fa-plus"></i> Add</a>
-									<a href="javascript:void(0)" class="btn-edit-doctor text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Doctor"><i class="fa fa-edit"></i></a>
-									<a href="javascript:void(0)" class="btn-delete-doctor text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Doctor"><i class="fa fa-trash"></i></a>
-								</div>
+							<label for="edit-reference-dr" class="form-label">Reference Dr. (Optional)</label>
+							<div class="input-group flex-nowrap">
+								<select class="form-select reference-dr-select" id="edit-reference-dr" autocomplete="off" name="reference_dr">
+									<option value="">-- Select Doctor --</option>
+								</select>
+								<button type="button" class="btn btn-secondary btn-clear-doctor" title="Clear Selection"><i class="fa fa-times"></i></button>
+								<button type="button" class="btn btn-success btn-add-doctor" title="Add New"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-warning btn-edit-doctor" title="Edit Selected"><i class="fa fa-edit"></i></button>
+								<button type="button" class="btn btn-danger btn-delete-doctor" title="Delete Selected"><i class="fa fa-trash"></i></button>
 							</div>
-							<select class="form-select reference-dr-select" id="edit-reference-dr" autocomplete="off" name="reference_dr">
-								<option value="">-- Select Doctor --</option>
-							</select>
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -1446,7 +1441,7 @@
           });
 
           $(document).on('click', '.btn-edit-doctor', function() {
-              let select = $(this).closest('.d-flex').siblings('.reference-dr-select');
+              let select = $(this).siblings('.reference-dr-select');
               let selectedOption = select.find('option:selected');
               let docId = selectedOption.attr('data-id');
               
@@ -1464,7 +1459,7 @@
           });
 
           $(document).on('click', '.btn-delete-doctor', function() {
-              let select = $(this).closest('.d-flex').siblings('.reference-dr-select');
+              let select = $(this).siblings('.reference-dr-select');
               let selectedOption = select.find('option:selected');
               let docId = selectedOption.attr('data-id');
               
@@ -1489,7 +1484,7 @@
           });
 
           $(document).on('click', '.btn-clear-doctor', function() {
-              let select = $(this).closest('.d-flex').siblings('.reference-dr-select');
+              let select = $(this).siblings('.reference-dr-select');
               select.val('');
           });
 
@@ -1678,22 +1673,18 @@
                             <div class="row test-row mb-2 align-items-center">
                                 <input type="hidden" name="appointment_id[]" value="${app.id}" id="field_1067">
                                 <div class="col-md-5 col-12">
-                                    <div class="d-flex justify-content-between align-items-center mb-1">
-                                        <div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Test Name</div>
-                                        <div class="d-none d-md-block"></div>
-                                        <div>
-                                            <a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Test"><i class="fa fa-plus"></i> Add</a>
-                                            <a href="javascript:void(0)" class="btn-edit-test text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Test"><i class="fa fa-edit"></i></a>
-                                            <a href="javascript:void(0)" class="btn-delete-test text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Test"><i class="fa fa-trash"></i></a>
-                                        </div>
-                                    </div>
+                                    <div class="d-md-none fw-bold fs-11 text-uppercase text-muted mb-1">Test Name</div>
                                     <input type="hidden" class="test-name-value" name="test_name[]" value="${testName}" id="field_1068">
-                                    <select class="form-select edit-patient-test-name test-name-select" autocomplete="off" id="field_1069" name="name_1070" ${isCustom ? 'style="display:none;"' : ''}>
-                                        ${optionsHtml}
-                                    </select>
-                                    <div class="test-name-custom-wrap mt-2" ${isCustom ? '' : 'style="display:none;"'}>
+                                    <div class="input-group flex-nowrap" ${isCustom ? 'style="display:none;"' : ''}>
+                                        <select class="form-select edit-patient-test-name test-name-select" autocomplete="off" id="field_1069" name="name_1070">
+                                            ${optionsHtml}
+                                        </select>
+                                        <button type="button" class="btn btn-success btn-add-test" style="background-color: #d1fae5; color: #059669; border-color: #cbd5e1;" title="Add New Test"><i class="fa fa-plus"></i></button>
+                                        <button type="button" class="btn btn-primary btn-edit-test" style="background-color: #dbeafe; color: #2563eb; border-color: #cbd5e1;" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+                                        <button type="button" class="btn btn-danger btn-delete-test" style="background-color: #fee2e2; color: #dc2626; border-color: #cbd5e1;" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                    <div class="test-name-custom-wrap" ${isCustom ? '' : 'style="display:none;"'}>
                                         <div class="input-group">
-                                            <span class="input-group-text bg-light text-primary"><i class="fa fa-pencil"></i></span>
                                             <input type="text" class="form-control test-name-custom-input" placeholder="Enter custom test name" value="${isCustom ? testName : ''}" autocomplete="off" id="field_1071" name="name_1072">
                                             <button type="button" class="btn btn-outline-secondary btn-back-to-select" title="Back to dropdown" style="font-size:12px;"><i class="fa fa-list"></i></button>
                                         </div>
@@ -1723,22 +1714,18 @@
                       testRowsHtml = `
                         <div class="row test-row mb-2 align-items-center">
                             <div class="col-md-5 col-12">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Test Name</div>
-                                    <div class="d-none d-md-block"></div>
-                                    <div>
-                                        <a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Test"><i class="fa fa-plus"></i> Add</a>
-                                        <a href="javascript:void(0)" class="btn-edit-test text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Test"><i class="fa fa-edit"></i></a>
-                                        <a href="javascript:void(0)" class="btn-delete-test text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Test"><i class="fa fa-trash"></i></a>
-                                    </div>
-                                </div>
+                                <div class="d-md-none fw-bold fs-11 text-uppercase text-muted mb-1">Test Name</div>
                                 <input type="hidden" class="test-name-value" name="test_name[]" value="" id="field_1075">
-                                <select class="form-select edit-patient-test-name test-name-select" autocomplete="off" id="field_1076" name="name_1077">
-                                    ${emptyOptions}
-                                </select>
-                                <div class="test-name-custom-wrap mt-2" style="display:none;">
+                                <div class="input-group flex-nowrap">
+                                    <select class="form-select edit-patient-test-name test-name-select" autocomplete="off" id="field_1076" name="name_1077">
+                                        ${emptyOptions}
+                                    </select>
+                                    <button type="button" class="btn btn-success btn-add-test" style="background-color: #d1fae5; color: #059669; border-color: #cbd5e1;" title="Add New Test"><i class="fa fa-plus"></i></button>
+                                    <button type="button" class="btn btn-primary btn-edit-test" style="background-color: #dbeafe; color: #2563eb; border-color: #cbd5e1;" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-delete-test" style="background-color: #fee2e2; color: #dc2626; border-color: #cbd5e1;" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
+                                </div>
+                                <div class="test-name-custom-wrap" style="display:none;">
                                     <div class="input-group">
-                                        <span class="input-group-text bg-light text-primary"><i class="fa fa-pencil"></i></span>
                                         <input type="text" class="form-control test-name-custom-input" placeholder="Enter custom test name" autocomplete="off" id="field_1078" name="name_1079">
                                         <button type="button" class="btn btn-outline-secondary btn-back-to-select" title="Back to dropdown" style="font-size:12px;"><i class="fa fa-list"></i></button>
                                     </div>
@@ -1769,22 +1756,22 @@
 		  const addTestRowTemplate = `
 			<div class="row test-row mb-2 align-items-center">
 				<div class="col-md-5 col-12">
-					<div class="d-flex justify-content-between align-items-center mb-1">
-						<div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Test Name</div>
-						<div class="d-none d-md-block"></div>
-						<a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> New Test</a>
-					</div>
+					<div class="d-md-none fw-bold fs-11 text-uppercase text-muted mb-1">Test Name</div>
 					<input type="hidden" class="test-name-value" name="test_name[]" value="" id="field_1082">
-					<select class="form-select add-patient-test-name test-name-select" autocomplete="off" id="field_1083" name="name_1084">
-						<option value="">-- Select Test --</option>
-						@foreach($labTests as $test)
-							<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
-						@endforeach
-						<option value="__custom__">âœ ï¸  Custom (type below)</option>
-					</select>
-					<div class="test-name-custom-wrap mt-2" style="display:none;">
+					<div class="input-group flex-nowrap">
+						<select class="form-select add-patient-test-name test-name-select" autocomplete="off" id="field_1083" name="name_1084">
+							<option value="">-- Select Test --</option>
+							@foreach($labTests as $test)
+								<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
+							@endforeach
+							<option value="__custom__">âœï¸ Custom (type below)</option>
+						</select>
+						<button type="button" class="btn btn-success btn-add-test" style="background-color: #d1fae5; color: #059669; border-color: #cbd5e1;" title="Add New Test"><i class="fa fa-plus"></i></button>
+						<button type="button" class="btn btn-primary btn-edit-test" style="background-color: #dbeafe; color: #2563eb; border-color: #cbd5e1;" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
+						<button type="button" class="btn btn-danger btn-delete-test" style="background-color: #fee2e2; color: #dc2626; border-color: #cbd5e1;" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
+					</div>
+					<div class="test-name-custom-wrap" style="display:none;">
 						<div class="input-group">
-							<span class="input-group-text bg-light text-primary"><i class="fa fa-pencil"></i></span>
 							<input type="text" class="form-control test-name-custom-input" placeholder="Enter custom test name" autocomplete="off" id="field_1085" name="name_1086">
 							<button type="button" class="btn btn-outline-secondary btn-back-to-select" title="Back to dropdown" style="font-size:12px;"><i class="fa fa-list"></i></button>
 						</div>
@@ -1821,22 +1808,17 @@
 			<div class="row test-row mb-2 align-items-center">
 				<input type="hidden" name="appointment_id[]" value="" id="field_1089">
 				<div class="col-md-5 col-12">
-					<div class="d-flex justify-content-between align-items-center mb-1">
-						<div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Test Name</div>
-						<div class="d-none d-md-block"></div>
-						<a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> New Test</a>
-					</div>
+					<div class="d-md-none fw-bold fs-11 text-uppercase text-muted mb-1">Test Name</div>
 					<input type="hidden" class="test-name-value" name="test_name[]" value="" id="field_1090">
 					<select class="form-select edit-patient-test-name test-name-select" autocomplete="off" id="field_1091" name="name_1092">
 						<option value="">-- Select Test --</option>
 						@foreach($labTests as $test)
 							<option value="{{ $test->name }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
 						@endforeach
-						<option value="__custom__">âœ ï¸  Custom (type below)</option>
+						<option value="__custom__">âœï¸ Custom (type below)</option>
 					</select>
-					<div class="test-name-custom-wrap mt-2" style="display:none;">
+					<div class="test-name-custom-wrap" style="display:none;">
 						<div class="input-group">
-							<span class="input-group-text bg-light text-primary"><i class="fa fa-pencil"></i></span>
 							<input type="text" class="form-control test-name-custom-input" placeholder="Enter custom test name" autocomplete="off" id="field_1093" name="name_1094">
 							<button type="button" class="btn btn-outline-secondary btn-back-to-select" title="Back to dropdown" style="font-size:12px;"><i class="fa fa-list"></i></button>
 						</div>
@@ -2005,13 +1987,13 @@
           let currentTestSelect = null;
 
           $(document).on('click', '.btn-add-test', function() {
-              currentTestSelect = $(this).closest('.d-flex').siblings('.test-name-select');
+              currentTestSelect = $(this).siblings('.test-name-select');
               $('#form-add-test')[0].reset();
               $('#modal-add-test').modal('show');
           });
 
           $(document).on('click', '.btn-edit-test', function() {
-              currentTestSelect = $(this).closest('.d-flex').siblings('.test-name-select');
+              currentTestSelect = $(this).siblings('.test-name-select');
               let selectedOption = currentTestSelect.find('option:selected');
               let testId = selectedOption.attr('data-id');
               
@@ -2028,7 +2010,7 @@
           });
 
           $(document).on('click', '.btn-delete-test', function() {
-              let select = $(this).closest('.d-flex').siblings('.test-name-select');
+              let select = $(this).siblings('.test-name-select');
               let selectedOption = select.find('option:selected');
               let testId = selectedOption.attr('data-id');
               
