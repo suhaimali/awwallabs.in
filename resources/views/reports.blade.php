@@ -1103,143 +1103,118 @@
             <div class="test-item-row card border-0 shadow-sm mb-3" style="background: linear-gradient(145deg, #ffffff, #f8fafc); border-radius: 12px; position: relative; overflow: hidden;">
                 <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #6366f1;"></div>
                 <div class="card-body p-3">
-                    <span class="badge bg-primary text-white position-absolute row-sl-no" style="top: 10px; left: 15px; z-index: 10; border-radius: 6px;">SL 1</span>
                     <button type="button" class="btn btn-sm btn-danger position-absolute remove-row" style="top: 10px; right: 10px; z-index: 10; border-radius: 8px;" title="Remove Test"><i class="fa fa-trash"></i></button>
                     <div class="row g-3 align-items-end mt-3">
                         <div class="col-md-4 col-sm-6">
-                            <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Master Category</label>
-                            <div class="input-group flex-nowrap">
-                                <select class="form-select report-category-select" name="test_category[]" autocomplete="off">
-                                    <option value="">-- Select Category --</option>
-                                    @foreach($categories as $cat)
-                                        <option value="{{ $cat->name }}" data-id="{{ $cat->id }}">{{ $cat->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-success btn-sm btn-add-report-category" title="Add Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit-report-category" title="Edit Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                <button type="button" class="btn btn-info btn-sm btn-view-report-category" title="View Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                <button type="button" class="btn btn-danger btn-sm btn-delete-report-category" title="Delete Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Master Category</label>
+                                <a href="javascript:void(0)" class="btn-add-report-category text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
                             </div>
+                            <select class="form-select report-category-select" name="test_category[]" autocomplete="off">
+                                <option value="">-- Select Category --</option>
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->name }}" data-id="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Sub Category</label>
-                            <div class="input-group flex-nowrap">
-                                <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off">
-                                    <option value="">-- Select Sub Category --</option>
-                                    @foreach($subCategories as $sub)
-                                        <option value="{{ $sub->name }}" data-id="{{ $sub->id }}">{{ $sub->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-success btn-sm btn-add-report-subcategory" title="Add Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit-report-subcategory" title="Edit Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                <button type="button" class="btn btn-info btn-sm btn-view-report-subcategory" title="View Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                <button type="button" class="btn btn-danger btn-sm btn-delete-report-subcategory" title="Delete Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Sub Category</label>
+                                <a href="javascript:void(0)" class="btn-add-report-subcategory text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
                             </div>
+                            <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off">
+                                <option value="">-- Select Sub Category --</option>
+                                @foreach($subCategories as $sub)
+                                    <option value="{{ $sub->name }}" data-id="{{ $sub->id }}">{{ $sub->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label class="form-label text-primary fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Parameter / Test Name</label>
-                            <div class="input-group flex-nowrap">
-                                <select class="form-select test-selector-dynamic border-primary shadow-none" name="test_name[]" autocomplete="off">
-                                    <option value="">-- Select Test --</option>
-                                    @foreach($tests as $test)
-                                        <option value="{{ str_replace(['`', '${'], ['\`', '\${'], $test->name) }}" 
-                                            data-id="{{ $test->id }}"
-                                            data-price="{{ $test->price }}"
-                                            data-unit="{{ $test->parameter->unit ?? '' }}"
-                                            data-male-ref="{{ $test->parameter->male_reference ?? '' }}"
-                                            data-female-ref="{{ $test->parameter->female_reference ?? '' }}"
-                                            data-male-min="{{ $test->parameter->male_min ?? '' }}"
-                                            data-male-max="{{ $test->parameter->male_max ?? '' }}"
-                                            data-female-min="{{ $test->parameter->female_min ?? '' }}"
-                                            data-female-max="{{ $test->parameter->female_max ?? '' }}"
-                                            data-critical-low="{{ $test->parameter->critical_low ?? '' }}"
-                                            data-critical-high="{{ $test->parameter->critical_high ?? '' }}"
-                                            data-reference-intervals='{{ $test->referenceIntervals->map->only(['gender', 'age_min', 'age_max', 'reference_text', 'min_value', 'max_value'])->values()->toJson() }}'
-                                            data-is-immunoassay="{{ $test->parameter->is_immunoassay ?? 0 }}"
-                                            data-bio-ref="{{ $test->parameter->biological_reference ?? '' }}"
-                                            data-normal="{{ str_replace(['`', '${'], ['\`', '\${'], $test->description) }}">{{ str_replace(['`', '${'], ['\`', '\${'], $test->name) }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-success btn-sm btn-add-report-test" title="Add Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit-report-test" title="Edit Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                <button type="button" class="btn btn-info btn-sm btn-view-report-test" title="View Parameter Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                <button type="button" class="btn btn-danger btn-sm btn-delete-report-test" title="Delete Parameter" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-primary fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Parameter / Test Name</label>
+                                <a href="javascript:void(0)" class="btn-add-report-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
                             </div>
+                            <select class="form-select test-selector-dynamic border-primary shadow-none" name="test_name[]" autocomplete="off">
+                                <option value="">-- Select Test --</option>
+                                @foreach($tests as $test)
+                                    <option value="{{ str_replace(['`', '${'], ['\`', '\${'], $test->name) }}" 
+                                        data-id="{{ $test->id }}"
+                                        data-price="{{ $test->price }}"
+                                        data-unit="{{ $test->parameter->unit ?? '' }}"
+                                        data-male-ref="{{ $test->parameter->male_reference ?? '' }}"
+                                        data-female-ref="{{ $test->parameter->female_reference ?? '' }}"
+                                        data-male-min="{{ $test->parameter->male_min ?? '' }}"
+                                        data-male-max="{{ $test->parameter->male_max ?? '' }}"
+                                        data-female-min="{{ $test->parameter->female_min ?? '' }}"
+                                        data-female-max="{{ $test->parameter->female_max ?? '' }}"
+                                        data-critical-low="{{ $test->parameter->critical_low ?? '' }}"
+                                        data-critical-high="{{ $test->parameter->critical_high ?? '' }}"
+                                        data-reference-intervals='{{ $test->referenceIntervals->map->only(['gender', 'age_min', 'age_max', 'reference_text', 'min_value', 'max_value'])->values()->toJson() }}'
+                                        data-is-immunoassay="{{ $test->parameter->is_immunoassay ?? 0 }}"
+                                        data-bio-ref="{{ $test->parameter->biological_reference ?? '' }}"
+                                        data-normal="{{ str_replace(['`', '${'], ['\`', '\${'], $test->description) }}">{{ str_replace(['`', '${'], ['\`', '\${'], $test->name) }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label class="form-label text-success fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Observed Value</label>
-                            <div class="input-group flex-nowrap">
-                                <select class="form-select report-observed-select" name="observed_value[]" autocomplete="off">
-                                    <option value="">-- Select Observed --</option>
-                                    @foreach($templates as $tmpl)
-                                        <option value="{{ $tmpl->name }}" data-id="{{ $tmpl->id }}">{{ $tmpl->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-success btn-sm btn-add-observed" title="Add Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit-observed" title="Edit Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                <button type="button" class="btn btn-info btn-sm btn-view-observed" title="View Observed Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                <button type="button" class="btn btn-danger btn-sm btn-delete-observed" title="Delete Observed" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-success fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Observed Value</label>
+                                <a href="javascript:void(0)" class="btn-add-observed text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
                             </div>
+                            <select class="form-select report-observed-select" name="observed_value[]" autocomplete="off">
+                                <option value="">-- Select Observed --</option>
+                                @foreach($templates as $tmpl)
+                                    <option value="{{ $tmpl->name }}" data-id="{{ $tmpl->id }}">{{ $tmpl->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Unit</label>
-                            <div class="input-group flex-nowrap">
-                                <select class="form-select report-unit-select" name="test_unit[]" autocomplete="off">
-                                    <option value="">-- Select Unit --</option>
-                                    @foreach($units as $u)
-                                        <option value="{{ $u->name }}" data-id="{{ $u->id }}">{{ $u->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-success btn-sm btn-add-report-unit" title="Add Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit-report-unit" title="Edit Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                <button type="button" class="btn btn-info btn-sm btn-view-report-unit" title="View Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                <button type="button" class="btn btn-danger btn-sm btn-delete-report-unit" title="Delete Unit" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Unit</label>
+                                <a href="javascript:void(0)" class="btn-add-report-unit text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
                             </div>
+                            <select class="form-select report-unit-select" name="test_unit[]" autocomplete="off">
+                                <option value="">-- Select Unit --</option>
+                                @foreach($units as $u)
+                                    <option value="{{ $u->name }}" data-id="{{ $u->id }}">{{ $u->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label class="form-label text-info fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Referral Range</label>
-                            <div class="input-group flex-nowrap">
-                                <select class="form-select normal-val-dynamic" name="normal_value[]" autocomplete="off">
-                                    <option value="">-- Select Reference --</option>
-                                    @foreach($referenceTemplates as $ref)
-                                        <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-info fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Referral Range</label>
+                                <a href="javascript:void(0)" class="btn-add-reference text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
                             </div>
+                            <select class="form-select normal-val-dynamic" name="normal_value[]" autocomplete="off">
+                                <option value="">-- Select Reference --</option>
+                                @foreach($referenceTemplates as $ref)
+                                    <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label class="form-label text-warning fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Flag</label>
-                            <div class="input-group flex-nowrap">
-                                <select class="form-select flag-selector" name="test_flag[]" autocomplete="off">
-                                    <option value="">-- Select Flag --</option>
-                                    @foreach($flagTemplates as $flg)
-                                        <option value="{{ str_replace(['`', '${'], ['\`', '\${'], $flg->name) }}" data-id="{{ $flg->id }}">{{ str_replace(['`', '${'], ['\`', '\${'], $flg->name) }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-success btn-sm btn-add-flag" title="Add Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit-flag" title="Edit Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                <button type="button" class="btn btn-info btn-sm btn-view-flag" title="View Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                <button type="button" class="btn btn-danger btn-sm btn-delete-flag" title="Delete Flag" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-warning fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Flag</label>
+                                <a href="javascript:void(0)" class="btn-add-flag text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
                             </div>
+                            <select class="form-select flag-selector" name="test_flag[]" autocomplete="off">
+                                <option value="">-- Select Flag --</option>
+                                @foreach($flagTemplates as $flg)
+                                    <option value="{{ str_replace(['`', '${'], ['\`', '\${'], $flg->name) }}" data-id="{{ $flg->id }}">{{ str_replace(['`', '${'], ['\`', '\${'], $flg->name) }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-8 col-sm-12">
-                            <label class="form-label text-dark fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Normal Range</label>
-                            <div class="input-group flex-nowrap">
-                                <select class="form-select bio-val-dynamic" name="biological_reference[]" autocomplete="off">
-                                    <option value="">-- Select Range --</option>
-                                    @foreach($referenceTemplates as $ref)
-                                        <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-success btn-sm btn-add-reference" title="Add Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm btn-edit-reference" title="Edit Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-                                <button type="button" class="btn btn-info btn-sm btn-view-reference" title="View Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-                                <button type="button" class="btn btn-danger btn-sm btn-delete-reference" title="Delete Reference" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label text-dark fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Normal Range</label>
+                                <a href="javascript:void(0)" class="btn-add-reference text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
                             </div>
+                            <select class="form-select bio-val-dynamic" name="biological_reference[]" autocomplete="off">
+                                <option value="">-- Select Range --</option>
+                                @foreach($referenceTemplates as $ref)
+                                    <option value="{{ $ref->name }}" data-id="{{ $ref->id }}">{{ $ref->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
