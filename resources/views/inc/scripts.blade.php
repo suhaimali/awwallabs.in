@@ -47,12 +47,14 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // ── PWA Service Worker
+        // ── PWA Service Worker (production only — skip in local dev to avoid SSL probe errors)
+        @if(app()->isProduction())
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register("{{ asset('sw.js') }}").catch(() => {});
             });
         }
+        @endif
 
         // ── CSRF setup for AJAX
         $.ajaxSetup({
