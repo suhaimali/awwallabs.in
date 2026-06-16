@@ -59,6 +59,19 @@
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
         });
 
+        // ── Bootstrap 5 jQuery modal compatibility shim
+        // Bootstrap 5 dropped jQuery support, so .modal('show'/'hide') doesn't exist natively.
+        // This restores the familiar jQuery syntax by delegating to the Bootstrap 5 native API.
+        $.fn.modal = function(action) {
+            return this.each(function() {
+                let instance = bootstrap.Modal.getOrCreateInstance(this);
+                if (action === 'show') instance.show();
+                else if (action === 'hide') instance.hide();
+                else if (action === 'toggle') instance.toggle();
+                else if (action === 'dispose') instance.dispose();
+            });
+        };
+
         // ── Global Toast Function
         function showToast(message, type = 'success') {
             Swal.fire({

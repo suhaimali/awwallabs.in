@@ -115,7 +115,8 @@
                     if (form) {
                         if (!form.checkValidity()) {
                             e.preventDefault();
-                            e.stopPropagation();
+                            // Note: do NOT call e.stopPropagation() here — that blocks jQuery handlers.
+                            // Each individual handler also calls checkValidity() to guard the AJAX call.
                             form.reportValidity();
                         }
                     }

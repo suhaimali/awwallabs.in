@@ -1596,7 +1596,7 @@
                   // Collect known test names from server (rendered by Blade)
                   const knownTestNames = [
                       @foreach($labTests as $test)
-                          '{{ addslashes($test->name) }}',
+                          {!! json_encode($test->name) !!},
                       @endforeach
                   ];
 
@@ -1608,7 +1608,7 @@
                           let isCustom = testName !== '' && !knownTestNames.includes(testName);
                           let optionsHtml = `<option value="">-- Select Test --</option>`;
                           @foreach($labTests as $test)
-                              optionsHtml += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}" ${!isCustom && app.test_name == '{{ $test->name }}' ? 'selected' : ''}>{{ $test->name }}</option>`;
+                              optionsHtml += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}" ${!isCustom && app.test_name == {!! json_encode($test->name) !!} ? 'selected' : ''}>{{ $test->name }}</option>`;
                           @endforeach
                           optionsHtml += `<option value="__custom__">âœï¸ Custom (type below)</option>`;
 

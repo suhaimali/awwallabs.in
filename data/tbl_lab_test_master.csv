@@ -1,0 +1,557 @@
+id,clinic_id,user_id,test_no,test_description,report_head,test_charges,carry_out,report,test_type,created_at,total_amount,status,report_sub_head,report_head_id,test_code,sum_of_result
+2,232,405,2,CBC,CBC,,,,,23-03-2022 02:26,,1,NULL,0,NULL,0
+3,232,405,0,Diffi Count,Covid -19 Rt Pcr,,,,,23-03-2022 02:54,,1,NULL,0,NULL,0
+4,232,405,0,BIOCHEMISTRY,Diffi Count,,,,,23-03-2022 03:02,,1,NULL,0,NULL,0
+5,232,405,0,BIOCHEMISTRY,BIOCHEMISTRY,,,,,23-03-2022 03:05,,1,NULL,0,NULL,0
+6,232,405,0,IMMUNOLOGY TEST (ARCHITECT),IMMUNOLOGY TEST (ARCHITECT),,,,,23-03-2022 03:12,,1,NULL,0,NULL,0
+7,232,405,1,Covid -19 Rt Pcr,Covid -19 Rt Pcr,,,,,23-03-2022 03:43,,1,NULL,0,NULL,0
+8,232,405,2,C-Reactive Protein Crp (Quantitative),C-Reactive Protein Crp (Quantitative),,,,,23-03-2022 03:47,,1,NULL,0,NULL,0
+9,232,405,3,D-Dimer,D-Dimer,,,,,23-03-2022 03:49,,1,NULL,0,NULL,0
+10,232,405,0,Ferritin,Ferritin,,,,,23-03-2022 03:51,,1,NULL,0,NULL,0
+11,232,405,4,Ferritin,Covid -19 Rt Pcr,,,,,23-03-2022 03:54,,1,NULL,0,NULL,0
+12,232,405,5,"Interleukin-6, Il-6","Interleukin-6, Il-6",,,,,23-03-2022 03:56,,1,NULL,0,NULL,0
+13,232,405,6,Prothrombin Time (Pt/Inr),Prothrombin Time (Pt/Inr),,,,,23-03-2022 03:59,,1,NULL,0,NULL,0
+14,232,405,7,Lactate Dehydrogenase (Ldh)- Serum,Covid -19 Rt Pcr,,,,,23-03-2022 04:03,,1,NULL,0,NULL,0
+15,232,405,0,C-Reactive Protein (Qualitative),C-Reactive Protein (Qualitative),,,,,23-03-2022 04:05,,1,NULL,0,NULL,0
+16,232,405,8,Activated Partial Thromboplastin Time (Aptt,Activated Partial Thromboplastin Time (Aptt,,,,,23-03-2022 04:08,,1,NULL,0,NULL,0
+17,232,405,0,CHEMICAL,CHEMICAL,,,,,23-03-2022 04:13,,1,NULL,0,NULL,0
+18,232,405,0,MICROSCOPIC,MICROSCOPIC,,,,,23-03-2022 04:20,,1,NULL,0,NULL,0
+19,232,405,0,URINE REPORT,URINE REPORT,,,,,23-03-2022 04:27,,1,NULL,0,NULL,0
+20,232,405,9,"Immunoglobulin Panel [Igg, Igm & Iga] - Serum","Immunoglobulin Panel [Igg, Igm & Iga] - Serum",,,,,23-03-2022 04:32,,1,NULL,0,NULL,0
+21,232,405,10,Hs-Crp (High Sensitivity C-Reactive Protein),Covid -19 Rt Pcr,,,,,23-03-2022 04:35,,1,NULL,0,NULL,0
+22,232,405,10,Hs-Crp (High Sensitivity C-Reactive Protein),Hs-Crp (High Sensitivity C-Reactive Protein),,,,,23-03-2022 04:36,,1,NULL,0,NULL,0
+23,232,405,11,Fibrinogen,Fibrinogen,,,,,23-03-2022 04:39,,1,NULL,0,NULL,0
+24,232,405,12,Allergy Non Veg Food Panel,Allergy Non Veg Food Panel,,,,,23-03-2022 04:41,,1,NULL,0,NULL,0
+25,232,405,13,C-Reactive Protein Crp (Quantitative),C-Reactive Protein Crp (Quantitative),,,,,23-03-2022 04:53,,1,NULL,0,NULL,0
+26,232,405,14,Complete Blood Count (Cbc),Complete Blood Count (Cbc),,,,,23-03-2022 04:55,,1,NULL,0,NULL,0
+27,232,405,15,Renal Profile/Renal Function Test (Rft/Kft),Renal Profile/Renal Function Test (Rft/Kft),,,,,23-03-2022 05:02,,1,NULL,0,NULL,0
+28,232,405,16,Liver Function Test (Lft),Liver Function Test (Lft),,,,,23-03-2022 05:08,,1,NULL,0,NULL,0
+29,232,405,17,Anti-Sars-Cov-2 Igg,Anti-Sars-Cov-2 Igg,,,,,23-03-2022 05:19,,1,NULL,0,NULL,0
+31,232,405,0,LH (S),LH (S),,,,,23-03-2022 06:50,,1,NULL,0,NULL,0
+32,232,405,18,"Glucose, Fasting","Glucose, Fasting",,,,,23-03-2022 21:16,,1,NULL,0,NULL,0
+33,232,405,19,"Glucose, Post Prandial (Pp), 2 Hours (Post Meal)","Glucose, Post Prandial (Pp), 2 Hours (Post Meal)",,,,,23-03-2022 21:18,,1,NULL,0,NULL,0
+34,232,405,20,Lactate Dehydrogenase (Ldh)- Serum,Lactate Dehydrogenase (Ldh)- Serum,,,,,23-03-2022 21:19,,1,NULL,0,NULL,0
+35,232,405,21,"Thyroid Stimulating Hormone (Tsh), Serum","Thyroid Stimulating Hormone (Tsh), Serum",,,,,23-03-2022 21:21,,1,NULL,0,NULL,0
+36,232,405,22,"Hba1c, Glycated Hemoglobin","Hba1c, Glycated Hemoglobin",,,,,23-03-2022 21:24,,1,NULL,0,NULL,0
+37,232,405,23,Hs-Crp (High Sensitivity C-Reactive Protein),Hs-Crp (High Sensitivity C-Reactive Protein),,,,,23-03-2022 21:29,,1,NULL,0,NULL,0
+38,232,405,24,Complete Urine Examination,Complete Urine Examination,,,,,23-03-2022 21:32,,1,NULL,0,NULL,0
+39,232,405,25,Hemogram,Hemogram,,,,,23-03-2022 21:54,,1,NULL,0,NULL,0
+40,232,405,26,Renal Profile/Renal Function Test (Rft/Kf,Renal Profile/Renal Function Test (Rft/Kft),,,,,23-03-2022 22:06,,1,NULL,0,NULL,0
+42,232,405,27,Liver Function Test (Lft),Liver Function Test (Lft),,,,,23-03-2022 22:15,,1,NULL,0,NULL,0
+43,232,405,28,Anti-Sars-Cov-2 Igg,Anti-Sars-Cov-2 Igg,,,,,23-03-2022 22:20,,1,NULL,0,NULL,0
+44,232,405,28,"Glucose, Fasting","Glucose, Fasting",,,,,23-03-2022 22:26,,1,NULL,0,NULL,0
+45,232,405,29,"Hba1c, Glycated Hemoglobin","Hba1c, Glycated Hemoglobin",,,,,23-03-2022 22:26,,1,NULL,0,NULL,0
+46,232,405,30,Hemogram,Hemogram,,,,,23-03-2022 22:33,,1,NULL,0,NULL,0
+47,232,405,31,Renal Profile/Renal Function Test (Rft/Kft),Renal Profile/Renal Function Test (Rft/Kft),,,,,23-03-2022 23:02,,1,NULL,0,NULL,0
+48,232,405,32,Lipid Profile,Lipid Profile,,,,,23-03-2022 23:06,,1,NULL,0,NULL,0
+49,232,405,33,Liver Function Test (Lft),Liver Function Test (Lft),,,,,23-03-2022 23:11,,1,NULL,0,NULL,0
+50,232,405,34,Erythrocyte Sedimentation Rate (Esr),Erythrocyte Sedimentation Rate (Esr),,,,,23-03-2022 23:17,,1,NULL,0,NULL,0
+51,232,405,35,Peripheral Smear For Malarial Parasite (Mp),Peripheral Smear For Malarial Parasite (Mp),,,,,23-03-2022 23:18,,1,NULL,0,NULL,0
+52,232,405,36,Dengue Ns1 Antigen - Elisa,Dengue Ns1 Antigen - Elisa,,,,,23-03-2022 23:20,,1,NULL,0,NULL,0
+53,232,405,37,C-Reactive Protein Crp (Quantitative,C-Reactive Protein Crp (Quantitative,,,,,23-03-2022 23:21,,1,NULL,0,NULL,0
+54,232,405,38,Malarial Antigen ( Vivax And Falciparum),Malarial Antigen ( Vivax And Falciparum),,,,,23-03-2022 23:22,,1,NULL,0,NULL,0
+55,232,405,38,Complete Blood Count (Cbc),Complete Blood Count (Cbc),,,,,23-03-2022 23:24,,1,NULL,0,NULL,0
+56,232,405,39,Ige (Total),Ige (Total),,,,,23-03-2022 23:32,,1,NULL,0,NULL,0
+57,232,405,40,Immunoglobulin E (Ige) Total,Immunoglobulin E (Ige) Total,,,,,23-03-2022 23:33,,1,NULL,0,NULL,0
+58,232,405,41,Iron Studies (Iron + Tibc),Iron Studies (Iron + Tibc),,,,,23-03-2022 23:34,,1,NULL,0,NULL,0
+59,232,405,42,Hemogram,Hemogram,,,,,23-03-2022 23:37,,1,NULL,0,NULL,0
+60,232,405,43,Electrolytes - Serum,Electrolytes - Serum,,,,,23-03-2022 23:42,,1,NULL,0,NULL,0
+61,232,405,44,Immunoglobulin - Iga,Immunoglobulin - Iga,,,,,23-03-2022 23:45,,1,NULL,0,NULL,0
+62,232,405,45,Immunoglobulin - Igm,Immunoglobulin - Igm,,,,,23-03-2022 23:46,,1,NULL,0,NULL,0
+63,232,405,46,Immunoglobulin - Igg,Immunoglobulin - Igg,,,,,23-03-2022 23:48,,1,NULL,0,NULL,0
+64,232,405,46,Ige (Total),Ige (Total),,,,,23-03-2022 23:49,,1,NULL,0,NULL,0
+65,232,405,47,Vitamin D - 25 Hydroxy (D2+D3),Vitamin D - 25 Hydroxy (D2+D3),,,,,23-03-2022 23:50,,1,NULL,0,NULL,0
+66,232,405,48,Iron Studies (Iron + Tibc),Iron Studies (Iron + Tibc),,,,,23-03-2022 23:52,,1,NULL,0,NULL,0
+67,232,405,49,Electrolytes - Serum,Electrolytes - Serum,,,,,23-03-2022 23:55,,1,NULL,0,NULL,0
+68,232,405,50,"Alanine Aminotransferase (Alt/Sgpt), Serum","Alanine Aminotransferase (Alt/Sgpt), Serum",,,,,24-03-2022 00:00,,1,NULL,0,NULL,0
+69,232,405,51,"Aspartate Aminotransferase (Ast/Sgot), Serum","Aspartate Aminotransferase (Ast/Sgot), Serum",,,,,24-03-2022 00:01,,1,NULL,0,NULL,0
+70,232,405,52,Lactate Dehydrogenase (Ldh)- Serum,Lactate Dehydrogenase (Ldh)- Serum,,,,,24-03-2022 00:02,,1,NULL,0,NULL,0
+71,232,405,52,Prothrombin Time,Prothrombin Time (Pt/Inr),,,,,24-03-2022 00:04,,1,NULL,0,NULL,0
+72,232,405,54,Ck Creatine Kinase - Serum (Cpk):,Ck Creatine Kinase - Serum (Cpk):,,,,,24-03-2022 00:08,,1,NULL,0,NULL,0
+73,232,405,54,Ck Creatine Kinase - Serum (Cpk):,Covid -19 Rt Pcr,,,,,24-03-2022 00:08,,1,NULL,0,NULL,0
+74,232,405,55,C-Reactive Protein Crp (Quantitative),C-Reactive Protein Crp (Quantitative),,,,,24-03-2022 00:09,,1,NULL,0,NULL,0
+75,232,405,56,Fibrinogen,Fibrinogen,,,,,24-03-2022 00:11,,1,NULL,0,NULL,0
+76,232,405,57,Anti-Sars-Cov-2 Spike Protein,Anti-Sars-Cov-2 Spike Protein,,,,,24-03-2022 00:13,,1,NULL,0,NULL,0
+78,232,405,58,Ferritin,Ferritin,,,,,24-03-2022 00:14,,1,NULL,0,NULL,0
+79,232,405,59,Iron Studies (Iron + Tibc),Iron Studies (Iron + Tibc),,,,,24-03-2022 00:15,,1,NULL,0,NULL,0
+80,232,405,60,"Hba1c, Glycated Hemoglobin","Hba1c, Glycated Hemoglobin",,,,,24-03-2022 00:19,,1,NULL,0,NULL,0
+81,232,405,63,Vitamin D - 25 Hydroxy (D2+D3,Vitamin D - 25 Hydroxy (D2+D3,,,,,24-03-2022 00:31,,1,NULL,0,NULL,0
+82,232,405,64,Complete Urine Examination,Complete Urine Examination,,,,,24-03-2022 00:38,,1,NULL,0,NULL,0
+83,232,405,66,"Thyroid Profile &#40;Total T3, Total T4, Tsh&#41;","Thyroid Profile &#40;Total T3, Total T4, Tsh&#41;",,,,,24-03-2022 00:41,,1,NULL,0,NULL,0
+84,232,405,67,Renal Profile/Renal Function Test (Rft/Kft),Renal Profile/Renal Function Test (Rft/Kft),,,,,24-03-2022 00:47,,1,NULL,0,NULL,0
+85,232,405,0,FBS,fbs,,,,,24-03-2022 01:28,,1,NULL,0,NULL,0
+87,232,405,0,PPBS,PPBS,,,,,24-03-2022 01:36,,1,NULL,0,NULL,0
+88,232,405,0,RBS,RBS,,,,,24-03-2022 01:44,,1,NULL,0,NULL,0
+89,232,405,0,RFT,RFT,,,,,24-03-2022 01:54,,1,NULL,0,NULL,0
+90,232,405,0,LFT,LFT,,,,,24-03-2022 01:58,,1,NULL,0,NULL,0
+91,232,405,0,SE,SE,,,,,24-03-2022 02:04,,1,NULL,0,NULL,0
+92,232,405,0,RBC,RBC,,,,,24-03-2022 02:15,,1,NULL,0,NULL,0
+93,232,405,0,Blood Urea Nitrogen,Renal Test,,,,,24-03-2022 02:27,,1,NULL,0,NULL,0
+94,232,405,0,serum creatinine,Renal Test,,,,,24-03-2022 02:30,,1,NULL,0,NULL,0
+95,232,405,0,RED CELL INDICES,RED CELL INDICES,,,,,24-03-2022 02:33,,1,NULL,0,NULL,0
+96,232,405,0,uric acid,Renal Test,,,,,24-03-2022 02:36,,1,NULL,0,NULL,0
+97,232,405,0,renal test,Renal Test,,,,,24-03-2022 02:40,,1,NULL,0,NULL,0
+98,232,405,0,renal test,Renal Test,,,,,24-03-2022 02:40,,1,NULL,0,NULL,0
+99,232,405,0,white Blood Cells,white Blood Cells,,,,,24-03-2022 02:41,,1,NULL,0,NULL,0
+100,232,405,0,Cardiac Tests,Cardiac Tests,,,,,24-03-2022 02:43,,1,NULL,0,NULL,0
+101,232,405,0,Thyoid Function Tests,Thyroid Function Test,,,,,24-03-2022 02:53,,1,NULL,0,NULL,0
+102,232,405,0,Electrolytes Test,Electrolytes Test,,,,,24-03-2022 02:53,,1,NULL,0,NULL,0
+103,232,405,0,Liver Function test,Liver Function test,,,,,24-03-2022 03:15,,1,NULL,0,NULL,0
+104,232,405,0,reproductive hormones,Reproductive Hormones,,,,,24-03-2022 03:19,,1,NULL,0,NULL,0
+105,232,405,0,Lipid Panel,Lipid Panel,,,,,24-03-2022 03:38,,1,NULL,0,NULL,0
+106,232,405,0,vitamins,vitamins,,,,,24-03-2022 03:58,,1,NULL,0,NULL,0
+107,232,405,0,Tumor Markers,Tumor Markers,,,,,24-03-2022 04:19,,1,NULL,0,NULL,0
+108,232,405,0,Tumor Markers,Tumor Markers,,,,,24-03-2022 04:19,,1,NULL,0,NULL,0
+109,232,405,0,Pancreatic test,Pancreatic test,,,,,24-03-2022 04:24,,1,NULL,0,NULL,0
+110,232,405,0,fibrinogen,Fibrinogen,,,,,24-03-2022 04:39,,1,NULL,0,NULL,0
+111,232,405,0,Factor Assay,Factor Assay,,,,,24-03-2022 04:42,,1,NULL,0,NULL,0
+112,232,405,0,D-Dimer,D-Timer,,,,,24-03-2022 04:49,,1,NULL,0,NULL,0
+113,232,405,0,Immunoglobulins&complement,Immunoglobulins&compement,,,,,24-03-2022 04:51,,1,NULL,0,NULL,0
+114,232,405,0,Urine analysis,Urine analysis,,,,,24-03-2022 04:53,,1,NULL,0,NULL,0
+115,232,405,0,blood gas analysis,blood gas analysis,,,,,24-03-2022 04:59,,1,NULL,0,NULL,0
+116,232,405,0,microscopic examination,Urine-Microscopic examination,,,,,24-03-2022 05:00,,1,NULL,0,NULL,0
+117,232,405,0,URINE TEST,URINE TEST,,,,,24-03-2022 05:05,,1,NULL,0,NULL,0
+118,232,405,0,Urine reference ranges,Urine reference ranges,,,,,24-03-2022 05:06,,1,NULL,0,NULL,0
+119,232,405,0,cortisol,cortisol,,,,,24-03-2022 05:16,,1,NULL,0,NULL,0
+120,232,405,0,parathyroid hormone,parathyroid hormone,,,,,24-03-2022 05:17,,1,NULL,0,NULL,0
+121,232,405,0,growth hormone,growth hormone,,,,,24-03-2022 05:17,,1,NULL,0,NULL,0
+122,232,405,0,adrenocorticotropic hormone,adrenocorticotropic hormone,,,,,24-03-2022 05:19,,1,NULL,0,NULL,0
+123,232,405,0,ADH/VASOPRESSION,ADH/VASOPRESSIN,,,,,24-03-2022 05:21,,1,NULL,0,NULL,0
+124,232,405,0,"Catecholamine,vma","Catecholamine,vma",,,,,24-03-2022 05:23,,1,NULL,0,NULL,0
+125,232,405,0,Pleural Fluid Analysis,Pleural Fluid Analysis,,,,,24-03-2022 05:31,,1,NULL,0,NULL,0
+126,232,405,0,Peritonal Fluid Analysis,Peritonial Fluid Analysis,,,,,24-03-2022 05:33,,1,NULL,0,NULL,0
+127,232,405,0,CSF,CSF,,,,,24-03-2022 05:34,,1,NULL,0,NULL,0
+128,232,405,0,Amniotic Fluid Analysis,Amniotic Fluid Analysis,,,,,24-03-2022 05:44,,1,NULL,0,NULL,0
+129,232,405,0,Iron Profile,Iron Profile,,,,,24-03-2022 05:49,,1,NULL,0,NULL,0
+130,232,405,0,Autoimmunity,Autoimmunity,,,,,24-03-2022 05:54,,1,NULL,0,NULL,0
+131,232,405,0,viral hepatitis,viral hepatitis,,,,,24-03-2022 05:58,,1,NULL,0,NULL,0
+132,232,405,0,TB,TB,,,,,24-03-2022 06:01,,1,NULL,0,NULL,0
+133,232,405,0,Blood sugar,Diabetes Test,,,,,24-03-2022 06:07,,1,NULL,0,NULL,0
+134,232,405,0,Glucose tolerence test,Glucose tolerence test,,,,,24-03-2022 06:12,,1,NULL,0,NULL,0
+135,232,405,0,HbA1c,HbA1c,,,,,24-03-2022 06:16,,1,NULL,0,NULL,0
+136,232,405,0,C-Peptide test,C-peptide test,,,,,24-03-2022 06:18,,1,NULL,0,NULL,0
+138,232,405,0,Patient Variables That Affect Tests Values,Patient Variables That Affect Test Values,,,,,24-03-2022 21:17,,1,NULL,0,NULL,0
+139,232,405,0,preanalytical factor that affect test results,preanalytical factor that affect test results,,,,,24-03-2022 21:20,,1,NULL,0,NULL,0
+140,232,405,0,Wavelenght length of absorbed & observed color,Wavelenght length of absorbed & observed color,,,,,24-03-2022 21:23,,1,NULL,0,NULL,0
+141,232,405,0,serum protein electrophoresis interpretations,serum protein electrophoresis interpretations,,,,,24-03-2022 21:25,,1,NULL,0,NULL,0
+142,232,405,0,Therapeutics drugs Commonly used,Therapeutics drugs Commonly used,,,,,24-03-2022 21:27,,1,NULL,0,NULL,0
+143,232,405,0,Calculation,Calculation,,,,,24-03-2022 21:29,,1,NULL,0,NULL,0
+144,232,405,0,Blood grouping,Blood grouping,,,,,24-03-2022 21:30,,1,NULL,0,NULL,0
+145,232,405,0,coombs test,coombs test,,,,,24-03-2022 21:31,,1,NULL,0,NULL,0
+146,232,405,0,Therapeutic drug monitoring,Therapeutic drug monitoring,,,,,24-03-2022 21:31,,1,NULL,0,NULL,0
+147,232,405,0,serological tests,serological tests,,,,,24-03-2022 21:32,,1,NULL,0,NULL,0
+148,232,405,0,diagnostic genetic testing,diagnostic genetic testing,,,,,24-03-2022 21:34,,1,NULL,0,NULL,0
+149,232,405,0,fungal test,fungal test,,,,,24-03-2022 21:36,,1,NULL,0,NULL,0
+150,232,405,0,Vacutainers,Vacutainers,,,,,24-03-2022 21:38,,1,NULL,0,NULL,0
+151,232,405,0,blood donors criteria,blood donors criteria,,,,,24-03-2022 21:39,,1,NULL,0,NULL,0
+152,232,405,0,Blood Banking,Blood Banking,,,,,24-03-2022 21:39,,1,NULL,0,NULL,0
+153,232,405,0,blood donors criteria,ABO&rhesus blood group,,,,,24-03-2022 21:41,,1,NULL,0,NULL,0
+154,232,405,0,G6PD Activity,G6PD Activity,,,,,24-03-2022 21:58,,1,NULL,0,NULL,0
+155,232,405,0,"Hba1c, Glycated Hemoglobin","Hba1c, Glycated Hemoglobin",,,,,24-03-2022 22:17,,1,NULL,0,NULL,0
+156,232,405,0,"Testosterone, Total","Testosterone, Total",,,,,24-03-2022 22:20,,1,NULL,0,NULL,0
+157,232,405,0,Vitamin D - 25 Hydroxy (D2+D3),Vitamin D - 25 Hydroxy (D2+D3),,,,,24-03-2022 22:21,,1,NULL,0,NULL,0
+158,232,405,0,Complete Urine Examination,Complete Urine Examination,,,,,24-03-2022 22:22,,1,NULL,0,NULL,0
+159,232,405,0,Complete Urine Examination,Complete Urine Examination,,,,,24-03-2022 22:22,,1,NULL,0,NULL,0
+160,232,405,0,Complete Blood Count (Cb,Complete Blood Count (Cbc),,,,,24-03-2022 22:23,,1,NULL,0,NULL,0
+161,232,405,0,"Thyroid Profile &#40;Total T3, Total T4, Tsh&#41;","Thyroid Profile &#40;Total T3, Total T4, Tsh&#41;",,,,,24-03-2022 22:31,,1,NULL,0,NULL,0
+162,232,405,0,Renal Profile/Renal Function Test (Rft/Kft),Renal Profile/Renal Function Test (Rft/Kft),,,,,24-03-2022 22:35,,1,NULL,0,NULL,0
+163,232,405,0,Lipid Profile,Lipid Profile,,,,,24-03-2022 22:43,,1,NULL,0,NULL,0
+164,232,405,0,Liver Function Test (Lft),Liver Function Test (Lft),,,,,24-03-2022 22:47,,1,NULL,0,NULL,0
+165,232,405,0,Ige (Total),Ige (Total),,,,,24-03-2022 22:58,,1,NULL,0,NULL,0
+166,232,405,0,Vitamin D - 25 Hydroxy (D2+D3,Vitamin D - 25 Hydroxy (D2+D3,,,,,24-03-2022 23:00,,1,NULL,0,NULL,0
+167,232,405,0,Iron Studies (Iron + Tibc),Iron Studies (Iron + Tibc),,,,,24-03-2022 23:01,,1,NULL,0,NULL,0
+168,232,405,0,Electrolytes - Serum,Electrolytes - Serum,,,,,24-03-2022 23:04,,1,NULL,0,NULL,0
+169,232,405,0,"Glucose, Fasting","Glucose, Fasting",,,,,24-03-2022 23:07,,1,NULL,0,NULL,0
+170,232,405,0,Ige (Total),Ige (Total),,,,,24-03-2022 23:08,,1,NULL,0,NULL,0
+171,232,405,0,Vitamin D - 25 Hydroxy (D2+D3),Vitamin D - 25 Hydroxy (D2+D3),,,,,24-03-2022 23:10,,1,NULL,0,NULL,0
+172,232,405,0,"Interleukin-6, Il-6","Interleukin-6, Il-6",,,,,24-03-2022 23:20,,1,NULL,0,NULL,0
+175,232,405,0,D-DIMER,D-DIMER,,,,,24-03-2022 23:50,,1,NULL,0,NULL,0
+176,232,405,0,myeloma profie-metropolis,myeloma-profile-metropolis,,,,,24-03-2022 23:52,,1,NULL,0,NULL,0
+177,232,405,0,protein electrophoresis,protein electrophoresis,,,,,24-03-2022 23:57,,1,NULL,0,NULL,0
+178,232,405,0,flow cytometry kappa lambda pannel-BMH,flow cytometry kappa lambda pannel-BMH,,,,,25-03-2022 00:00,,1,NULL,0,NULL,0
+179,232,405,0,CALCIUM,CALCIUM,,,,,25-03-2022 00:02,,1,NULL,0,NULL,0
+180,232,405,0,FERRITIN,FERRITIN,,,,,25-03-2022 00:04,,1,NULL,0,NULL,0
+181,232,405,0,Covid-19 antigen test,Covid-19 antigen test,,,,,25-03-2022 00:06,,1,NULL,0,NULL,0
+182,232,405,0,MDRO SCREENING,MDRO SCREENING,,,,,25-03-2022 00:08,,1,NULL,0,NULL,0
+183,232,405,0,Blood group&RH,Blood group&RH,,,,,25-03-2022 00:11,,1,NULL,0,NULL,0
+184,232,405,0,STOOL ROUTINE,STOOL ROUTINE,,,,,25-03-2022 00:12,,1,NULL,0,NULL,0
+185,232,405,0,STOOL OCCULT BLOOD,STOOL OCCULT BLOOD,,,,,25-03-2022 00:21,,1,NULL,0,NULL,0
+186,232,405,0,inorganic phosphorous,inorganic phosphorous,,,,,25-03-2022 00:23,,1,NULL,0,NULL,0
+187,232,405,0,endotracheal secretion-fungal smear,endotracheal secretion-fungal smear,,,,,25-03-2022 01:20,,1,NULL,0,NULL,0
+188,232,405,0,gramstendotracheal secretion-gramstain,gramstendotracheal secretion-gramstain,,,,,25-03-2022 01:23,,1,NULL,0,NULL,0
+189,232,405,0,urea,urea,,,,,25-03-2022 01:24,,1,NULL,0,NULL,0
+190,232,405,0,creatinine,creatinine,,,,,25-03-2022 01:26,,1,NULL,0,NULL,0
+191,232,405,0,c-reactive protein,c-reactive protein,,,,,25-03-2022 01:34,,1,NULL,0,NULL,0
+192,232,405,0,haematology,haematology,,,,,25-03-2022 01:38,,1,NULL,0,NULL,0
+193,232,405,0,complete blood count,complete blood count ,,,,,25-03-2022 01:40,,1,NULL,0,NULL,0
+194,232,405,0,absolute eosinophil count,absolute eosinophil count,,,,,25-03-2022 01:43,,1,NULL,0,NULL,0
+195,232,405,0,liver function test,liver function test,,,,,25-03-2022 01:49,,1,NULL,0,NULL,0
+196,232,405,0,AUTOMATIC URINE ANALYSIS,AUTOMATIC URINE ANALYSIS,,,,,25-03-2022 02:00,,1,NULL,0,NULL,0
+197,232,405,0,URINE GLUCOSE ,URINE GLUCOSE ,,,,,25-03-2022 02:01,,1,NULL,0,NULL,0
+198,232,405,0,Blood count,Blood count,,,,,25-03-2022 02:06,,1,NULL,0,NULL,0
+199,232,405,0,Lipase,Lipase,,,,,25-03-2022 02:10,,1,NULL,0,NULL,0
+200,232,405,0,urobilinogen,urobilinogen,,,,,25-03-2022 02:12,,1,NULL,0,NULL,0
+201,232,405,0,Liver Function Test,LFT,,,,,25-03-2022 02:13,,1,NULL,0,NULL,0
+202,232,405,0,ketone bodies,ketone bodies,,,,,25-03-2022 02:14,,1,NULL,0,NULL,0
+203,232,405,0,microscopy,microscopy,,,,,25-03-2022 02:16,,1,NULL,0,NULL,0
+204,232,405,0,APTT,APTT,,,,,25-03-2022 02:17,,1,NULL,0,NULL,0
+205,232,405,0,HCV AB,HCV AB,,,,,25-03-2022 03:07,,1,NULL,0,NULL,0
+206,232,405,0,HIV 1&2,HIV 1&2,,,,,25-03-2022 03:09,,1,NULL,0,NULL,0
+207,232,405,0,kidney function test,Kidney function test,,,,,25-03-2022 03:09,,1,NULL,0,NULL,0
+208,232,405,0,SGPT(ALT),SGPT(ALT),,,,,25-03-2022 03:13,,1,NULL,0,NULL,0
+209,232,405,0,SGOT,SGOT,,,,,25-03-2022 03:14,,1,NULL,0,NULL,0
+210,232,405,0,Lipid Profile,Lipid Profile,,,,,25-03-2022 03:18,,1,NULL,0,NULL,0
+211,232,405,0,potassium,potassium,,,,,25-03-2022 03:19,,1,NULL,0,NULL,0
+212,232,405,0,SODIUM,SODIUM,,,,,25-03-2022 03:21,,1,NULL,0,NULL,0
+213,232,405,0,Blood sugar test,Blood sugar test,,,,,25-03-2022 03:25,,1,NULL,0,NULL,0
+214,232,405,0,PT/INR,PT/INR,,,,,25-03-2022 03:26,,1,NULL,0,NULL,0
+215,232,405,0,neutrophil,neutrophil,,,,,25-03-2022 03:31,,1,NULL,0,NULL,0
+216,232,405,0,MCH,MCH,,,,,25-03-2022 03:35,,1,NULL,0,NULL,0
+217,232,405,0,Cardiac blood test,Cardiac blood test,,,,,25-03-2022 03:35,,1,NULL,0,NULL,0
+218,232,405,0,BLAST CELL,BLAST CELL,,,,,25-03-2022 03:36,,1,NULL,0,NULL,0
+219,232,405,0,NRBC'S,NRBC'S,,,,,25-03-2022 03:37,,1,NULL,0,NULL,0
+220,232,405,0,BASOPHIL,BASOPHIL,,,,,25-03-2022 03:38,,1,NULL,0,NULL,0
+221,232,405,0,Thyroid function test,Thyroid function test,,,,,25-03-2022 03:39,,1,NULL,0,NULL,0
+222,232,405,0,MONOCYTE,MONOCYTE,,,,,25-03-2022 03:39,,1,NULL,0,NULL,0
+223,232,405,0,EOSINOPHIL,EOSINOPHIL,,,,,25-03-2022 03:40,,1,NULL,0,NULL,0
+224,232,405,0,haematocrit/pcv,haematocrit/pcv,,,,,25-03-2022 03:43,,1,NULL,0,NULL,0
+225,232,405,0,RBC COUNT,RBC COUNT,,,,,25-03-2022 03:44,,1,NULL,0,NULL,0
+226,232,405,0,Blood test for infertitlty,Blood Test for infertility,,,,,25-03-2022 03:45,,1,NULL,0,NULL,0
+227,232,405,0,PLATELET COUNT,PLATELET COUNT,,,,,25-03-2022 03:46,,1,NULL,0,NULL,0
+228,232,405,0,HAEMATOCRIT/PCV,HAEMATOCRIT/PCV,,,,,25-03-2022 03:51,,1,NULL,0,NULL,0
+229,232,405,0,Blood test for infertility,Blood test for infertility,,,,,25-03-2022 03:51,,1,NULL,0,NULL,0
+230,232,405,0,TOTAL COUNT WBC,TOTAL COUNT WBC,,,,,25-03-2022 03:52,,1,NULL,0,NULL,0
+231,232,405,0,HAEMOGLOBIN,HAEMOGLOBIN,,,,,25-03-2022 03:54,,1,NULL,0,NULL,0
+232,232,405,0,Seman Analysis,Seman Analysis,,,,,25-03-2022 03:54,,1,NULL,0,NULL,0
+233,232,405,0,SPECIFIC GRAVITY,SPECIFIC GRAVITY,,,,,25-03-2022 03:55,,1,NULL,0,NULL,0
+234,232,405,0,URINE PH,URINE PH,,,,,25-03-2022 03:56,,1,NULL,0,NULL,0
+235,232,405,0,Tumor marker,Tumor marker,,,,,25-03-2022 03:57,,1,NULL,0,NULL,0
+236,232,405,0,globulin,globulin,,,,,25-03-2022 03:58,,1,NULL,0,NULL,0
+237,232,405,0,Arthritis,Blood test for Arthritis,,,,,25-03-2022 04:01,,1,NULL,0,NULL,0
+238,232,405,0,albumin,albumin,,,,,25-03-2022 04:02,,1,NULL,0,NULL,0
+239,232,405,0,total protein,total protein,,,,,25-03-2022 04:04,,1,NULL,0,NULL,0
+240,232,405,0,Antisteptolysin O titer(ASO),Antisteptolysin O titer(ASO),,,,,25-03-2022 04:04,,1,NULL,0,NULL,0
+241,232,405,0,alkaline phosphatase,alkaline phosphatase,,,,,25-03-2022 04:05,,1,NULL,0,NULL,0
+242,232,405,0,HIV-1 and HIV-2,HIV-1 and HIV-2,,,,,25-03-2022 04:07,,1,NULL,0,NULL,0
+243,232,405,0,allergen-specific  immunoglobulin E,allergen-specific  immunoglobulin E,,,,,25-03-2022 04:10,,1,NULL,0,NULL,0
+244,232,405,0,uric acid,uric acid,,,,,25-03-2022 04:10,,1,NULL,0,NULL,0
+245,232,405,0, lead , lead ,,,,,25-03-2022 04:12,,1,NULL,0,NULL,0
+246,232,405,0,C-REACTIVE PROTEIN,C-REACTIVE PROTEIN,,,,,25-03-2022 04:14,,1,NULL,0,NULL,0
+247,232,405,0,erythrocyte sedimentration rate,erythrocyte sedimentration rate,,,,,25-03-2022 04:18,,1,NULL,0,NULL,0
+248,232,405,0,immunoglobulin A,immunoglobulin A,,,,,25-03-2022 04:22,,1,NULL,0,NULL,0
+249,232,405,0,lactate dehydrogenase ,lactate dehydrogenase ,,,,,25-03-2022 04:23,,1,NULL,0,NULL,0
+250,232,405,0,immunoglobulin A,immunoglobulin A,,,,,25-03-2022 04:29,,1,NULL,0,NULL,0
+251,232,405,0,newborn screening ,newborn screening ,,,,,25-03-2022 04:30,,1,NULL,0,NULL,0
+252,232,405,0,"IMMUNOGLOBULINE (lgA,lgG,lgM)","IMMUNOGLOBULINE (lgA,lgG,lgM)",,,,,25-03-2022 04:32,,1,NULL,0,NULL,0
+253,232,405,0,STD testing,STD testing,,,,,25-03-2022 04:35,,1,NULL,0,NULL,0
+254,232,405,0,phosphorus,phosphorus,,,,,25-03-2022 04:36,,1,NULL,0,NULL,0
+255,232,405,0,lipid panel,lipid panel,,,,,25-03-2022 04:36,,1,NULL,0,NULL,0
+256,232,405,0,comprehensive metabolic panel,comprehensive metabolic panel,,,,,25-03-2022 04:40,,1,NULL,0,NULL,0
+257,232,405,0,factor VIII activity,factor VIII activity,,,,,25-03-2022 04:43,,1,NULL,0,NULL,0
+258,232,405,0, Magnesium , Magnesium ,,,,,25-03-2022 04:45,,1,NULL,0,NULL,0
+259,232,405,0,ferritin (iron),ferritin (iron),,,,,25-03-2022 04:47,,1,NULL,0,NULL,0
+260,232,405,0,hemoglobin electrophoresis,hemoglobin electrophoresis,,,,,25-03-2022 04:52,,1,NULL,0,NULL,0
+261,232,405,0,T4(Thyroxine) ,T4(Thyroxine) ,,,,,25-03-2022 04:53,,1,NULL,0,NULL,0
+262,232,405,0,partial thromboplastin time (PTT),partial thromboplastin time (PTT),,,,,25-03-2022 04:56,,1,NULL,0,NULL,0
+263,232,405,0,prothrombin time (PT),prothrombin time (PT),,,,,25-03-2022 04:58,,1,NULL,0,NULL,0
+264,232,405,0,reticulocyte count,reticulocyte count,,,,,25-03-2022 05:02,,1,NULL,0,NULL,0
+265,232,405,0,T3Resin Uptake,T3Resin Uptake,,,,,25-03-2022 05:03,,1,NULL,0,NULL,0
+266,232,405,0,von Willebrand factor (vWF) antigen,von Willebrand factor (vWF) antigen,,,,,25-03-2022 05:05,,1,NULL,0,NULL,0
+267,232,405,0,dehydroepiandrosterone-sulfate (DHEA-S),dehydroepiandrosterone-sulfate (DHEA-S),,,,,25-03-2022 22:04,,1,NULL,0,NULL,0
+268,232,405,0,estradiol,estradiol,,,,,25-03-2022 22:06,,1,NULL,0,NULL,0
+269,232,405,0,follicle stimulating hormone (FSH),follicle stimulating hormone (FSH),,,,,25-03-2022 22:08,,1,NULL,0,NULL,0
+270,232,405,0,IGF binding protein-3 (IGFBP-3),IGF binding protein-3 (IGFBP-3),,,,,25-03-2022 22:09,,1,NULL,0,NULL,0
+271,232,405,0,prolactin,prolactin,,,,,25-03-2022 22:19,,1,NULL,0,NULL,0
+272,232,405,0,17-hydroxyprogesterone,17-hydroxyprogesterone,,,,,25-03-2022 22:34,,1,NULL,0,NULL,0
+273,232,405,0,somatomedin C (IGF-1),somatomedin C (IGF-1),,,,,25-03-2022 22:38,,1,NULL,0,NULL,0
+274,232,405,0,testosterone,testosterone,,,,,25-03-2022 22:47,,1,NULL,0,NULL,0
+275,232,405,0,testosterone,testosterone,,,,,25-03-2022 22:47,,1,NULL,0,NULL,0
+276,232,405,0,hepatic (liver) function panel,hepatic (liver) function panel,,,,,25-03-2022 22:51,,1,NULL,0,NULL,0
+277,232,405,0,"1,25-Dihydroxyvitamin D
+(1,25-dihydroxycholecalciferol), serum",,,,,,26-03-2022 01:45,,1,NULL,0,NULL,0
+278,232,405,0,"25-Hydroxyvitamin D
+(25-hydroxycholecalciferol), serum",,,,,,26-03-2022 01:45,,1,NULL,0,NULL,0
+279,232,405,0,"5-Hydroxyindoleacetic acid, urine",,,,,,26-03-2022 01:45,,1,NULL,0,NULL,0
+280,232,405,0,"6-Thioguanine, whole blood",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+281,232,405,0,Absolute neutrophil count (ANC),,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+282,232,405,0,"Acid phosphatase, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+283,232,405,0,Total,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+284,232,405,0,Prostatic fraction,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+285,232,405,0,"ACTH, plasma",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+286,232,405,0,Activated partial thromboplastin time,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+287,232,405,0,ADAMTS13 activity,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+288,232,405,0,"Adrenocorticotropic hormone (ACTH), plasma",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+289,232,405,0,"Albumin, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+290,232,405,0,"Albumin, urine",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+291,232,405,0,"Albumin-to-creatinine ratio, urine",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+292,232,405,0,"Aldolase, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+293,232,405,0,"Aldosterone, plasma",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+294,232,405,0,Supine or seated,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+295,232,405,0,Standing,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+296,232,405,0,Low-sodium diet (supine),,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+297,232,405,0,"Aldosterone, urine",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+298,232,405,0,"Alkaline phosphatase, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+299,232,405,0,"Alpha1-antitrypsin (AAT), serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+300,232,405,0,"Alpha2-antiplasmin activity, plasma",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+301,232,405,0,"Alpha-amino nitrogen, urine",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+302,232,405,0,"Alpha-fetoprotein, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+303,232,405,0,"Amino acids, urine",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+304,232,405,0,"Aminotransferase, serum alanine (ALT, SGPT)",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+305,232,405,0,"Aminotransferase, serum aspartate (AST, SGOT)",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+306,232,405,0,"Ammonia, blood",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+307,232,405,0,"Amylase, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+308,232,405,0,"Amylase, urine",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+309,232,405,0,"Androstenedione, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+310,232,405,0,"Angiotensin-converting enzyme, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+311,232,405,0,"Anion gap, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+312,232,405,0,Antibodies to double-stranded DNA,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+313,232,405,0,Anticardiolipin antibodies,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+314,232,405,0,IgG,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+315,232,405,0,IgM,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+316,232,405,0,"Anti-cyclic citrullinated peptide, antibodies to",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+317,232,405,0,Antideoxyribonuclease B,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+318,232,405,0,"Anti-F-actin antibodies, serum",,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+319,232,405,0,Antihistone antibodies,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+320,232,405,0,Anti-liver-kidney microsomal antibodies (anti-LKM),,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+321,232,405,0,Antimitochondrial antibodies,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+322,232,405,0,Anti–myelin associated glycoprotein antibody,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+323,232,405,0,Antimyeloperoxidase antibodies,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+324,232,405,0,Antinuclear antibodies,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+325,232,405,0,Anti–smooth muscle antibodies,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+326,232,405,0,Antistreptolysin O titer,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+327,232,405,0,Antithrombin activity,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+328,232,405,0,Antithyroglobulin antibodies,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+329,232,405,0,Antithyroid peroxidase antibodies,,,,,,26-03-2022 01:42,,1,NULL,0,NULL,0
+330,232,405,0,Anti-tissue transglutaminase antibodies,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+331,232,405,0,"Arterial blood gas studies (patient
+breathing room air):",,,,,,26-03-2022 01:47,,1,NULL,0,NULL,0
+332,232,405,0,pH,,,,,,26-03-2022 01:47,,1,NULL,0,NULL,0
+333,232,405,0,PaCO2,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+334,232,405,0,PaO2,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+335,232,405,0,Bicarbonate,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+336,232,405,0,Oxygen saturation,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+337,232,405,0,Methemoglobin,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+338,232,405,0,"Ascorbic acid (vitamin C), blood",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+339,232,405,0,"Ascorbic acid, leukocyte",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+340,232,405,0,"(1,3)-Beta-D-glucan, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+341,232,405,0,"Beta-human chorionic gonadotropin (beta-hCG), serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+342,232,405,0,"Beta-human chorionic gonadotropin (beta-hCG), urine",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+343,232,405,0,Beta2-glycoprotein I antibodies:,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+344,232,405,0,IgG,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+345,232,405,0,IgM,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+346,232,405,0,"Beta-hydroxybutyrate, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+347,232,405,0,"Beta2-microglobulin, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+348,232,405,0,"Bicarbonate, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+349,232,405,0,"Bilirubin, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+350,232,405,0,Total,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+351,232,405,0,Direct,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+352,232,405,0,Indirect,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+353,232,405,0,Bleeding time (template),,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+354,232,405,0,"Blood urea nitrogen (BUN), serum or plasma",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+355,232,405,0,"B-type natriuretic peptide, plasma",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+356,232,405,0,"C peptide, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+357,232,405,0,"Calcium, ionized, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+358,232,405,0,"Calcium, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+359,232,405,0,"Carbohydrate antigens, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+360,232,405,0,CA 19-9,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+361,232,405,0,CA 27-29,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+362,232,405,0,CA 125,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+363,232,405,0,"Carbon dioxide content, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+364,232,405,0,"Carboxyhemoglobin, blood",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+365,232,405,0,"Carcinoembryonic antigen, plasma",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+366,232,405,0,"Carotene, serum",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+367,232,405,0,"Catecholamines, plasma",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+368,232,405,0,Dopamine,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+369,232,405,0,Epinephrine,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+370,232,405,0,Supine,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+371,232,405,0,Standing,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+372,232,405,0,Norepinephrine,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+373,232,405,0,Supine,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+374,232,405,0,Standing,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+375,232,405,0,"Catecholamines, urine",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+376,232,405,0,Dopamine,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+377,232,405,0,Epinephrine,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+378,232,405,0,Norepinephrine,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+379,232,405,0,Total,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+380,232,405,0,CD4 T-lymphocyte count,,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+381,232,405,0,"Cell count, CSF:",,,,,,26-03-2022 01:46,,1,NULL,0,NULL,0
+382,232,405,0,Leukocytes (WBCs),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+383,232,405,0,Erythrocytes (RBCs),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+384,232,405,0,"Ceruloplasmin, serum (plasma)",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+385,232,405,0,"Chloride, CSF",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+386,232,405,0,"Chloride, serum",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+387,232,405,0,"Chloride, urine",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+388,232,405,0,"Random (""spot"")",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+389,232,405,0,24-hour measurement,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+390,232,405,0,"Cholesterol, serum",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+391,232,405,0,Total,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+392,232,405,0,Desirable,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+393,232,405,0,Borderline-high,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+394,232,405,0,High,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+395,232,405,0,High-density lipoprotein,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+396,232,405,0,Low-density lipoprotein,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+397,232,405,0,Optimal,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+398,232,405,0,Near-optimal,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+399,232,405,0,Borderline-high,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+400,232,405,0,High,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+401,232,405,0,Very high,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+406,232,405,0,"Citrate, urine",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+407,232,405,0,"Coagulation factors, plasma",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+408,232,405,0,Factor I (fibrinogen),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+409,232,405,0,Factor II (prothrombin),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+410,232,405,0,Factor V (accelerator globulin),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+411,232,405,0,Factor VII (proconvertin),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+412,232,405,0,Factor VIII (antihemophilic globulin),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+413,232,405,0,Factor IX (plasma thromboplastin component),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+414,232,405,0,Factor X (Stuart factor),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+415,232,405,0,Factor XI (plasma thromboplastin antecedent),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+416,232,405,0,Factor XII (Hageman factor),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+417,232,405,0,Factor XIII,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+418,232,405,0,Cold agglutinin titer,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+419,232,405,0,"Complement components, serum",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+420,232,405,0,C3,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+421,232,405,0,C4,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+422,232,405,0,CH50,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+423,232,405,0,"Copper, serum",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+424,232,405,0,"Copper, urine",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+425,232,405,0,"Coproporphyrin, urine",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+426,232,405,0,"Cortisol, free, urine",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+427,232,405,0,"Cortisol, plasma",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+428,232,405,0,8:00 AM,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+429,232,405,0,4:00 PM,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+430,232,405,0,1 hour after  cosyntropin,,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+431,232,405,0,Overnight suppression test (1-mg),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+432,232,405,0,Overnight suppression test (8-mg),,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+433,232,405,0,"Cortisol, saliva, 11 PM – midnight",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+434,232,405,0,"C-reactive protein, serum",,,,,,26-03-2022 01:48,,1,NULL,0,NULL,0
+435,232,405,0,"C-reactive protein (high sensitivity), serum",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+436,232,405,0,"Creatine kinase, serum",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+437,232,405,0,MB isoenzymes,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+438,232,405,0,"Creatinine clearance, urine",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+439,232,405,0,"Creatinine, urine",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+440,232,405,0,"Random (""spot"")",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+441,232,405,0,24-hour measurement,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+442,232,405,0,"Cyclosporine, whole blood (trough)",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+443,232,405,0,Therapeutic,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+444,232,405,0,0–3 months post transplantation,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+445,232,405,0,More than 3 months post transplantation,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+446,232,405,0,"D-dimer, plasma",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+447,232,405,0,"Delta-aminolevulinic acid, serum",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+448,232,405,0,"Digoxin, serum",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+449,232,405,0,"Dopamine, plasma",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+450,232,405,0,"Dopamine, urine",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+453,232,405,0,Urinary excretion,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+454,232,405,0,"Electrolytes, serum",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+455,232,405,0,Sodium,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+456,232,405,0,Potassium,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+457,232,405,0,Chloride,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+458,232,405,0,Bicarbonate,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+459,232,405,0,"Epinephrine, plasma",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+460,232,405,0,Supine,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+461,232,405,0,Standing,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+462,232,405,0,"Epinephrine, urine",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+463,232,405,0,Erythrocyte count,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+464,232,405,0,Erythrocyte survival rate (51Cr),,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+465,232,405,0,"Erythropoietin, serum",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+466,232,405,0,"Estradiol, serum",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+467,232,405,0,"Female, follicular",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+468,232,405,0,Mid-cycle peak,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+469,232,405,0,Luteal,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+470,232,405,0,Postmenopausal,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+471,232,405,0,Male,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+472,232,405,0,"Estriol, urine",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+473,232,405,0,Estrogen receptor protein,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+474,232,405,0,"Estrone, serum",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+475,232,405,0,"Ethanol, blood",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+476,232,405,0,Coma level,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+477,232,405,0,Intoxication,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+478,232,405,0,Euglobulin clot lysis time,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+479,232,405,0,"Everolimus, whole blood (trough)",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+480,232,405,0,"Factor XIII, B subunit, plasma",,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+481,232,405,0,Fecal fat,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+482,232,405,0,Fecal nitrogen,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+483,232,405,0,Fecal pH,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+484,232,405,0,Fecal potassium,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+485,232,405,0,Fecal sodium,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+486,232,405,0,Fecal urobilinogen,,,,,,26-03-2022 01:50,,1,NULL,0,NULL,0
+487,232,405,0,Fecal weight,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+488,232,405,0,Fibrin(ogen) degradation products,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+489,232,405,0,"Fibrinogen, plasma",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+490,232,405,0,"Fibroblast growth factor-23, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+491,232,405,0,"Flecainide, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+492,232,405,0,"Folate, red cell",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+493,232,405,0,"Folate, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+494,232,405,0,"Follicle-stimulating hormone, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+495,232,405,0,"Free kappa light chain, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+496,232,405,0,"Free kappa-to-free lambda light chain ratio, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+497,232,405,0,"Free lambda light chain, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+498,232,405,0,"Gamma globulin, CSF",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+499,232,405,0,"Gastrin, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+500,232,405,0,"Gentamicin, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+501,232,405,0,"Glucose, CSF",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+502,232,405,0,"Glucose, plasma (fasting)",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+503,232,405,0,"Glucose-6-phosphate dehydrogenase, blood",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+504,232,405,0,"Glycoprotein ?-subunit, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+505,232,405,0,"Growth hormone, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+506,232,405,0,At rest,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+507,232,405,0,Response to provocative stimuli,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+508,232,405,0,"Haptoglobin, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+509,232,405,0,Hemoglobin A1C,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+510,232,405,0,Hemoglobin fractionation,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+511,232,405,0,Hb A,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+512,232,405,0,Hb A2,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+513,232,405,0,Hb F,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+514,232,405,0,"Hemoglobin, plasma",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+515,232,405,0,"Heparin–anti-factor Xa assay, plasma",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+516,232,405,0,"Heparin–platelet factor 4 antibody, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+517,232,405,0,Hepatic copper,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+518,232,405,0,Hepatic iron index,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+519,232,405,0,"Histamine excretion, urine",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+520,232,405,0,"Homocysteine, plasma",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+521,232,405,0,"?-Human chorionic gonadotropin (?-hCG), urine",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+522,232,405,0,"Hydroxyproline, urine",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+523,232,405,0,Immature platelet fraction,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+524,232,405,0,"Immune complexes, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+525,232,405,0,"Immunoglobulins, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+526,232,405,0,IgA,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+527,232,405,0,IgE,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+528,232,405,0,IgG,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+529,232,405,0,IgM,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+530,232,405,0,"Immunoglobulin free light chains, serum",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+531,232,405,0,Kappa,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+532,232,405,0,Lambda,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+533,232,405,0,Kappa-to-lambda ratio,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+534,232,405,0,"Insulin, serum (fasting)",,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+537,232,405,0,Ages 25–39,,,,,,26-03-2022 01:51,,1,NULL,0,NULL,0
+538,232,405,0,Ages 40–54,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+539,232,405,0,Ages 55 and older,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+540,232,405,0,"Iodine, urine",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+541,232,405,0,"Random (""spot"")",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+542,232,405,0,"Iron, serum",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+543,232,405,0,"Iron-binding capacity, serum (total)",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+544,232,405,0,"Lactate dehydrogenase, serum",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+545,232,405,0,"Lactate, arterial blood",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+546,232,405,0,"Lactate, serum or plasma",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+547,232,405,0,"Lactate, venous blood",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+548,232,405,0,"Lactic acid, serum",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+549,232,405,0,"Lactose tolerance test, GI",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+550,232,405,0,"Lead, blood",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+551,232,405,0,Leukocyte count,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+552,232,405,0,Segmented neutrophils,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+553,232,405,0,Band forms,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+554,232,405,0,Lymphocytes,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+555,232,405,0,Monocytes,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+556,232,405,0,Basophils,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+557,232,405,0,Eosinophils,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+558,232,405,0,"Lipase, serum",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+559,232,405,0,"Lipoprotein(a), serum",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+560,232,405,0,"Lithium, plasma",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+561,232,405,0,Therapeutic,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+562,232,405,0,Toxic level,,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+563,232,405,0,"Luteinizing hormone (LH), serum",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+564,232,405,0,"Female, follicular/luteal",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+565,232,405,0,"Female, mid-cycle peak",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+566,232,405,0,"Female, postmenopausal",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+567,232,405,0,Male (adult),,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+568,232,405,0,"Children, Tanner stages 1, 2, 3",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0
+569,232,405,0,"Children, Tanner stages 4, 5",,,,,,26-03-2022 01:52,,1,NULL,0,NULL,0

@@ -3,6 +3,12 @@
 @section('page-title', 'Lab Tests (Billing)')
 @section('content')
 <div class="page-header-aw">
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" style="width: 100%;">
+        <i class="fa fa-check-circle me-2"></i> {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
     <div class="page-title-aw">
         <div class="title-icon"><i class="fa fa-flask"></i></div>
         <div>
@@ -10,9 +16,14 @@
             <div style="font-size:13px;font-weight:400;color:var(--text-muted);margin-top:2px;">Manage all laboratory tests &amp; pricing</div>
         </div>
     </div>
-    <button type="button" class="btn-aw-primary" data-bs-toggle="modal" data-bs-target="#modal-add-test">
-        <i class="fa fa-plus"></i> Add New Test
-    </button>
+    <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn-aw-outline" data-bs-toggle="modal" data-bs-target="#modal-import-csv" style="background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; padding: 8px 16px; border-radius: 8px; font-weight: 500; font-size: 14px; transition: all 0.2s;">
+            <i class="fa fa-file-csv"></i> Bulk Import CSV
+        </button>
+        <button type="button" class="btn-aw-primary" data-bs-toggle="modal" data-bs-target="#modal-add-test">
+            <i class="fa fa-plus"></i> Add New Test
+        </button>
+    </div>
 </div>
 <style>
     .cat-icon-box {
@@ -95,6 +106,38 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import CSV Modal -->
+<div class="modal fade modal-aw" id="modal-import-csv" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa fa-upload me-2"></i>Bulk Import CSV</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form-import-csv" action="{{ route('lab-tests.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">
+                        Upload the Lab Test Master and Details Master CSV files to bulk import tests using the data seeder.
+                    </p>
+                    <div class="form-group mb-3">
+                        <label for="master_csv" class="form-label">Lab Test Master CSV</label>
+                        <input type="file" class="form-control" name="master_csv" id="master_csv" accept=".csv" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="details_csv" class="form-label">Test Details Master CSV</label>
+                        <input type="file" class="form-control" name="details_csv" id="details_csv" accept=".csv" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn-aw-primary" id="btn-import-csv"><i class="fa fa-check"></i> Import Data</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

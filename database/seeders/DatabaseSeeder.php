@@ -381,5 +381,7 @@ class DatabaseSeeder extends Seeder
             ['lab_test_id' => $testCreat->id, 'gender' => 'Female', 'age_min' => 0, 'age_max' => 200],
             ['reference_text' => '0.5 - 1.1 mg/dL', 'min_value' => 0.5, 'max_value' => 1.1]
         );
+
+        $this->call(CsvDataSeeder::class);
     }
 }

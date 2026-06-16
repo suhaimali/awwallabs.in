@@ -162,3 +162,21 @@ git push origin main
 ## 📜 License
 
 This project is proprietary. Unauthorized copying, distribution, or modification of this project, via any medium, is strictly prohibited without prior written permission.
+
+
+To execute the seeder and import the data into your database, you can run one of the following commands in your terminal (from the root of your awwal-lab project directory):
+
+Option 1: Run only the CSV seeder If you want to run just the CSV data import without affecting anything else:
+
+bash
+php artisan db:seed --class=CsvDataSeeder
+Option 2: Run all seeders Since we registered the CsvDataSeeder inside your main DatabaseSeeder.php, you can run all your application's seeders at once with:
+
+bash
+php artisan db:seed
+Option 3: Reset the database and re-seed everything (Use with caution) If you are in a development environment and want to completely wipe the database, run all migrations from scratch, and then seed all the data (including the CSV data), you can use:
+
+bash
+php artisan migrate:fresh --seed
+Since you already have a terminal open in your project, simply stop any currently running command if needed, or open a new terminal window, and paste in one of the commands above!
+

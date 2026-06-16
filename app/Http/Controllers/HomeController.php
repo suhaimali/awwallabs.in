@@ -41,6 +41,28 @@ class HomeController extends Controller
         return view('tests', compact('tests'));
     }
 
+    public function importCsv(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'master_csv' => 'required|file|mimes:csv,txt',
+            'details_csv' => 'required|file|mimes:csv,txt',
+        ]);
+
+        $masterCsv = $request->file('master_csv');
+        $detailsCsv = $request->file('details_csv');
+
+        // Move the uploaded files to the data directory, overwriting the existing ones
+        $masterCsv->move(base_path('data'), 'tbl_lab_test_master.csv');
+        $detailsCsv->move(base_path('data'), 'tbl_lab_test_details_master.csv');
+
+        // Run the seeder
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => 'CsvDataSeeder'
+        ]);
+
+        return redirect()->route('lab-tests.index')->with('success', 'CSV data imported successfully! Seeder executed.');
+    }
+
     public function appointments(\Illuminate\Http\Request $request)
     {
         $appointments = \App\Models\Appointment::with(['patient'])->latest()->get();

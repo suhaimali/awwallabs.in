@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lab-tests', [HomeController::class, 'testManagement'])->name('lab-tests.index');
     Route::post('/lab-tests/update/{id}', [HomeController::class, 'updateLabTest'])->name('lab-tests.update');
     Route::delete('/lab-tests/{id}', [HomeController::class, 'deleteLabTest'])->name('lab-tests.delete');
+    Route::post('/lab-tests/import', [HomeController::class, 'importCsv'])->name('lab-tests.import');
 
     // Test Parameters (Clinical)
     Route::get('/api/tests', [HomeController::class, 'apiTests'])->name('api.tests');
