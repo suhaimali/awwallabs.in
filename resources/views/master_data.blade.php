@@ -340,16 +340,23 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 4px;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button {
+/* For default DataTables wrapper */
+.dataTables_wrapper .dataTables_paginate span {
+    display: flex;
+    gap: 4px;
+    margin: 0 4px;
+}
+/* The pagination buttons (handles both default DataTables and Bootstrap's page-item/page-link) */
+.dataTables_wrapper .dataTables_paginate .paginate_button,
+.dataTables_wrapper .dataTables_paginate .page-item .page-link {
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-width: 32px;
     height: 32px;
-    padding: 0 8px;
+    padding: 0 10px;
     margin: 0 !important;
     text-align: center;
     text-decoration: none !important;
@@ -360,19 +367,37 @@ body {
     background: #ffffff !important;
     font-size: 13px;
     transition: all 0.2s;
+    box-shadow: none !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+/* Add gap for Bootstrap pagination ul */
+.dataTables_wrapper .dataTables_paginate ul.pagination {
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+}
+/* Remove background/border from Bootstrap's li to prevent double styling */
+.dataTables_wrapper .dataTables_paginate .page-item {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
     background: #3b82f6 !important;
     color: #ffffff !important;
     border-color: #3b82f6 !important;
     font-weight: 600;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.disabled) {
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.disabled):not(.current),
+.dataTables_wrapper .dataTables_paginate .page-item:not(.disabled):not(.active) .page-link:hover {
     background: #f1f5f9 !important;
     border-color: #cbd5e1 !important;
     color: #1e293b !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dataTables_wrapper .dataTables_paginate .page-item.disabled .page-link {
     opacity: 0.5;
     cursor: not-allowed;
     background: #f8fafc !important;
