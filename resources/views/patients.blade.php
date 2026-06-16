@@ -1446,7 +1446,7 @@
           });
 
           $(document).on('click', '.btn-edit-doctor', function() {
-              let select = $(this).parent().siblings('.reference-dr-select');
+              let select = $(this).closest('.d-flex').siblings('.reference-dr-select');
               let selectedOption = select.find('option:selected');
               let docId = selectedOption.attr('data-id');
               
@@ -1464,7 +1464,7 @@
           });
 
           $(document).on('click', '.btn-delete-doctor', function() {
-              let select = $(this).parent().siblings('.reference-dr-select');
+              let select = $(this).closest('.d-flex').siblings('.reference-dr-select');
               let selectedOption = select.find('option:selected');
               let docId = selectedOption.attr('data-id');
               
@@ -1489,7 +1489,7 @@
           });
 
           $(document).on('click', '.btn-clear-doctor', function() {
-              let select = $(this).parent().siblings('.reference-dr-select');
+              let select = $(this).closest('.d-flex').siblings('.reference-dr-select');
               select.val('');
           });
 
@@ -2005,13 +2005,13 @@
           let currentTestSelect = null;
 
           $(document).on('click', '.btn-add-test', function() {
-              currentTestSelect = $(this).parent().siblings('.test-name-select');
+              currentTestSelect = $(this).closest('.d-flex').siblings('.test-name-select');
               $('#form-add-test')[0].reset();
               $('#modal-add-test').modal('show');
           });
 
           $(document).on('click', '.btn-edit-test', function() {
-              currentTestSelect = $(this).parent().siblings('.test-name-select');
+              currentTestSelect = $(this).closest('.d-flex').siblings('.test-name-select');
               let selectedOption = currentTestSelect.find('option:selected');
               let testId = selectedOption.attr('data-id');
               
@@ -2028,7 +2028,7 @@
           });
 
           $(document).on('click', '.btn-delete-test', function() {
-              let select = $(this).parent().siblings('.test-name-select');
+              let select = $(this).closest('.d-flex').siblings('.test-name-select');
               let selectedOption = select.find('option:selected');
               let testId = selectedOption.attr('data-id');
               
