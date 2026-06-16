@@ -185,6 +185,7 @@ body {
 .table-wrapper {
     max-height: 400px;
     overflow-y: auto;
+    overflow-x: auto;
 }
 /* Custom Scrollbar */
 .table-wrapper::-webkit-scrollbar { width: 6px; }
@@ -216,6 +217,7 @@ body {
     color: #1e293b;
     vertical-align: middle;
     border-bottom: 1px solid #f1f5f9;
+    white-space: nowrap;
 }
 .table-premium tr:last-child td {
     border-bottom: none;
@@ -361,17 +363,16 @@ body {
                 </form>
             </div>
             
-            <div class="table-wrapper">
-                <table class="table-premium">
+                <table class="table-premium" id="units-table">
                     <thead class="table-header">
                         <tr>
-                            <th width="10%">#</th>
+                            <th width="10%">SL No</th>
                             <th>Unit Name</th>
                             <th width="20%" style="text-align: right;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="units-list">
-                        @forelse($units as $i => $unit)
+                        @foreach($units as $i => $unit)
                         <tr class="md-list-item" data-name="{{ strtolower($unit->name) }}">
                             <td class="td-number">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</td>
                             <td style="font-weight: 600;">{{ $unit->name }}</td>
@@ -386,19 +387,9 @@ body {
                                 </div>
                             </td>
                         </tr>
-                        @empty
-                        <tr id="units-empty" class="empty-state-row">
-                            <td colspan="3">
-                                <div class="empty-state-box">
-                                    <i class="fa fa-box-open"></i>
-                                    <span>No units added yet</span>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 
@@ -427,17 +418,16 @@ body {
                 </form>
             </div>
             
-            <div class="table-wrapper">
-                <table class="table-premium">
+                <table class="table-premium" id="templates-table">
                     <thead class="table-header">
                         <tr>
-                            <th width="10%">#</th>
+                            <th width="10%">SL No</th>
                             <th>Result Name</th>
                             <th width="20%" style="text-align: right;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="templates-list">
-                        @forelse($templates as $i => $template)
+                        @foreach($templates as $i => $template)
                         <tr class="md-list-item" data-name="{{ strtolower($template->name) }}">
                             <td class="td-number">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</td>
                             <td style="font-weight: 600;">{{ $template->name }}</td>
@@ -452,19 +442,9 @@ body {
                                 </div>
                             </td>
                         </tr>
-                        @empty
-                        <tr id="templates-empty" class="empty-state-row">
-                            <td colspan="3">
-                                <div class="empty-state-box">
-                                    <i class="fa fa-box-open"></i>
-                                    <span>No result templates added yet</span>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 
@@ -497,17 +477,16 @@ body {
                 </form>
             </div>
             
-            <div class="table-wrapper">
-                <table class="table-premium">
+                <table class="table-premium" id="references-table">
                     <thead class="table-header">
                         <tr>
-                            <th width="10%">#</th>
+                            <th width="10%">SL No</th>
                             <th>Range Value</th>
                             <th width="20%" style="text-align: right;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="references-list">
-                        @forelse($referenceTemplates as $i => $ref)
+                        @foreach($referenceTemplates as $i => $ref)
                         <tr class="md-list-item" data-name="{{ strtolower($ref->name) }}">
                             <td class="td-number">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</td>
                             <td style="font-weight: 600;">{{ $ref->name }}</td>
@@ -522,19 +501,9 @@ body {
                                 </div>
                             </td>
                         </tr>
-                        @empty
-                        <tr id="references-empty" class="empty-state-row">
-                            <td colspan="3">
-                                <div class="empty-state-box">
-                                    <i class="fa fa-box-open"></i>
-                                    <span>No reference templates added yet</span>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 
@@ -563,17 +532,16 @@ body {
                 </form>
             </div>
             
-            <div class="table-wrapper">
-                <table class="table-premium">
+                <table class="table-premium" id="flags-table">
                     <thead class="table-header">
                         <tr>
-                            <th width="10%">#</th>
+                            <th width="10%">SL No</th>
                             <th>Flag Symbol</th>
                             <th width="20%" style="text-align: right;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="flags-list">
-                        @forelse($flagTemplates as $i => $flg)
+                        @foreach($flagTemplates as $i => $flg)
                         <tr class="md-list-item" data-name="{{ strtolower($flg->name) }}">
                             <td class="td-number">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</td>
                             <td style="font-weight: 600;">
@@ -590,19 +558,9 @@ body {
                                 </div>
                             </td>
                         </tr>
-                        @empty
-                        <tr id="flags-empty" class="empty-state-row">
-                            <td colspan="3">
-                                <div class="empty-state-box">
-                                    <i class="fa fa-box-open"></i>
-                                    <span>No flag templates added yet</span>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 
@@ -640,36 +598,38 @@ body {
 <script>
 $(document).ready(function () {
 
-    /* ── Live search helpers ──────────────────────────────── */
-    function liveSearch(inputId, listId) {
-        $('#' + inputId).on('input', function () {
-            var q = $(this).val().toLowerCase().trim();
-            var hasMatch = false;
-            var listItems = $('#' + listId + ' .md-list-item');
-            
-            listItems.each(function () {
-                var match = String($(this).data('name')).toLowerCase().indexOf(q) !== -1;
-                $(this).toggle(match || q === '');
-                if (match || q === '') hasMatch = true;
-            });
-            
-            var emptyState = $('#' + listId).find('.md-search-empty');
-            if (emptyState.length === 0) {
-                $('#' + listId).append('<tr class="md-search-empty empty-state-row" style="display:none;"><td colspan="3"><div class="empty-state-box"><i class="fa fa-search-minus"></i><span>No results found</span></div></td></tr>');
-                emptyState = $('#' + listId).find('.md-search-empty');
-            }
-            
-            if (!hasMatch && listItems.length > 0) {
-                emptyState.show();
-            } else {
-                emptyState.hide();
+    /* ── DataTables Initialization (Row Limit & Search) ─────────────────── */
+    function initDataTable(tableId, searchInputId) {
+        var table = $('#' + tableId).DataTable({
+            dom: "<'row px-4 pt-3 pb-2'<'col-sm-12'l>>" +
+                 "<'table-wrapper'tr>" +
+                 "<'row px-4 py-3'<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start mb-2 mb-md-0'i><'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>",
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50, 100],
+            ordering: false,
+            language: {
+                lengthMenu: "Row Limit: _MENU_",
+                info: "Showing _START_-_END_ of _TOTAL_",
+                infoEmpty: "Showing 0 of 0",
+                infoFiltered: "(filtered)",
+                emptyTable: "<div class='empty-state-box py-4'><i class='fa fa-box-open mb-2 text-muted' style='font-size:24px'></i><span>No entries added yet</span></div>",
+                zeroRecords: "<div class='empty-state-box py-4'><i class='fa fa-search-minus mb-2 text-muted' style='font-size:24px'></i><span>No results found</span></div>",
+                paginate: {
+                    previous: "<i class='fa fa-angle-left'></i>",
+                    next: "<i class='fa fa-angle-right'></i>"
+                }
             }
         });
+        
+        $('#' + searchInputId).on('keyup input', function () {
+            table.search($(this).val()).draw();
+        });
     }
-    liveSearch('unit-search',      'units-list');
-    liveSearch('template-search',  'templates-list');
-    liveSearch('reference-search', 'references-list');
-    liveSearch('flag-search',      'flags-list');
+
+    initDataTable('units-table', 'unit-search');
+    initDataTable('templates-table', 'template-search');
+    initDataTable('references-table', 'reference-search');
+    initDataTable('flags-table', 'flag-search');
 
     /* ── ADD handlers ─────────────────────────────────────── */
     $('#form-add-unit').submit(function (e) {
