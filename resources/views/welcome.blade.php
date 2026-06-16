@@ -1129,10 +1129,10 @@
                     </div>
 
                     <div class="lab3d-badge lb-4">
-                        <div class="b-icon" style="background:rgba(168,85,247,0.12);color:#a78bfa;"><i class="fa-solid fa-star"></i></div>
+                        <div class="b-icon" style="background:rgba(168,85,247,0.12);color:#a78bfa;"><i class="fa-solid fa-hospital"></i></div>
                         <div class="b-text">
-                            <span class="b-val" style="color:#a78bfa;">5★</span>
-                            <span class="b-lbl">Rated by Labs</span>
+                            <span class="b-val" style="color:#a78bfa;font-size:0.85rem;">Awwal Lab</span>
+                            <span class="b-lbl">Trusted Partner</span>
                         </div>
                     </div>
 
