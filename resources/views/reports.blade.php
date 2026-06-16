@@ -1108,7 +1108,12 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Master Category</label>
-                                <a href="javascript:void(0)" class="btn-add-report-category text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
+                                <div>
+                                    <a href="javascript:void(0)" class="btn-add-report-category text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add"><i class="fa fa-plus"></i> Add</a>
+                                    <a href="javascript:void(0)" class="btn-view-report-category text-info text-decoration-none ms-2" style="font-size: 12px;" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="javascript:void(0)" class="btn-edit-report-category text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn-delete-report-category text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete"><i class="fa fa-trash"></i></a>
+                                </div>
                             </div>
                             <select class="form-select report-category-select" name="test_category[]" autocomplete="off">
                                 <option value="">-- Select Category --</option>
@@ -1120,7 +1125,12 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Sub Category</label>
-                                <a href="javascript:void(0)" class="btn-add-report-subcategory text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
+                                <div>
+                                    <a href="javascript:void(0)" class="btn-add-report-subcategory text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add"><i class="fa fa-plus"></i> Add</a>
+                                    <a href="javascript:void(0)" class="btn-view-report-subcategory text-info text-decoration-none ms-2" style="font-size: 12px;" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="javascript:void(0)" class="btn-edit-report-subcategory text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn-delete-report-subcategory text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete"><i class="fa fa-trash"></i></a>
+                                </div>
                             </div>
                             <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off">
                                 <option value="">-- Select Sub Category --</option>
@@ -1132,7 +1142,12 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <label class="form-label text-primary fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Parameter / Test Name</label>
-                                <a href="javascript:void(0)" class="btn-add-report-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
+                                <div>
+                                    <a href="javascript:void(0)" class="btn-add-report-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add"><i class="fa fa-plus"></i> Add</a>
+                                    <a href="javascript:void(0)" class="btn-view-report-test text-info text-decoration-none ms-2" style="font-size: 12px;" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="javascript:void(0)" class="btn-edit-report-test text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn-delete-report-test text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete"><i class="fa fa-trash"></i></a>
+                                </div>
                             </div>
                             <select class="form-select test-selector-dynamic border-primary shadow-none" name="test_name[]" autocomplete="off">
                                 <option value="">-- Select Test --</option>
@@ -1159,7 +1174,12 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <label class="form-label text-success fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Observed Value</label>
-                                <a href="javascript:void(0)" class="btn-add-observed text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
+                                <div>
+                                    <a href="javascript:void(0)" class="btn-add-observed text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add"><i class="fa fa-plus"></i> Add</a>
+                                    <a href="javascript:void(0)" class="btn-view-observed text-info text-decoration-none ms-2" style="font-size: 12px;" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="javascript:void(0)" class="btn-edit-observed text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn-delete-observed text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete"><i class="fa fa-trash"></i></a>
+                                </div>
                             </div>
                             <select class="form-select report-observed-select" name="observed_value[]" autocomplete="off">
                                 <option value="">-- Select Observed --</option>
@@ -1171,7 +1191,12 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Unit</label>
-                                <a href="javascript:void(0)" class="btn-add-report-unit text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
+                                <div>
+                                    <a href="javascript:void(0)" class="btn-add-report-unit text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add"><i class="fa fa-plus"></i> Add</a>
+                                    <a href="javascript:void(0)" class="btn-view-report-unit text-info text-decoration-none ms-2" style="font-size: 12px;" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="javascript:void(0)" class="btn-edit-report-unit text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn-delete-report-unit text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete"><i class="fa fa-trash"></i></a>
+                                </div>
                             </div>
                             <select class="form-select report-unit-select" name="test_unit[]" autocomplete="off">
                                 <option value="">-- Select Unit --</option>
@@ -1183,7 +1208,12 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <label class="form-label text-info fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Referral Range</label>
-                                <a href="javascript:void(0)" class="btn-add-reference text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
+                                <div>
+                                    <a href="javascript:void(0)" class="btn-add-reference text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add"><i class="fa fa-plus"></i> Add</a>
+                                    <a href="javascript:void(0)" class="btn-view-reference text-info text-decoration-none ms-2" style="font-size: 12px;" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="javascript:void(0)" class="btn-edit-reference text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn-delete-reference text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete"><i class="fa fa-trash"></i></a>
+                                </div>
                             </div>
                             <select class="form-select normal-val-dynamic" name="normal_value[]" autocomplete="off">
                                 <option value="">-- Select Reference --</option>
@@ -1195,7 +1225,12 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <label class="form-label text-warning fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Flag</label>
-                                <a href="javascript:void(0)" class="btn-add-flag text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
+                                <div>
+                                    <a href="javascript:void(0)" class="btn-add-flag text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add"><i class="fa fa-plus"></i> Add</a>
+                                    <a href="javascript:void(0)" class="btn-view-flag text-info text-decoration-none ms-2" style="font-size: 12px;" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="javascript:void(0)" class="btn-edit-flag text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn-delete-flag text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete"><i class="fa fa-trash"></i></a>
+                                </div>
                             </div>
                             <select class="form-select flag-selector" name="test_flag[]" autocomplete="off">
                                 <option value="">-- Select Flag --</option>
@@ -1207,7 +1242,12 @@
                         <div class="col-md-8 col-sm-12">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <label class="form-label text-dark fs-11 fw-bold text-uppercase mb-0" style="font-size:11px;">Normal Range</label>
-                                <a href="javascript:void(0)" class="btn-add-reference text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> Add</a>
+                                <div>
+                                    <a href="javascript:void(0)" class="btn-add-reference text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add"><i class="fa fa-plus"></i> Add</a>
+                                    <a href="javascript:void(0)" class="btn-view-reference text-info text-decoration-none ms-2" style="font-size: 12px;" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="javascript:void(0)" class="btn-edit-reference text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn-delete-reference text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete"><i class="fa fa-trash"></i></a>
+                                </div>
                             </div>
                             <select class="form-select bio-val-dynamic" name="biological_reference[]" autocomplete="off">
                                 <option value="">-- Select Range --</option>

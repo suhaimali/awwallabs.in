@@ -615,7 +615,11 @@
 						<div class="form-group">
 							<div class="d-flex justify-content-between align-items-center mb-1">
 								<label for="field_1044" class="form-label mb-0">Reference Dr. (Optional)</label>
-								<a href="javascript:void(0)" class="btn-add-doctor text-primary text-decoration-none" style="font-size: 12px; font-weight: 600;"><i class="fa fa-plus"></i> Add New</a>
+								<div>
+									<a href="javascript:void(0)" class="btn-add-doctor text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Doctor"><i class="fa fa-plus"></i> Add</a>
+									<a href="javascript:void(0)" class="btn-edit-doctor text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Doctor"><i class="fa fa-edit"></i></a>
+									<a href="javascript:void(0)" class="btn-delete-doctor text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Doctor"><i class="fa fa-trash"></i></a>
+								</div>
 							</div>
 							<select class="form-select reference-dr-select" autocomplete="off" id="field_1044" name="reference_dr">
 								<option value="">-- Select Doctor --</option>
@@ -652,7 +656,11 @@
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Test Name</div>
                                 <div class="d-none d-md-block"></div>
-                                <a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> New Test</a>
+                                <div>
+                                    <a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Test"><i class="fa fa-plus"></i> Add</a>
+                                    <a href="javascript:void(0)" class="btn-edit-test text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Test"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" class="btn-delete-test text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Test"><i class="fa fa-trash"></i></a>
+                                </div>
                             </div>
                             <input type="hidden" class="test-name-value" name="test_name[]" value="" id="field_1048">
 							<select class="form-select add-patient-test-name test-name-select" autocomplete="off" id="field_1049" name="name_1050">
@@ -905,7 +913,11 @@
 						<div class="form-group">
 							<div class="d-flex justify-content-between align-items-center mb-1">
 								<label for="edit-reference-dr" class="form-label mb-0">Reference Dr. (Optional)</label>
-								<a href="javascript:void(0)" class="btn-add-doctor text-primary text-decoration-none" style="font-size: 12px; font-weight: 600;"><i class="fa fa-plus"></i> Add New</a>
+								<div>
+									<a href="javascript:void(0)" class="btn-add-doctor text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Doctor"><i class="fa fa-plus"></i> Add</a>
+									<a href="javascript:void(0)" class="btn-edit-doctor text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Doctor"><i class="fa fa-edit"></i></a>
+									<a href="javascript:void(0)" class="btn-delete-doctor text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Doctor"><i class="fa fa-trash"></i></a>
+								</div>
 							</div>
 							<select class="form-select reference-dr-select" id="edit-reference-dr" autocomplete="off" name="reference_dr">
 								<option value="">-- Select Doctor --</option>
@@ -1669,7 +1681,11 @@
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Test Name</div>
                                         <div class="d-none d-md-block"></div>
-                                        <a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> New Test</a>
+                                        <div>
+                                            <a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Test"><i class="fa fa-plus"></i> Add</a>
+                                            <a href="javascript:void(0)" class="btn-edit-test text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Test"><i class="fa fa-edit"></i></a>
+                                            <a href="javascript:void(0)" class="btn-delete-test text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Test"><i class="fa fa-trash"></i></a>
+                                        </div>
                                     </div>
                                     <input type="hidden" class="test-name-value" name="test_name[]" value="${testName}" id="field_1068">
                                     <select class="form-select edit-patient-test-name test-name-select" autocomplete="off" id="field_1069" name="name_1070" ${isCustom ? 'style="display:none;"' : ''}>
@@ -1710,7 +1726,11 @@
                                 <div class="d-flex justify-content-between align-items-center mb-1">
                                     <div class="d-md-none fw-bold fs-11 text-uppercase text-muted">Test Name</div>
                                     <div class="d-none d-md-block"></div>
-                                    <a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;"><i class="fa fa-plus"></i> New Test</a>
+                                    <div>
+                                        <a href="javascript:void(0)" class="btn-add-test text-primary text-decoration-none" style="font-size: 11px; font-weight: 600;" title="Add Test"><i class="fa fa-plus"></i> Add</a>
+                                        <a href="javascript:void(0)" class="btn-edit-test text-warning text-decoration-none ms-2" style="font-size: 12px;" title="Edit Test"><i class="fa fa-edit"></i></a>
+                                        <a href="javascript:void(0)" class="btn-delete-test text-danger text-decoration-none ms-2" style="font-size: 12px;" title="Delete Test"><i class="fa fa-trash"></i></a>
+                                    </div>
                                 </div>
                                 <input type="hidden" class="test-name-value" name="test_name[]" value="" id="field_1075">
                                 <select class="form-select edit-patient-test-name test-name-select" autocomplete="off" id="field_1076" name="name_1077">
