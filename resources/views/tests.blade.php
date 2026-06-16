@@ -61,7 +61,6 @@
                             <th>SL No</th>
                             <th>Test Name</th>
                             <th>Price</th>
-                            <th>Payment Mode</th>
                             <th>Description</th>
                             <th class="text-end">Action</th>
                         </tr>
@@ -77,7 +76,6 @@
                                 </div>
                             </td>
                             <td data-label="Price" style="font-weight:600;color:#3b82f6;">₹{{ number_format($test->price, 2) }}</td>
-                            <td data-label="Payment Mode">{{ $test->payment_method }}</td>
                             <td data-label="Description" style="color:#64748b;">{{ $test->description ?? '-' }}</td>
                             <td data-label="Action" class="text-end">
                                 <div class="action-btn-group">
@@ -85,7 +83,6 @@
                                         data-id="{{ $test->id }}"
                                         data-name="{{ $test->name }}"
                                         data-price="{{ $test->price }}"
-                                        data-payment_method="{{ $test->payment_method }}"
                                         data-description="{{ $test->description }}"
                                         data-bs-toggle="modal" data-bs-target="#modal-edit-test"
                                         title="Edit">
@@ -162,16 +159,6 @@
 				</div>
 
 				<div class="form-group">
-					<label for="field_1161" class="form-label">Payment Mode</label>
-					<select class="form-select" name="payment_method" required autocomplete="off" id="field_1161">
-						<option value="Cash">Cash</option>
-						<option value="Card">Card</option>
-						<option value="UPI">UPI</option>
-						<option value="Net Banking">Net Banking</option>
-					</select>
-				</div>
-
-				<div class="form-group">
 					<label for="field_1158" class="form-label">Description (Optional)</label>
 					<textarea rows="2" class="form-control" name="description" placeholder="Short details about the test..." autocomplete="off" id="field_1158"></textarea>
 				</div>
@@ -203,16 +190,6 @@
 				<div class="form-group">
 					<label for="edit-price" class="form-label">Price (₹)</label>
 					<input type="number" class="form-control" id="edit-price" name="price" required autocomplete="off">
-				</div>
-
-				<div class="form-group">
-					<label for="edit-payment_method" class="form-label">Payment Mode</label>
-					<select class="form-select" id="edit-payment_method" name="payment_method" required autocomplete="off">
-						<option value="Cash">Cash</option>
-						<option value="Card">Card</option>
-						<option value="UPI">UPI</option>
-						<option value="Net Banking">Net Banking</option>
-					</select>
 				</div>
 
 				<div class="form-group">
@@ -304,7 +281,6 @@
 			  $('#edit-id').val($(this).data('id'));
 			  $('#edit-name').val($(this).data('name'));
 			  $('#edit-price').val($(this).data('price'));
-			  $('#edit-payment_method').val($(this).data('payment_method'));
 			  $('#edit-description').val($(this).data('description'));
 		  });
 

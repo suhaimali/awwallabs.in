@@ -655,7 +655,7 @@
 								<select class="form-select add-patient-test-name test-name-select" autocomplete="off" id="field_1049" name="name_1050">
 									<option value="">-- Select Test --</option>
 									@foreach($labTests as $test)
-										<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
+										<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}">{{ $test->name }}</option>
 									@endforeach
 									<option value="__custom__">Custom (type below)</option>
 								</select>
@@ -1051,16 +1051,7 @@
 					<label for="field_1002" class="form-label-aw">Price</label>
 					<input type="number" step="0.01" class="form-control-aw" name="price" placeholder="e.g. 500" autocomplete="off" id="field_1002">
 				</div>
-				<div class="form-group mt-3">
-					<label for="field_add_test_payment_method" class="form-label-aw">Payment Mode</label>
-					<select class="form-select" name="payment_method" autocomplete="off" id="field_add_test_payment_method">
-						<option value="">-- Select Payment Mode --</option>
-						<option value="Cash">Cash</option>
-						<option value="Card">Card</option>
-						<option value="UPI">UPI</option>
-						<option value="Net Banking">Net Banking</option>
-					</select>
-				</div>
+
 			</form>
 		  </div>
 		  <div class="modal-footer">
@@ -1091,16 +1082,7 @@
 					<label for="edit-test-price" class="form-label-aw">Price</label>
 					<input type="number" step="0.01" class="form-control-aw" name="price" id="edit-test-price" autocomplete="off">
 				</div>
-				<div class="form-group mt-3">
-					<label for="edit-test-payment-method" class="form-label-aw">Payment Mode</label>
-					<select class="form-select" name="payment_method" id="edit-test-payment-method" autocomplete="off">
-						<option value="">-- Select Payment Mode --</option>
-						<option value="Cash">Cash</option>
-						<option value="Card">Card</option>
-						<option value="UPI">UPI</option>
-						<option value="Net Banking">Net Banking</option>
-					</select>
-				</div>
+
 			</form>
 		  </div>
 		  <div class="modal-footer">
@@ -1608,9 +1590,9 @@
                           let isCustom = testName !== '' && !knownTestNames.includes(testName);
                           let optionsHtml = `<option value="">-- Select Test --</option>`;
                           @foreach($labTests as $test)
-                              optionsHtml += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}" ${!isCustom && app.test_name == {!! json_encode($test->name) !!} ? 'selected' : ''}>{{ $test->name }}</option>`;
+                              optionsHtml += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" ${!isCustom && app.test_name == {!! json_encode($test->name) !!} ? 'selected' : ''}>{{ $test->name }}</option>`;
                           @endforeach
-                          optionsHtml += `<option value="__custom__">âœï¸ Custom (type below)</option>`;
+                          optionsHtml += `<option value="__custom__">âœ ï¸  Custom (type below)</option>`;
 
                           testRowsHtml += `
                             <div class="row test-row mb-2 align-items-center">
@@ -1650,9 +1632,9 @@
                       // Default empty row if no appointments found
                       let emptyOptions = `<option value="" selected>-- Select Test (Optional) --</option>`;
                       @foreach($labTests as $test)
-                          emptyOptions += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>`;
+                          emptyOptions += `<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}">{{ $test->name }}</option>`;
                       @endforeach
-                      emptyOptions += `<option value="__custom__">âœï¸ Custom (type below)</option>`;
+                      emptyOptions += `<option value="__custom__">âœ ï¸  Custom (type below)</option>`;
 
                       testRowsHtml = `
                         <div class="row test-row mb-2 align-items-center">
@@ -1705,9 +1687,9 @@
 						<select class="form-select add-patient-test-name test-name-select" autocomplete="off" id="field_1083" name="name_1084">
 							<option value="">-- Select Test --</option>
 							@foreach($labTests as $test)
-								<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
+								<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}">{{ $test->name }}</option>
 							@endforeach
-							<option value="__custom__">âœï¸ Custom (type below)</option>
+							<option value="__custom__">âœ ï¸  Custom (type below)</option>
 						</select>
 						<button type="button" class="btn btn-success btn-add-test" style="background-color: #d1fae5; color: #059669; border-color: #cbd5e1;" title="Add New Test"><i class="fa fa-plus"></i></button>
 						<button type="button" class="btn btn-primary btn-edit-test" style="background-color: #dbeafe; color: #2563eb; border-color: #cbd5e1;" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
@@ -1756,9 +1738,9 @@
 					<select class="form-select edit-patient-test-name test-name-select" autocomplete="off" id="field_1091" name="name_1092">
 						<option value="">-- Select Test --</option>
 						@foreach($labTests as $test)
-							<option value="{{ $test->name }}" data-price="{{ $test->price }}" data-payment_method="{{ $test->payment_method }}">{{ $test->name }}</option>
+							<option value="{{ $test->name }}" data-price="{{ $test->price }}">{{ $test->name }}</option>
 						@endforeach
-						<option value="__custom__">âœï¸ Custom (type below)</option>
+						<option value="__custom__">âœ ï¸  Custom (type below)</option>
 					</select>
 					<div class="test-name-custom-wrap" style="display:none;">
 						<div class="input-group">
@@ -1948,7 +1930,6 @@
               $('#edit-test-id').val(testId);
               $('#edit-test-name').val(selectedOption.val());
               $('#edit-test-price').val(selectedOption.attr('data-price'));
-              $('#edit-test-payment-method').val(selectedOption.attr('data-payment_method') || '');
               $('#modal-edit-test').modal('show');
           });
 
@@ -1998,7 +1979,7 @@
                   success: function(response) {
                       if(response.success) {
                           let t = response.test;
-                          let newOption = `<option value="${t.name}" data-id="${t.id}" data-price="${t.price}" data-payment_method="${t.payment_method || ''}">${t.name}</option>`;
+                          let newOption = `<option value="${t.name}" data-id="${t.id}" data-price="${t.price}">${t.name}</option>`;
                           
                           // Update all test selects
                           $('.test-name-select').each(function() {
@@ -2050,8 +2031,6 @@
                                   opt.text(t.name);
                                   opt.data('price', t.price);
                                   opt.attr('data-price', t.price);
-                                  opt.data('payment_method', t.payment_method);
-                                  opt.attr('data-payment_method', t.payment_method);
                               }
                           });
 
