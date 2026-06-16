@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'lab@gmail.com'],
             [
                 'name' => 'Safwan',
-                'password' => '12345678', // Auto-hashed via User model cast
+                'password' => env('ADMIN_PASSWORD', '12345678'), // Fetched securely from .env
             ]
         );
     }
