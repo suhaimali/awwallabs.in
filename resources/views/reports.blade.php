@@ -638,10 +638,6 @@
 											<option value="{{ $patient->id }}" data-gender="{{ $patient->gender }}" data-age="{{ $patient->age }}">{{ $patient->first_name }} {{ $patient->last_name }} ({{ $patient->patient_id }})</option>
 									@endforeach
 								</select>
-								<button type="button" class="btn btn-success btn-sm btn-add-report-patient" title="Add Patient" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-primary btn-sm btn-edit-report-patient" title="Edit Patient" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-								<button type="button" class="btn btn-info btn-sm btn-view-report-patient" title="View Patient Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-								<button type="button" class="btn btn-danger btn-sm btn-delete-report-patient" title="Delete Patient" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
 							</div>
 						</div>
 					</div>
@@ -652,8 +648,6 @@
 								<select class="form-select report-doctor-select" name="doctor_name" id="add-report-doctor" required autocomplete="off">
 									<option value="">-- Select Doctor --</option>
 								</select>
-								<button type="button" class="btn btn-success btn-add-report-doctor" title="Add New Doctor"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-info btn-sm btn-view-report-doctor" title="View Doctor Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
 							</div>
 						</div>
 					</div>
@@ -749,10 +743,6 @@
 											<option value="{{ $patient->id }}" data-gender="{{ $patient->gender }}" data-age="{{ $patient->age }}">{{ $patient->first_name }} {{ $patient->last_name }} ({{ $patient->patient_id }})</option>
 									@endforeach
 								</select>
-								<button type="button" class="btn btn-success btn-sm btn-add-report-patient" title="Add Patient" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-primary btn-sm btn-edit-report-patient" title="Edit Patient" style="padding: 0.25rem 0.5rem;"><i class="fa fa-edit"></i></button>
-								<button type="button" class="btn btn-info btn-sm btn-view-report-patient" title="View Patient Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
-								<button type="button" class="btn btn-danger btn-sm btn-delete-report-patient" title="Delete Patient" style="padding: 0.25rem 0.5rem;"><i class="fa fa-trash"></i></button>
 							</div>
 						</div>
 					</div>
@@ -763,8 +753,6 @@
 								<select class="form-select report-doctor-select" name="doctor_name" id="edit-report-doctor" required autocomplete="off">
 									<option value="">-- Select Doctor --</option>
 								</select>
-								<button type="button" class="btn btn-success btn-add-report-doctor" title="Add New Doctor"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-info btn-sm btn-view-report-doctor" title="View Doctor Details" style="padding: 0.25rem 0.5rem;"><i class="fa fa-eye"></i></button>
 							</div>
 						</div>
 					</div>

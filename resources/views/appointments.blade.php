@@ -281,12 +281,9 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="field_1002" class="form-label">Reference Doctor</label>
-							<div class="input-group flex-nowrap">
-								<select class="form-select reference-dr-select" name="doctor_name" autocomplete="off" id="field_1002">
-									<option value="">-- Select Doctor --</option>
-								</select>
-								<button type="button" class="btn btn-success btn-add-doctor" title="Add New"><i class="fa fa-plus"></i></button>
-							</div>
+							<select class="form-select reference-dr-select" name="doctor_name" autocomplete="off" id="field_1002">
+								<option value="">-- Select Doctor --</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -295,17 +292,12 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="book-test-name" class="form-label text-primary">Test Name</label>
-							<div class="input-group flex-nowrap">
-								<select class="form-select book-test-select" name="test_name" id="book-test-name" required autocomplete="off">
-									<option value="">-- Select Test --</option>
-									@foreach($tests as $test)
-										<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-unit="{{ $test->parameter->unit ?? '' }}" data-bio-ref="{{ $test->parameter->biological_reference ?? '' }}">{{ $test->name }}</option>
-									@endforeach
-								</select>
-								<button type="button" class="btn btn-success btn-add-booking-test" title="Add New Test"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-primary btn-edit-booking-test" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
-								<button type="button" class="btn btn-danger btn-delete-booking-test" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
-							</div>
+							<select class="form-select book-test-select" name="test_name" id="book-test-name" required autocomplete="off">
+								<option value="">-- Select Test --</option>
+								@foreach($tests as $test)
+									<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-unit="{{ $test->parameter->unit ?? '' }}" data-bio-ref="{{ $test->parameter->biological_reference ?? '' }}">{{ $test->name }}</option>
+								@endforeach
+							</select>
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -395,14 +387,9 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="edit-doctor-name" class="form-label">Reference Doctor</label>
-							<div class="input-group flex-nowrap">
-								<select class="form-select reference-dr-select" name="doctor_name" id="edit-doctor-name" autocomplete="off">
-									<option value="">-- Select Doctor --</option>
-								</select>
-								<button type="button" class="btn btn-success btn-add-doctor" title="Add New"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-warning btn-edit-doctor" title="Edit Selected"><i class="fa fa-edit"></i></button>
-								<button type="button" class="btn btn-danger btn-delete-doctor" title="Delete Selected"><i class="fa fa-trash"></i></button>
-							</div>
+							<select class="form-select reference-dr-select" name="doctor_name" id="edit-doctor-name" autocomplete="off">
+								<option value="">-- Select Doctor --</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -411,17 +398,12 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="edit-test-name" class="form-label text-primary">Test Name</label>
-							<div class="input-group flex-nowrap">
-								<select class="form-select book-test-select" name="test_name" id="edit-test-name" required autocomplete="off">
-									<option value="">-- Select Test --</option>
-									@foreach($tests as $test)
-										<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-unit="{{ $test->parameter->unit ?? '' }}" data-bio-ref="{{ $test->parameter->biological_reference ?? '' }}">{{ $test->name }}</option>
-									@endforeach
-								</select>
-								<button type="button" class="btn btn-success btn-add-booking-test" title="Add New Test"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-primary btn-edit-booking-test" title="Edit Selected Test"><i class="fa fa-edit"></i></button>
-								<button type="button" class="btn btn-danger btn-delete-booking-test" title="Delete Selected Test"><i class="fa fa-trash"></i></button>
-							</div>
+							<select class="form-select book-test-select" name="test_name" id="edit-test-name" required autocomplete="off">
+								<option value="">-- Select Test --</option>
+								@foreach($tests as $test)
+									<option value="{{ $test->name }}" data-id="{{ $test->id }}" data-price="{{ $test->price }}" data-unit="{{ $test->parameter->unit ?? '' }}" data-bio-ref="{{ $test->parameter->biological_reference ?? '' }}">{{ $test->name }}</option>
+								@endforeach
+							</select>
 						</div>
 					</div>
 					<div class="col-md-3">
