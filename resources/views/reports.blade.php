@@ -1103,7 +1103,7 @@
             <div class="test-item-row card border-0 shadow-sm mb-3" style="background: linear-gradient(145deg, #ffffff, #f8fafc); border-radius: 12px; position: relative; overflow: hidden;">
                 <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #6366f1;"></div>
                 <div class="card-body p-3">
-                    <button type="button" class="remove-row" title="Remove Test"><i class="fa fa-times"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger position-absolute remove-row" style="top: 10px; right: 10px; z-index: 10; border-radius: 8px;" title="Remove Test"><i class="fa fa-trash"></i></button>
                     <div class="row g-3 align-items-end mt-3">
                         <div class="col-md-4 col-sm-6">
                             <div class="d-flex justify-content-between align-items-center mb-1">
@@ -1525,7 +1525,7 @@
 
           // Open Edit Doctor modal from report
           $(document).on('click', '.btn-edit-report-doctor', function() {
-              let select = $(this).siblings('.report-doctor-select');
+              let select = $(this).parent().siblings('.report-doctor-select');
               let selectedOption = select.find('option:selected');
               let docId = selectedOption.attr('data-id');
               if (!docId) { alert('Please select a valid doctor to edit.'); return; }
@@ -1615,12 +1615,12 @@
 
           $(document).on('click', '.btn-add-report-category', function() {
               $('.report-category-select').removeClass('active-category-select');
-              $(this).siblings('.report-category-select').addClass('active-category-select');
+              $(this).parent().siblings('.report-category-select').addClass('active-category-select');
               $('#modal-add-report-category').modal('show');
           });
 
           $(document).on('click', '.btn-edit-report-category', function() {
-              let select = $(this).siblings('.report-category-select');
+              let select = $(this).parent().siblings('.report-category-select');
               let selectedOption = select.find('option:selected');
               let catId = selectedOption.attr('data-id');
               if (!catId) { alert('Please select a valid category to edit.'); return; }
@@ -1685,7 +1685,7 @@
 
           $(document).on('click', '.btn-add-report-subcategory', function() {
               $('.report-subcategory-select').removeClass('active-subcategory-select');
-              $(this).siblings('.report-subcategory-select').addClass('active-subcategory-select');
+              $(this).parent().siblings('.report-subcategory-select').addClass('active-subcategory-select');
               
               let catId = $(this).closest('.test-item-row').find('.report-category-select option:selected').attr('data-id');
               $('#add-report-sub-category-id').val(catId || '');
@@ -1694,7 +1694,7 @@
           });
 
           $(document).on('click', '.btn-edit-report-subcategory', function() {
-              let select = $(this).siblings('.report-subcategory-select');
+              let select = $(this).parent().siblings('.report-subcategory-select');
               let selectedOption = select.find('option:selected');
               let subId = selectedOption.attr('data-id');
               if (!subId) { alert('Please select a valid sub-category to edit.'); return; }
@@ -1788,12 +1788,12 @@
 
           $(document).on('click', '.btn-add-report-test', function() {
               $('.test-selector-dynamic').removeClass('active-test-select');
-              $(this).siblings('.test-selector-dynamic').addClass('active-test-select');
+              $(this).parent().siblings('.test-selector-dynamic').addClass('active-test-select');
               $('#modal-add-report-test').modal('show');
           });
 
           $(document).on('click', '.btn-edit-report-test', function() {
-              let select = $(this).siblings('.test-selector-dynamic');
+              let select = $(this).parent().siblings('.test-selector-dynamic');
               let selectedOption = select.find('option:selected');
               let testId = selectedOption.attr('data-id');
               if (!testId) { alert('Please select a valid parameter to edit.'); return; }
@@ -1859,12 +1859,12 @@
 
           $(document).on('click', '.btn-add-report-unit', function() {
               $('.report-unit-select').removeClass('active-unit-select');
-              $(this).siblings('.report-unit-select').addClass('active-unit-select');
+              $(this).parent().siblings('.report-unit-select').addClass('active-unit-select');
               $('#modal-add-report-unit').modal('show');
           });
 
           $(document).on('click', '.btn-edit-report-unit', function() {
-              let select = $(this).siblings('.report-unit-select');
+              let select = $(this).parent().siblings('.report-unit-select');
               let selectedOption = select.find('option:selected');
               let unitId = selectedOption.attr('data-id');
               if (!unitId) { alert('Please select a valid unit to edit.'); return; }
@@ -2943,21 +2943,21 @@
           });
 
           $(document).on('click', '.btn-edit-report-patient', function() {
-              let select = $(this).siblings('select');
+              let select = $(this).parent().siblings('select');
               let patientId = select.val();
               if (!patientId) { alert('Please select a patient first.'); return; }
               window.open("/patients?edit=" + patientId, "_blank");
           });
 
           $(document).on('click', '.btn-delete-report-patient', function() {
-              let select = $(this).siblings('select');
+              let select = $(this).parent().siblings('select');
               let id = select.val();
               if (!id) { alert('Please select a patient first.'); return; }
               $('#btn-detail-delete').data('id', id).data('type', 'patient').click();
           });
 
           $(document).on('click', '.btn-view-report-patient', function() {
-              let select = $(this).siblings('select');
+              let select = $(this).parent().siblings('select');
               let patientId = select.val();
               if (!patientId) { alert('Please select a patient first.'); return; }
               
@@ -2993,7 +2993,7 @@
           });
 
           $(document).on('click', '.btn-view-report-doctor', function() {
-              let select = $(this).siblings('select');
+              let select = $(this).parent().siblings('select');
               let selectedOption = select.find('option:selected');
               let doctorName = selectedOption.val();
               if (!doctorName) { alert('Please select a doctor first.'); return; }
@@ -3026,7 +3026,7 @@
           });
 
           $(document).on('click', '.btn-view-report-signature', function() {
-              let select = $(this).siblings('select');
+              let select = $(this).parent().siblings('select');
               let selectedOption = select.find('option:selected');
               let signatureId = selectedOption.val();
               if (!signatureId) { alert('Please select a signature first.'); return; }
@@ -3061,19 +3061,19 @@
               $('#modal-view-detail').modal('show');
           });
 
-          $(document).on('click', '.btn-edit-report-category', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a category first.'); return; } $('#edit-report-cat-id').val(id); $('#edit-report-cat-name').val(name || selectedOption.text()); $('#modal-edit-report-category').modal('show'); });
+          $(document).on('click', '.btn-edit-report-category', function() { let select = $(this).parent().siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a category first.'); return; } $('#edit-report-cat-id').val(id); $('#edit-report-cat-name').val(name || selectedOption.text()); $('#modal-edit-report-category').modal('show'); });
 
-          $(document).on('click', '.btn-edit-report-subcategory', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a sub-category first.'); return; } $('#edit-report-sub-id').val(id); $('#edit-report-sub-name').val(name || selectedOption.text()); $('#modal-edit-report-subcategory').modal('show'); });
+          $(document).on('click', '.btn-edit-report-subcategory', function() { let select = $(this).parent().siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a sub-category first.'); return; } $('#edit-report-sub-id').val(id); $('#edit-report-sub-name').val(name || selectedOption.text()); $('#modal-edit-report-subcategory').modal('show'); });
 
-          $(document).on('click', '.btn-edit-report-test', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a parameter first.'); return; } $('#edit-report-test-id').val(id); $('#edit-report-test-name').val(name || selectedOption.text()); $('#edit-report-test-unit').val(selectedOption.attr('data-unit')); $('#edit-report-test-bio').val(selectedOption.attr('data-bio-ref')); $('#modal-edit-report-test').modal('show'); });
+          $(document).on('click', '.btn-edit-report-test', function() { let select = $(this).parent().siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a parameter first.'); return; } $('#edit-report-test-id').val(id); $('#edit-report-test-name').val(name || selectedOption.text()); $('#edit-report-test-unit').val(selectedOption.attr('data-unit')); $('#edit-report-test-bio').val(selectedOption.attr('data-bio-ref')); $('#modal-edit-report-test').modal('show'); });
 
-          $(document).on('click', '.btn-edit-observed', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select an observed value first.'); return; } $('#edit-report-observed-id').val(id); $('#edit-report-observed-name').val(name || selectedOption.text()); $('#modal-edit-report-observed').modal('show'); });
+          $(document).on('click', '.btn-edit-observed', function() { let select = $(this).parent().siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select an observed value first.'); return; } $('#edit-report-observed-id').val(id); $('#edit-report-observed-name').val(name || selectedOption.text()); $('#modal-edit-report-observed').modal('show'); });
 
-          $(document).on('click', '.btn-edit-report-unit', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a unit first.'); return; } $('#edit-report-unit-id').val(id); $('#edit-report-unit-name').val(name || selectedOption.text()); $('#modal-edit-report-unit').modal('show'); });
+          $(document).on('click', '.btn-edit-report-unit', function() { let select = $(this).parent().siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a unit first.'); return; } $('#edit-report-unit-id').val(id); $('#edit-report-unit-name').val(name || selectedOption.text()); $('#modal-edit-report-unit').modal('show'); });
 
-          $(document).on('click', '.btn-edit-reference', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a reference template first.'); return; } $('#edit-report-reference-id').val(id); $('#edit-report-reference-name').val(name || selectedOption.text()); $('#modal-edit-report-reference').modal('show'); });
+          $(document).on('click', '.btn-edit-reference', function() { let select = $(this).parent().siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a reference template first.'); return; } $('#edit-report-reference-id').val(id); $('#edit-report-reference-name').val(name || selectedOption.text()); $('#modal-edit-report-reference').modal('show'); });
 
-          $(document).on('click', '.btn-edit-flag', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a flag template first.'); return; } $('#edit-report-flag-id').val(id); $('#edit-report-flag-name').val(name || selectedOption.text()); $('#modal-edit-report-flag').modal('show'); });
+          $(document).on('click', '.btn-edit-flag', function() { let select = $(this).parent().siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a flag template first.'); return; } $('#edit-report-flag-id').val(id); $('#edit-report-flag-name').val(name || selectedOption.text()); $('#modal-edit-report-flag').modal('show'); });
 
           // Handle Dynamic Row View/Delete Buttons
           $(document).on('click', '.btn-delete-report-category', function() { handleDeleteClick($(this), 'category', 'category'); });
@@ -3085,7 +3085,7 @@
           $(document).on('click', '.btn-delete-flag', function() { handleDeleteClick($(this), 'flag', 'flag'); });
 
           function handleDeleteClick(btn, label, type) {
-              let select = btn.siblings('select');
+              let select = btn.parent().siblings('select');
               let id = select.find('option:selected').attr('data-id');
               if (!id) { alert('Please select a ' + label + ' first.'); return; }
               $('#btn-detail-delete').data('id', id).data('type', type).click();
@@ -3094,7 +3094,7 @@
           $(document).on('click', '.btn-view-report-category', function() { handleViewClick($(this), 'category', 'Category', 'fa-folder'); });
           $(document).on('click', '.btn-view-report-subcategory', function() { handleViewClick($(this), 'subcategory', 'Sub-Category', 'fa-folder-open'); });
           $(document).on('click', '.btn-view-report-test', function() {
-              let select = $(this).siblings('select');
+              let select = $(this).parent().siblings('select');
               let selectedOption = select.find('option:selected');
               let id = selectedOption.attr('data-id');
               let name = selectedOption.val() || selectedOption.text();
@@ -3127,7 +3127,7 @@
           $(document).on('click', '.btn-view-flag', function() { handleViewClick($(this), 'flag', 'Flag', 'fa-flag'); });
 
           function handleViewClick(btn, type, label, icon) {
-              let select = btn.siblings('select');
+              let select = btn.parent().siblings('select');
               let id = select.find('option:selected').attr('data-id');
               let name = select.val() || select.find('option:selected').text();
               if (!id) { alert('Please select a ' + label + ' first.'); return; }
