@@ -702,6 +702,12 @@
                 <div class="d-flex justify-content-between align-items-center mt-2 mb-3 border-bottom pb-2">
                     <h4 class="text-primary mb-0">Dynamic Test Results</h4>
                     <div class="d-flex gap-2 align-items-center">
+                        <select class="form-select form-select-sm select-load-report-template" style="width: 220px;" autocomplete="off">
+                            <option value="">-- Load Template --</option>
+                            @foreach($reportTemplates as $rt)
+                                <option value="{{ $rt->id }}">{{ $rt->name }}</option>
+                            @endforeach
+                        </select>
                         <button type="button" class="btn btn-sm btn-success" id="btn-add-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
                     </div>
                 </div>
@@ -807,6 +813,12 @@
                 <div class="d-flex justify-content-between align-items-center mt-2 mb-3 border-bottom pb-2">
                     <h4 class="text-primary mb-0">Dynamic Test Results</h4>
                     <div class="d-flex gap-2 align-items-center">
+                        <select class="form-select form-select-sm select-load-report-template" style="width: 220px;" autocomplete="off">
+                            <option value="">-- Load Template --</option>
+                            @foreach($reportTemplates as $rt)
+                                <option value="{{ $rt->id }}">{{ $rt->name }}</option>
+                            @endforeach
+                        </select>
                         <button type="button" class="btn btn-sm btn-success" id="btn-add-edit-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
                     </div>
                 </div>
@@ -1516,7 +1528,58 @@
               initDynamicSelect2();
           });
 
+          $(document).on('change', '.select-load-report-template', function() {
+              let templateId = $(this).val();
+              if (!templateId) return;
 
+              let selectDropdown = $(this);
+              let modal = $(this).closest('.modal');
+              let container = modal.attr('id') === 'modal-add-report' ? '#dynamic-tests-container' : '#edit-dynamic-tests-container';
+
+              selectDropdown.prop('disabled', true);
+
+              $.get("/templates/" + templateId, function(template) {
+                  if (template.items && template.items.length > 0) {
+                      if (confirm(`Do you want to clear the existing test items before loading the template "${template.name}"?`)) {
+                          $(container).empty();
+                      }
+
+                      template.items.forEach(item => {
+                          let newRow = $(trTemplate);
+                          $(container).append(newRow);
+
+                          // Set Category & Subcategory
+                          setSelectValueWithDefault(newRow.find('.report-category-select'), item.category || 'General');
+                          setSelectValueWithDefault(newRow.find('.report-subcategory-select'), item.subcategory || '');
+
+                          // Set Test parameter & trigger change for patient details auto-calculation
+                          let testSelect = newRow.find('.test-selector-dynamic');
+                          setSelectValueWithDefault(testSelect, item.name || '');
+                          testSelect.trigger('change');
+
+                          // Override defaults if specified in the template
+                          if (item.unit) {
+                              setSelectValueWithDefault(newRow.find('.report-unit-select'), item.unit);
+                          }
+                          if (item.normal_value) {
+                              setSelectValueWithDefault(newRow.find('.normal-val-dynamic'), item.normal_value);
+                          }
+                          if (item.biological_reference) {
+                              setSelectValueWithDefault(newRow.find('.bio-val-dynamic'), item.biological_reference);
+                          }
+                      });
+
+                      updateRowSlNo(container);
+                      initDynamicSelect2();
+                  } else {
+                      alert('This template has no test items.');
+                  }
+                  selectDropdown.val('').prop('disabled', false);
+              }).fail(function() {
+                  alert('Failed to load template.');
+                  selectDropdown.prop('disabled', false);
+              });
+          });
 
           $(document).on('click', '.remove-row', function() {
               let target = $(this).closest('.test-item-row').parent();

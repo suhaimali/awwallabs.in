@@ -144,6 +144,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/vital-signs/{id}', [HomeController::class, 'getVitalSign'])->name('vital-signs.show');
     Route::post('/vital-signs/update/{id}', [HomeController::class, 'updateVitalSign'])->name('vital-signs.update');
     Route::delete('/vital-signs/{id}', [HomeController::class, 'deleteVitalSign'])->name('vital-signs.delete');
+
+    // Report Templates Routes
+    Route::get('/templates', [HomeController::class, 'templatesIndex'])->name('templates.index');
+    Route::post('/templates', [HomeController::class, 'storeTemplate'])->name('templates.store');
+    Route::get('/templates/{id}', [HomeController::class, 'getTemplate'])->name('templates.show');
+    Route::put('/templates/{id}', [HomeController::class, 'updateTemplate'])->name('templates.update');
+    Route::delete('/templates/{id}', [HomeController::class, 'deleteTemplate'])->name('templates.delete');
 });
 
 

@@ -81,6 +81,13 @@
             <span class="nav-label">Master Data</span>
         </a>
 
+        <a href="{{ route('templates.index') }}"
+           class="nav-item-link {{ request()->routeIs('templates*') ? 'active' : '' }}"
+           data-tooltip="Report Templates">
+            <span class="nav-icon"><i class="fa fa-copy"></i></span>
+            <span class="nav-label">Report Templates</span>
+        </a>
+
         <div class="sidebar-section-label" style="margin-top:8px;">Reports</div>
 
         <a href="{{ route('reports') }}"

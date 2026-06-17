@@ -100,7 +100,8 @@ class HomeController extends Controller
         $referenceTemplates = \App\Models\ReferenceTemplate::orderBy('name')->get();
         $flagTemplates = \App\Models\FlagTemplate::orderBy('name')->get();
         $signatures = \App\Models\ReportSignature::orderBy('name')->get();
-        return view('reports', compact('reports', 'patients', 'tests', 'categories', 'subCategories', 'units', 'templates', 'referenceTemplates', 'flagTemplates', 'signatures'));
+        $reportTemplates = \App\Models\ReportTemplate::with('items')->orderBy('name')->get();
+        return view('reports', compact('reports', 'patients', 'tests', 'categories', 'subCategories', 'units', 'templates', 'referenceTemplates', 'flagTemplates', 'signatures', 'reportTemplates'));
     }
 
 
@@ -1654,6 +1655,103 @@ class HomeController extends Controller
     public function apiProducts()
     {
         return response()->json(\App\Models\Product::orderBy('name')->get());
+    }
+
+    // ==========================================
+    // REPORT TEMPLATES MANAGEMENT
+    // ==========================================
+
+    public function templatesIndex()
+    {
+        $templates = \App\Models\ReportTemplate::with('items')->orderBy('name')->get();
+        $labTests = \App\Models\LabTest::with(['parameter', 'referenceIntervals'])->orderBy('name')->get();
+        $units = \App\Models\Unit::orderBy('name')->get();
+        $referenceTemplates = \App\Models\ReferenceTemplate::orderBy('name')->get();
+        return view('templates', compact('templates', 'labTests', 'units', 'referenceTemplates'));
+    }
+
+    public function storeTemplate(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:report_templates,name',
+            'description' => 'nullable|string',
+            'test_name' => 'required|array',
+            'test_name.*' => 'required|string',
+        ]);
+
+        $template = \App\Models\ReportTemplate::create([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        $items = [];
+        foreach ($request->test_name as $i => $name) {
+            $items[] = [
+                'lab_test_id' => $request->lab_test_id[$i] ?? null,
+                'category' => $request->test_category[$i] ?? 'General',
+                'subcategory' => $request->test_subcategory[$i] ?? null,
+                'name' => $name,
+                'unit' => $request->test_unit[$i] ?? null,
+                'normal_value' => $request->normal_value[$i] ?? null,
+                'biological_reference' => $request->biological_reference[$i] ?? null,
+                'sort_order' => $i,
+            ];
+        }
+
+        $template->items()->createMany($items);
+
+        return response()->json(['success' => 'Template created successfully!']);
+    }
+
+    public function getTemplate($id)
+    {
+        $template = \App\Models\ReportTemplate::with('items')->findOrFail($id);
+        return response()->json($template);
+    }
+
+    public function updateTemplate(\Illuminate\Http\Request $request, $id)
+    {
+        $template = \App\Models\ReportTemplate::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:report_templates,name,' . $id,
+            'description' => 'nullable|string',
+            'test_name' => 'required|array',
+            'test_name.*' => 'required|string',
+        ]);
+
+        $template->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        $template->items()->delete();
+
+        $items = [];
+        foreach ($request->test_name as $i => $name) {
+            $items[] = [
+                'lab_test_id' => $request->lab_test_id[$i] ?? null,
+                'category' => $request->test_category[$i] ?? 'General',
+                'subcategory' => $request->test_subcategory[$i] ?? null,
+                'name' => $name,
+                'unit' => $request->test_unit[$i] ?? null,
+                'normal_value' => $request->normal_value[$i] ?? null,
+                'biological_reference' => $request->biological_reference[$i] ?? null,
+                'sort_order' => $i,
+            ];
+        }
+
+        $template->items()->createMany($items);
+
+        return response()->json(['success' => 'Template updated successfully!']);
+    }
+
+    public function deleteTemplate($id)
+    {
+        $template = \App\Models\ReportTemplate::findOrFail($id);
+        $template->delete();
+
+        return response()->json(['success' => 'Template deleted successfully!']);
     }
 }
 
