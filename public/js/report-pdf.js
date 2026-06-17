@@ -304,7 +304,7 @@ $(document).ready(function () {
 
             // Draw Patient Card Background
             doc.setFillColor(248, 250, 252);
-            doc.roundedRect(left, infoY - 5, tableW, 26, 2, 2, 'FD');
+            doc.roundedRect(left, infoY - 5, tableW, 38, 2, 2, 'FD');
 
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(9);
@@ -315,11 +315,13 @@ $(document).ready(function () {
             doc.text('REFERENCE NO', left + 4, infoY + 7);
             doc.text('REFERRED BY', left + 4, infoY + 13);
             doc.text('PRINTED DATE', left + 4, infoY + 19);
+            doc.text('PHONE NO', left + 4, infoY + 25);
 
             doc.text(':', left + 34, infoY + 1);
             doc.text(':', left + 34, infoY + 7);
             doc.text(':', left + 34, infoY + 13);
             doc.text(':', left + 34, infoY + 19);
+            doc.text(':', left + 34, infoY + 25);
 
             doc.setTextColor(15, 23, 42);
             doc.setFont('helvetica', 'bold');
@@ -334,16 +336,19 @@ $(document).ready(function () {
             doc.text(docDisplayName, left + 36, infoY + 13);
             doc.setFont('helvetica', 'normal');
             doc.text(printedDate, left + 36, infoY + 19);
+            doc.text(p.phone || 'N/A', left + 36, infoY + 25);
 
             // Column 2 Labels & Values
             doc.setTextColor(100, 116, 139);
             doc.text('AGE / SEX', left + 105, infoY + 1);
             doc.text('SPECIMEN', left + 105, infoY + 7);
             doc.text('RECEIVED DATE', left + 105, infoY + 13);
+            doc.text('ADDRESS', left + 105, infoY + 19);
 
             doc.text(':', left + 133, infoY + 1);
             doc.text(':', left + 133, infoY + 7);
             doc.text(':', left + 133, infoY + 13);
+            doc.text(':', left + 133, infoY + 19);
 
             doc.setTextColor(15, 23, 42);
             doc.setFont('helvetica', 'bold');
@@ -351,6 +356,10 @@ $(document).ready(function () {
             doc.setFont('helvetica', 'normal');
             doc.text('Blood / Serum', left + 135, infoY + 7);
             doc.text(isFirstPage ? reportDate.split(' - ')[0] : moment(data.sample_received_on).format('DD-MMM-YYYY'), left + 135, infoY + 13);
+
+            const addressText = p.address || 'N/A';
+            const splitAddress = doc.splitTextToSize(addressText, 50);
+            doc.text(splitAddress, left + 135, infoY + 19);
         }
 
         function addNewPage() {
@@ -358,7 +367,7 @@ $(document).ready(function () {
             pageNo += 1;
             addShell(false);
             alternatingRowIdx = 0;
-            return drawTableHeader(72) + 5;
+            return drawTableHeader(84) + 5;
         }
 
         function drawCategoryTitle(title, y) {
@@ -542,7 +551,7 @@ $(document).ready(function () {
             groupedResults[cat].push(r);
         });
 
-        let y = 72;
+        let y = 84;
         y = drawTableHeader(y) + 5;
         const sortedCategories = Object.keys(groupedResults).sort((a, b) => {
             const isA = /H[AE]{1,2}M[AO]TOLOGY/i.test(a);
