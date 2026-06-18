@@ -12,6 +12,7 @@ class Appointment extends Model
         'test_name',
         'test_price',
         'discount',
+        'advance_paid',
         'balance',
         'appointment_date',
         'appointment_time',

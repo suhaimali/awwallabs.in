@@ -119,12 +119,21 @@
             <span class="nav-icon"><i class="fa fa-chart-line"></i></span>
             <span class="nav-label">Income Report</span>
         </a>
+        @if(session('daily_collection_unlocked'))
         <a href="{{ route('daily-collection') }}"
            class="nav-item-link {{ request()->routeIs('daily-collection*') ? 'active' : '' }}"
            data-tooltip="Daily Collection">
             <span class="nav-icon"><i class="fa fa-cash-register"></i></span>
             <span class="nav-label">Daily Collection</span>
         </a>
+        @else
+        <a href="#" onclick="openDailyCollection(event)"
+           class="nav-item-link {{ request()->routeIs('daily-collection*') ? 'active' : '' }}"
+           data-tooltip="Daily Collection">
+            <span class="nav-icon"><i class="fa fa-cash-register"></i></span>
+            <span class="nav-label">Daily Collection</span>
+        </a>
+        @endif
 
         <div class="sidebar-section-label" style="margin-top:8px;">Inventory & Accounts</div>
 
@@ -173,6 +182,31 @@
     </div>
 </div>
 
+<!-- Daily Collection Password Modal -->
+<div class="modal fade modal-aw" id="modal-daily-password" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:380px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa fa-lock me-2"></i>Authentication Required</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="daily-password-input" class="form-label-aw">Enter Password to Access Daily Collection</label>
+                <input type="password" id="daily-password-input" class="form-control-aw" placeholder="Enter password..." autocomplete="off" name="daily_pwd">
+                <div id="daily-password-error" class="mt-2" style="display:none; color:#dc2626; font-size:13px;">
+                    <i class="fa fa-circle-exclamation me-1"></i>Incorrect password. Please try again.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn-aw-primary" onclick="verifyDailyPassword()">
+                    <i class="fa fa-unlock"></i> Unlock
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function openIncomeReport(e) {
         e.preventDefault();
@@ -197,6 +231,32 @@
             window.location.href = data.redirect;
         }).catch(() => {
             document.getElementById('income-password-error').style.display = 'block';
+        });
+    }
+
+    function openDailyCollection(e) {
+        e.preventDefault();
+        document.getElementById('daily-password-input').value = '';
+        document.getElementById('daily-password-error').style.display = 'none';
+        new bootstrap.Modal(document.getElementById('modal-daily-password')).show();
+    }
+    function verifyDailyPassword() {
+        const pass = document.getElementById('daily-password-input').value;
+        fetch("{{ route('daily-collection.unlock') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ password: pass })
+        }).then(r => {
+            if (!r.ok) throw new Error();
+            return r.json();
+        }).then(data => {
+            bootstrap.Modal.getInstance(document.getElementById('modal-daily-password')).hide();
+            window.location.href = data.redirect;
+        }).catch(() => {
+            document.getElementById('daily-password-error').style.display = 'block';
         });
     }
 </script>

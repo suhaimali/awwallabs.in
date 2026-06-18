@@ -390,6 +390,7 @@ class HomeController extends Controller
             'status'         => 'nullable|string|max:50',
             'address'        => 'nullable|string|max:500',
             'payment_method' => 'nullable|string|max:50',
+            'advance_paid'   => 'nullable|numeric|min:0',
         ]);
 
         if (empty($validated['patient_id'])) {
@@ -417,18 +418,26 @@ class HomeController extends Controller
             }
         }
 
+        $advancePaid = floatval($request->input('advance_paid', 0));
+
         $validated['total_amount'] = $totalAmount;
         $validated['discount'] = $totalDiscount;
-        $validated['balance'] = $totalAmount - $totalDiscount;
+        $validated['advance_paid'] = $advancePaid;
+        $validated['balance'] = $totalAmount - $totalDiscount - $advancePaid;
 
         $patient = \App\Models\Patient::create($validated);
 
-        // Create appointments
+        // Create appointments and distribute advance_paid
+        $remainingAdvance = $advancePaid;
         foreach ($testNames as $index => $name) {
             if (!empty($name)) {
                 $price = floatval($testPrices[$index] ?? 0);
                 $discount = floatval($testDiscounts[$index] ?? 0);
-                $balance = $price - $discount;
+                $net = $price - $discount;
+
+                $appAdvance = min($remainingAdvance, $net);
+                $remainingAdvance -= $appAdvance;
+                $balance = $net - $appAdvance;
 
                 \App\Models\Appointment::create([
                     'patient_id' => $patient->id,
@@ -436,6 +445,7 @@ class HomeController extends Controller
                     'test_name' => $name,
                     'test_price' => $price,
                     'discount' => $discount,
+                    'advance_paid' => $appAdvance,
                     'balance' => $balance,
                     'appointment_date' => date('Y-m-d'),
                     'appointment_time' => date('H:i'),
@@ -471,6 +481,7 @@ class HomeController extends Controller
             'status'         => 'nullable|string|max:50',
             'address'        => 'nullable|string|max:500',
             'payment_method' => 'nullable|string|max:50',
+            'advance_paid'   => 'nullable|numeric|min:0',
         ]);
 
         // Calculate totals from input test arrays
@@ -491,21 +502,29 @@ class HomeController extends Controller
             }
         }
 
+        $advancePaid = floatval($request->input('advance_paid', 0));
+
         $validated['total_amount'] = $totalAmount;
         $validated['discount'] = $totalDiscount;
-        $validated['balance'] = $totalAmount - $totalDiscount;
+        $validated['advance_paid'] = $advancePaid;
+        $validated['balance'] = $totalAmount - $totalDiscount - $advancePaid;
 
         $patient->update($validated);
 
         // Keep track of active/updated appointment IDs so we can delete removed ones
         $keepAppointmentIds = [];
+        $remainingAdvance = $advancePaid;
 
         foreach ($testNames as $index => $name) {
             if (!empty($name)) {
                 $appId = $appointmentIds[$index] ?? null;
                 $price = floatval($testPrices[$index] ?? 0);
                 $discount = floatval($testDiscounts[$index] ?? 0);
-                $balance = $price - $discount;
+                $net = $price - $discount;
+
+                $appAdvance = min($remainingAdvance, $net);
+                $remainingAdvance -= $appAdvance;
+                $balance = $net - $appAdvance;
 
                 if ($appId) {
                     $appointment = \App\Models\Appointment::find($appId);
@@ -514,6 +533,7 @@ class HomeController extends Controller
                             'test_name' => $name,
                             'test_price' => $price,
                             'discount' => $discount,
+                            'advance_paid' => $appAdvance,
                             'balance' => $balance,
                             'total_amount' => $price,
                         ]);
@@ -526,6 +546,7 @@ class HomeController extends Controller
                         'test_name' => $name,
                         'test_price' => $price,
                         'discount' => $discount,
+                        'advance_paid' => $appAdvance,
                         'balance' => $balance,
                         'appointment_date' => date('Y-m-d'),
                         'appointment_time' => date('H:i'),
@@ -581,6 +602,7 @@ class HomeController extends Controller
             'test_name' => 'required|string|max:255',
             'test_price' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
+            'advance_paid' => 'nullable|numeric|min:0',
             'balance' => 'nullable|numeric',
             'appointment_date' => 'required|date',
             'appointment_time' => 'required',
@@ -593,7 +615,8 @@ class HomeController extends Controller
         $validated['doctor_name'] = $validated['doctor_name'] ?? 'Self';
         $validated['total_amount'] = $validated['test_price'];
         $validated['discount'] = $request->discount ?? 0;
-        $validated['balance'] = $request->balance ?? ($validated['test_price'] - $validated['discount']);
+        $validated['advance_paid'] = $request->advance_paid ?? 0;
+        $validated['balance'] = $request->balance ?? ($validated['test_price'] - $validated['discount'] - $validated['advance_paid']);
 
         \App\Models\Appointment::create($validated);
 
@@ -616,6 +639,7 @@ class HomeController extends Controller
             'test_name' => 'required|string|max:255',
             'test_price' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
+            'advance_paid' => 'nullable|numeric|min:0',
             'balance' => 'nullable|numeric',
             'appointment_date' => 'required|date',
             'appointment_time' => 'required',
@@ -625,7 +649,8 @@ class HomeController extends Controller
 
         $validated['total_amount'] = $validated['test_price'];
         $validated['discount'] = $validated['discount'] ?? 0;
-        $validated['balance'] = $validated['balance'] ?? ($validated['test_price'] - $validated['discount']);
+        $validated['advance_paid'] = $validated['advance_paid'] ?? 0;
+        $validated['balance'] = $validated['balance'] ?? ($validated['test_price'] - $validated['discount'] - $validated['advance_paid']);
 
         $appointment->update($validated);
 
@@ -695,6 +720,10 @@ class HomeController extends Controller
 
     public function dailyCollection(\Illuminate\Http\Request $request)
     {
+        if (!$request->session()->get('daily_collection_unlocked')) {
+            return view('daily_collection_unlock');
+        }
+
         $date = $request->input('date', date('Y-m-d'));
         
         $payments = \App\Models\Payment::with('patient')
@@ -722,7 +751,7 @@ class HomeController extends Controller
     public function incomeReport(\Illuminate\Http\Request $request)
     {
         if (!$request->session()->get('income_report_unlocked')) {
-            return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+            return view('income_report_unlock');
         }
 
         $query = \App\Models\Payment::with('patient')->orderBy('bill_date', 'desc');
@@ -783,6 +812,37 @@ class HomeController extends Controller
         return response()->json([
             'success' => true,
             'redirect' => route('income-report'),
+        ]);
+    }
+
+    public function unlockDailyCollection(\Illuminate\Http\Request $request)
+    {
+        $request->validate(['password' => 'required|string']);
+
+        $expected = config('services.income_report.password');
+        if (!$expected || !hash_equals($expected, $request->password)) {
+            return response()->json(['message' => 'Invalid password.'], 422);
+        }
+
+        $request->session()->put('daily_collection_unlocked', true);
+
+        return response()->json([
+            'success' => true,
+            'redirect' => route('daily-collection'),
+        ]);
+    }
+
+    public function verifyAdminPassword(\Illuminate\Http\Request $request)
+    {
+        $request->validate(['password' => 'required|string']);
+
+        $expected = config('services.income_report.password');
+        if (!$expected || !hash_equals($expected, $request->password)) {
+            return response()->json(['message' => 'Invalid password.'], 422);
+        }
+
+        return response()->json([
+            'success' => true,
         ]);
     }
 

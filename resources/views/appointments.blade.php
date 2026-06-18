@@ -314,9 +314,23 @@
 					</div>
 				</div>
 
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="book-advance-paid" class="form-label text-primary">Advance Paid (₹)</label>
+							<input type="number" step="0.01" class="form-control" id="book-advance-paid" name="advance_paid" value="0.00" autocomplete="off">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="book-balance-due" class="form-label text-danger">Balance Due (₹)</label>
+							<input type="number" step="0.01" class="form-control" id="book-balance-due" name="balance" value="0.00" readonly autocomplete="off">
+						</div>
+					</div>
+				</div>
+
 				<div class="text-end mb-2 pe-3">
 					<span style="font-size:16px; font-weight:700; color:var(--text-dark);">Net Payable: ₹<span id="book-net-payable">0.00</span></span>
-					<input type="hidden" name="balance" id="book-hidden-balance">
 				</div>
 
 				<div class="row">
@@ -420,9 +434,23 @@
 					</div>
 				</div>
 
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="edit-advance-paid" class="form-label text-primary">Advance Paid (₹)</label>
+							<input type="number" step="0.01" class="form-control" id="edit-advance-paid" name="advance_paid" value="0.00" autocomplete="off">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="edit-balance-due" class="form-label text-danger">Balance Due (₹)</label>
+							<input type="number" step="0.01" class="form-control" id="edit-balance-due" name="balance" value="0.00" readonly autocomplete="off">
+						</div>
+					</div>
+				</div>
+
 				<div class="text-end mb-2 pe-3">
 					<span style="font-size:16px; font-weight:700; color:var(--text-dark);">Net Payable: ₹<span id="edit-net-payable">0.00</span></span>
-					<input type="hidden" name="balance" id="edit-hidden-balance">
 				</div>
 
 				<div class="row">
@@ -956,7 +984,9 @@
 				  $('#book-test-discount').val(price.toFixed(2));
 			  }
 			  $('#book-net-payable').text(net.toFixed(2));
-			  $('#book-hidden-balance').val(net.toFixed(2));
+			  let advance = parseFloat($('#book-advance-paid').val()) || 0;
+			  let balance = net - advance;
+			  $('#book-balance-due').val(balance.toFixed(2));
 		  }
 
 		  $('#book-test-name').change(function() {
@@ -965,7 +995,7 @@
 			  calculateBookingNet();
 		  });
 
-		  $('#book-test-price, #book-test-discount').on('input', function() {
+		  $('#book-test-price, #book-test-discount, #book-advance-paid').on('input', function() {
 			  calculateBookingNet();
 		  });
 
@@ -1002,6 +1032,7 @@
 				  $('#edit-test-name').val(data.test_name).trigger('change');
 				  $('#edit-test-price').val(data.test_price);
 				  $('#edit-test-discount').val(data.discount);
+				  $('#edit-advance-paid').val(data.advance_paid || '0.00');
 				  $('#edit-appointment-date').val(data.appointment_date ? data.appointment_date.split(' ')[0] : '');
 				  $('#edit-appointment-time').val(data.appointment_time ? data.appointment_time.substring(0,5) : '');
 				  $('#edit-status').val(data.status);
@@ -1020,7 +1051,9 @@
 				  $('#edit-test-discount').val(price.toFixed(2));
 			  }
 			  $('#edit-net-payable').text(net.toFixed(2));
-			  $('#edit-hidden-balance').val(net.toFixed(2));
+			  let advance = parseFloat($('#edit-advance-paid').val()) || 0;
+			  let balance = net - advance;
+			  $('#edit-balance-due').val(balance.toFixed(2));
 		  }
 
 		  $('#edit-test-name').change(function() {
@@ -1029,7 +1062,7 @@
 			  calculateEditNet();
 		  });
 
-		  $('#edit-test-price, #edit-test-discount').on('input', function() {
+		  $('#edit-test-price, #edit-test-discount, #edit-advance-paid').on('input', function() {
 			  calculateEditNet();
 		  });
 

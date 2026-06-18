@@ -51,6 +51,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Daily Collection
     Route::get('/daily-collection', [HomeController::class, 'dailyCollection'])->name('daily-collection');
+    Route::post('/daily-collection/unlock', [HomeController::class, 'unlockDailyCollection'])->name('daily-collection.unlock');
+
+    // Password Verification
+    Route::post('/verify-admin-password', [HomeController::class, 'verifyAdminPassword'])->name('verify-admin-password');
 
     // Accounts & Purchase Management
     Route::get('/products', [HomeController::class, 'productsIndex'])->name('products.index');

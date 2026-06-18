@@ -685,6 +685,21 @@
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="add-patient-advance" class="form-label">Advance Paid (₹)</label>
+							<input type="number" step="0.01" class="form-control" name="advance_paid" id="add-patient-advance" value="0.00" autocomplete="off">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="add-patient-balance" class="form-label">Balance Due (₹)</label>
+							<input type="number" step="0.01" class="form-control" name="balance" id="add-patient-balance" value="0.00" readonly autocomplete="off">
+						</div>
+					</div>
+				</div>
+
 				<div class="bg-primary-light p-3 rounded mb-3 text-end">
 					<h5 class="mb-0 fw-bold">Net Payable: ₹<span id="add-patient-net-payable">0.00</span></h5>
 				</div>
@@ -890,6 +905,21 @@
 				<div id="edit-patient-tests-container" class="mb-3">
 					<!-- Dynamically loaded from JS -->
 				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="edit-patient-advance" class="form-label">Advance Paid (₹)</label>
+							<input type="number" step="0.01" class="form-control" name="advance_paid" id="edit-patient-advance" value="0.00" autocomplete="off">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="edit-patient-balance" class="form-label">Balance Due (₹)</label>
+							<input type="number" step="0.01" class="form-control" name="balance" id="edit-patient-balance" value="0.00" readonly autocomplete="off">
+						</div>
+					</div>
+				</div>
+
 				<div class="bg-primary-light p-3 rounded mb-3 text-end">
 					<h5 class="mb-0 fw-bold">Net Payable: ₹<span id="edit-patient-net-payable">0.00</span></h5>
 				</div>
@@ -965,6 +995,21 @@
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-6">
+						<div class="form-group">
+							<label for="quick-book-advance" class="form-label">Advance Paid (₹)</label>
+							<input type="number" step="0.01" class="form-control" name="advance_paid" id="quick-book-advance" value="0.00" autocomplete="off">
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="form-group">
+							<label for="quick-book-balance" class="form-label">Balance Due (₹)</label>
+							<input type="number" step="0.01" class="form-control" name="balance" id="quick-book-balance" value="0.00" readonly autocomplete="off">
+						</div>
+					</div>
+				</div>
+
 				<div class="text-end mb-2 pe-3">
 					<span style="font-size:16px; font-weight:700; color:var(--text-dark);">Net Payable: ₹<span id="quick-book-net-payable">0.00</span></span>
 				</div>
@@ -1299,6 +1344,8 @@
 					  const subTotal = patientAppointments.reduce((sum, app) => sum + parseFloat(app.test_price || 0), 0);
 					  const totalDiscount = patientAppointments.reduce((sum, app) => sum + parseFloat(app.discount || 0), 0);
 					  const netPayable = subTotal - totalDiscount;
+					  const advancePaid = parseFloat(patient.advance_paid || 0);
+					  const balanceDue = parseFloat(patient.balance || 0);
 
 					  // --- Summary ---
 					  doc.setFontSize(10);
@@ -1309,11 +1356,17 @@
 					  doc.text("Total Discount:", 120, finalY + 6);
 					  doc.text(`${totalDiscount.toFixed(2)}`, 190, finalY + 6, { align: "right" });
 
+					  doc.text("Net Payable Amount:", 120, finalY + 12);
+					  doc.text(`${netPayable.toFixed(2)}`, 190, finalY + 12, { align: "right" });
+
+					  doc.text("Advance Paid:", 120, finalY + 18);
+					  doc.text(`${advancePaid.toFixed(2)}`, 190, finalY + 18, { align: "right" });
+
 					  doc.setFont("helvetica", "bold");
-					  doc.text("NET PAYABLE AMOUNT:", 120, finalY + 14);
+					  doc.text("BALANCE DUE:", 120, finalY + 26);
 					  doc.setFontSize(12);
 					  doc.setTextColor(0); // Black
-					  doc.text(`${netPayable.toFixed(2)}`, 190, finalY + 14, { align: "right" });
+					  doc.text(`${balanceDue.toFixed(2)}`, 190, finalY + 26, { align: "right" });
 
 					  // --- Footer / Signatures ---
 					  doc.setFontSize(9);
@@ -1493,12 +1546,17 @@
 			  calculateQuickBookNet();
 		  });
 
-		  $('#quick-book-price, #quick-book-discount').on('input', calculateQuickBookNet);
+		  $('#quick-book-price, #quick-book-discount, #quick-book-advance').on('input', calculateQuickBookNet);
 
 		  function calculateQuickBookNet() {
 			  let price = parseFloat($('#quick-book-price').val()) || 0;
 			  let discount = parseFloat($('#quick-book-discount').val()) || 0;
-			  $('#quick-book-net-payable').text((price - discount).toFixed(2));
+			  let advance = parseFloat($('#quick-book-advance').val()) || 0;
+			  let net = price - discount;
+			  if (net < 0) net = 0;
+			  let balance = net - advance;
+			  $('#quick-book-net-payable').text(net.toFixed(2));
+			  $('#quick-book-balance').val(balance.toFixed(2));
 		  }
 
 		  $('#btn-quick-book-save').click(function() {
@@ -1574,6 +1632,7 @@
 				  $('#edit-status').val(data.status).trigger('change');
 				  $('#edit-payment-method').val(data.payment_method || '').trigger('change');
 				  $('#edit-address').val(data.address);
+				  $('#edit-patient-advance').val(data.advance_paid || '0.00');
 
                   // Collect known test names from server (rendered by Blade)
                   const knownTestNames = [
@@ -1833,11 +1892,11 @@
 			  // handled above via .test-name-select
 		  });
 
-		  $(document).on('input', '.add-patient-test-price, .add-patient-test-discount', function() {
+		  $(document).on('input', '.add-patient-test-price, .add-patient-test-discount, #add-patient-advance', function() {
 			  calculateNetPayable('add');
 		  });
 
-		  $(document).on('input', '.edit-patient-test-price, .edit-patient-test-discount', function() {
+		  $(document).on('input', '.edit-patient-test-price, .edit-patient-test-discount, #edit-patient-advance', function() {
 			  calculateNetPayable('edit');
 		  });
 
@@ -1856,6 +1915,10 @@
 			  if (net < 0) net = 0;
 			  
 			  $(`#${prefix}-patient-net-payable`).text(net.toFixed(2));
+
+			  let advance = parseFloat($(`#${prefix}-patient-advance`).val()) || 0;
+			  let balance = net - advance;
+			  $(`#${prefix}-patient-balance`).val(balance.toFixed(2));
 		  }
 
 		  // Update Patient

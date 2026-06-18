@@ -598,7 +598,7 @@
 										<td class="text-end" data-label="Action">
                                              <div class="d-flex justify-content-end gap-2">
                                                  <button class="btn-aw-outline btn-aw-sm btn-view" data-id="{{ $report->id }}" data-bs-toggle="modal" data-bs-target="#modal-view-report" title="View / PDF" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-file-pdf"></i></button>
-                                                 <button class="btn-aw-primary btn-aw-sm btn-edit" data-id="{{ $report->id }}" data-bs-toggle="modal" data-bs-target="#modal-edit-report" title="Edit Report" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-edit"></i></button>
+                                                 <button class="btn-aw-primary btn-aw-sm btn-edit" data-id="{{ $report->id }}" title="Edit Report" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-edit"></i></button>
                                                  <button class="btn-aw-danger btn-aw-sm btn-delete" data-id="{{ $report->id }}" title="Delete" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-trash"></i></button>
                                              </div>
 										</td>
@@ -2281,10 +2281,72 @@
 			  });
 		  });
 
-          // Edit Report Load Data
+          let pendingAction = null;
+          let pendingReportId = null;
+
           $(document).on('click', '.btn-edit', function(e) {
               e.preventDefault();
-              let id = $(this).data('id');
+              pendingAction = 'edit';
+              pendingReportId = $(this).data('id');
+              $('#action-password-input').val('');
+              $('#action-password-error').hide();
+              new bootstrap.Modal(document.getElementById('modal-action-password')).show();
+          });
+
+          $(document).on('click', '.btn-delete', function(e) {
+              e.preventDefault();
+              pendingAction = 'delete';
+              pendingReportId = $(this).data('id');
+              $('#action-password-input').val('');
+              $('#action-password-error').hide();
+              new bootstrap.Modal(document.getElementById('modal-action-password')).show();
+          });
+
+          $('#btn-verify-action-password').click(function() {
+              const pass = $('#action-password-input').val();
+              const btn = $(this);
+              btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Verifying...');
+              
+              $.ajax({
+                  url: "{{ route('verify-admin-password') }}",
+                  type: 'POST',
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  data: JSON.stringify({ password: pass }),
+                  contentType: 'application/json',
+                  success: function(response) {
+                      btn.prop('disabled', false).html('<i class="fa fa-unlock"></i> Verify');
+                      bootstrap.Modal.getInstance(document.getElementById('modal-action-password')).hide();
+                      
+                      if (pendingAction === 'edit') {
+                          loadAndShowEditModal(pendingReportId);
+                      } else if (pendingAction === 'delete') {
+                          executeDeleteReport(pendingReportId);
+                      }
+                  },
+                  error: function() {
+                      btn.prop('disabled', false).html('<i class="fa fa-unlock"></i> Verify');
+                      $('#action-password-error').show();
+                  }
+              });
+          });
+
+          function executeDeleteReport(id) {
+              if(confirm('Are you sure you want to delete this report?')) {
+                  $.ajax({
+                      url: "/reports/" + id,
+                      type: 'DELETE',
+                      success: function(response) {
+                          alert(response.success);
+                          refreshReportsPageData();
+                      }
+                  });
+              }
+          }
+
+          // Edit Report Load Data
+          function loadAndShowEditModal(id) {
               $.get("/reports/" + id, function(data) {
                   $('#edit-report-id').val(data.id);
                   $('#edit-patient-id').val(data.patient_id).trigger('change');
@@ -2470,8 +2532,10 @@
                       updateRowSlNo(container);
                       initDynamicSelect2();
                   }
+
+                  new bootstrap.Modal(document.getElementById('modal-edit-report')).show();
               });
-          });
+          }
 
           // Update Report
           $('#btn-update-report').click(function() {
@@ -2498,22 +2562,6 @@
                       btn.html('Update Report').prop('disabled', false);
                   }
               });
-		  });
-
-		  // Delete Report
-		  $(document).on('click', '.btn-delete', function(e) {
-			  e.preventDefault();
-              let id = $(this).data('id');
-              if(confirm('Are you sure you want to delete this report?')) {
-                  $.ajax({
-                      url: "/reports/" + id,
-                      type: 'DELETE',
-                      success: function(response) {
-                          alert(response.success);
-                          refreshReportsPageData();
-                      }
-                  });
-              }
 		  });
 
 	  });
@@ -3011,6 +3059,31 @@
                   <button type="button" class="btn btn-danger btn-sm" id="btn-detail-delete" style="display:none;"><i class="fa fa-trash me-1"></i>Delete</button>
                   <button type="button" class="btn btn-primary btn-sm" id="btn-detail-edit" style="display:none;"><i class="fa fa-edit me-1"></i>Edit</button>
                   <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Action Password Verification Modal -->
+  <div class="modal fade modal-aw" id="modal-action-password" tabindex="-1" aria-hidden="true" style="z-index: 1090;">
+      <div class="modal-dialog modal-dialog-centered" style="max-width:380px;">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title"><i class="fa fa-lock me-2"></i>Authorization Required</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <label for="action-password-input" class="form-label-aw">Enter Admin Password to Proceed</label>
+                  <input type="password" id="action-password-input" class="form-control-aw" placeholder="Enter password..." autocomplete="off">
+                  <div id="action-password-error" class="mt-2" style="display:none; color:#dc2626; font-size:13px;">
+                      <i class="fa fa-circle-exclamation me-1"></i>Incorrect password. Please try again.
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn-aw-primary" id="btn-verify-action-password">
+                      <i class="fa fa-unlock"></i> Verify
+                  </button>
               </div>
           </div>
       </div>

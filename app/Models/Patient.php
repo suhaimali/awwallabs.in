@@ -20,6 +20,7 @@ class Patient extends Model
         'status',
         'total_amount',
         'discount',
+        'advance_paid',
         'balance',
         'payment_method',
     ];
