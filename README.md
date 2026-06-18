@@ -35,6 +35,72 @@ SUHAIM SOFT is a comprehensive, highly secure, and modern Laboratory Information
 * **Plugins:** DataTables, Select2, SweetAlert2, jsPDF, Moment.js
 * **Design:** Responsive UI with FontAwesome 6 icons.
 
+## 📂 Folder Structure
+
+Below is an overview of the key directories and files in this project:
+
+```text
+awwal-lab/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       ├── AdminController.php
+│   │       ├── AuthController.php
+│   │       ├── CategoryController.php
+│   │       └── HomeController.php
+│   ├── Models/
+│   │   ├── Appointment.php
+│   │   ├── Category.php
+│   │   ├── Doctor.php
+│   │   ├── FlagTemplate.php
+│   │   ├── LabTest.php
+│   │   ├── Patient.php
+│   │   ├── Payment.php
+│   │   ├── Product.php
+│   │   ├── ReferenceInterval.php
+│   │   ├── ReportTemplate.php
+│   │   ├── TestParameter.php
+│   │   └── ... (Other Eloquent models)
+│   └── Providers/
+├── bootstrap/
+│   └── cache/
+├── config/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+│       ├── CsvDataSeeder.php
+│       └── DatabaseSeeder.php
+├── public/
+│   ├── css/
+│   ├── js/
+│   └── images/
+├── resources/
+│   ├── css/
+│   ├── js/
+│   └── views/
+│       ├── auth/
+│       ├── inc/
+│       │   ├── footer.blade.php
+│       │   ├── header.blade.php
+│       │   ├── sidebar.blade.php
+│       │   └── ...
+│       ├── layouts/
+│       │   ├── app.blade.php
+│       │   └── auth.blade.php
+│       ├── patients.blade.php
+│       ├── reports.blade.php
+│       ├── templates.blade.php
+│       ├── tests.blade.php
+│       └── ... (Other blade views)
+├── routes/
+│   ├── console.php
+│   └── web.php
+├── .env.example
+├── composer.json
+├── package.json
+└── vite.config.js
+```
+
 ## ⚙️ Installation
 
 ### 1. Clone the Repository
