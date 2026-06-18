@@ -8,6 +8,7 @@
 *.sqlite
 .DS_Store
 Thumbs.db
+.env
 
 
 # Laravel specific ignores
