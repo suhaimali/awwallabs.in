@@ -150,9 +150,18 @@
             <span class="nav-icon"><i class="fa fa-file-invoice-dollar"></i></span>
             <span class="nav-label">Purchase Receipts</span>
         </a>
+
+        <div class="sidebar-section-label" style="margin-top:8px;">System</div>
+
+        <a href="{{ route('backups.index') }}"
+           class="nav-item-link {{ request()->routeIs('backups*') ? 'active' : '' }}"
+           data-tooltip="System Backups">
+            <span class="nav-icon"><i class="fa fa-hdd"></i></span>
+            <span class="nav-label">System Backups</span>
+        </a>
     </nav>
 
-    <div class="sidebar-footer">
+    <div class="sidebar-footer" style="display: none;">
         <strong></strong><br>
     </div>
 </aside>

@@ -155,6 +155,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/templates/{id}', [HomeController::class, 'getTemplate'])->name('templates.show');
     Route::put('/templates/{id}', [HomeController::class, 'updateTemplate'])->name('templates.update');
     Route::delete('/templates/{id}', [HomeController::class, 'deleteTemplate'])->name('templates.delete');
+
+    // Backup Routes
+    Route::get('/backups', [\App\Http\Controllers\BackupController::class, 'index'])->name('backups.index');
+    Route::post('/backups/create', [\App\Http\Controllers\BackupController::class, 'create'])->name('backups.create');
+    Route::post('/backups/restore/{file}', [\App\Http\Controllers\BackupController::class, 'restore'])->name('backups.restore');
+    Route::post('/backups/upload-restore', [\App\Http\Controllers\BackupController::class, 'uploadRestore'])->name('backups.upload-restore');
+    Route::get('/backups/download/{file}', [\App\Http\Controllers\BackupController::class, 'download'])->name('backups.download');
+    Route::delete('/backups/delete/{file}', [\App\Http\Controllers\BackupController::class, 'destroy'])->name('backups.delete');
 });
 
 

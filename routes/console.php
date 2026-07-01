@@ -10,3 +10,6 @@ Artisan::command('inspire', function () {
 // Clean up audit logs older than 180 days (6 months) every day at midnight
 use Illuminate\Support\Facades\Schedule;
 Schedule::command('audit:cleanup --days=180')->daily();
+
+// Secure daily database backup
+Schedule::command('backup:database')->dailyAt('00:30');
