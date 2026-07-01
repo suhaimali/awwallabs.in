@@ -20,6 +20,8 @@ class CsvDataSeeder extends Seeder
     {
         // 1. Truncate tests, parameters, and intervals for a clean, idempotent run
         Schema::disableForeignKeyConstraints();
+        \App\Models\ReportTemplateItem::truncate();
+        \App\Models\ReportTemplate::truncate();
         ReferenceInterval::truncate();
         TestParameter::truncate();
         LabTest::truncate();
@@ -99,8 +101,14 @@ class CsvDataSeeder extends Seeder
                     'payment_method' => 'Cash'
                 ]);
 
-                // Create a Category/Subcategory for child particulars to inherit (using parent info)
+                // Create a ReportTemplate for this group of tests automatically
+                $template = \App\Models\ReportTemplate::firstOrCreate(
+                    ['name' => $testName],
+                    ['description' => $testDesc !== '' ? $testDesc : 'Auto-generated template from CSV data file']
+                );
+
                 // Detail tests (particulars)
+                $sortOrder = 1;
                 foreach ($masterDetails as $detail) {
                     $particularName = trim($detail['test_particulars'] ?? '');
                     if ($particularName === '' || strtolower($particularName) === 'null') {
@@ -114,6 +122,29 @@ class CsvDataSeeder extends Seeder
                         'payment_method' => 'Cash'
                     ]);
                     $this->createParameterAndIntervals($childTest, $detail);
+
+                    // Add to ReportTemplate
+                    $unitVal = trim($detail['units'] ?? '');
+                    $maleRef = trim($detail['male_value'] ?? '');
+                    $femaleRef = trim($detail['female_value'] ?? '');
+                    $refRange = $maleRef;
+                    if ($femaleRef && $maleRef !== $femaleRef) {
+                        $refRange = "M: $maleRef, F: $femaleRef";
+                    } elseif ($femaleRef) {
+                        $refRange = $femaleRef;
+                    }
+
+                    \App\Models\ReportTemplateItem::create([
+                        'report_template_id' => $template->id,
+                        'lab_test_id' => $childTest->id,
+                        'name' => $childTest->name,
+                        'category' => $reportHead !== '' ? $reportHead : 'General',
+                        'subcategory' => trim($master['report_sub_head'] ?? ''),
+                        'unit' => ($unitVal === 'NULL' || $unitVal === '') ? null : $unitVal,
+                        'normal_value' => ($refRange === 'NULL' || $refRange === '') ? null : $refRange,
+                        'biological_reference' => ($refRange === 'NULL' || $refRange === '') ? null : $refRange,
+                        'sort_order' => $sortOrder++
+                    ]);
                 }
             }
         }

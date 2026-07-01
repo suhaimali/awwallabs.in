@@ -982,13 +982,13 @@
 					</select>
 				</div>
 				<div class="row">
-					<div class="col-6">
+					<div class="col-md-6 col-12">
 						<div class="form-group">
 							<label for="quick-book-price" class="form-label">Price (₹)</label>
 							<input type="number" step="0.01" class="form-control" name="test_price" id="quick-book-price" required autocomplete="off">
 						</div>
 					</div>
-					<div class="col-6">
+					<div class="col-md-6 col-12">
 						<div class="form-group">
 							<label for="quick-book-discount" class="form-label text-danger">Discount (₹)</label>
 							<input type="number" step="0.01" class="form-control" name="test_discount" id="quick-book-discount" value="0.00" autocomplete="off">
@@ -996,13 +996,13 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-6">
+					<div class="col-md-6 col-12">
 						<div class="form-group">
 							<label for="quick-book-advance" class="form-label">Advance Paid (₹)</label>
 							<input type="number" step="0.01" class="form-control" name="advance_paid" id="quick-book-advance" value="0.00" autocomplete="off">
 						</div>
 					</div>
-					<div class="col-6">
+					<div class="col-md-6 col-12">
 						<div class="form-group">
 							<label for="quick-book-balance" class="form-label">Balance Due (₹)</label>
 							<input type="number" step="0.01" class="form-control" name="balance" id="quick-book-balance" value="0.00" readonly autocomplete="off">

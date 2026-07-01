@@ -455,6 +455,22 @@ class HomeController extends Controller
             }
         }
 
+        // Create a corresponding payment record for this patient
+        $netAmount = $totalAmount - $totalDiscount;
+        $balanceDue = $netAmount - $advancePaid;
+        \App\Models\Payment::create([
+            'patient_id'     => $patient->id,
+            'total_amount'   => $totalAmount,
+            'discount'       => $totalDiscount,
+            'advance_paid'   => $advancePaid,
+            'net_amount'     => $netAmount,
+            'balance_due'    => $balanceDue,
+            'payment_status' => ($balanceDue <= 0) ? 'Paid' : (($advancePaid > 0) ? 'Partial' : 'Unpaid'),
+            'payment_method' => $validated['payment_method'] ?? 'Cash',
+            'bill_date'      => date('Y-m-d'),
+            'remarks'        => 'Auto-generated from Add Patient',
+        ]);
+
         return response()->json(['success' => 'Patient added successfully! ID: ' . $validated['patient_id']]);
     }
 
@@ -563,6 +579,29 @@ class HomeController extends Controller
             ->whereNotIn('id', $keepAppointmentIds)
             ->delete();
 
+        // Create or update a corresponding payment record for this patient
+        $netAmount = $totalAmount - $totalDiscount;
+        $balanceDue = $netAmount - $advancePaid;
+        $payment = \App\Models\Payment::where('patient_id', $patient->id)->first();
+        $paymentData = [
+            'total_amount'   => $totalAmount,
+            'discount'       => $totalDiscount,
+            'advance_paid'   => $advancePaid,
+            'net_amount'     => $netAmount,
+            'balance_due'    => $balanceDue,
+            'payment_status' => ($balanceDue <= 0) ? 'Paid' : (($advancePaid > 0) ? 'Partial' : 'Unpaid'),
+            'payment_method' => $validated['payment_method'] ?? 'Cash',
+        ];
+
+        if ($payment) {
+            $payment->update($paymentData);
+        } else {
+            $paymentData['patient_id'] = $patient->id;
+            $paymentData['bill_date'] = date('Y-m-d');
+            $paymentData['remarks'] = 'Auto-generated from Update Patient';
+            \App\Models\Payment::create($paymentData);
+        }
+
         return response()->json(['success' => 'Patient updated successfully!']);
     }
 
@@ -570,25 +609,25 @@ class HomeController extends Controller
     {
         $patient = \App\Models\Patient::findOrFail($id);
 
-        if (\App\Models\TestReport::where('patient_id', $patient->id)->exists()) {
-            return response()->json(['error' => 'Cannot delete patient with existing reports. Delete or reassign reports first.'], 409);
+        // Delete associated test reports and their items
+        $reports = \App\Models\TestReport::where('patient_id', $patient->id)->get();
+        foreach($reports as $report) {
+            $report->items()->delete();
+            $report->delete();
         }
         
-        if (\App\Models\Appointment::where('patient_id', $patient->id)->exists()) {
-            return response()->json(['error' => 'Cannot delete patient with existing appointments. Delete appointments first.'], 409);
-        }
+        // Delete associated appointments
+        \App\Models\Appointment::where('patient_id', $patient->id)->delete();
         
-        if (\App\Models\Payment::where('patient_id', $patient->id)->exists()) {
-            return response()->json(['error' => 'Cannot delete patient with existing payment records. Delete payments first.'], 409);
-        }
+        // Delete associated payments
+        \App\Models\Payment::where('patient_id', $patient->id)->delete();
         
-        if (\App\Models\VitalSign::where('patient_id', $patient->id)->exists()) {
-            return response()->json(['error' => 'Cannot delete patient with existing vital signs. Delete vital signs first.'], 409);
-        }
+        // Delete associated vital signs
+        \App\Models\VitalSign::where('patient_id', $patient->id)->delete();
 
         $patient->delete();
 
-        return response()->json(['success' => 'Patient deleted successfully!']);
+        return response()->json(['success' => 'Patient and all associated records deleted successfully!']);
     }
 
 
@@ -619,6 +658,21 @@ class HomeController extends Controller
         $validated['balance'] = $request->balance ?? ($validated['test_price'] - $validated['discount'] - $validated['advance_paid']);
 
         \App\Models\Appointment::create($validated);
+
+        // Create a corresponding payment record for this appointment booking
+        $netAmount = $validated['total_amount'] - $validated['discount'];
+        \App\Models\Payment::create([
+            'patient_id'     => $validated['patient_id'],
+            'total_amount'   => $validated['total_amount'],
+            'discount'       => $validated['discount'],
+            'advance_paid'   => $validated['advance_paid'],
+            'net_amount'     => $netAmount,
+            'balance_due'    => $validated['balance'],
+            'payment_status' => ($validated['balance'] <= 0 && $netAmount > 0) ? 'Paid' : (($validated['advance_paid'] > 0) ? 'Partial' : 'Unpaid'),
+            'payment_method' => 'Cash', // Default for quick book
+            'bill_date'      => date('Y-m-d'),
+            'remarks'        => 'Auto-generated from Appointment Booking',
+        ]);
 
         return response()->json(['success' => 'Booking saved successfully!']);
     }
@@ -653,6 +707,30 @@ class HomeController extends Controller
         $validated['balance'] = $validated['balance'] ?? ($validated['test_price'] - $validated['discount'] - $validated['advance_paid']);
 
         $appointment->update($validated);
+
+        // Create or update a corresponding payment record for this appointment
+        $netAmount = $validated['total_amount'] - $validated['discount'];
+        
+        // Find the patient's existing payment or create a new one
+        $payment = \App\Models\Payment::where('patient_id', $validated['patient_id'])->latest()->first();
+        $paymentData = [
+            'total_amount'   => $validated['total_amount'],
+            'discount'       => $validated['discount'],
+            'advance_paid'   => $validated['advance_paid'],
+            'net_amount'     => $netAmount,
+            'balance_due'    => $validated['balance'],
+            'payment_status' => ($validated['balance'] <= 0 && $netAmount > 0) ? 'Paid' : (($validated['advance_paid'] > 0) ? 'Partial' : 'Unpaid'),
+            'payment_method' => 'Cash',
+        ];
+
+        if ($payment) {
+            $payment->update($paymentData);
+        } else {
+            $paymentData['patient_id'] = $validated['patient_id'];
+            $paymentData['bill_date'] = date('Y-m-d');
+            $paymentData['remarks'] = 'Auto-generated from Update Appointment';
+            \App\Models\Payment::create($paymentData);
+        }
 
         return response()->json(['success' => 'Booking updated successfully!']);
     }

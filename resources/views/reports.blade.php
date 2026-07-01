@@ -699,16 +699,20 @@
 					</div>
 				</div>
 
-                <div class="d-flex justify-content-between align-items-center mt-2 mb-3 border-bottom pb-2">
-                    <h4 class="text-primary mb-0">Dynamic Test Results</h4>
-                    <div class="d-flex gap-2 align-items-center">
-                        <select class="form-select form-select-sm select-load-report-template" style="width: 220px;" autocomplete="off">
-                            <option value="">-- Load Template --</option>
-                            @foreach($reportTemplates as $rt)
-                                <option value="{{ $rt->id }}">{{ $rt->name }}</option>
-                            @endforeach
-                        </select>
-                        <button type="button" class="btn btn-sm btn-success" id="btn-add-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
+                <div class="row align-items-center mt-2 mb-3 border-bottom pb-2">
+                    <div class="col-md-6 col-12 mb-2 mb-md-0">
+                        <h4 class="text-primary mb-0">Dynamic Test Results</h4>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="d-flex gap-2 align-items-center justify-content-md-end">
+                            <select class="form-select form-select-sm select-load-report-template" style="min-width: 150px; max-width: 220px;" autocomplete="off">
+                                <option value="">-- Load Template --</option>
+                                @foreach($reportTemplates as $rt)
+                                    <option value="{{ $rt->id }}">{{ $rt->name }}</option>
+                                @endforeach
+                            </select>
+                            <button type="button" class="btn btn-sm btn-success text-nowrap" id="btn-add-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
+                        </div>
                     </div>
                 </div>
 				
@@ -810,16 +814,20 @@
 					</div>
 				</div>
 
-                <div class="d-flex justify-content-between align-items-center mt-2 mb-3 border-bottom pb-2">
-                    <h4 class="text-primary mb-0">Dynamic Test Results</h4>
-                    <div class="d-flex gap-2 align-items-center">
-                        <select class="form-select form-select-sm select-load-report-template" style="width: 220px;" autocomplete="off">
-                            <option value="">-- Load Template --</option>
-                            @foreach($reportTemplates as $rt)
-                                <option value="{{ $rt->id }}">{{ $rt->name }}</option>
-                            @endforeach
-                        </select>
-                        <button type="button" class="btn btn-sm btn-success" id="btn-add-edit-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
+                <div class="row align-items-center mt-2 mb-3 border-bottom pb-2">
+                    <div class="col-md-6 col-12 mb-2 mb-md-0">
+                        <h4 class="text-primary mb-0">Dynamic Test Results</h4>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="d-flex gap-2 align-items-center justify-content-md-end">
+                            <select class="form-select form-select-sm select-load-report-template" style="min-width: 150px; max-width: 220px;" autocomplete="off">
+                                <option value="">-- Load Template --</option>
+                                @foreach($reportTemplates as $rt)
+                                    <option value="{{ $rt->id }}">{{ $rt->name }}</option>
+                                @endforeach
+                            </select>
+                            <button type="button" class="btn btn-sm btn-success text-nowrap" id="btn-add-edit-test-row"><i class="fa fa-plus me-1"></i> Add Test Item</button>
+                        </div>
                     </div>
                 </div>
 				
