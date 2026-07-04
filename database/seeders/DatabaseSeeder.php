@@ -33,5 +33,11 @@ class DatabaseSeeder extends Seeder
                 'password' => env('ADMIN_PASSWORD', '12345678'), // Fetched securely from .env
             ]
         );
+
+        // 2. Load and parse the CSV data
+        $this->call(CsvDataSeeder::class);
+
+        // 3. Create default report templates
+        $this->call(ReportTemplateSeeder::class);
     }
 }

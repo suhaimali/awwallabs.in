@@ -5,7 +5,7 @@
 
 <div class="page-header-aw">
     <div class="page-title-aw">
-        <div class="title-icon" style="background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color: white; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);">
+        <div class="title-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);">
             <i class="fa fa-copy"></i>
         </div>
         <div>
@@ -13,7 +13,7 @@
             <div style="font-size:13px;font-weight:400;color:var(--text-muted);margin-top:2px;">Manage test profiles and load pre-configured parameters instantly</div>
         </div>
     </div>
-    <button type="button" class="btn-aw-primary" data-bs-toggle="modal" data-bs-target="#modal-add-template" style="background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); border: none;">
+    <button type="button" class="btn-aw-primary" data-bs-toggle="modal" data-bs-target="#modal-add-template" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none; box-shadow: 0 4px 14px rgba(37,99,235,0.3);">
         <i class="fa fa-plus-circle"></i> Add New Template
     </button>
 </div>
@@ -23,13 +23,13 @@
         width: 40px;
         height: 40px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-        color: #a855f7;
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        color: #2563eb;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         font-size: 16px;
-        box-shadow: 0 4px 10px rgba(168, 85, 247, 0.15);
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
     }
 
     .action-btn-group {
@@ -59,9 +59,9 @@
     }
 
     .btn-icon-circle.view:hover {
-        color: #7c3aed;
-        border-color: #ddd6fe;
-        background: #f5f3ff;
+        color: #2563eb;
+        border-color: #bfdbfe;
+        background: #eff6ff;
     }
 
     .btn-icon-circle.edit:hover {
@@ -130,13 +130,18 @@
     }
 
     .form-group-parameter label {
-        color: #7c3aed !important;
+        color: #2563eb !important;
+    }
+
+    /* No table header */
+    #templates-table thead {
+        display: none !important;
     }
 </style>
 
 <div class="aw-card mb-4">
     <div class="aw-card-header">
-        <div class="aw-card-title"><i class="fa fa-copy" style="color:#7c3aed;"></i> Saved Templates</div>
+        <div class="aw-card-title"><i class="fa fa-copy" style="color:#2563eb;"></i> Saved Templates</div>
         <div style="position:relative;">
             <i class="fa fa-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:13px;"></i>
             <input type="text" id="template-search" style="border:1.5px solid var(--border-color);border-radius:9px;padding:8px 12px 8px 32px;font-size:13px;outline:none;width:220px;" placeholder="Search templates..." autocomplete="off">
@@ -151,7 +156,7 @@
                         <th>Template Name</th>
                         <th>Description</th>
                         <th>No of Parameters</th>
-                        <th class="text-end">Action</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -203,7 +208,7 @@
 <div class="modal fade modal-aw" id="modal-add-template" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color: white;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white;">
                 <h5 class="modal-title text-white"><i class="fa fa-copy me-2"></i>Create New Report Template</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -237,7 +242,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn-aw-primary" id="btn-save-template" style="background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); border: none;"><i class="fa fa-check"></i> Save Template</button>
+                <button type="button" class="btn-aw-primary" id="btn-save-template" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none; box-shadow: 0 4px 12px rgba(37,99,235,0.25);"><i class="fa fa-check"></i> Save Template</button>
             </div>
         </div>
     </div>
@@ -380,7 +385,8 @@ $(document).ready(function() {
                 previous: "<i class='fa fa-angle-left'></i>",
                 next: "<i class='fa fa-angle-right'></i>"
             }
-        }
+        },
+        headerCallback: function(thead) { /* header hidden via CSS */ }
     });
 
     $('#template-search').on('keyup', function() {

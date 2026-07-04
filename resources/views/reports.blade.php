@@ -579,36 +579,36 @@
     <div class="aw-card-body p-0">
         <div class="table-responsive-modern">
             <table class="table table-modern" id="report-table">
-								<thead>
-									<tr>
-										<th>SL No</th>
-										<th>Patient Name</th>
-										<th>Doctor Name</th>
-										<th>Date Released</th>
-										<th class="text-end">Action</th>
-									</tr>
-								</thead>
-								<tbody>
-                                     @foreach($reports as $report)
-									<tr>
-										<td data-label="SL No"><span class="badge-aw badge-blue">#{{ $report->id }}</span></td>
-										<td style="font-weight:600;" data-label="Patient Name">{{ $report->patient->first_name }} {{ $report->patient->last_name }}</td>
-										<td style="color:var(--text-muted);" data-label="Doctor Name">{{ $report->doctor_name }}</td>
-										<td data-label="Date Released">{{ \Carbon\Carbon::parse($report->report_released_on)->format('d M Y') }}</td>
-										<td class="text-end" data-label="Action">
-                                             <div class="d-flex justify-content-end gap-2">
-                                                 <button class="btn-aw-outline btn-aw-sm btn-view" data-id="{{ $report->id }}" data-bs-toggle="modal" data-bs-target="#modal-view-report" title="View / PDF" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-file-pdf"></i></button>
-                                                 <button class="btn-aw-primary btn-aw-sm btn-edit" data-id="{{ $report->id }}" title="Edit Report" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-edit"></i></button>
-                                                 <button class="btn-aw-danger btn-aw-sm btn-delete" data-id="{{ $report->id }}" title="Delete" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-trash"></i></button>
-                                             </div>
-										</td>
-									</tr>
-                                    @endforeach
-								</tbody>
-							  </table>
-						</div>				
-					</div>
-				  </div>
+                <thead>
+                    <tr>
+                        <th>SL No</th>
+                        <th>Patient Name</th>
+                        <th>Doctor Name</th>
+                        <th>Date Released</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     @foreach($reports as $report)
+                     <tr>
+                         <td data-label="SL No"><span class="badge-aw badge-blue">#{{ $report->id }}</span></td>
+                         <td style="font-weight:600;" data-label="Patient Name">{{ $report->patient->first_name }} {{ $report->patient->last_name }}</td>
+                         <td style="color:var(--text-muted);" data-label="Doctor Name">{{ $report->doctor_name }}</td>
+                         <td data-label="Date Released">{{ \Carbon\Carbon::parse($report->report_released_on)->format('d M Y') }}</td>
+                         <td class="text-end" data-label="Action">
+                             <div class="d-flex justify-content-end gap-2">
+                                 <button class="btn-aw-outline btn-aw-sm btn-view" data-id="{{ $report->id }}" data-bs-toggle="modal" data-bs-target="#modal-view-report" title="View / PDF" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-file-pdf"></i></button>
+                                 <button class="btn-aw-primary btn-aw-sm btn-edit" data-id="{{ $report->id }}" title="Edit Report" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-edit"></i></button>
+                                 <button class="btn-aw-danger btn-aw-sm btn-delete" data-id="{{ $report->id }}" title="Delete" style="width: 32px; height: 32px; padding: 0; justify-content: center;"><i class="fa fa-trash"></i></button>
+                             </div>
+                         </td>
+                     </tr>
+                     @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 				</div>
 			</div>
 		</section>
@@ -1147,7 +1147,7 @@
                                 <select class="form-select report-subcategory-select" name="test_subcategory[]" autocomplete="off">
                                     <option value="">-- Select Sub Category --</option>
                                     @foreach($subCategories as $sub)
-                                        <option value="{{ $sub->name }}" data-id="{{ $sub->id }}">{{ $sub->name }}</option>
+                                        <option value="{{ $sub->name }}" data-id="{{ $sub->id }}" data-category_id="{{ $sub->category_id }}">{{ $sub->name }}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-success btn-sm btn-add-report-subcategory" title="Add Sub-Category" style="padding: 0.25rem 0.5rem;"><i class="fa fa-plus"></i></button>
@@ -1327,12 +1327,12 @@
 	              let max = ageInterval ? ageInterval.max_value : (gender === 'Male' ? selected.attr('data-male-max') : selected.attr('data-female-max'));
 
 	              if (!isNaN(criticalLow) && val <= criticalLow) {
-	                  setSelectValueWithDefault(flagSelector, '↓↓');
+	                  setSelectValueWithDefault(flagSelector, 'C');
 	                  return;
 	              }
 
 	              if (!isNaN(criticalHigh) && val >= criticalHigh) {
-	                  setSelectValueWithDefault(flagSelector, '↑↑');
+	                  setSelectValueWithDefault(flagSelector, 'C');
 	                  return;
 	              }
 
@@ -1510,6 +1510,9 @@
 
           $('#modal-add-report').on('shown.bs.modal', function() {
               initDynamicSelect2();
+              let now = moment().format('YYYY-MM-DDTHH:mm');
+              $('#field_1105').val(now);
+              $('#field_1106').val(now);
           });
 
           $('#modal-edit-report').on('hidden.bs.modal', function() {
@@ -1681,7 +1684,7 @@
           // CATEGORY SELECT MANAGEMENT
           // =============================================
           function fetchReportCategories(selectedValue = null) {
-              $.get("{{ route('categories.index') }}", function(data) {
+              $.get("{{ route('api.categories') }}", function(data) {
                   let options = '<option value="">-- Select Category --</option>';
                   let modalOptions = '<option value="">-- Select Category --</option>';
                   (Array.isArray(data) ? data : (data.data || [])).forEach(function(cat) {
@@ -1700,12 +1703,14 @@
                   
                   // Also update subcategory modals!
                   let addSubCatSelect = $('#add-report-sub-category-id');
-                  let addSubCatVal = addSubCatSelect.val();
+                  let addSubCatVal = window._pendingAddSubCatId !== undefined ? window._pendingAddSubCatId : addSubCatSelect.val();
                   addSubCatSelect.html(modalOptions).val(addSubCatVal);
+                  window._pendingAddSubCatId = undefined;
                   
                   let editSubCatSelect = $('#edit-report-sub-category-id');
-                  let editSubCatVal = editSubCatSelect.val();
+                  let editSubCatVal = window._pendingEditSubCatId !== undefined ? window._pendingEditSubCatId : editSubCatSelect.val();
                   editSubCatSelect.html(modalOptions).val(editSubCatVal);
+                  window._pendingEditSubCatId = undefined;
               });
           }
 
@@ -1762,10 +1767,10 @@
           // SUBCATEGORY SELECT MANAGEMENT
           // =============================================
           function fetchReportSubCategories(selectedValue = null) {
-              $.get("{{ route('sub-categories.index') }}", function(data) {
+              $.get("{{ route('api.sub-categories') }}", function(data) {
                   let options = '<option value="">-- Select Sub Category --</option>';
                   (Array.isArray(data) ? data : (data.data || [])).forEach(function(sub) {
-                      options += `<option value="${sub.name}" data-id="${sub.id}">${sub.name}</option>`;
+                      options += `<option value="${sub.name}" data-id="${sub.id}" data-category_id="${sub.category_id}">${sub.name}</option>`;
                   });
                   $('.report-subcategory-select').each(function() {
                       let currentVal = $(this).val();
@@ -1779,14 +1784,21 @@
               });
           }
 
-          $(document).on('click', '.btn-add-report-subcategory', function() {
+           $(document).on('click', '.btn-add-report-subcategory', function() {
               $('.report-subcategory-select').removeClass('active-subcategory-select');
               $(this).siblings('.report-subcategory-select').addClass('active-subcategory-select');
               
               let catId = $(this).closest('.test-item-row').find('.report-category-select option:selected').attr('data-id');
+              window._pendingAddSubCatId = catId || '';
               $('#add-report-sub-category-id').val(catId || '');
               
               $('#modal-add-report-subcategory').modal('show');
+          });
+
+          $('#modal-add-report-subcategory').on('shown.bs.modal', function() {
+              if (window._pendingAddSubCatId !== undefined && window._pendingAddSubCatId !== null) {
+                  $('#add-report-sub-category-id').val(window._pendingAddSubCatId);
+              }
           });
 
           $(document).on('click', '.btn-edit-report-subcategory', function() {
@@ -1797,12 +1809,19 @@
               $('.report-subcategory-select').removeClass('active-subcategory-select');
               select.addClass('active-subcategory-select');
               
-              let catId = $(this).closest('.test-item-row').find('.report-category-select option:selected').attr('data-id');
+              let catId = selectedOption.attr('data-category_id') || $(this).closest('.test-item-row').find('.report-category-select option:selected').attr('data-id');
+              window._pendingEditSubCatId = catId || '';
               $('#edit-report-sub-category-id').val(catId || '');
               
               $('#edit-report-sub-id').val(subId);
               $('#edit-report-sub-name').val(selectedOption.val());
               $('#modal-edit-report-subcategory').modal('show');
+          });
+
+          $('#modal-edit-report-subcategory').on('shown.bs.modal', function() {
+              if (window._pendingEditSubCatId !== undefined && window._pendingEditSubCatId !== null) {
+                  $('#edit-report-sub-category-id').val(window._pendingEditSubCatId);
+              }
           });
 
           $('#btn-save-report-subcategory').click(function() {
@@ -1900,6 +1919,18 @@
               $('#edit-report-test-name').val(selectedOption.val());
               $('#edit-report-test-unit').val(selectedOption.attr('data-unit'));
               $('#edit-report-test-bio').val(selectedOption.attr('data-bio-ref'));
+              $('#edit-report-test-immunoassay').val(selectedOption.attr('data-is-immunoassay') || '0');
+              
+              // Reference Ranges & Panic Values
+              $('#edit-report-test-male-min').val(selectedOption.attr('data-male-min') || '');
+              $('#edit-report-test-male-max').val(selectedOption.attr('data-male-max') || '');
+              $('#edit-report-test-female-min').val(selectedOption.attr('data-female-min') || '');
+              $('#edit-report-test-female-max').val(selectedOption.attr('data-female-max') || '');
+              $('#edit-report-test-critical-low').val(selectedOption.attr('data-critical-low') || '');
+              $('#edit-report-test-critical-high').val(selectedOption.attr('data-critical-high') || '');
+              $('#edit-report-test-male-ref').val(selectedOption.attr('data-male-ref') || '');
+              $('#edit-report-test-female-ref').val(selectedOption.attr('data-female-ref') || '');
+              
               $('#modal-edit-report-test').modal('show');
           });
 
@@ -2145,10 +2176,13 @@
               let selectedOption = select.find('option:selected');
               let referenceName = selectedOption.val();
               if (!referenceName) { alert('Please select a valid reference value to edit.'); return; }
+              
+              let referenceId = selectedOption.attr('data-id');
+              if (!referenceId) { alert('This is a custom/auto-filled reference value and is not saved as a template. Click "+" next to it to save it as a template first.'); return; }
+              
               $('.normal-val-dynamic').removeClass('active-reference-select');
               select.addClass('active-reference-select');
               
-              let referenceId = selectedOption.attr('data-id');
               $('#edit-report-reference-id').val(referenceId);
               $('#edit-report-reference-name').val(referenceName);
               $('#modal-edit-report-reference').modal('show');
@@ -2378,7 +2412,7 @@
 
                           let subOptions = `<option value="">-- Select Sub Category --</option>`;
                           @foreach($subCategories as $sub)
-                            subOptions += `<option value="{{ str_replace(['`', '${'], ['\`', '\${'], $sub->name) }}" data-id="{{ $sub->id }}">{{ str_replace(['`', '${'], ['\`', '\${'], $sub->name) }}</option>`;
+                            subOptions += `<option value="{{ str_replace(['`', '${'], ['\`', '\${'], $sub->name) }}" data-id="{{ $sub->id }}" data-category_id="{{ $sub->category_id }}">{{ str_replace(['`', '${'], ['\`', '\${'], $sub->name) }}</option>`;
                           @endforeach
 
                            let testOptions = `<option value="">-- Select Test --</option>`;
@@ -2924,45 +2958,91 @@
    </div>
 
    <div class="modal fade modal-aw" id="modal-add-report-test" tabindex="-1" style="z-index: 1070;" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-		  <div class="modal-header">
-			<h5 class="modal-title"><i class="fa fa-flask me-2"></i>Add New Parameter</h5>
-			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		  </div>
-		  <div class="modal-body">
-			<form id="form-add-report-test">
-				@csrf
-				<div class="form-group mb-3">
-					<label for="field_1138"  class="form-label-aw">Parameter Name <span class="text-danger">*</span></label>
-					<input type="text" class="form-control-aw" name="name" required placeholder="e.g. Glucose Fasting" autocomplete="off" id="field_1138">
-				</div>
-				<div class="form-group mb-3">
-					<label for="field_1139"  class="form-label-aw">Unit</label>
-					<select class="form-select form-control-aw" name="unit" autocomplete="off" id="field_1139">
-						<option value="">-- Select Unit --</option>
-						@foreach($units as $u)
-							<option value="{{ $u->name }}">{{ $u->name }}</option>
-						@endforeach
-					</select>
-				</div>
-				<div class="form-group mb-3">
-					<label for="field_1140"  class="form-label-aw">Biological Reference</label>
-					<input type="text" class="form-control-aw" name="biological_reference" placeholder="e.g. 70 - 110" autocomplete="off" id="field_1140">
-				</div>
-			</form>
-		  </div>
-		  <div class="modal-footer">
-			<button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Close</button>
-			<button type="button" class="btn-aw-primary" id="btn-save-report-test">Save Parameter</button>
-		  </div>
-		</div>
-	  </div>
-  </div>
+ 	  <div class="modal-dialog modal-dialog-centered modal-lg">
+ 		<div class="modal-content">
+ 		  <div class="modal-header">
+ 			<h5 class="modal-title"><i class="fa fa-flask me-2"></i>Add New Parameter</h5>
+ 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ 		  </div>
+ 		  <div class="modal-body">
+ 			<form id="form-add-report-test">
+ 				@csrf
+ 				<div class="row">
+ 					<div class="col-md-6 mb-3">
+ 						<label for="field_1138" class="form-label-aw">Parameter Name <span class="text-danger">*</span></label>
+ 						<input type="text" class="form-control-aw" name="name" required placeholder="e.g. Glucose Fasting" autocomplete="off" id="field_1138">
+ 					</div>
+ 					<div class="col-md-6 mb-3">
+ 						<label for="field_1139" class="form-label-aw">Unit</label>
+ 						<input type="text" class="form-control-aw" name="unit" placeholder="e.g. mg/dL, %, IU/L" autocomplete="off" id="field_1139">
+ 					</div>
+ 				</div>
+ 				<div class="row">
+ 					<div class="col-md-6 mb-3">
+ 						<label for="field_1140" class="form-label-aw">Biological Reference</label>
+ 						<input type="text" class="form-control-aw" name="biological_reference" placeholder="e.g. 70 - 110" autocomplete="off" id="field_1140">
+ 					</div>
+ 					<div class="col-md-6 mb-3">
+ 						<label class="form-label-aw">Is Immunoassay?</label>
+ 						<select class="form-select form-control-aw" name="is_immunoassay">
+ 							<option value="0">No</option>
+ 							<option value="1">Yes</option>
+ 						</select>
+ 					</div>
+ 				</div>
+ 				
+ 				<h6 class="mt-2 mb-3 text-primary fw-bold" style="font-size: 14px;"><i class="fa fa-sliders me-1"></i>Reference Intervals & Limits</h6>
+ 				
+ 				<div class="row">
+ 					<div class="col-md-3 mb-3">
+ 						<label class="form-label-aw">Male Min Value</label>
+ 						<input type="number" step="any" class="form-control-aw" name="male_min" placeholder="Min" autocomplete="off">
+ 					</div>
+ 					<div class="col-md-3 mb-3">
+ 						<label class="form-label-aw">Male Max Value</label>
+ 						<input type="number" step="any" class="form-control-aw" name="male_max" placeholder="Max" autocomplete="off">
+ 					</div>
+ 					<div class="col-md-3 mb-3">
+ 						<label class="form-label-aw">Female Min Value</label>
+ 						<input type="number" step="any" class="form-control-aw" name="female_min" placeholder="Min" autocomplete="off">
+ 					</div>
+ 					<div class="col-md-3 mb-3">
+ 						<label class="form-label-aw">Female Max Value</label>
+ 						<input type="number" step="any" class="form-control-aw" name="female_max" placeholder="Max" autocomplete="off">
+ 					</div>
+ 				</div>
+ 				
+ 				<div class="row">
+ 					<div class="col-md-3 mb-3">
+ 						<label class="form-label-aw">Critical Low (Panic)</label>
+ 						<input type="number" step="any" class="form-control-aw" name="critical_low" placeholder="e.g. 3.0" autocomplete="off">
+ 					</div>
+ 					<div class="col-md-3 mb-3">
+ 						<label class="form-label-aw">Critical High (Panic)</label>
+ 						<input type="number" step="any" class="form-control-aw" name="critical_high" placeholder="e.g. 8.0" autocomplete="off">
+ 					</div>
+ 					<div class="col-md-3 mb-3">
+ 						<label class="form-label-aw">Male Ref. Text</label>
+ 						<input type="text" class="form-control-aw" name="male_reference" placeholder="e.g. 4.5 - 6.0" autocomplete="off">
+ 					</div>
+ 					<div class="col-md-3 mb-3">
+ 						<label class="form-label-aw">Female Ref. Text</label>
+ 						<input type="text" class="form-control-aw" name="female_reference" placeholder="e.g. 4.5 - 6.0" autocomplete="off">
+ 					</div>
+ 				</div>
+ 			</form>
+ 		  </div>
+ 		  <div class="modal-footer">
+ 			<button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Close</button>
+ 			<button type="button" class="btn-aw-primary" id="btn-save-report-test">Save Parameter</button>
+ 		  </div>
+ 		</div>
+ 	  </div>
+   </div>
 
   <!-- Edit Parameter Modal -->
   <div class="modal fade modal-aw" id="modal-edit-report-test" tabindex="-1" style="z-index: 1070;" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered">
+	  <div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
 		  <div class="modal-header">
 			<h5 class="modal-title"><i class="fa fa-flask me-2"></i>Edit Parameter</h5>
@@ -2971,22 +3051,68 @@
 		  <div class="modal-body">
 			<form id="form-edit-report-test">
 				@csrf
-				<div class="form-group mb-3">
-					<label for="edit-report-test-name" class="form-label-aw">Parameter Name <span class="text-danger">*</span></label>
-					<input type="text" class="form-control-aw" name="name" id="edit-report-test-name" required autocomplete="off">
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="edit-report-test-name" class="form-label-aw">Parameter Name <span class="text-danger">*</span></label>
+						<input type="text" class="form-control-aw" name="name" id="edit-report-test-name" required autocomplete="off">
+					</div>
+					<div class="col-md-6 mb-3">
+						<label for="edit-report-test-unit" class="form-label-aw">Unit</label>
+						<input type="text" class="form-control-aw" name="unit" id="edit-report-test-unit" autocomplete="off" placeholder="e.g. mg/dL, %, IU/L">
+					</div>
 				</div>
-				<div class="form-group mb-3">
-					<label for="edit-report-test-unit" class="form-label-aw">Unit</label>
-					<select class="form-select form-control-aw" name="unit" id="edit-report-test-unit" autocomplete="off">
-						<option value="">-- Select Unit --</option>
-						@foreach($units as $u)
-							<option value="{{ $u->name }}">{{ $u->name }}</option>
-						@endforeach
-					</select>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="edit-report-test-bio" class="form-label-aw">Biological Reference</label>
+						<input type="text" class="form-control-aw" name="biological_reference" id="edit-report-test-bio" autocomplete="off">
+					</div>
+					<div class="col-md-6 mb-3">
+						<label class="form-label-aw">Is Immunoassay?</label>
+						<select class="form-select form-control-aw" name="is_immunoassay" id="edit-report-test-immunoassay">
+							<option value="0">No</option>
+							<option value="1">Yes</option>
+						</select>
+					</div>
 				</div>
-				<div class="form-group mb-3">
-					<label for="edit-report-test-bio" class="form-label-aw">Biological Reference</label>
-					<input type="text" class="form-control-aw" name="biological_reference" id="edit-report-test-bio" autocomplete="off">
+				
+				<h6 class="mt-2 mb-3 text-primary fw-bold" style="font-size: 14px;"><i class="fa fa-sliders me-1"></i>Reference Intervals & Limits</h6>
+				
+				<div class="row">
+					<div class="col-md-3 mb-3">
+						<label class="form-label-aw">Male Min Value</label>
+						<input type="number" step="any" class="form-control-aw" name="male_min" id="edit-report-test-male-min" autocomplete="off">
+					</div>
+					<div class="col-md-3 mb-3">
+						<label class="form-label-aw">Male Max Value</label>
+						<input type="number" step="any" class="form-control-aw" name="male_max" id="edit-report-test-male-max" autocomplete="off">
+					</div>
+					<div class="col-md-3 mb-3">
+						<label class="form-label-aw">Female Min Value</label>
+						<input type="number" step="any" class="form-control-aw" name="female_min" id="edit-report-test-female-min" autocomplete="off">
+					</div>
+					<div class="col-md-3 mb-3">
+						<label class="form-label-aw">Female Max Value</label>
+						<input type="number" step="any" class="form-control-aw" name="female_max" id="edit-report-test-female-max" autocomplete="off">
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-3 mb-3">
+						<label class="form-label-aw">Critical Low (Panic)</label>
+						<input type="number" step="any" class="form-control-aw" name="critical_low" id="edit-report-test-critical-low" autocomplete="off">
+					</div>
+					<div class="col-md-3 mb-3">
+						<label class="form-label-aw">Critical High (Panic)</label>
+						<input type="number" step="any" class="form-control-aw" name="critical_high" id="edit-report-test-critical-high" autocomplete="off">
+					</div>
+					<div class="col-md-3 mb-3">
+						<label class="form-label-aw">Male Ref. Text</label>
+						<input type="text" class="form-control-aw" name="male_reference" id="edit-report-test-male-ref" autocomplete="off">
+					</div>
+					<div class="col-md-3 mb-3">
+						<label class="form-label-aw">Female Ref. Text</label>
+						<input type="text" class="form-control-aw" name="female_reference" id="edit-report-test-female-ref" autocomplete="off">
+					</div>
 				</div>
                 <input type="hidden" name="test_id" id="edit-report-test-id">
 			</form>
@@ -3230,19 +3356,9 @@
               $('#modal-view-detail').modal('show');
           });
 
-          $(document).on('click', '.btn-edit-report-category', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a category first.'); return; } $('#edit-report-cat-id').val(id); $('#edit-report-cat-name').val(name || selectedOption.text()); $('#modal-edit-report-category').modal('show'); });
 
-          $(document).on('click', '.btn-edit-report-subcategory', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a sub-category first.'); return; } $('#edit-report-sub-id').val(id); $('#edit-report-sub-name').val(name || selectedOption.text()); $('#modal-edit-report-subcategory').modal('show'); });
 
-          $(document).on('click', '.btn-edit-report-test', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a parameter first.'); return; } $('#edit-report-test-id').val(id); $('#edit-report-test-name').val(name || selectedOption.text()); $('#edit-report-test-unit').val(selectedOption.attr('data-unit')); $('#edit-report-test-bio').val(selectedOption.attr('data-bio-ref')); $('#modal-edit-report-test').modal('show'); });
 
-          $(document).on('click', '.btn-edit-observed', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select an observed value first.'); return; } $('#edit-report-observed-id').val(id); $('#edit-report-observed-name').val(name || selectedOption.text()); $('#modal-edit-report-observed').modal('show'); });
-
-          $(document).on('click', '.btn-edit-report-unit', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a unit first.'); return; } $('#edit-report-unit-id').val(id); $('#edit-report-unit-name').val(name || selectedOption.text()); $('#modal-edit-report-unit').modal('show'); });
-
-          $(document).on('click', '.btn-edit-reference', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a reference template first.'); return; } $('#edit-report-reference-id').val(id); $('#edit-report-reference-name').val(name || selectedOption.text()); $('#modal-edit-report-reference').modal('show'); });
-
-          $(document).on('click', '.btn-edit-flag', function() { let select = $(this).siblings('select'); let selectedOption = select.find('option:selected'); let id = selectedOption.attr('data-id'); let name = selectedOption.val(); if (!id) { alert('Please select a flag template first.'); return; } $('#edit-report-flag-id').val(id); $('#edit-report-flag-name').val(name || selectedOption.text()); $('#modal-edit-report-flag').modal('show'); });
 
           // Handle Dynamic Row View/Delete Buttons
           $(document).on('click', '.btn-delete-report-category', function() { handleDeleteClick($(this), 'category', 'category'); });
@@ -3255,8 +3371,13 @@
 
           function handleDeleteClick(btn, label, type) {
               let select = btn.siblings('select');
-              let id = select.find('option:selected').attr('data-id');
-              if (!id) { alert('Please select a ' + label + ' first.'); return; }
+              let selectedOption = select.find('option:selected');
+              let id = selectedOption.attr('data-id');
+              let val = select.val();
+              
+              if (!val) { alert('Please select a ' + label + ' first.'); return; }
+              if (!id) { alert('This is a custom/auto-filled ' + label + ' ("' + val + '") and is not saved as a template. You do not need to delete it. To manage templates, select a saved template from the dropdown.'); return; }
+              
               $('#btn-detail-delete').data('id', id).data('type', type).click();
           }
 
@@ -3273,16 +3394,18 @@
               $('#btn-detail-delete').hide();
               $('#view-detail-title').html('<i class="fa fa-flask me-2"></i>Parameter Details');
               
+              let bioRef = selectedOption.attr('data-bio-ref') || '';
               let html = `
                   <div class="table-responsive-modern">
                       <table class="table table-bordered table-striped mb-0">
                           <tr><th width="35%">Test Name</th><td><strong class="text-primary">${name}</strong></td></tr>
-                          <tr><th>Price</th><td>${selectedOption.attr('data-price') || 'N/A'}</td></tr>
-                          <tr><th>Unit</th><td>${selectedOption.attr('data-unit') || 'N/A'}</td></tr>
-                          <tr><th>Male Ref.</th><td>${selectedOption.attr('data-male-ref') || 'N/A'}</td></tr>
-                          <tr><th>Female Ref.</th><td>${selectedOption.attr('data-female-ref') || 'N/A'}</td></tr>
-                          <tr><th>Critical Low</th><td>${selectedOption.attr('data-critical-low') || 'N/A'}</td></tr>
-                          <tr><th>Critical High</th><td>${selectedOption.attr('data-critical-high') || 'N/A'}</td></tr>
+                          <tr><th>Price</th><td>${selectedOption.attr('data-price') || '<span class="text-muted">—</span>'}</td></tr>
+                          <tr><th>Unit</th><td>${selectedOption.attr('data-unit') || '<span class="text-muted">—</span>'}</td></tr>
+                          <tr><th>Male Ref.</th><td>${selectedOption.attr('data-male-ref') || '<span class="text-muted">—</span>'}</td></tr>
+                          <tr><th>Female Ref.</th><td>${selectedOption.attr('data-female-ref') || '<span class="text-muted">—</span>'}</td></tr>
+                          <tr><th>Critical Low</th><td>${selectedOption.attr('data-critical-low') || '<span class="text-muted">—</span>'}</td></tr>
+                          <tr><th>Critical High</th><td>${selectedOption.attr('data-critical-high') || '<span class="text-muted">—</span>'}</td></tr>
+                          <tr><th>Biological Reference</th><td>${bioRef ? bioRef : '<span class="text-muted">—</span>'}</td></tr>
                       </table>
                   </div>
               `;
@@ -3297,9 +3420,12 @@
 
           function handleViewClick(btn, type, label, icon) {
               let select = btn.siblings('select');
-              let id = select.find('option:selected').attr('data-id');
-              let name = select.val() || select.find('option:selected').text();
-              if (!id) { alert('Please select a ' + label + ' first.'); return; }
+              let selectedOption = select.find('option:selected');
+              let id = selectedOption.attr('data-id');
+              let name = select.val() || selectedOption.text();
+              
+              if (!select.val()) { alert('Please select a ' + label + ' first.'); return; }
+              if (!id) { alert('This is a custom/auto-filled ' + label + ' ("' + name + '") and is not saved as a template. Click "+" to save it as a template first.'); return; }
               
               $('#btn-detail-edit').hide();
               $('#btn-detail-delete').hide();
@@ -3309,6 +3435,29 @@
                   <div class="table-responsive-modern">
                       <table class="table table-bordered table-striped mb-0">
                           <tr><th width="35%">${label} Name</th><td><strong class="text-primary">${name}</strong></td></tr>
+              `;
+
+              if (type === 'category') {
+                  let desc = select.find('option:selected').attr('data-desc');
+                  html += `<tr><th>Description</th><td>${desc ? desc : '<span class="text-muted">—</span>'}</td></tr>`;
+              } else if (type === 'subcategory') {
+                  let catId = select.find('option:selected').attr('data-category_id');
+                  let catName = '<span class="text-muted">—</span>';
+                  if (catId) {
+                      let catOpt = $('.report-category-select option[data-id="' + catId + '"]').first();
+                      if (catOpt.length) {
+                          catName = catOpt.text();
+                      } else {
+                          catOpt = $('#add-report-sub-category-id option[value="' + catId + '"]').first();
+                          if (catOpt.length) catName = catOpt.text();
+                      }
+                  }
+                  let desc = select.find('option:selected').attr('data-desc');
+                  html += `<tr><th>Parent Category</th><td><strong>${catName}</strong></td></tr>`;
+                  html += `<tr><th>Description</th><td>${desc ? desc : '<span class="text-muted">—</span>'}</td></tr>`;
+              }
+
+              html += `
                       </table>
                   </div>
               `;
@@ -3349,6 +3498,9 @@
                   $('#modal-view-detail').modal('hide');
                   let select = $('.report-subcategory-select');
                   let selectedOption = select.find(`option[data-id="${id}"]`);
+                  let catId = selectedOption.attr('data-category_id') || '';
+                  window._pendingEditSubCatId = catId;
+                  $('#edit-report-sub-category-id').val(catId);
                   $('#edit-report-sub-id').val(id);
                   $('#edit-report-sub-name').val(selectedOption.val() || selectedOption.text());
                   $('#modal-edit-report-subcategory').modal('show');
@@ -3360,6 +3512,18 @@
                   $('#edit-report-test-name').val(selectedOption.val() || selectedOption.text());
                   $('#edit-report-test-unit').val(selectedOption.attr('data-unit'));
                   $('#edit-report-test-bio').val(selectedOption.attr('data-bio-ref'));
+                  $('#edit-report-test-immunoassay').val(selectedOption.attr('data-is-immunoassay') || '0');
+                  
+                  // Reference Ranges & Panic Values
+                  $('#edit-report-test-male-min').val(selectedOption.attr('data-male-min') || '');
+                  $('#edit-report-test-male-max').val(selectedOption.attr('data-male-max') || '');
+                  $('#edit-report-test-female-min').val(selectedOption.attr('data-female-min') || '');
+                  $('#edit-report-test-female-max').val(selectedOption.attr('data-female-max') || '');
+                  $('#edit-report-test-critical-low').val(selectedOption.attr('data-critical-low') || '');
+                  $('#edit-report-test-critical-high').val(selectedOption.attr('data-critical-high') || '');
+                  $('#edit-report-test-male-ref').val(selectedOption.attr('data-male-ref') || '');
+                  $('#edit-report-test-female-ref').val(selectedOption.attr('data-female-ref') || '');
+                  
                   $('#modal-edit-report-test').modal('show');
               } else if (type === 'observed') {
                   $('#modal-view-detail').modal('hide');
@@ -3392,55 +3556,54 @@
               }
           });
 
-          // Handle dynamic delete inside detail view modal
-          $(document).on('click', '#btn-detail-delete', function() {
-              let id = $(this).data('id');
-              let type = $(this).data('type');
-              if (!id || !type) return;
+           // Handle dynamic delete inside detail view modal
+           $(document).on('click', '#btn-detail-delete', function() {
+               let id = $(this).data('id');
+               let type = $(this).data('type');
+               if (!id || !type) return;
 
-              if (confirm('Are you sure you want to delete this ' + type + '? This action cannot be undone.')) {
-                  let deleteUrl = '';
-                  if (type === 'patient') deleteUrl = "/patients/" + id;
-                  else if (type === 'doctor') deleteUrl = "/doctors/" + id;
-                  else if (type === 'signature') deleteUrl = "/report-signatures/" + id;
-                  else if (type === 'category') deleteUrl = "/categories/" + id;
-                  else if (type === 'subcategory') deleteUrl = "/sub-categories/" + id;
-                  else if (type === 'test') deleteUrl = "/lab-tests/" + id;
-                  else if (type === 'observed') deleteUrl = "/result-templates/" + id;
-                  else if (type === 'unit') deleteUrl = "/units/" + id;
-                  else if (type === 'reference') deleteUrl = "/reference-templates/" + id;
-                  else if (type === 'flag') deleteUrl = "/flag-templates/" + id;
+               if (confirm('Are you sure you want to delete this ' + type + '? This action cannot be undone.')) {
+                   let deleteUrl = '';
+                   if (type === 'patient') deleteUrl = "/patients/" + id;
+                   else if (type === 'doctor') deleteUrl = "/doctors/" + id;
+                   else if (type === 'signature') deleteUrl = "/report-signatures/" + id;
+                   else if (type === 'category') deleteUrl = "/categories/" + id;
+                   else if (type === 'subcategory') deleteUrl = "/sub-categories/" + id;
+                   else if (type === 'test') deleteUrl = "/lab-tests/" + id;
+                   else if (type === 'observed') deleteUrl = "/result-templates/" + id;
+                   else if (type === 'unit') deleteUrl = "/units/" + id;
+                   else if (type === 'reference') deleteUrl = "/reference-templates/" + id;
+                   else if (type === 'flag') deleteUrl = "/flag-templates/" + id;
 
-                  if (deleteUrl) {
-                      $.ajax({
-                          url: deleteUrl,
-                          type: 'DELETE',
-                          success: function(response) {
-                              alert(response.success || 'Item deleted successfully!');
-                              $('#modal-view-detail').modal('hide');
-                              if (type === 'reference') {
-                                  fetchReportReferences();
-                              } else if (type === 'observed') {
-                                  fetchReportObserved();
-                              } else if (type === 'flag') {
-                                  fetchReportFlags();
-                              } else {
-                                  refreshReportsPageData();
-                              }
-                          },
-                          error: function(xhr) {
-                              alert('Error: ' + (xhr.responseJSON?.message || 'Failed to delete item.'));
-                          }
-                      });
-                  }
-              }
-          });
+                   if (deleteUrl) {
+                       $.ajax({
+                           url: deleteUrl,
+                           type: 'DELETE',
+                           success: function(response) {
+                               alert(response.success || 'Item deleted successfully!');
+                               $('#modal-view-detail').modal('hide');
+                               if (type === 'reference') {
+                                   fetchReportReferences();
+                               } else if (type === 'observed') {
+                                   fetchReportObserved();
+                               } else if (type === 'flag') {
+                                   fetchReportFlags();
+                               } else {
+                                   refreshReportsPageData();
+                               }
+                           },
+                           error: function(xhr) {
+                               alert('Error: ' + (xhr.responseJSON?.message || 'Failed to delete item.'));
+                           }
+                       });
+                   }
+               }
+           });
       });
   </script>
   @endpush
 
 @endsection
-
 
 
 

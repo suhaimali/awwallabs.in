@@ -112,6 +112,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Master Data
     Route::get('/master-data', [HomeController::class, 'masterData'])->name('master-data.index');
+    Route::get('/api-categories', [HomeController::class, 'apiCategories'])->name('api.categories');
+    Route::get('/api-sub-categories', [HomeController::class, 'apiSubCategories'])->name('api.sub-categories');
+    
     Route::get('/units', [HomeController::class, 'apiUnits'])->name('units.index');
     Route::post('/units', [HomeController::class, 'storeUnit'])->name('units.store');
     Route::put('/units/{id}', [HomeController::class, 'updateUnit'])->name('units.update');
