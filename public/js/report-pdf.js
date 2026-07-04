@@ -275,10 +275,10 @@ $(document).ready(function () {
         const pageH = doc.internal.pageSize.getHeight();
         const left = 20;
         const tableW = 170;
-        const col1 = 70; // Parameter
-        const col2 = 25; // Result
-        const col3 = 20; // Unit
-        const col4 = 43; // Reference Interval
+        const col1 = 65; // Parameter
+        const col2 = 20; // Result
+        const col3 = 25; // Unit
+        const col4 = 48; // Reference Interval
         const col5 = 12; // Flag
         const footerTop = 269;
         let pageNo = 1;
@@ -407,15 +407,25 @@ $(document).ready(function () {
             return y + 8;
         }
 
+        function formatLongPdfText(text, maxWordLen = 15) {
+            if (!text) return '';
+            return String(text).split(' ').map(word => {
+                if (word.length > maxWordLen) {
+                    return word.replace(/([-\/(),])/g, '$1 ');
+                }
+                return word;
+            }).join(' ');
+        }
+
         function drawCellRow(y, name, observedValue, unit, reference, flag = '', isSubheading = false) {
             doc.setFontSize(9.5);
             doc.setLineWidth(0.2);
             doc.setDrawColor(226, 232, 240);
 
-            const nameLines = doc.splitTextToSize(name || '', col1 - 6);
-            const observedLines = doc.splitTextToSize(observedValue || '', col2 - 4);
-            const refLines = doc.splitTextToSize(reference || '', col4 - 4);
-            const unitLines = doc.splitTextToSize(unit || '', col3 - 4);
+            const nameLines = doc.splitTextToSize(formatLongPdfText(name || ''), col1 - 6);
+            const observedLines = doc.splitTextToSize(formatLongPdfText(observedValue || ''), col2 - 4);
+            const refLines = doc.splitTextToSize(formatLongPdfText(reference || ''), col4 - 4);
+            const unitLines = doc.splitTextToSize(formatLongPdfText(unit || ''), col3 - 4);
 
             const lineCount = Math.max(nameLines.length, observedLines.length, refLines.length, unitLines.length, 1);
             const rowH = isSubheading ? 7 : Math.max(6.5, lineCount * 5);

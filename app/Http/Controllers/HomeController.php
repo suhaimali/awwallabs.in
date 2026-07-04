@@ -1054,10 +1054,15 @@ class HomeController extends Controller
     // CATEGORY MANAGEMENT
     // ==========================================
 
-    public function categories()
+    public function categories(\Illuminate\Http\Request $request)
     {
         $categories = \App\Models\Category::latest()->get();
         return view('categories', compact('categories'));
+    }
+
+    public function apiCategories()
+    {
+        return response()->json(\App\Models\Category::orderBy('name')->get());
     }
 
     public function storeCategory(\Illuminate\Http\Request $request)
@@ -1098,11 +1103,16 @@ class HomeController extends Controller
     // SUB-CATEGORY MANAGEMENT
     // ==========================================
 
-    public function subCategories()
+    public function subCategories(\Illuminate\Http\Request $request)
     {
         $subCategories = \App\Models\SubCategory::with('category')->latest()->get();
         $categories = \App\Models\Category::orderBy('name')->get();
         return view('sub_categories', compact('subCategories', 'categories'));
+    }
+
+    public function apiSubCategories()
+    {
+        return response()->json(\App\Models\SubCategory::with('category')->orderBy('name')->get());
     }
 
     public function storeSubCategory(\Illuminate\Http\Request $request)
@@ -1402,11 +1412,11 @@ class HomeController extends Controller
         $value = (float) $observedValue;
 
         if ($parameter->critical_low !== null && $parameter->critical_low !== '' && $value <= (float) $parameter->critical_low) {
-            return '↓↓';
+            return 'C';
         }
 
         if ($parameter->critical_high !== null && $parameter->critical_high !== '' && $value >= (float) $parameter->critical_high) {
-            return '↑↑';
+            return 'C';
         }
 
         if ($parameter->is_immunoassay) {
