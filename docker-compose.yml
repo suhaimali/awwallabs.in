@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  laravel-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    restart: unless-stopped
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=https://awwallabs.com # Change to your actual domain
+      - DB_CONNECTION=mysql
+      - DB_HOST=laravel-mysql
+      - DB_PORT=3306
+      - DB_DATABASE=awwal_lab
+      - DB_USERNAME=awwal
+      - DB_PASSWORD=awwal
+      - RUN_SEEDERS=false # Set to true to run migrations + seeders on first boot
+      # Add other custom .env variables here if needed
+    volumes:
+      - laravel_storage:/app/storage
+    networks:
+      - web
+      - laravel-net
+
+  laravel-mysql:
+    image: mysql:8.0
+    container_name: laravel-mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=laravel
+      - MYSQL_USER=laraveluser
+      - MYSQL_PASSWORD=securepassword
+      - MYSQL_ROOT_PASSWORD=secure_root_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - laravel-net
+
+volumes:
+  laravel_storage:
+  mysql_data:
+
+networks:
+  web:
+    external: true
+  laravel-net:
+    driver: bridge

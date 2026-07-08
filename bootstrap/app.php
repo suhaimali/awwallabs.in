@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\SecurityHeaders::class,
             \App\Http\Middleware\ClearFinanceLocks::class,
         ]);
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (\Illuminate\Database\QueryException $e, \Illuminate\Http\Request $request) {
