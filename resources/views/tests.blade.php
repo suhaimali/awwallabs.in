@@ -28,9 +28,9 @@
 <style>
     .cat-icon-box {
         width: 40px; height: 40px; border-radius: 12px;
-        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        color: #3b82f6; display: inline-flex; align-items: center; justify-content: center;
-        font-size: 16px; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.15);
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        color: #0284c7; display: inline-flex; align-items: center; justify-content: center;
+        font-size: 16px; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15);
     }
     .action-btn-group { display: flex; gap: 8px; justify-content: flex-end; }
     .btn-icon-circle {
@@ -38,9 +38,9 @@
         border: 1px solid #e2e8f0; background: #fff; color: #64748b; transition: all 0.2s ease; cursor: pointer; outline: none; text-decoration: none;
     }
     .btn-icon-circle:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    .btn-icon-circle.edit:hover { color: #3b82f6; border-color: #bfdbfe; background: #eff6ff; }
-    .btn-icon-circle.sliders:hover { color: #10b981; border-color: #a7f3d0; background: #ecfdf5; }
-    .btn-icon-circle.delete:hover { color: #ef4444; border-color: #fecaca; background: #fef2f2; }
+    .btn-icon-circle.edit:hover { color: #0284c7; border-color: #bae6fd; background: #f0f9ff; }
+    .btn-icon-circle.sliders:hover { color: #059669; border-color: #a7f3d0; background: #ecfdf5; }
+    .btn-icon-circle.delete:hover { color: #dc2626; border-color: #fecaca; background: #fef2f2; }
 
 </style>
 
@@ -75,7 +75,7 @@
                                     {{ $test->name }}
                                 </div>
                             </td>
-                            <td data-label="Price" style="font-weight:600;color:#3b82f6;">₹{{ number_format($test->price, 2) }}</td>
+                            <td data-label="Price" style="font-weight:600;color:#0284c7;">₹{{ number_format($test->price, 2) }}</td>
                             <td data-label="Description" style="color:#64748b;">{{ $test->description ?? '-' }}</td>
                             <td data-label="Action" class="text-end">
                                 <div class="action-btn-group">
@@ -92,7 +92,6 @@
                                     <button class="btn-icon-circle delete btn-delete"
                                         data-id="{{ $test->id }}"
                                         data-name="{{ $test->name }}"
-                                        data-bs-toggle="modal" data-bs-target="#modal-delete-test"
                                         title="Delete">
                                         <i class="fa fa-trash"></i>
                                     </button>
@@ -206,26 +205,7 @@
     </div>
 </div>
 
-<!-- Delete Modal -->
-<div class="modal fade modal-aw" id="modal-delete-test" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" style="max-width:400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fa fa-triangle-exclamation me-2"></i>Delete Test</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p style="color:var(--text-muted);">Are you sure you want to remove the test: <strong id="delete-test-name" style="color:#dc2626;"></strong>?</p>
-                <p style="font-size:12px;color:var(--text-muted);">This action cannot be undone and may affect existing patient records.</p>
-                <input type="hidden" id="delete-id" name="name_1160">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn-aw-danger" id="btn-confirm-delete">Delete Permanently</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- JavaScript -->
 @push('scripts')
@@ -268,10 +248,10 @@
 			  let formData = $('#form-add-test').serialize();
 			  
 			  $.post("{{ route('lab-tests.store') }}", formData, function(response) {
-				  alert(response.success);
+				  showToast(response.success, 'success');
 				  location.reload();
 			  }).fail(function(xhr) {
-				  alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to save test. Please check inputs.");
+				  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save test. Please check inputs.', 'error');
 				  btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Test');
 			  });
 		  });
@@ -293,42 +273,38 @@
 			  btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-2"></i> Updating...');
  
 			  $.post("/lab-tests/update/" + id, $('#form-edit-test').serialize(), function(response) {
-				  alert(response.success);
+				  showToast(response.success, 'success');
 				  location.reload();
 			  }).fail(function(xhr) {
-				  alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to update test. Please check inputs.");
+				  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update test. Please check inputs.', 'error');
 				  btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Changes');
 			  });
 		  });
 
 		  // Delete Test
-		  $(document).on('click', '.btn-delete', function() {
-			  $('#delete-id').val($(this).data('id'));
-			  $('#delete-test-name').text($(this).data('name'));
-		  });
-
-		  $('#btn-confirm-delete').click(function() {
-			  let btn = $(this);
-			  if (btn.prop('disabled')) return;
-			  
-			  let id = $('#delete-id').val();
-			  btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-2"></i> Deleting...');
-
-			  $.ajax({
-				  url: "/lab-tests/" + id,
-				  type: 'DELETE',
-				  success: function(response) {
-					  alert(response.success);
-					  location.reload();
-				  },
-				  error: function(xhr) {
-					  let msg = "Failed to delete test.";
-					  if (xhr.responseJSON) {
-						  msg = xhr.responseJSON.error || xhr.responseJSON.message || msg;
+		  $(document).on('click', '.btn-delete', function(e) {
+			  e.preventDefault();
+			  let id = $(this).data('id');
+			  let name = $(this).data('name') || 'this test';
+			  confirmDelete({
+				  title: 'Delete Lab Test?',
+				  text: `Are you sure you want to delete "${name}"? This action cannot be undone.`
+			  }, function() {
+				  $.ajax({
+					  url: "/lab-tests/" + id,
+					  type: 'DELETE',
+					  success: function(response) {
+						  showToast(response.success || 'Test deleted successfully.', 'success');
+						  setTimeout(() => location.reload(), 600);
+					  },
+					  error: function(xhr) {
+						  let msg = "Failed to delete test.";
+						  if (xhr.responseJSON) {
+							  msg = xhr.responseJSON.error || xhr.responseJSON.message || msg;
+						  }
+						  showToast(msg, 'error');
 					  }
-					  alert(msg);
-					  btn.prop('disabled', false).html('Delete Permanently');
-				  }
+				  });
 			  });
 		  });
 	  });
@@ -336,6 +312,7 @@
 @endpush
 
 @endsection
+
 
 
 

@@ -172,25 +172,29 @@
         });
 
         $(document).on('click', '.btn-delete-signature', function() {
-            if (!confirm('Delete this signature? Reports using it will no longer show it.')) return;
-
             var $btn = $(this);
-            var originalHtml = $btn.html();
-            $btn.html('<i class="fa fa-spinner fa-spin"></i>');
-            $btn.prop('disabled', true);
+            var id = $btn.data('id');
 
-            setTimeout(function() {
+            confirmDelete({
+                title: 'Delete Signature?',
+                text: 'Are you sure you want to delete this signature? Reports using it will no longer show it.'
+            }, function() {
+                var originalHtml = $btn.html();
+                $btn.html('<i class="fa fa-spinner fa-spin"></i>').prop('disabled', true);
+
                 $.ajax({
-                    url: '/report-signatures/' + $btn.data('id'),
+                    url: '/report-signatures/' + id,
                     type: 'DELETE',
-                    success: function() { location.reload(); },
+                    success: function() {
+                        showToast('Signature deleted successfully', 'success');
+                        setTimeout(() => location.reload(), 600);
+                    },
                     error: function(xhr) {
-                        $btn.html(originalHtml);
-                        $btn.prop('disabled', false);
-                        alert(xhr.responseJSON?.message || 'Could not delete signature.');
+                        $btn.html(originalHtml).prop('disabled', false);
+                        showToast(xhr.responseJSON?.message || 'Could not delete signature.', 'error');
                     }
                 });
-            }, 2000);
+            });
         });
 
         $('#form-add-signature, #form-edit-signature').on('submit', function(e) {

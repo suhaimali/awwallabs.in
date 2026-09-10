@@ -56,9 +56,9 @@
     }
 
     .btn-icon-circle.edit:hover {
-        color: #3b82f6;
-        border-color: #bfdbfe;
-        background: #eff6ff;
+        color: #0284c7;
+        border-color: #bae6fd;
+        background: #f0f9ff;
     }
 
     .btn-icon-circle.delete:hover {
@@ -566,12 +566,12 @@
                 error: function(xhr) {
                     btn.html('<i class="fa fa-check"></i> Save Record').removeClass('disabled');
                     if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
+                        let errors = (xhr.responseJSON && xhr.responseJSON.errors) ? xhr.responseJSON.errors : {};
                         let errorStr = '';
                         $.each(errors, function(key, val) {
                             errorStr += val[0] + '<br>';
                         });
-                        Swal.fire('Validation Error', errorStr, 'error');
+                        Swal.fire('Validation Error', errorStr || 'Validation failed', 'error');
                     } else {
                         Swal.fire('Error', 'Failed to save vital signs record.', 'error');
                     }
@@ -629,12 +629,12 @@
                 error: function(xhr) {
                     btn.html('<i class="fa fa-check"></i> Update Changes').removeClass('disabled');
                     if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
+                        let errors = (xhr.responseJSON && xhr.responseJSON.errors) ? xhr.responseJSON.errors : {};
                         let errorStr = '';
                         $.each(errors, function(key, val) {
                             errorStr += val[0] + '<br>';
                         });
-                        Swal.fire('Validation Error', errorStr, 'error');
+                        Swal.fire('Validation Error', errorStr || 'Validation failed', 'error');
                     } else {
                         Swal.fire('Error', 'Failed to update vital signs record.', 'error');
                     }
@@ -645,35 +645,21 @@
         // Delete Records
         $(document).on('click', '.btn-delete-vitals', function() {
             let id = $(this).data('id');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this record!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "/vital-signs/" + id,
-                        type: 'DELETE',
-                        success: function(response) {
-                            Swal.fire({
-                                title: 'Deleted!',
-                                text: response.success,
-                                icon: 'success',
-                                timer: 1500,
-                                showConfirmButton: false
-                            }).then(() => {
-                                location.reload();
-                            });
-                        },
-                        error: function() {
-                            Swal.fire('Error', 'Failed to delete vital signs record.', 'error');
-                        }
-                    });
-                }
+            confirmDelete({
+                title: 'Delete Vital Signs?',
+                text: 'Are you sure you want to delete this vital signs record? This action cannot be undone.'
+            }, function() {
+                $.ajax({
+                    url: "/vital-signs/" + id,
+                    type: 'DELETE',
+                    success: function(response) {
+                        showToast(response.success || 'Vital signs record deleted', 'success');
+                        setTimeout(() => location.reload(), 600);
+                    },
+                    error: function() {
+                        showToast('Failed to delete vital signs record.', 'error');
+                    }
+                });
             });
         });
     });

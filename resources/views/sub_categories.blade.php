@@ -21,10 +21,14 @@
         width: 40px;
         height: 40px;
         border-radius: 12px;
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        color: #0284c7;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         font-size: 16px;
+        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15);
+        transition: all 0.2s ease;
     }
 
     .action-btn-group {
@@ -54,9 +58,9 @@
     }
 
     .btn-icon-circle.edit:hover {
-        color: #3b82f6;
-        border-color: #bfdbfe;
-        background: #eff6ff;
+        color: #0284c7;
+        border-color: #bae6fd;
+        background: #f0f9ff;
     }
 
     .btn-icon-circle.delete:hover {
@@ -79,7 +83,7 @@
 
 <div class="aw-card mb-4">
     <div class="aw-card-header">
-        <div class="aw-card-title"><i class="fa fa-list" style="color:var(--primary);"></i> All Sub-Categories</div>
+        <div class="aw-card-title"><i class="fa fa-list-ul" style="color:var(--primary);"></i> All Sub-Categories</div>
         <div style="position:relative;">
             <i class="fa fa-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:13px;"></i>
             <input type="text" id="subcategory-search" style="border:1.5px solid var(--border-color);border-radius:9px;padding:8px 12px 8px 32px;font-size:13px;outline:none;width:220px;" placeholder="Search sub-categories..." autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" name="name_1149">
@@ -106,14 +110,14 @@
                             </td>
                             <td data-label="Sub-Category Name">
                                 <div class="cat-name-cell">
-                                    <div class="cat-icon-box" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); color: #a855f7; box-shadow: 0 4px 10px rgba(168, 85, 247, 0.15);">
+                                    <div class="cat-icon-box">
                                         <i class="fa fa-list-ul"></i>
                                     </div>
                                     <span>{{ $sub->name }}</span>
                                 </div>
                             </td>
                             <td data-label="Main Category">
-                                <span class="badge-aw" style="background:#eff6ff;color:#3b82f6;border:1px solid #bfdbfe;font-weight:600;padding:6px 12px;border-radius:8px;"><i class="fa fa-tag me-1"></i>{{ $sub->category->name }}</span>
+                                <span class="badge-aw" style="background:#f0f9ff;color:#0284c7;border:1px solid #bae6fd;font-weight:600;padding:6px 12px;border-radius:8px;"><i class="fa fa-tag me-1"></i>{{ $sub->category->name }}</span>
                             </td>
                             <td data-label="Description" style="color:#64748b;font-size:13px;line-height:1.5;">{{ Str::limit($sub->description, 50, '...') ?? '-' }}</td>
                             <td data-label="Action" class="text-end">
@@ -128,7 +132,6 @@
                                     <button class="btn-icon-circle delete btn-delete"
                                         data-id="{{ $sub->id }}"
                                         data-name="{{ $sub->name }}"
-                                        data-bs-toggle="modal" data-bs-target="#modal-delete-subcategory"
                                         title="Delete"><i class="fa fa-trash"></i></button>
                                 </div>
                             </td>
@@ -151,6 +154,7 @@
             </div>
             <div class="modal-body">
                 <form id="form-add-subcategory">
+                    @csrf
                     <div class="mb-3">
                         <label for="field_1150" class="form-label-aw">Parent Category</label>
                         <select class="form-select" name="category_id" required autocomplete="off" id="field_1150">
@@ -188,6 +192,7 @@
             </div>
             <div class="modal-body">
                 <form id="form-edit-subcategory">
+                    @csrf
                     <input type="hidden" id="edit-id" name="name_1153">
                     <div class="mb-3">
                         <label for="edit-category_id" class="form-label-aw">Parent Category</label>
@@ -215,25 +220,7 @@
     </div>
 </div>
 
-<!-- Delete Sub-Category Modal -->
-<div class="modal fade modal-aw" id="modal-delete-subcategory" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" style="max-width:400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fa fa-triangle-exclamation me-2"></i>Delete Sub-Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p style="color:var(--text-muted);">Are you sure you want to remove: <strong id="delete-sub-name" style="color:#dc2626;"></strong>?</p>
-                <input type="hidden" id="delete-id" name="name_1154">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn-aw-danger" id="btn-confirm-delete-subcategory">Delete Permanently</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- JavaScript -->
 @push('scripts')
@@ -275,10 +262,10 @@
               btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-2"></i> Saving...');
               
 			  $.post("{{ route('sub-categories.store') }}", $('#form-add-subcategory').serialize(), function(response) {
-				  alert(response.success);
+				  showToast(response.success, 'success');
 				  location.reload();
 			  }).fail(function(xhr) {
-                  alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Error saving sub-category.");
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error saving sub-category.', 'error');
                   btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Sub-Category');
               });
 		  });
@@ -304,40 +291,36 @@
                   type: 'PUT',
                   data: $('#form-edit-subcategory').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success, 'success');
                       location.reload();
                   },
                   error: function(xhr) {
-                      alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Error updating sub-category.");
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error updating sub-category.', 'error');
                       btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Changes');
                   }
               });
 		  });
 
 		  // Delete
-		  $(document).on('click', '.btn-delete', function() {
-			  $('#delete-id').val($(this).data('id'));
-			  $('#delete-sub-name').text($(this).data('name'));
-		  });
-
-		  $('#btn-confirm-delete-subcategory').click(function() {
-			  let btn = $(this);
-			  if (btn.prop('disabled')) return;
-			  
-			  let id = $('#delete-id').val();
-			  btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-2"></i> Deleting...');
-			  
-			  $.ajax({
-				  url: "/sub-categories/" + id,
-				  type: 'DELETE',
-				  success: function(response) {
-					  alert(response.success);
-					  location.reload();
-				  },
-				  error: function(xhr) {
-					  alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete sub-category.");
-					  btn.prop('disabled', false).html('Delete Permanently');
-				  }
+		  $(document).on('click', '.btn-delete', function(e) {
+			  e.preventDefault();
+			  let id = $(this).data('id');
+			  let name = $(this).data('name') || 'this sub-category';
+			  confirmDelete({
+				  title: 'Delete Sub-Category?',
+				  text: `Are you sure you want to delete "${name}"? This action cannot be undone.`
+			  }, function() {
+				  $.ajax({
+					  url: "/sub-categories/" + id,
+					  type: 'DELETE',
+					  success: function(response) {
+						  showToast(response.success || 'Sub-category deleted successfully.', 'success');
+						  setTimeout(() => location.reload(), 600);
+					  },
+					  error: function(xhr) {
+						  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete sub-category.", 'error');
+					  }
+				  });
 			  });
 		  });
 	  });
@@ -345,6 +328,7 @@
 @endpush
 
 @endsection
+
 
 
 

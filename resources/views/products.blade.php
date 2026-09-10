@@ -34,9 +34,9 @@
     }
 
     .btn-action-circle.btn-edit:hover {
-        border-color: #3b82f6;
-        color: #3b82f6;
-        background: #eff6ff;
+        border-color: #bae6fd;
+        color: #0284c7;
+        background: #f0f9ff;
     }
 
     .btn-action-circle.btn-delete:hover {
@@ -254,20 +254,23 @@
     });
 
     function deleteProduct(id) {
-        if(confirm('Are you sure you want to delete this product?')) {
+        confirmDelete({
+            title: 'Delete Product?',
+            text: 'Are you sure you want to delete this product? This action cannot be undone.'
+        }, function() {
             $.ajax({
                 url: `/products/${id}`,
                 method: 'DELETE',
                 data: { _token: '{{ csrf_token() }}' },
                 success: function(res) {
-                    showToast(res.success, 'success');
-                    setTimeout(() => window.location.reload(), 800);
+                    showToast(res.success || 'Product deleted successfully', 'success');
+                    setTimeout(() => window.location.reload(), 600);
                 },
                 error: function(err) {
                     showToast(err.responseJSON?.error || 'Error deleting product', 'error');
                 }
             });
-        }
+        });
     }
 
     $(document).ready(function() {

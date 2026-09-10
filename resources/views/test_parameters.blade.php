@@ -110,6 +110,7 @@
             </div>
 		  <div class="modal-body">
 			<form id="form-setup-params">
+				@csrf
 				<input type="hidden" name="lab_test_id" id="setup-test-id">
 				<div class="row">
 					<div class="col-md-6">
@@ -421,14 +422,14 @@
               let minVal = parseFloat($('#form-add-interval input[name="min_value"]').val());
               let maxVal = parseFloat($('#form-add-interval input[name="max_value"]').val());
               if (!isNaN(minVal) && !isNaN(maxVal) && minVal > maxVal) {
-                  alert("Minimum value cannot be greater than maximum value.");
+                  showToast('Minimum value cannot be greater than maximum value.', 'error');
                   return;
               }
               
               let ageMin = parseFloat($('#form-add-interval input[name="age_min"]').val());
               let ageMax = parseFloat($('#form-add-interval input[name="age_max"]').val());
               if (!isNaN(ageMin) && !isNaN(ageMax) && ageMin > ageMax) {
-                  alert("Minimum age cannot be greater than maximum age.");
+                  showToast('Minimum age cannot be greater than maximum age.', 'error');
                   return;
               }
 
@@ -439,22 +440,30 @@
               $.post("/test-parameters/" + testId + "/intervals", $(this).serialize(), function(res) {
                   location.reload();
               }).fail(function() {
-                  alert(isEdit ? 'Error updating interval.' : 'Error saving interval.');
+                  showToast(isEdit ? 'Error updating interval.' : 'Error saving interval.', 'error');
                   btn.prop('disabled', false).html(isEdit ? '<i class="fa fa-check me-1"></i> Update Interval' : '<i class="fa fa-plus me-1"></i> Add Interval');
               });
           });
 
           // Delete Interval
           $(document).on('click', '.btn-delete-interval', function() {
-              if(confirm('Are you sure you want to remove this advanced reference interval?')) {
-                  let id = $(this).data('id');
+              let id = $(this).data('id');
+              confirmDelete({
+                  title: 'Remove Reference Interval?',
+                  text: 'Are you sure you want to remove this advanced reference interval?'
+              }, function() {
                   $.ajax({
                       url: "/test-parameters/intervals/" + id,
                       type: 'DELETE',
-                      success: function() { location.reload(); },
-                      error: function() { alert('Error deleting interval.'); }
+                      success: function() {
+                          showToast('Reference interval removed successfully', 'success');
+                          setTimeout(() => location.reload(), 600);
+                      },
+                      error: function() {
+                          showToast('Error deleting interval.', 'error');
+                      }
                   });
-              }
+              });
           });
 
 		  $('#btn-save-params').click(function() {
@@ -463,10 +472,10 @@
               
               btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-2"></i> Updating...');
 			  $.post("{{ route('test-parameters.store') }}", $('#form-setup-params').serialize(), function(response) {
-				  alert(response.success);
-				  location.reload();
+				  showToast(response.success || 'Parameters updated successfully!', 'success');
+				  setTimeout(() => location.reload(), 600);
 			  }).fail(function(xhr) {
-                  alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Error updating parameters.");
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error updating parameters.', 'error');
                   btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Clinical Data');
               });
 		  });

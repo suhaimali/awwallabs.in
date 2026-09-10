@@ -21,13 +21,13 @@
         width: 40px;
         height: 40px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        color: #3b82f6;
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        color: #0284c7;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         font-size: 16px;
-        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.15);
+        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15);
     }
 
     .action-btn-group {
@@ -57,9 +57,9 @@
     }
 
     .btn-icon-circle.edit:hover {
-        color: #3b82f6;
-        border-color: #bfdbfe;
-        background: #eff6ff;
+        color: #0284c7;
+        border-color: #bae6fd;
+        background: #f0f9ff;
     }
 
     .btn-icon-circle.view:hover {
@@ -231,7 +231,7 @@
             </td>
             <td data-label="Test Name" style="color:#64748b;">{{ $booking->test_name }}</td>
             <td data-label="Date" style="color:#64748b;font-size:13px;"><i class="fa fa-calendar-alt me-2" style="opacity:0.5;"></i>{{ \Carbon\Carbon::parse($booking->appointment_date)->format('d M Y') }}</td>
-            <td data-label="Amount" style="font-weight:600;color:#3b82f6;">₹{{ number_format($booking->test_price, 2) }}</td>
+            <td data-label="Amount" style="font-weight:600;color:#0284c7;">₹{{ number_format($booking->test_price, 2) }}</td>
             <td data-label="Status">
                 @if($booking->status == 'Completed')
                     <span class="badge-aw" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0;">Completed</span>
@@ -244,7 +244,7 @@
             <td class="text-end" data-label="Action">
                 <div class="action-btn-group">
                     <button class="btn-icon-circle edit btn-edit" data-id="{{ $booking->id }}" data-bs-toggle="modal" data-bs-target="#modal-edit-booking" title="Edit"><i class="fa fa-pen"></i></button>
-                    <button class="btn-icon-circle delete btn-delete" data-id="{{ $booking->id }}" data-bs-toggle="modal" data-bs-target="#modal-delete-booking" title="Delete"><i class="fa fa-trash"></i></button>
+                    <button class="btn-icon-circle delete btn-delete" data-id="{{ $booking->id }}" title="Delete"><i class="fa fa-trash"></i></button>
                 </div>
             </td>
         </tr>
@@ -498,25 +498,7 @@
     </div>
 </div>
 
-<!-- Delete Modal -->
-<div class="modal fade modal-aw" id="modal-delete-booking" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" style="max-width:400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fa fa-triangle-exclamation me-2"></i>Delete Booking</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p style="color:var(--text-muted);">Are you sure you want to delete this booking? This will remove all associated data.</p>
-                <input type="hidden" id="delete-booking-id" name="name_1007">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn-aw-danger" id="btn-confirm-delete-booking">Delete Permanently</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Add Doctor Modal -->
 <div class="modal fade modal-aw" id="modal-add-doctor" tabindex="-1" style="z-index: 1060;" aria-hidden="true">
@@ -750,7 +732,7 @@
               let testId = selectedOption.attr('data-id');
               
               if (!testId) {
-                  alert('Please select a valid test to edit.');
+                  showToast('Please select a valid test to edit.', 'error');
                   return;
               }
               
@@ -773,13 +755,13 @@
               let formData = $('#form-add-booking-test').serialize();
               
               $.post("{{ route('tests.quick-store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success');
                   $('#modal-add-booking-test').modal('hide');
                   $('#form-add-booking-test')[0].reset();
                   fetchBookingTests(response.test.name);
                   btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Test');
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save test.'));
+                  showToast(xhr.responseJSON?.message || 'Failed to save test.', 'error');
                   btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Test');
               });
           });
@@ -797,13 +779,13 @@
                   type: 'PUT',
                   data: formData,
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success');
                       $('#modal-edit-booking-test').modal('hide');
                       fetchBookingTests(response.test.name);
                       btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Test');
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update test.'));
+                      showToast(xhr.responseJSON?.message || 'Failed to update test.', 'error');
                       btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Test');
                   }
               });
@@ -815,27 +797,27 @@
               let testId = selectedOption.attr('data-id');
               
               if (!testId) {
-                  alert('Please select a valid test to delete.');
+                  showToast('Please select a valid test to delete.', 'error');
                   return;
               }
               
-              if (confirm('Are you sure you want to delete ' + selectedOption.val() + '?')) {
+              confirmDelete({
+                  title: 'Delete Test?',
+                  text: 'Are you sure you want to delete "' + selectedOption.val() + '"? This action cannot be undone.'
+              }, function() {
                   $.ajax({
                       url: "/lab-tests/" + testId,
                       type: 'DELETE',
                       success: function(response) {
-                          alert(response.success);
+                          showToast(response.success || 'Test deleted successfully.', 'success');
                           fetchBookingTests();
                       },
                       error: function(xhr) {
-                          let msg = "Error deleting test.";
-                          if (xhr.responseJSON) {
-                              msg = xhr.responseJSON.error || xhr.responseJSON.message || msg;
-                          }
-                          alert(msg);
+                          let msg = (xhr.responseJSON && (xhr.responseJSON.error || xhr.responseJSON.message)) || "Error deleting test.";
+                          showToast(msg, 'error');
                       }
                   });
-              }
+              });
           });
 
 		  // Fetch Doctor Suggestions
@@ -869,7 +851,7 @@
 			  let docId = selectedOption.attr('data-id');
 			  
 			  if (!docId) {
-				  alert('Please select a valid doctor to edit.');
+				  showToast('Please select a valid doctor to edit.', 'error');
 				  return;
 			  }
 			  
@@ -887,23 +869,26 @@
 			  let docId = selectedOption.attr('data-id');
 			  
 			  if (!docId) {
-				  alert('Please select a valid doctor to delete.');
+				  showToast('Please select a valid doctor to delete.', 'error');
 				  return;
 			  }
 			  
-			  if (confirm('Are you sure you want to delete ' + selectedOption.val() + '?')) {
+			  confirmDelete({
+				  title: 'Delete Doctor?',
+				  text: 'Are you sure you want to delete "' + selectedOption.val() + '"? This action cannot be undone.'
+			  }, function() {
 				  $.ajax({
 					  url: "/doctors/" + docId,
 					  type: 'DELETE',
 					  success: function(response) {
-						  alert(response.success);
+						  showToast(response.success || 'Doctor deleted successfully.', 'success');
 						  fetchDoctorSuggestions();
 					  },
 					  error: function(xhr) {
-						  alert('Error deleting doctor.');
+						  showToast('Error deleting doctor.', 'error');
 					  }
 				  });
-			  }
+			  });
 		  });
 
 		  $('#btn-save-doctor').click(function() {
@@ -914,13 +899,13 @@
 			  let formData = $('#form-add-doctor').serialize();
 			  
 			  $.post("{{ route('doctors.store') }}", formData, function(response) {
-				  alert(response.success);
+				  showToast(response.success || 'Done!', 'success');
 				  $('#modal-add-doctor').modal('hide');
 				  $('#form-add-doctor')[0].reset();
 				  fetchDoctorSuggestions(response.doctor.name);
 				  btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Doctor');
 			  }).fail(function(xhr) {
-				  alert('Error: ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save doctor.'));
+				  showToast(xhr.responseJSON?.message || 'Failed to save doctor.', 'error');
 				  btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Doctor');
 			  });
 		  });
@@ -938,13 +923,13 @@
 				  type: 'PUT',
 				  data: formData,
 				  success: function(response) {
-					  alert(response.success);
+					  showToast(response.success || 'Done!', 'success');
 					  $('#modal-edit-doctor').modal('hide');
 					  fetchDoctorSuggestions(response.doctor.name);
 					  btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Changes');
 				  },
 				  error: function(xhr) {
-					  alert('Error: ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update doctor.'));
+					  showToast(xhr.responseJSON?.message || 'Failed to update doctor.', 'error');
 					  btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Changes');
 				  }
 			  });
@@ -1005,18 +990,18 @@
 			  btn.html('<i class="fa fa-spinner fa-spin me-2"></i> Saving...').addClass('disabled');
 			  
 			  $.post("{{ route('appointments.store') }}", $('#form-add-booking').serialize(), function(response) {
-				  alert(response.success);
+				  showToast(response.success || 'Done!', 'success');
 				  location.reload();
 			  }).fail(function(xhr) {
 				  if (xhr.status === 422) {
-					  let errors = xhr.responseJSON.errors;
+					  let errors = (xhr.responseJSON && xhr.responseJSON.errors) ? xhr.responseJSON.errors : {};
 					  let errorMsg = "Validation Errors:\n";
 					  $.each(errors, function(key, value) {
 						  errorMsg += "- " + value[0] + "\n";
 					  });
-					  alert(errorMsg);
+					  showToast(errorMsg, 'error');
 				  } else {
-					  alert(xhr.responseJSON.message || "Error saving booking. Please check all fields.");
+					  showToast(xhr.responseJSON?.message || 'Error saving booking. Please check all fields.', 'error');
 				  }
 				  btn.html('<i class="fa fa-check"></i> Confirm Booking').removeClass('disabled');
 			  });
@@ -1073,44 +1058,43 @@
 			  btn.html('<i class="fa fa-spinner fa-spin me-2"></i> Updating...').addClass('disabled');
 			  
 			  $.post("/appointments/update/" + id, $('#form-edit-booking').serialize(), function(response) {
-				  alert(response.success);
+				  showToast(response.success || 'Done!', 'success');
 				  location.reload();
 			  }).fail(function(xhr) {
 				  if (xhr.status === 422) {
-					  let errors = xhr.responseJSON.errors;
+					  let errors = (xhr.responseJSON && xhr.responseJSON.errors) ? xhr.responseJSON.errors : {};
 					  let errorMsg = "Validation Errors:\n";
 					  $.each(errors, function(key, value) {
 						  errorMsg += "- " + value[0] + "\n";
 					  });
-					  alert(errorMsg);
+					  showToast(errorMsg, 'error');
 				  } else {
-					  alert(xhr.responseJSON.message || "Error updating booking.");
+					  showToast(xhr.responseJSON?.message || 'Error updating booking.', 'error');
 				  }
 				  btn.html('<i class="fa fa-check"></i> Update Booking').removeClass('disabled');
 			  });
 		  });
 
 		  // Delete Booking
-		  $(document).on('click', '.btn-delete', function() {
-			  $('#delete-booking-id').val($(this).data('id'));
-		  });
-
-		  $('#btn-confirm-delete-booking').click(function() {
-			  let id = $('#delete-booking-id').val();
-			  $.ajax({
-				  url: "/appointments/" + id,
-				  type: 'DELETE',
-				  success: function(response) {
-					  alert(response.success);
-					  location.reload();
-				  },
-				  error: function(xhr) {
-					  let msg = "Error deleting appointment.";
-					  if (xhr.responseJSON) {
-						  msg = xhr.responseJSON.error || xhr.responseJSON.message || msg;
+		  $(document).on('click', '.btn-delete', function(e) {
+			  e.preventDefault();
+			  let id = $(this).data('id');
+			  confirmDelete({
+				  title: 'Delete Booking?',
+				  text: 'Are you sure you want to delete this test booking? This action cannot be undone.'
+			  }, function() {
+				  $.ajax({
+					  url: "/appointments/" + id,
+					  type: 'DELETE',
+					  success: function(response) {
+						  showToast(response.success || 'Booking deleted successfully.', 'success');
+						  setTimeout(() => location.reload(), 600);
+					  },
+					  error: function(xhr) {
+						  let msg = (xhr.responseJSON && (xhr.responseJSON.error || xhr.responseJSON.message)) || "Error deleting appointment.";
+						  showToast(msg, 'error');
 					  }
-					  alert(msg);
-				  }
+				  });
 			  });
 		  });
 	  });
@@ -1118,6 +1102,7 @@
 @endpush
 
 @endsection
+
 
 
 

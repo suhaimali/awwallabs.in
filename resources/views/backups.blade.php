@@ -84,7 +84,7 @@ $(document).ready(function() {
             text: "WARNING: Restoring will overwrite the current database with this uploaded backup. This cannot be undone. Are you sure?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#1a56db',
+            confirmButtonColor: '#0284c7',
             cancelButtonColor: '#dc2626',
             confirmButtonText: 'Yes, Upload & Restore'
         }).then((result) => {
@@ -161,41 +161,34 @@ $(document).ready(function() {
         let btn = $(this);
         let originalHtml = btn.html();
 
-        Swal.fire({
+        confirmDelete({
             title: 'Delete Backup?',
-            text: "Are you sure you want to delete this backup?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Yes, Delete'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                btn.html('<i class="fa fa-spinner fa-spin"></i>').prop('disabled', true);
+            text: 'Are you sure you want to delete this backup file? This action cannot be undone.'
+        }, function() {
+            btn.html('<i class="fa fa-spinner fa-spin"></i>').prop('disabled', true);
 
-                $.ajax({
-                    url: '{{ url("backups/delete") }}/' + file,
-                    type: 'POST',
-                    data: {
-                        _method: 'DELETE',
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        if(response.success) {
-                            showToast('Backup deleted', 'success');
-                            setTimeout(() => location.reload(), 1000);
-                        } else {
-                            showToast(response.message || 'Failed to delete backup.', 'error');
-                            btn.html(originalHtml).prop('disabled', false);
-                        }
-                    },
-                    error: function(xhr) {
-                        let msg = xhr.responseJSON?.message || 'An error occurred.';
-                        showToast(msg, 'error');
+            $.ajax({
+                url: '{{ url("backups/delete") }}/' + file,
+                type: 'POST',
+                data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if(response.success) {
+                        showToast('Backup deleted', 'success');
+                        setTimeout(() => location.reload(), 600);
+                    } else {
+                        showToast(response.message || 'Failed to delete backup.', 'error');
                         btn.html(originalHtml).prop('disabled', false);
                     }
-                });
-            }
+                },
+                error: function(xhr) {
+                    let msg = xhr.responseJSON?.message || 'An error occurred.';
+                    showToast(msg, 'error');
+                    btn.html(originalHtml).prop('disabled', false);
+                }
+            });
         });
     });
     

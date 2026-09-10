@@ -66,7 +66,7 @@
             <td data-label="Actions" class="text-end">
                 <div class="d-flex justify-content-end gap-2">
                     <button class="btn-aw-primary btn-aw-sm btn-edit" data-id="{{ $p->id }}" data-bs-toggle="modal" data-bs-target="#modal-edit-payment" title="Edit"><i class="fa fa-pen"></i></button>
-                    <button class="btn-aw-danger btn-aw-sm btn-delete" data-id="{{ $p->id }}" data-bs-toggle="modal" data-bs-target="#modal-delete-payment" title="Delete"><i class="fa fa-trash"></i></button>
+                    <button class="btn-aw-danger btn-aw-sm btn-delete" data-id="{{ $p->id }}" title="Delete"><i class="fa fa-trash"></i></button>
                 </div>
             </td>
         </tr>
@@ -87,10 +87,11 @@
       </div>
       <div class="modal-body">
         <form id="form-add-payment">
+          @csrf
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label for="field_1098" class="form-label">Patient</label>
+                <label for="field_1098" class="form-label">Patient *</label>
                 <select class="form-select" name="patient_id" required autocomplete="off" id="field_1098">
                   <option value="">-- Select Patient --</option>
                   @foreach($patients as $patient)
@@ -103,17 +104,18 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="field_1099" class="form-label">Bill Date</label>
+                <label for="field_1099" class="form-label">Bill Date *</label>
                 <input type="date" class="form-control" name="bill_date" value="{{ date('Y-m-d') }}" required autocomplete="off" id="field_1099">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="field_1100" class="form-label">Payment Status</label>
-                <select class="form-select" name="payment_status" required autocomplete="off" id="field_1100">
+                <label for="field_1100" class="form-label">Payment Status *</label>
+                <select class="form-select" name="payment_status" id="add-status" required autocomplete="off">
                   <option value="Unpaid">Unpaid</option>
                   <option value="Partial">Partial</option>
                   <option value="Paid">Paid</option>
+                  <option value="Refunded">Refunded</option>
                 </select>
               </div>
             </div>
@@ -121,42 +123,45 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="add-total" class="form-label">Total Amount (₹)</label>
-                <input type="number" step="0.01" class="form-control calc-input" name="total_amount" id="add-total" required autocomplete="off">
+                <label for="add-total" class="form-label">Total Amount (₹) *</label>
+                <input type="number" step="0.01" min="0" class="form-control calc-input" name="total_amount" id="add-total" required autocomplete="off" placeholder="0.00">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="add-discount" class="form-label">Discount (₹)</label>
-                <input type="number" step="0.01" class="form-control calc-input" name="discount" id="add-discount" value="0.00" autocomplete="off">
+                <input type="number" step="0.01" min="0" class="form-control calc-input" name="discount" id="add-discount" value="0.00" autocomplete="off">
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="add-advance" class="form-label">Advance Paid (₹)</label>
-                <input type="number" step="0.01" class="form-control calc-input" name="advance_paid" id="add-advance" value="0.00" autocomplete="off">
+                <label for="add-advance" class="form-label">Advance / Paid (₹)</label>
+                <input type="number" step="0.01" min="0" class="form-control calc-input" name="advance_paid" id="add-advance" value="0.00" autocomplete="off">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="field_1101" class="form-label">Payment Method</label>
+                <label for="field_1101" class="form-label">Payment Method *</label>
                 <select class="form-select" name="payment_method" required autocomplete="off" id="field_1101">
                   <option value="Cash">Cash</option>
                   <option value="UPI">UPI</option>
                   <option value="Card">Card</option>
                   <option value="Net Banking">Net Banking</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
+                  <option value="Online">Online</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
           </div>
-          <div class="bg-primary-light p-3 rounded mb-3 text-end">
-            <h5 class="mb-0 fw-bold">Balance Due: ₹<span id="add-balance">0.00</span></h5>
+          <div class="bg-primary-light p-3 rounded mb-3 text-end" style="background:#f0fdf4;border:1px solid #bbf7d0;">
+            <h5 class="mb-0 fw-bold" style="color:#166534;">Balance Due: ₹<span id="add-balance">0.00</span></h5>
           </div>
           <div class="form-group">
             <label for="field_1102" class="form-label">Remarks</label>
-            <textarea class="form-control" name="remarks" rows="2" autocomplete="off" id="field_1102"></textarea>
+            <textarea class="form-control" name="remarks" rows="2" autocomplete="off" id="field_1102" placeholder="Optional notes..."></textarea>
           </div>
         </form>
       </div>
@@ -178,11 +183,12 @@
       </div>
       <div class="modal-body">
         <form id="form-edit-payment">
+          @csrf
           <input type="hidden" name="id" id="edit-id">
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label for="edit-patient-id" class="form-label">Patient</label>
+                <label for="edit-patient-id" class="form-label">Patient *</label>
                 <select class="form-select" name="patient_id" id="edit-patient-id" required autocomplete="off">
                   <option value="">-- Select Patient --</option>
                   @foreach($patients as $patient)
@@ -195,17 +201,18 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="edit-bill-date" class="form-label">Bill Date</label>
+                <label for="edit-bill-date" class="form-label">Bill Date *</label>
                 <input type="date" class="form-control" name="bill_date" id="edit-bill-date" required autocomplete="off">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="edit-status" class="form-label">Payment Status</label>
+                <label for="edit-status" class="form-label">Payment Status *</label>
                 <select class="form-select" name="payment_status" id="edit-status" required autocomplete="off">
                   <option value="Unpaid">Unpaid</option>
                   <option value="Partial">Partial</option>
                   <option value="Paid">Paid</option>
+                  <option value="Refunded">Refunded</option>
                 </select>
               </div>
             </div>
@@ -213,70 +220,51 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="edit-total" class="form-label">Total Amount (₹)</label>
-                <input type="number" step="0.01" class="form-control calc-input-edit" name="total_amount" id="edit-total" required autocomplete="off">
+                <label for="edit-total" class="form-label">Total Amount (₹) *</label>
+                <input type="number" step="0.01" min="0" class="form-control calc-input-edit" name="total_amount" id="edit-total" required autocomplete="off">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="edit-discount" class="form-label">Discount (₹)</label>
-                <input type="number" step="0.01" class="form-control calc-input-edit" name="discount" id="edit-discount" autocomplete="off">
+                <input type="number" step="0.01" min="0" class="form-control calc-input-edit" name="discount" id="edit-discount" autocomplete="off">
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="edit-advance" class="form-label">Advance Paid (₹)</label>
-                <input type="number" step="0.01" class="form-control calc-input-edit" name="advance_paid" id="edit-advance" autocomplete="off">
+                <label for="edit-advance" class="form-label">Advance / Paid (₹)</label>
+                <input type="number" step="0.01" min="0" class="form-control calc-input-edit" name="advance_paid" id="edit-advance" autocomplete="off">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="edit-method" class="form-label">Payment Method</label>
+                <label for="edit-method" class="form-label">Payment Method *</label>
                 <select class="form-select" name="payment_method" id="edit-method" required autocomplete="off">
                   <option value="Cash">Cash</option>
                   <option value="UPI">UPI</option>
                   <option value="Card">Card</option>
                   <option value="Net Banking">Net Banking</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
+                  <option value="Online">Online</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
           </div>
-          <div class="bg-primary-light p-3 rounded mb-3 text-end">
-            <h5 class="mb-0 fw-bold">Balance Due: ₹<span id="edit-balance">0.00</span></h5>
+          <div class="bg-primary-light p-3 rounded mb-3 text-end" style="background:#f0fdf4;border:1px solid #bbf7d0;">
+            <h5 class="mb-0 fw-bold" style="color:#166534;">Balance Due: ₹<span id="edit-balance">0.00</span></h5>
           </div>
           <div class="form-group">
             <label for="edit-remarks" class="form-label">Remarks</label>
-            <textarea class="form-control" name="remarks" id="edit-remarks" rows="2" autocomplete="off"></textarea>
+            <textarea class="form-control" name="remarks" id="edit-remarks" rows="2" autocomplete="off" placeholder="Optional notes..."></textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
         <button type="button" class="btn-aw-primary" id="btn-update-payment"><i class="fa fa-check"></i> Update Payment</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Delete Modal -->
-<div class="modal fade modal-aw" id="modal-delete-payment" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" style="max-width:400px;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><i class="fa fa-triangle-exclamation me-2"></i>Delete Payment</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center">
-        <i class="fa fa-warning" style="font-size:48px;color:#dc2626;display:block;margin-bottom:16px;"></i>
-        <h5 style="font-weight:700;">Confirm Deletion</h5>
-        <p style="color:var(--text-muted);">Are you sure you want to delete this payment record? This action cannot be undone.</p>
-        <input type="hidden" id="delete-id" name="name_1103">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn-aw-danger" id="btn-confirm-delete">Delete Permanently</button>
       </div>
     </div>
   </div>
@@ -315,13 +303,26 @@
         paymentsTable.search($(this).val()).draw();
     });
 
-    // Calculation Logic
+    // Calculation Logic with smart status suggestions
     function calculateBalance(context = 'add') {
       let total = parseFloat($(`#${context}-total`).val()) || 0;
       let discount = parseFloat($(`#${context}-discount`).val()) || 0;
       let advance = parseFloat($(`#${context}-advance`).val()) || 0;
-      let balance = total - discount - advance;
+      let net = Math.max(0, total - discount);
+      let balance = Math.max(0, net - advance);
       $(`#${context}-balance`).text(balance.toFixed(2));
+
+      // Auto update status if not manually changed to Refunded
+      let currentStatus = $(`#${context}-status`).val();
+      if (currentStatus !== 'Refunded') {
+        if (total > 0 && balance <= 0 && advance >= net) {
+          $(`#${context}-status`).val('Paid');
+        } else if (advance > 0 && balance > 0) {
+          $(`#${context}-status`).val('Partial');
+        } else if (advance <= 0) {
+          $(`#${context}-status`).val('Unpaid');
+        }
+      }
     }
 
     $('.calc-input').on('input', function() { calculateBalance('add'); });
@@ -329,11 +330,31 @@
 
     // Save Payment
     $('#btn-save-payment').click(function() {
+      let form = $('#form-add-payment')[0];
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      let btn = $(this);
+      if (btn.prop('disabled')) return;
+      btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-1"></i> Saving...');
+
       let formData = $('#form-add-payment').serialize();
       $.post("{{ route('payments.store') }}", formData, function(response) {
-        location.reload();
+        showToast(response.success || 'Payment created successfully!', 'success');
+        setTimeout(() => location.reload(), 600);
       }).fail(function(xhr) {
-        alert("Error: " + xhr.responseJSON.message);
+        let msg = "Failed to save payment.";
+        if (xhr.responseJSON) {
+          if (xhr.responseJSON.errors) {
+            msg = Object.values(xhr.responseJSON.errors).flat().join('<br>');
+          } else if (xhr.responseJSON.message) {
+            msg = xhr.responseJSON.message;
+          }
+        }
+        showToast(msg, 'error');
+        btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Payment');
       });
     });
 
@@ -343,47 +364,85 @@
       $.get("/payments/" + id, function(data) {
         $('#edit-id').val(data.id);
         $('#edit-patient-id').val(data.patient_id);
-        $('#edit-bill-date').val(data.bill_date);
-        $('#edit-status').val(data.payment_status);
-        $('#edit-total').val(data.total_amount);
-        $('#edit-discount').val(data.discount);
-        $('#edit-advance').val(data.advance_paid);
-        $('#edit-method').val(data.payment_method);
-        $('#edit-remarks').val(data.remarks);
+        
+        // Clean date format for <input type="date"> (YYYY-MM-DD)
+        let bDate = data.bill_date ? String(data.bill_date).split('T')[0].split(' ')[0] : '';
+        $('#edit-bill-date').val(bDate);
+
+        $('#edit-status').val(data.payment_status || 'Unpaid');
+        $('#edit-total').val(data.total_amount !== null && data.total_amount !== undefined ? parseFloat(data.total_amount) : '');
+        $('#edit-discount').val(data.discount !== null && data.discount !== undefined ? parseFloat(data.discount) : 0);
+        $('#edit-advance').val(data.advance_paid !== null && data.advance_paid !== undefined ? parseFloat(data.advance_paid) : 0);
+        $('#edit-method').val(data.payment_method || 'Cash');
+        $('#edit-remarks').val(data.remarks || '');
         calculateBalance('edit');
+      }).fail(function() {
+        showToast('Failed to load payment details.', 'error');
       });
     });
 
     // Update Payment
     $('#btn-update-payment').click(function() {
+      let form = $('#form-edit-payment')[0];
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
       let id = $('#edit-id').val();
-      let formData = $('#form-edit-payment').serialize();
+      if (!id) {
+        showToast('Invalid payment ID.', 'error');
+        return;
+      }
+
+      let btn = $(this);
+      if (btn.prop('disabled')) return;
+      btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-1"></i> Updating...');
+
+      let formData = $('#form-edit-payment').serialize() + '&_method=PUT';
+
       $.ajax({
         url: "/payments/" + id,
-        type: 'PUT',
+        type: 'POST',
         data: formData,
         success: function(response) {
-          location.reload();
+          showToast(response.success || 'Payment updated successfully!', 'success');
+          setTimeout(() => location.reload(), 600);
         },
         error: function(xhr) {
-          alert("Error updating payment.");
+          let msg = "Error updating payment.";
+          if (xhr.responseJSON) {
+            if (xhr.responseJSON.errors) {
+              msg = Object.values(xhr.responseJSON.errors).flat().join('<br>');
+            } else if (xhr.responseJSON.message) {
+              msg = xhr.responseJSON.message;
+            }
+          }
+          showToast(msg, 'error');
+          btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Payment');
         }
       });
     });
 
     // Delete Payment
-    $(document).on('click', '.btn-delete', function() {
-      $('#delete-id').val($(this).data('id'));
-    });
-
-    $('#btn-confirm-delete').click(function() {
-      let id = $('#delete-id').val();
-      $.ajax({
-        url: "/payments/" + id,
-        type: 'DELETE',
-        success: function(response) {
-          location.reload();
-        }
+    $(document).on('click', '.btn-delete', function(e) {
+      e.preventDefault();
+      let id = $(this).data('id');
+      confirmDelete({
+        title: 'Delete Payment?',
+        text: 'Are you sure you want to delete this payment record? This action cannot be undone.'
+      }, function() {
+        $.ajax({
+          url: "/payments/" + id,
+          type: 'DELETE',
+          success: function(response) {
+            showToast('Payment deleted successfully.', 'success');
+            setTimeout(() => location.reload(), 600);
+          },
+          error: function(xhr) {
+            showToast(xhr.responseJSON?.message || 'Error deleting payment.', 'error');
+          }
+        });
       });
     });
   });

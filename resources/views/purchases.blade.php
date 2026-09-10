@@ -34,9 +34,9 @@
     }
 
     .btn-action-circle.btn-view:hover {
-        border-color: #3b82f6;
-        color: #3b82f6;
-        background: #eff6ff;
+        border-color: #bae6fd;
+        color: #0284c7;
+        background: #f0f9ff;
     }
 </style>
 @endpush

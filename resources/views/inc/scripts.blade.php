@@ -74,18 +74,86 @@
             });
         };
 
-        // ── Global Toast Function
-        function showToast(message, type = 'success') {
+        // ── Global Toast Function (Enhanced, supports HTML, object errors, and modals)
+        window.showToast = function(message, type = 'success') {
+            if (type === 'danger') type = 'error';
+            if (type === 'warn') type = 'warning';
+
+            let content = message;
+            if (typeof content === 'object' && content !== null) {
+                if (content.responseJSON) {
+                    if (content.responseJSON.errors) {
+                        content = Object.values(content.responseJSON.errors).flat().join('<br>');
+                    } else if (content.responseJSON.message) {
+                        content = content.responseJSON.message;
+                    } else {
+                        content = JSON.stringify(content.responseJSON);
+                    }
+                } else if (content.message) {
+                    content = content.message;
+                } else if (content.error) {
+                    content = content.error;
+                } else {
+                    content = JSON.stringify(content);
+                }
+            }
+
+            if (!content) content = type === 'error' ? 'An unexpected error occurred.' : 'Action completed successfully.';
+
+            const hasHtml = typeof content === 'string' && /<[a-z][\s\S]*>/i.test(content);
+
             Swal.fire({
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 3000,
+                timer: 3500,
                 timerProgressBar: true,
                 icon: type,
-                title: message
+                [hasHtml ? 'html' : 'title']: content,
+                customClass: {
+                    popup: 'swal2-app-toast'
+                }
+            });
+        };
+        function showToast(message, type = 'success') {
+            window.showToast(message, type);
+        }
+
+        // ── Global Simple Delete Confirmation Popup (Modern Minimal UI)
+        function confirmDelete(options = {}, onConfirm) {
+            let title = typeof options === 'string' ? options : (options.title || 'Delete Confirmation');
+            let text = typeof options === 'object' && options.text ? options.text : 'Are you sure you want to delete this? This action cannot be undone.';
+            let confirmBtnText = typeof options === 'object' && options.confirmButtonText ? options.confirmButtonText : 'Delete';
+
+            return Swal.fire({
+                html: `
+                    <div style="padding: 6px 0 2px; text-align: center;">
+                        <div style="width: 52px; height: 52px; border-radius: 50%; background: #fee2e2; color: #ef4444; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 22px; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.18);">
+                            <i class="fa fa-trash-alt"></i>
+                        </div>
+                        <h4 style="font-size: 17px; font-weight: 700; color: #0f172a; margin-bottom: 6px; letter-spacing: -0.01em;">${title}</h4>
+                        <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin: 0 auto; max-width: 290px;">${text}</p>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: `<i class="fa fa-trash-alt"></i> ${confirmBtnText}`,
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    popup: 'swal2-simple-delete-popup',
+                    confirmButton: 'btn-swal-delete-confirm',
+                    cancelButton: 'btn-swal-delete-cancel',
+                    actions: 'swal2-simple-delete-actions'
+                },
+                buttonsStyling: false,
+                focusCancel: true
+            }).then((result) => {
+                if (result.isConfirmed && typeof onConfirm === 'function') {
+                    onConfirm();
+                }
+                return result;
             });
         }
+        window.confirmDelete = confirmDelete;
 
         // ── Session Timeout Warning
         // Session lifetime = 120 minutes. Warn at 118 min, expire at 120 min.
@@ -112,7 +180,7 @@
                         showCancelButton: true,
                         confirmButtonText: '<i class="fa fa-refresh"></i> Stay Logged In',
                         cancelButtonText: 'Logout Now',
-                        confirmButtonColor: '#1a56db',
+                        confirmButtonColor: '#0284c7',
                         cancelButtonColor: '#dc2626',
                         timer: 120000,
                         timerProgressBar: true,

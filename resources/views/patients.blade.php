@@ -119,11 +119,11 @@
     .payment-mode-badge {
         font-weight: 600;
         font-size: 11.5px;
-        background: #eff6ff;
-        color: #1a56db;
+        background: #f0f9ff;
+        color: #0284c7;
         padding: 4px 10px;
         border-radius: 20px;
-        border: 1px solid #bfdbfe;
+        border: 1px solid #bae6fd;
         display: inline-flex;
         align-items: center;
         gap: 5px;
@@ -340,7 +340,7 @@
 
     /* === View Patient Modal === */
     #modal-view-patient .modal-content { border: none; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
-    #modal-view-patient .vp-header { background: linear-gradient(135deg, #1a56db 0%, #3b82f6 100%); padding: 28px 24px 48px; position: relative; text-align: center; color: #fff; }
+    #modal-view-patient .vp-header { background: linear-gradient(135deg, #0369a1 0%, #0284c7 60%, #06b6d4 100%); padding: 28px 24px 48px; position: relative; text-align: center; color: #fff; }
     #modal-view-patient .vp-avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.25); border: 3px solid rgba(255,255,255,0.6); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; color: #fff; letter-spacing: 1px; backdrop-filter: blur(4px); }
     #modal-view-patient .vp-name { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
     #modal-view-patient .vp-meta { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; opacity: 0.9; flex-wrap: wrap; }
@@ -352,7 +352,7 @@
     #modal-view-patient .vp-grid .vp-full { grid-column: 1 / -1; }
     #modal-view-patient .vp-field { background: #f8fafc; border-radius: 10px; padding: 12px 14px; border: 1px solid #f1f5f9; }
     #modal-view-patient .vp-field-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #94a3b8; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
-    #modal-view-patient .vp-field-label i { font-size: 9px; color: #1a56db; }
+    #modal-view-patient .vp-field-label i { font-size: 9px; color: #0284c7; }
     #modal-view-patient .vp-field-value { font-size: 14px; font-weight: 600; color: #1e293b; word-break: break-word; }
     #modal-view-patient .modal-footer { background: #f8fafc; border-top: 1px solid #f1f5f9; padding: 14px 20px; border-radius: 0 0 16px 16px; }
 
@@ -513,7 +513,7 @@
                                         <button class="btn-action-circle btn-edit" data-id="{{ $patient->id }}" data-bs-toggle="modal" data-bs-target="#modal-edit-patient" title="Edit Record">
                                             <i class="fa fa-pen"></i>
                                         </button>
-                                        <button class="btn-action-circle btn-delete-action btn-delete" data-id="{{ $patient->id }}" data-bs-toggle="modal" data-bs-target="#modal-delete-patient" title="Delete Record">
+                                        <button class="btn-action-circle btn-delete-action btn-delete" data-id="{{ $patient->id }}" data-name="{{ $patient->first_name }} {{ $patient->last_name }}" title="Delete Record">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </div>
@@ -731,9 +731,9 @@
           <div class="vp-name" id="view-full-name">Patient Name</div>
           <div class="vp-meta">
             <span class="vp-id-badge" id="view-patient-id">#0000</span>
-            <span>Â·</span>
+            <span>&bull;</span>
             <span id="view-gender">—</span>
-            <span>Â·</span>
+            <span>&bull;</span>
             <span id="view-age">—</span>
           </div>
         </div>
@@ -939,27 +939,7 @@
 	  </div>
   </div>
 
-  <!-- Delete Modal -->
-  <div class="modal center-modal fade" id="modal-delete-patient" tabindex="-1" aria-hidden="true">
-	  <div class="modal-dialog">
-		<div class="modal-content">
-		  <div class="modal-header">
-			<h5 class="modal-title">Delete Patient</h5>
-			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		  </div>
-		  <div class="modal-body text-center">
-			<i class="fa fa-warning fa-4x text-danger mb-15"></i>
-			<h4 class="mb-10">Confirm Deletion</h4>
-			<p>Are you sure you want to delete this patient record? This action cannot be undone and will remove all associated history.</p>
-			<input type="hidden" id="delete-id" name="name_1060">
-		  </div>
-		  <div class="modal-footer modal-footer-uniform">
-			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-			<button type="button" class="btn btn-danger float-end" id="btn-confirm-delete">Delete Permanently</button>
-		  </div>
-		</div>
-	  </div>
-  </div>
+
 
   <!-- Quick Book Test Modal -->
   <div class="modal center-modal fade" id="modal-patient-book-test" tabindex="-1" aria-hidden="true">
@@ -1381,11 +1361,11 @@
 					  doc.save(`Invoice_${patient.first_name}_${patient.patient_id.replace('#P-', '').replace('#', '')}.pdf`);
 					  btn.html(originalHtml).removeClass('disabled');
 				  }).fail(function() {
-					  alert("Failed to fetch appointment records.");
+					  showToast('Failed to fetch appointment records.', 'error');
 					  btn.html(originalHtml).removeClass('disabled');
 				  });
 			  }).fail(function() {
-				  alert("Failed to fetch patient data.");
+				  showToast('Failed to fetch patient data.', 'error');
 				  btn.html(originalHtml).removeClass('disabled');
 			  });
 		  });
@@ -1424,7 +1404,7 @@
               let docId = selectedOption.attr('data-id');
               
               if (!docId) {
-                  alert('Please select a valid doctor to edit.');
+                  showToast('Please select a valid doctor to edit.', 'error');
                   return;
               }
               
@@ -1442,23 +1422,26 @@
               let docId = selectedOption.attr('data-id');
               
               if (!docId) {
-                  alert('Please select a valid doctor to delete.');
+                  showToast('Please select a valid doctor to delete.', 'error');
                   return;
               }
               
-              if (confirm('Are you sure you want to delete ' + selectedOption.val() + '?')) {
+              confirmDelete({
+                  title: 'Delete Doctor?',
+                  text: 'Are you sure you want to delete "' + selectedOption.val() + '"? This action cannot be undone.'
+              }, function() {
                   $.ajax({
                       url: "/doctors/" + docId,
                       type: 'DELETE',
                       success: function(response) {
-                          alert(response.success);
+                          showToast(response.success || 'Doctor deleted successfully.', 'success');
                           fetchDoctorSuggestions();
                       },
                       error: function(xhr) {
-                          alert('Error deleting doctor.');
+                          showToast('Error deleting doctor.', 'error');
                       }
                   });
-              }
+              });
           });
 
           $(document).on('click', '.btn-clear-doctor', function() {
@@ -1474,13 +1457,13 @@
               let formData = $('#form-add-doctor').serialize();
               
               $.post("{{ route('doctors.store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success');
                   $('#modal-add-doctor').modal('hide');
                   $('#form-add-doctor')[0].reset();
                   fetchDoctorSuggestions(response.doctor.name);
                   btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Doctor');
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save doctor.'));
+                  showToast(xhr.responseJSON?.message || 'Failed to save doctor.', 'error');
                   btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Doctor');
               });
           });
@@ -1498,13 +1481,13 @@
                   type: 'PUT',
                   data: formData,
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success');
                       $('#modal-edit-doctor').modal('hide');
                       fetchDoctorSuggestions(response.doctor.name);
                       btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Changes');
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update doctor.'));
+                      showToast(xhr.responseJSON?.message || 'Failed to update doctor.', 'error');
                       btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Changes');
                   }
               });
@@ -1516,18 +1499,18 @@
 		  $('#btn-save-patient').click(function() {
 			  let formData = $('#form-add-patient').serialize();
 			  $.post("{{ route('patients.store') }}", formData, function(response) {
-				  alert(response.success);
+				  showToast(response.success || 'Done!', 'success');
 				  location.reload();
 			  }).fail(function(xhr) {
 				  if (xhr.status === 422) {
-					  let errors = xhr.responseJSON.errors;
+					  let errors = (xhr.responseJSON && xhr.responseJSON.errors) ? xhr.responseJSON.errors : {};
 					  let errorMsg = "Validation Errors:\n";
 					  $.each(errors, function(key, value) {
 						  errorMsg += "- " + value[0] + "\n";
 					  });
-					  alert(errorMsg);
+					  showToast(errorMsg, 'error');
 				  } else {
-					  alert("Something went wrong. Please try again.");
+					  showToast("Something went wrong. Please try again.", 'error');
 				  }
 			  });
 		  });
@@ -1563,10 +1546,10 @@
 			  let btn = $(this);
 			  btn.html('<i class="fa fa-spinner fa-spin me-2"></i> Booking...').addClass('disabled');
 			  $.post("{{ route('appointments.store') }}", $('#form-quick-book').serialize(), function(response) {
-				  alert(response.success);
+				  showToast(response.success || 'Done!', 'success');
 				  location.reload();
 			  }).fail(function() {
-				  alert("Error booking test.");
+				  showToast("Error booking test.", 'error');
 				  btn.html('Confirm Booking').removeClass('disabled');
 			  });
 		  });
@@ -1930,44 +1913,43 @@
               let formData = $('#form-edit-patient').serialize();
 			  
 			  $.post("/patients/update/" + id, formData, function(response) {
-				  alert(response.success);
+				  showToast(response.success || 'Done!', 'success');
 				  location.reload();
 			  }).fail(function(xhr) {
 				  if (xhr.status === 422) {
-					  let errors = xhr.responseJSON.errors;
+					  let errors = (xhr.responseJSON && xhr.responseJSON.errors) ? xhr.responseJSON.errors : {};
 					  let errorMsg = "Validation Errors:\n";
 					  $.each(errors, function(key, value) {
 						  errorMsg += "- " + value[0] + "\n";
 					  });
-					  alert(errorMsg);
+					  showToast(errorMsg, 'error');
 				  } else {
-					  alert("Something went wrong. Please try again.");
+					  showToast("Something went wrong. Please try again.", 'error');
 				  }
 			  });
 		  });
 
 		  // Delete Patient (Set ID)
-		  $(document).on('click', '.btn-delete', function() {
-			  $('#delete-id').val($(this).data('id'));
-		  });
-
-		  // Confirm Delete
-		  $('#btn-confirm-delete').click(function() {
-			  let id = $('#delete-id').val();
-			  $.ajax({
-				  url: "/patients/" + id,
-				  type: 'DELETE',
-				  success: function(response) {
-					  alert(response.success);
-					  location.reload();
-				  },
-				  error: function(xhr) {
-					  let msg = "Error deleting patient.";
-					  if (xhr.responseJSON) {
-						  msg = xhr.responseJSON.error || xhr.responseJSON.message || msg;
+		  $(document).on('click', '.btn-delete-action', function(e) {
+			  e.preventDefault();
+			  let id = $(this).data('id');
+			  let name = $(this).data('name') || 'this patient';
+			  confirmDelete({
+				  title: 'Delete Patient Record?',
+				  text: `Are you sure you want to delete ${name}? All linked appointments, tests, and records will be removed.`
+			  }, function() {
+				  $.ajax({
+					  url: "/patients/" + id,
+					  type: 'DELETE',
+					  success: function(response) {
+						  showToast(response.success || 'Patient deleted successfully.', 'success');
+						  setTimeout(() => location.reload(), 600);
+					  },
+					  error: function(xhr) {
+						  let msg = (xhr.responseJSON && (xhr.responseJSON.error || xhr.responseJSON.message)) || "Error deleting patient.";
+						  showToast(msg, 'error');
 					  }
-					  alert(msg);
-				  }
+				  });
 			  });
 		  });
 
@@ -1986,7 +1968,7 @@
               let testId = selectedOption.attr('data-id');
               
               if (!testId || currentTestSelect.val() === '__custom__' || currentTestSelect.val() === '') {
-                  alert('Please select a valid test from the dropdown to edit.');
+                  showToast('Please select a valid test from the dropdown to edit.', 'error');
                   return;
               }
 
@@ -2002,11 +1984,14 @@
               let testId = selectedOption.attr('data-id');
               
               if (!testId || select.val() === '__custom__' || select.val() === '') {
-                  alert('Please select a valid test from the dropdown to delete.');
+                  showToast('Please select a valid test from the dropdown to delete.', 'error');
                   return;
               }
               
-              if (confirm('Are you sure you want to delete ' + selectedOption.val() + '?')) {
+              confirmDelete({
+                  title: 'Delete Test?',
+                  text: 'Are you sure you want to delete "' + selectedOption.val() + '"? This action cannot be undone.'
+              }, function() {
                   $.ajax({
                       url: "/lab-tests/" + testId,
                       type: 'DELETE',
@@ -2014,14 +1999,14 @@
                           _token: '{{ csrf_token() }}'
                       },
                       success: function(response) {
-                          alert(response.success || 'Test deleted successfully.');
-                          location.reload();
+                          showToast(response.success || 'Test deleted successfully.', 'success');
+                          setTimeout(() => location.reload(), 600);
                       },
                       error: function(xhr) {
-                          alert('Error: ' + xhr.responseText);
+                          showToast('Error deleting test.', 'error');
                       }
                   });
-              }
+              });
           });
 
           $('#btn-save-test').click(function() {
@@ -2058,7 +2043,7 @@
                       }
                   },
                   error: function(xhr) {
-                      alert('Error saving test.');
+                      showToast('Error saving test.', 'error');
                   },
                   complete: function() {
                       btn.html('<i class="fa fa-check"></i> Save Test').prop('disabled', false);
@@ -2105,7 +2090,7 @@
                       }
                   },
                   error: function(xhr) {
-                      alert('Error updating test.');
+                      showToast('Error updating test.', 'error');
                   },
                   complete: function() {
                       btn.html('<i class="fa fa-check"></i> Update Changes').prop('disabled', false);
@@ -2119,3 +2104,5 @@
   @endpush
 
 @endsection
+
+

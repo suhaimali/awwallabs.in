@@ -21,13 +21,13 @@
         width: 40px;
         height: 40px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        color: #3b82f6;
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        color: #0284c7;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         font-size: 16px;
-        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.15);
+        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15);
     }
 
     .action-btn-group {
@@ -57,9 +57,9 @@
     }
 
     .btn-icon-circle.edit:hover {
-        color: #3b82f6;
-        border-color: #bfdbfe;
-        background: #eff6ff;
+        color: #0284c7;
+        border-color: #bae6fd;
+        background: #f0f9ff;
     }
 
     .btn-icon-circle.delete:hover {
@@ -128,7 +128,6 @@
                                     <button class="btn-icon-circle delete btn-delete"
                                         data-id="{{ $category->id }}"
                                         data-name="{{ $category->name }}"
-                                        data-bs-toggle="modal" data-bs-target="#modal-delete-category"
                                         title="Delete"><i class="fa fa-trash"></i></button>
                                 </div>
                             </td>
@@ -151,6 +150,7 @@
             </div>
             <div class="modal-body">
                 <form id="form-add-category">
+                    @csrf
                     <div class="mb-3">
                         <label for="field_1017" class="form-label-aw">Category Name</label>
                         <input type="text" class="form-control-aw" name="name" placeholder="e.g. Hematology" required autocomplete="off" id="field_1017">
@@ -179,6 +179,7 @@
             </div>
             <div class="modal-body">
                 <form id="form-edit-category">
+                    @csrf
                     <input type="hidden" id="edit-id" name="name_1019">
                     <div class="mb-3">
                         <label for="edit-name" class="form-label-aw">Category Name</label>
@@ -198,26 +199,7 @@
     </div>
 </div>
 
-<!-- Delete Category Modal -->
-<div class="modal fade modal-aw" id="modal-delete-category" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" style="max-width:400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fa fa-triangle-exclamation me-2"></i>Delete Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p style="color:var(--text-muted);">Are you sure you want to remove: <strong id="delete-category-name" style="color:#dc2626;"></strong>?</p>
-                <p style="font-size:12px;color:var(--text-muted);">Deleting a category may affect reports using it.</p>
-                <input type="hidden" id="delete-id" name="name_1020">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn-aw-danger" id="btn-confirm-delete-category">Delete Permanently</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- JavaScript -->
 @push('scripts')
@@ -260,10 +242,10 @@
 			  let formData = $('#form-add-category').serialize();
 			  
 			  $.post("{{ route('categories.store') }}", formData, function(response) {
-				  alert(response.success);
+				  showToast(response.success || 'Done!', 'success');
 				  location.reload();
 			  }).fail(function(xhr) {
-				  alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Error saving category.");
+				  showToast(xhr.responseJSON?.message || 'Error saving category.', 'error');
 				  btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Category');
 			  });
 		  });
@@ -288,40 +270,36 @@
 				  type: 'PUT',
 				  data: $('#form-edit-category').serialize(),
 				  success: function(response) {
-					  alert(response.success);
+					  showToast(response.success || 'Done!', 'success');
 					  location.reload();
 				  },
 				  error: function(xhr) {
-					  alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to update category.");
+					  showToast(xhr.responseJSON?.message || 'Failed to update category.', 'error');
 					  btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Changes');
 				  }
 			  });
 		  });
 
 		  // Delete Category
-		  $(document).on('click', '.btn-delete', function() {
-			  $('#delete-id').val($(this).data('id'));
-			  $('#delete-category-name').text($(this).data('name'));
-		  });
-
-		  $('#btn-confirm-delete-category').click(function() {
-			  let btn = $(this);
-			  if (btn.prop('disabled')) return;
-			  
-			  let id = $('#delete-id').val();
-			  btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-2"></i> Deleting...');
-			  
-			  $.ajax({
-				  url: "/categories/" + id,
-				  type: 'DELETE',
-				  success: function(response) {
-					  alert(response.success);
-					  location.reload();
-				  },
-				  error: function(xhr) {
-					  alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete category.");
-					  btn.prop('disabled', false).html('Delete Permanently');
-				  }
+		  $(document).on('click', '.btn-delete', function(e) {
+			  e.preventDefault();
+			  let id = $(this).data('id');
+			  let name = $(this).data('name') || 'this category';
+			  confirmDelete({
+				  title: 'Delete Category?',
+				  text: `Are you sure you want to delete "${name}"? This action cannot be undone.`
+			  }, function() {
+				  $.ajax({
+					  url: "/categories/" + id,
+					  type: 'DELETE',
+					  success: function(response) {
+						  showToast(response.success || 'Category deleted successfully.', 'success');
+						  setTimeout(() => location.reload(), 600);
+					  },
+					  error: function(xhr) {
+						  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete category.", 'error');
+					  }
+				  });
 			  });
 		  });
 	  });
@@ -329,5 +307,6 @@
 @endpush
 
 @endsection
+
 
 

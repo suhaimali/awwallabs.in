@@ -99,25 +99,20 @@
             }
         }, true);
 
-        // Global fix for HTML5 validation on AJAX save/update buttons
+        // Global fix for HTML5 validation on AJAX save/update buttons & modal submit buttons
         document.addEventListener('click', function(e) {
-            let target = e.target.closest('button[type="button"]');
-            if (target && target.id) {
-                let formId = null;
-                if (target.id.startsWith('btn-save-')) {
-                    formId = target.id.replace('btn-save-', 'form-add-');
-                } else if (target.id.startsWith('btn-update-')) {
-                    formId = target.id.replace('btn-update-', 'form-edit-');
-                }
-                
-                if (formId) {
-                    let form = document.getElementById(formId);
-                    if (form) {
+            let target = e.target.closest('button[type="button"], button[type="submit"], input[type="submit"]');
+            if (target) {
+                let isSubmitAction = (target.id && (target.id.startsWith('btn-save') || target.id.startsWith('btn-update') || target.id.startsWith('btn-confirm'))) ||
+                                     target.classList.contains('btn-save') || target.classList.contains('btn-update') || target.classList.contains('btn-aw-primary');
+                if (isSubmitAction) {
+                    let form = target.closest('form') || target.closest('.modal, .aw-card, .page-header-aw')?.querySelector('form');
+                    if (form && typeof form.checkValidity === 'function') {
                         if (!form.checkValidity()) {
                             e.preventDefault();
-                            // Note: do NOT call e.stopPropagation() here — that blocks jQuery handlers.
-                            // Each individual handler also calls checkValidity() to guard the AJAX call.
+                            e.stopImmediatePropagation();
                             form.reportValidity();
+                            return false;
                         }
                     }
                 }

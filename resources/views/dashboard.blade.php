@@ -181,13 +181,13 @@
         <div class="row g-3">
             @php
             $modules = [
-                ['icon'=>'fa-th-large',       'color'=>'#1a56db', 'bg'=>'#e8f0fe', 'label'=>'Dashboard',         'sub'=>'Overview & stats',       'route'=>route('dashboard')],
+                ['icon'=>'fa-th-large',       'color'=>'#0284c7', 'bg'=>'#f0f9ff', 'label'=>'Dashboard',         'sub'=>'Overview & stats',       'route'=>route('dashboard')],
                 ['icon'=>'fa-users',           'color'=>'#059669', 'bg'=>'#d1fae5', 'label'=>'Patients',           'sub'=>'Patient records',         'route'=>route('patients')],
                 ['icon'=>'fa-calendar-plus',   'color'=>'#6366f1', 'bg'=>'#e0e7ff', 'label'=>'Book Appointment',  'sub'=>'Schedule visits',         'route'=>route('appointments')],
                 ['icon'=>'fa-flask',           'color'=>'#0891b2', 'bg'=>'#cffafe', 'label'=>'Lab Tests',          'sub'=>'Tests & billing',         'route'=>route('lab-tests.index')],
                 ['icon'=>'fa-sliders',         'color'=>'#7c3aed', 'bg'=>'#ede9fe', 'label'=>'Test Parameters',   'sub'=>'Clinical ranges',         'route'=>route('test-parameters.index')],
                 ['icon'=>'fa-tags',            'color'=>'#b45309', 'bg'=>'#fef3c7', 'label'=>'Master Categories', 'sub'=>'Top-level categories',    'route'=>route('categories.index')],
-                ['icon'=>'fa-list-ul',         'color'=>'#b45309', 'bg'=>'#fff7ed', 'label'=>'Sub-Categories',    'sub'=>'Category groupings',      'route'=>route('sub-categories.index')],
+                ['icon'=>'fa-list-ul',         'color'=>'#0284c7', 'bg'=>'#e0f2fe', 'label'=>'Sub-Categories',    'sub'=>'Category groupings',      'route'=>route('sub-categories.index')],
                 ['icon'=>'fa-database',        'color'=>'#0d9488', 'bg'=>'#ccfbf1', 'label'=>'Master Data',        'sub'=>'Manage units & templates','route'=>route('master-data.index')],
                 ['icon'=>'fa-file-medical',    'color'=>'#0369a1', 'bg'=>'#e0f2fe', 'label'=>'Test Reports',      'sub'=>'Generate & print',        'route'=>route('reports')],
                 ['icon'=>'fa-signature',       'color'=>'#475569', 'bg'=>'#f1f5f9', 'label'=>'Report Signatures', 'sub'=>'Doctor signatures',       'route'=>route('report-signatures.index')],

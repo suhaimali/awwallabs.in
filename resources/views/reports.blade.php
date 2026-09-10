@@ -61,6 +61,125 @@
                     }
                 }
 
+/* ── Simple Modal UI for Generate/Edit Lab Report ── */
+#modal-add-report .modal-header,
+#modal-edit-report .modal-header {
+    background: #fff;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 16px 20px;
+}
+#modal-add-report .modal-title,
+#modal-edit-report .modal-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+#modal-add-report .modal-content,
+#modal-edit-report .modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+#modal-add-report .modal-footer,
+#modal-edit-report .modal-footer {
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    padding: 12px 20px;
+}
+#modal-add-report .modal-body,
+#modal-edit-report .modal-body {
+    background: #ffffff;
+    padding: 20px;
+}
+/* Simple section divider headers */
+#modal-add-report h4.text-primary,
+#modal-edit-report h4.text-primary {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.8px !important;
+    text-transform: uppercase !important;
+    color: #64748b !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 14px !important;
+}
+/* Simple form labels */
+#modal-add-report .form-label,
+#modal-edit-report .form-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+/* Simple, clean form controls */
+#modal-add-report .form-control,
+#modal-add-report .form-select,
+#modal-edit-report .form-control,
+#modal-edit-report .form-select {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #1e293b;
+    height: 38px;
+    padding: 6px 10px;
+    background: #fff;
+    box-shadow: none;
+}
+#modal-add-report textarea.form-control,
+#modal-edit-report textarea.form-control {
+    height: auto;
+}
+#modal-add-report .form-control:focus,
+#modal-add-report .form-select:focus,
+#modal-edit-report .form-control:focus,
+#modal-edit-report .form-select:focus {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+/* Test row — simple flat white card */
+.test-item-row {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+    margin-bottom: 10px !important;
+}
+.test-item-row .card-body {
+    padding: 14px 16px !important;
+}
+/* Keep the SL badge simple */
+.test-item-row .row-sl-no {
+    background: #0284c7 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    top: 12px !important;
+    left: 12px !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+}
+/* Remove row button clean */
+.test-item-row .remove-row {
+    top: 8px !important;
+    right: 10px !important;
+    background: #fff !important;
+    border: 1px solid #fca5a5 !important;
+    color: #ef4444 !important;
+    border-radius: 6px !important;
+    padding: 2px 6px !important;
+    font-size: 12px !important;
+    opacity: 1 !important;
+}
+.test-item-row .remove-row:hover {
+    background: #fef2f2 !important;
+    transform: none !important;
+}
+/* Load template / add test row controls */
+#modal-add-report .select-load-report-template,
+#modal-edit-report .select-load-report-template {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+}
  
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
@@ -114,14 +233,14 @@
 }
 
 .pdf-btn.pdf-btn-action {
-    color: #3b82f6;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
+    color: #0284c7;
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
 }
 
 .pdf-btn.pdf-btn-action:hover {
-    background: #dbeafe;
-    color: #1d4ed8;
+    background: #e0f2fe;
+    color: #0369a1;
 }
 
 .pdf-btn.pdf-btn-share {
@@ -315,8 +434,8 @@
                 }
 
                 .test-item-row .input-group.flex-nowrap:focus-within {
-                    border-color: #3b82f6 !important;
-                    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+                    border-color: #0284c7 !important;
+                    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14) !important;
                 }
 
                 .test-item-row .input-group.flex-nowrap .form-select {
@@ -445,7 +564,7 @@
 
                 /* Connect vertical focus borders when input-group is focused */
                 .test-item-row .input-group.flex-nowrap:focus-within .btn {
-                    border-left-color: #3b82f6 !important;
+                    border-left-color: #0284c7 !important;
                 }
 
                 /* Last button in the input group gets rounded right corners */
@@ -626,7 +745,7 @@
 		  <div class="modal-body">
 			<form id="form-add-report">
                 @csrf
-				<h4 class="text-primary border-bottom pb-2 mb-3">General Information</h4>
+				<h4 class="text-primary border-bottom pb-2 mb-3"><i class="fa fa-info-circle me-1"></i>General Information</h4>
 				<div class="row mb-3">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -741,7 +860,7 @@
 			<form id="form-edit-report">
                 @csrf
                 <input type="hidden" name="id" id="edit-report-id">
-				<h4 class="text-primary border-bottom pb-2 mb-3">General Information</h4>
+				<h4 class="text-primary border-bottom pb-2 mb-3"><i class="fa fa-info-circle me-1"></i>General Information</h4>
 				<div class="row mb-3">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -1120,11 +1239,10 @@
 
           // Dynamic Rows Logic (Refined Alignment & Auto-fill)
           const trTemplate = `
-            <div class="test-item-row card border-0 shadow-sm mb-3" style="background: linear-gradient(145deg, #ffffff, #f8fafc); border-radius: 12px; position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #6366f1;"></div>
-                <div class="card-body p-3">
-                    <span class="badge bg-primary text-white position-absolute row-sl-no" style="top: 10px; left: 15px; z-index: 10; border-radius: 6px;">SL 1</span>
-                    <button type="button" class="btn btn-sm btn-danger position-absolute remove-row" style="top: 10px; right: 10px; z-index: 10; border-radius: 8px;" title="Remove Test"><i class="fa fa-trash"></i></button>
+            <div class="test-item-row card border-0 mb-3" style="position: relative; overflow: hidden;">
+                <div class="card-body">
+                    <span class="badge position-absolute row-sl-no" style="background:#0284c7;">SL 1</span>
+                    <button type="button" class="btn btn-sm position-absolute remove-row" style="z-index:10;" title="Remove Test"><i class="fa fa-times"></i></button>
                     <div class="row g-3 align-items-end mt-3">
                         <div class="col-md-4 col-sm-6">
                             <label class="form-label text-muted fs-11 fw-bold text-uppercase mb-1" style="font-size:11px;">Master Category</label>
@@ -1551,43 +1669,53 @@
 
               $.get("/templates/" + templateId, function(template) {
                   if (template.items && template.items.length > 0) {
-                      if (confirm(`Do you want to clear the existing test items before loading the template "${template.name}"?`)) {
-                          $(container).empty();
-                      }
-
-                      template.items.forEach(item => {
-                          let newRow = $(trTemplate);
-                          $(container).append(newRow);
-
-                          // Set Category & Subcategory
-                          setSelectValueWithDefault(newRow.find('.report-category-select'), item.category || 'General');
-                          setSelectValueWithDefault(newRow.find('.report-subcategory-select'), item.subcategory || '');
-
-                          // Set Test parameter & trigger change for patient details auto-calculation
-                          let testSelect = newRow.find('.test-selector-dynamic');
-                          setSelectValueWithDefault(testSelect, item.name || '');
-                          testSelect.trigger('change');
-
-                          // Override defaults if specified in the template
-                          if (item.unit) {
-                              setSelectValueWithDefault(newRow.find('.report-unit-select'), item.unit);
+                      Swal.fire({
+                          title: 'Load Template',
+                          html: `Clear existing test items before loading <strong>${template.name}</strong>?`,
+                          icon: 'question',
+                          showCancelButton: true,
+                          confirmButtonText: '<i class="fa fa-trash"></i> Clear & Load',
+                          cancelButtonText: 'Keep & Append',
+                          confirmButtonColor: '#0284c7',
+                          cancelButtonColor: '#6c757d',
+                      }).then((result) => {
+                          if (result.isConfirmed) {
+                              $(container).empty();
                           }
-                          if (item.normal_value) {
-                              setSelectValueWithDefault(newRow.find('.normal-val-dynamic'), item.normal_value);
-                          }
-                          if (item.biological_reference) {
-                              setSelectValueWithDefault(newRow.find('.bio-val-dynamic'), item.biological_reference);
-                          }
+                          template.items.forEach(item => {
+                              let newRow = $(trTemplate);
+                              $(container).append(newRow);
+
+                              // Set Category & Subcategory
+                              setSelectValueWithDefault(newRow.find('.report-category-select'), item.category || 'General');
+                              setSelectValueWithDefault(newRow.find('.report-subcategory-select'), item.subcategory || '');
+
+                              // Set Test parameter & trigger change for patient details auto-calculation
+                              let testSelect = newRow.find('.test-selector-dynamic');
+                              setSelectValueWithDefault(testSelect, item.name || '');
+                              testSelect.trigger('change');
+
+                              // Override defaults if specified in the template
+                              if (item.unit) {
+                                  setSelectValueWithDefault(newRow.find('.report-unit-select'), item.unit);
+                              }
+                              if (item.normal_value) {
+                                  setSelectValueWithDefault(newRow.find('.normal-val-dynamic'), item.normal_value);
+                              }
+                              if (item.biological_reference) {
+                                  setSelectValueWithDefault(newRow.find('.bio-val-dynamic'), item.biological_reference);
+                              }
+                          });
+
+                          updateRowSlNo(container);
+                          initDynamicSelect2();
                       });
-
-                      updateRowSlNo(container);
-                      initDynamicSelect2();
                   } else {
-                      alert('This template has no test items.');
+                      showToast('This template has no test items.', 'warning');
                   }
                   selectDropdown.val('').prop('disabled', false);
               }).fail(function() {
-                  alert('Failed to load template.');
+                  showToast('Failed to load template.', 'error');
                   selectDropdown.prop('disabled', false);
               });
           });
@@ -1627,7 +1755,7 @@
               let select = $(this).siblings('.report-doctor-select');
               let selectedOption = select.find('option:selected');
               let docId = selectedOption.attr('data-id');
-              if (!docId) { alert('Please select a valid doctor to edit.'); return; }
+              if (!docId) { showToast('Please select a valid doctor to edit.', 'error'); return; }
               $('#edit-report-doc-id').val(docId);
               $('#edit-report-doc-name').val(selectedOption.val());
               $('#edit-report-doc-qualification').val(selectedOption.attr('data-qualification'));
@@ -1639,12 +1767,12 @@
           $('#btn-save-report-doctor').click(function() {
               let formData = $('#form-add-report-doctor').serialize();
               $.post("{{ route('doctors.store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                   $('#modal-add-report-doctor').modal('hide');
                   $('#form-add-report-doctor')[0].reset();
                   fetchReportDoctors(response.doctor.name);
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON.message || 'Failed to save doctor.'));
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save doctor.', 'error');
               });
           });
 
@@ -1655,12 +1783,12 @@
                   type: 'PUT',
                   data: $('#form-edit-report-doctor').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                       $('#modal-edit-report-doctor').modal('hide');
                       fetchReportDoctors(response.doctor.name);
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON.message || 'Failed to update doctor.'));
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update doctor.', 'error');
                   }
               });
           });
@@ -1724,7 +1852,7 @@
               let select = $(this).siblings('.report-category-select');
               let selectedOption = select.find('option:selected');
               let catId = selectedOption.attr('data-id');
-              if (!catId) { alert('Please select a valid category to edit.'); return; }
+              if (!catId) { showToast('Please select a valid category to edit.', 'error'); return; }
               $('.report-category-select').removeClass('active-category-select');
               select.addClass('active-category-select');
               
@@ -1736,12 +1864,12 @@
           $('#btn-save-report-category').click(function() {
               let formData = $('#form-add-report-category').serialize();
               $.post("{{ route('categories.store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                   $('#modal-add-report-category').modal('hide');
                   $('#form-add-report-category')[0].reset();
                   fetchReportCategories(response.category.name);
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON.message || 'Failed to save category.'));
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save category.', 'error');
               });
           });
 
@@ -1752,12 +1880,12 @@
                   type: 'PUT',
                   data: $('#form-edit-report-category').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                       $('#modal-edit-report-category').modal('hide');
                       fetchReportCategories(response.category.name);
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON.message || 'Failed to update category.'));
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update category.', 'error');
                   }
               });
           });
@@ -1805,7 +1933,7 @@
               let select = $(this).siblings('.report-subcategory-select');
               let selectedOption = select.find('option:selected');
               let subId = selectedOption.attr('data-id');
-              if (!subId) { alert('Please select a valid sub-category to edit.'); return; }
+              if (!subId) { showToast('Please select a valid sub-category to edit.', 'error'); return; }
               $('.report-subcategory-select').removeClass('active-subcategory-select');
               select.addClass('active-subcategory-select');
               
@@ -1827,12 +1955,12 @@
           $('#btn-save-report-subcategory').click(function() {
               let formData = $('#form-add-report-subcategory').serialize();
               $.post("{{ route('sub-categories.store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                   $('#modal-add-report-subcategory').modal('hide');
                   $('#form-add-report-subcategory')[0].reset();
                   fetchReportSubCategories(response.subCategory.name);
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON.message || 'Failed to save sub-category.'));
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save sub-category.', 'error');
               });
           });
 
@@ -1843,12 +1971,12 @@
                   type: 'PUT',
                   data: $('#form-edit-report-subcategory').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                       $('#modal-edit-report-subcategory').modal('hide');
                       fetchReportSubCategories(response.subCategory.name);
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON.message || 'Failed to update sub-category.'));
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update sub-category.', 'error');
                   }
               });
           });
@@ -1911,7 +2039,7 @@
               let select = $(this).siblings('.test-selector-dynamic');
               let selectedOption = select.find('option:selected');
               let testId = selectedOption.attr('data-id');
-              if (!testId) { alert('Please select a valid parameter to edit.'); return; }
+              if (!testId) { showToast('Please select a valid parameter to edit.', 'error'); return; }
               $('.test-selector-dynamic').removeClass('active-test-select');
               select.addClass('active-test-select');
               
@@ -1937,12 +2065,12 @@
           $('#btn-save-report-test').click(function() {
               let formData = $('#form-add-report-test').serialize();
               $.post("{{ route('tests.quick-store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                   $('#modal-add-report-test').modal('hide');
                   $('#form-add-report-test')[0].reset();
                   fetchReportTests(response.test.name);
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON.message || 'Failed to save parameter.'));
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save parameter.', 'error');
               });
           });
 
@@ -1953,12 +2081,12 @@
                   type: 'PUT',
                   data: $('#form-edit-report-test').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                       $('#modal-edit-report-test').modal('hide');
                       fetchReportTests(response.test.name);
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON.message || 'Failed to update parameter.'));
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update parameter.', 'error');
                   }
               });
           });
@@ -1994,7 +2122,7 @@
               let select = $(this).siblings('.report-unit-select');
               let selectedOption = select.find('option:selected');
               let unitId = selectedOption.attr('data-id');
-              if (!unitId) { alert('Please select a valid unit to edit.'); return; }
+              if (!unitId) { showToast('Please select a valid unit to edit.', 'error'); return; }
               $('.report-unit-select').removeClass('active-unit-select');
               select.addClass('active-unit-select');
               
@@ -2006,12 +2134,12 @@
           $('#btn-save-report-unit').click(function() {
               let formData = $('#form-add-report-unit').serialize();
               $.post("{{ route('units.store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                   $('#modal-add-report-unit').modal('hide');
                   $('#form-add-report-unit')[0].reset();
                   fetchReportUnits(response.unit.name);
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON.message || 'Failed to save unit.'));
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save unit.', 'error');
               });
           });
 
@@ -2022,12 +2150,12 @@
                   type: 'PUT',
                   data: $('#form-edit-report-unit').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                       $('#modal-edit-report-unit').modal('hide');
                       fetchReportUnits(response.unit.name);
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON.message || 'Failed to update unit.'));
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update unit.', 'error');
                   }
               });
           });
@@ -2118,7 +2246,7 @@
               let select = $(this).closest('.test-item-row').find('.report-observed-select');
               let selectedOption = select.find('option:selected');
               let observedName = selectedOption.val();
-              if (!observedName) { alert('Please select a valid observed value to edit.'); return; }
+              if (!observedName) { showToast('Please select a valid observed value to edit.', 'error'); return; }
               $('.report-observed-select').removeClass('active-observed-select');
               select.addClass('active-observed-select');
               
@@ -2132,12 +2260,12 @@
               let formData = $('#form-add-report-observed').serialize();
               let nameVal = $('#form-add-report-observed input[name="name"]').val().trim();
               $.post("{{ route('result-templates.store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                   $('#modal-add-report-observed').modal('hide');
                   $('#form-add-report-observed')[0].reset();
                   fetchReportObserved(nameVal);
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON.message || 'Failed to save observed template.'));
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save observed template.', 'error');
               });
           });
 
@@ -2149,13 +2277,13 @@
                   type: 'PUT',
                   data: $('#form-edit-report-observed').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                       $('#modal-edit-report-observed').modal('hide');
                       $('#form-edit-report-observed')[0].reset();
                       fetchReportObserved(nameVal);
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON.message || 'Failed to update observed template.'));
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update observed template.', 'error');
                   }
               });
           });
@@ -2175,10 +2303,10 @@
               let select = $(this).closest('.test-item-row').find('.normal-val-dynamic');
               let selectedOption = select.find('option:selected');
               let referenceName = selectedOption.val();
-              if (!referenceName) { alert('Please select a valid reference value to edit.'); return; }
+              if (!referenceName) { showToast('Please select a valid reference value to edit.', 'error'); return; }
               
               let referenceId = selectedOption.attr('data-id');
-              if (!referenceId) { alert('This is a custom/auto-filled reference value and is not saved as a template. Click "+" next to it to save it as a template first.'); return; }
+              if (!referenceId) { showToast('This is a custom/auto-filled reference value — not saved as a template. Click "+" to save it as a template first.', 'error'); return; }
               
               $('.normal-val-dynamic').removeClass('active-reference-select');
               select.addClass('active-reference-select');
@@ -2192,12 +2320,12 @@
               let formData = $('#form-add-report-reference').serialize();
               let nameVal = $('#form-add-report-reference input[name="name"]').val().trim();
               $.post("{{ route('reference-templates.store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                   $('#modal-add-report-reference').modal('hide');
                   $('#form-add-report-reference')[0].reset();
                   fetchReportReferences(nameVal);
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON.message || 'Failed to save reference template.'));
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save reference template.', 'error');
               });
           });
 
@@ -2209,13 +2337,13 @@
                   type: 'PUT',
                   data: $('#form-edit-report-reference').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                       $('#modal-edit-report-reference').modal('hide');
                       $('#form-edit-report-reference')[0].reset();
                       fetchReportReferences(nameVal);
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON.message || 'Failed to update reference template.'));
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update reference template.', 'error');
                   }
               });
           });
@@ -2225,21 +2353,24 @@
               let selectedOption = select.find('option:selected');
               let referenceId = selectedOption.attr('data-id');
               let referenceName = selectedOption.val();
-              if (!referenceId) { alert('Please select a valid reference template to delete.'); return; }
+              if (!referenceId) { showToast('Please select a valid reference template to delete.', 'error'); return; }
               
-              if (confirm('Are you sure you want to delete the reference template "' + referenceName + '"?')) {
+              confirmDelete({
+                  title: 'Delete Reference Template?',
+                  text: 'Are you sure you want to delete the reference template "' + referenceName + '"?'
+              }, function() {
                   $.ajax({
                       url: "/reference-templates/" + referenceId,
                       type: 'DELETE',
                       success: function(response) {
-                          alert(response.success || 'Reference template deleted successfully!');
+                          showToast(response.success || 'Reference template deleted successfully!', 'success');
                           fetchReportReferences();
                       },
                       error: function(xhr) {
-                          alert('Error: ' + (xhr.responseJSON?.message || 'Failed to delete reference template.'));
+                          showToast('Error: ' + (xhr.responseJSON?.message || 'Failed to delete reference template.'), 'error');
                       }
                   });
-              }
+              });
           });
           // =============================================
 
@@ -2257,7 +2388,7 @@
               let select = $(this).closest('.test-item-row').find('.flag-selector');
               let selectedOption = select.find('option:selected');
               let flagName = selectedOption.val();
-              if (!flagName) { alert('Please select a valid flag to edit.'); return; }
+              if (!flagName) { showToast('Please select a valid flag to edit.', 'error'); return; }
               $('.flag-selector').removeClass('active-flag-select');
               select.addClass('active-flag-select');
               
@@ -2271,12 +2402,12 @@
               let formData = $('#form-add-report-flag').serialize();
               let nameVal = $('#form-add-report-flag input[name="name"]').val().trim();
               $.post("{{ route('flag-templates.store') }}", formData, function(response) {
-                  alert(response.success);
+                  showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                   $('#modal-add-report-flag').modal('hide');
                   $('#form-add-report-flag')[0].reset();
                   fetchReportFlags(nameVal);
               }).fail(function(xhr) {
-                  alert('Error: ' + (xhr.responseJSON.message || 'Failed to save flag template.'));
+                  showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to save flag template.', 'error');
               });
           });
 
@@ -2288,13 +2419,13 @@
                   type: 'PUT',
                   data: $('#form-edit-report-flag').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                       $('#modal-edit-report-flag').modal('hide');
                       $('#form-edit-report-flag')[0].reset();
                       fetchReportFlags(nameVal);
                   },
                   error: function(xhr) {
-                      alert('Error: ' + (xhr.responseJSON.message || 'Failed to update flag template.'));
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update flag template.', 'error');
                   }
               });
           });
@@ -2312,13 +2443,13 @@
               btn.html('<i class="fa fa-spinner fa-spin"></i> Saving...').prop('disabled', true);
 			  
 			  $.post("{{ route('reports.store') }}", $('#form-add-report').serialize(), function(response) {
-				  alert(response.success);
+				  showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
 				  refreshReportsPageData('#modal-add-report', btn, 'Generate Report');
                   $('#form-add-report')[0].reset();
                   $('#dynamic-tests-container').empty();
 			  }).fail(function(xhr) {
-                  let errorMsg = xhr.responseJSON.message || "Error saving report. Please check all fields.";
-				  alert(errorMsg);
+                  let errorMsg = (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Error saving report. Please check all fields.");
+				  showToast(errorMsg, 'error');
                   btn.html('Generate Report').prop('disabled', false);
 			  });
 		  });
@@ -2375,17 +2506,23 @@
           });
 
           function executeDeleteReport(id) {
-              if(confirm('Are you sure you want to delete this report?')) {
-                  $.ajax({
-                      url: "/reports/" + id,
-                      type: 'DELETE',
-                      success: function(response) {
-                          alert(response.success);
-                          refreshReportsPageData();
-                      }
-                  });
-              }
-          }
+               confirmDelete({
+                   title: 'Delete Report?',
+                   text: 'Are you sure you want to delete this report? This action cannot be undone.'
+               }, function() {
+                   $.ajax({
+                       url: "/reports/" + id,
+                       type: 'DELETE',
+                       success: function(response) {
+                           showToast(response.success || 'Report deleted successfully', 'success');
+                           refreshReportsPageData();
+                       },
+                       error: function(xhr) {
+                           showToast(xhr.responseJSON?.message || 'Failed to delete report', 'error');
+                       }
+                   });
+               });
+           }
 
           // Edit Report Load Data
           function loadAndShowEditModal(id) {
@@ -2596,11 +2733,11 @@
                   type: 'PUT',
                   data: $('#form-edit-report').serialize(),
                   success: function(response) {
-                      alert(response.success);
+                      showToast(response.success || 'Done!', 'success'); setTimeout(() => location.reload(), 600); return;
                       refreshReportsPageData('#modal-edit-report', btn, 'Update Report');
                   },
                   error: function(xhr) {
-                      alert(xhr.responseJSON.message || "Error updating report.");
+                      showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error updating report.', 'error');
                       btn.html('Update Report').prop('disabled', false);
                   }
               });
@@ -3226,35 +3363,45 @@
   @push('scripts')
   <script>
       $(document).ready(function() {
-          function setupDetailModalButtons(id, type) {
-              $('#btn-detail-edit').data('id', id).data('type', type).show();
-              $('#btn-detail-delete').data('id', id).data('type', type).show();
+          function setupDetailModalButtons(id, type, name = '') {
+              $('#btn-detail-edit').data('id', id).data('type', type).data('name', name).show();
+              $('#btn-detail-delete').data('id', id).data('type', type).data('name', name).show();
           }
 
           $(document).on('click', '.btn-add-report-patient', function() {
-              if (confirm("Adding a new patient requires you to navigate to the Patients page. Make sure to save your work. Do you want to open the Patients page in a new tab?")) {
-                  window.open("/patients", "_blank");
-              }
+              Swal.fire({
+                  title: 'Navigate to Patients?',
+                  html: 'Adding a new patient requires you to go to the Patients page.<br><strong>Make sure to save your work first.</strong>',
+                  icon: 'info',
+                  showCancelButton: true,
+                  confirmButtonText: '<i class="fa fa-external-link-alt"></i> Open Patients Page',
+                  cancelButtonText: 'Cancel',
+                  confirmButtonColor: '#0284c7',
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      window.open("/patients", "_blank");
+                  }
+              });
           });
 
           $(document).on('click', '.btn-edit-report-patient', function() {
               let select = $(this).siblings('select');
               let patientId = select.val();
-              if (!patientId) { alert('Please select a patient first.'); return; }
+              if (!patientId) { showToast('Please select a patient first.', 'error'); return; }
               window.open("/patients?edit=" + patientId, "_blank");
           });
 
           $(document).on('click', '.btn-delete-report-patient', function() {
               let select = $(this).siblings('select');
               let id = select.val();
-              if (!id) { alert('Please select a patient first.'); return; }
+              if (!id) { showToast('Please select a patient first.', 'error'); return; }
               $('#btn-detail-delete').data('id', id).data('type', 'patient').click();
           });
 
           $(document).on('click', '.btn-view-report-patient', function() {
               let select = $(this).siblings('select');
               let patientId = select.val();
-              if (!patientId) { alert('Please select a patient first.'); return; }
+              if (!patientId) { showToast('Please select a patient first.', 'error'); return; }
               
               $('#btn-detail-edit').hide();
               $('#btn-detail-delete').hide();
@@ -3291,7 +3438,7 @@
               let select = $(this).siblings('select');
               let selectedOption = select.find('option:selected');
               let doctorName = selectedOption.val();
-              if (!doctorName) { alert('Please select a doctor first.'); return; }
+              if (!doctorName) { showToast('Please select a doctor first.', 'error'); return; }
               
               $('#btn-detail-edit').hide();
               $('#btn-detail-delete').hide();
@@ -3324,7 +3471,7 @@
               let select = $(this).siblings('select');
               let selectedOption = select.find('option:selected');
               let signatureId = selectedOption.val();
-              if (!signatureId) { alert('Please select a signature first.'); return; }
+              if (!signatureId) { showToast('Please select a signature first.', 'error'); return; }
               
               $('#btn-detail-edit').hide();
               $('#btn-detail-delete').hide();
@@ -3374,11 +3521,12 @@
               let selectedOption = select.find('option:selected');
               let id = selectedOption.attr('data-id');
               let val = select.val();
+              let name = selectedOption.text() || val || '';
               
-              if (!val) { alert('Please select a ' + label + ' first.'); return; }
-              if (!id) { alert('This is a custom/auto-filled ' + label + ' ("' + val + '") and is not saved as a template. You do not need to delete it. To manage templates, select a saved template from the dropdown.'); return; }
+              if (!val) { showToast('Please select a ' + label + ' first.', 'error'); return; }
+              if (!id) { showToast('This is a custom/auto-filled ' + label + ' — not saved as a template. Select a saved template from the dropdown.', 'error'); return; }
               
-              $('#btn-detail-delete').data('id', id).data('type', type).click();
+              $('#btn-detail-delete').data('id', id).data('type', type).data('name', name).click();
           }
 
           $(document).on('click', '.btn-view-report-category', function() { handleViewClick($(this), 'category', 'Category', 'fa-folder'); });
@@ -3388,7 +3536,7 @@
               let selectedOption = select.find('option:selected');
               let id = selectedOption.attr('data-id');
               let name = selectedOption.val() || selectedOption.text();
-              if (!id) { alert('Please select a parameter first.'); return; }
+              if (!id) { showToast('Please select a parameter first.', 'error'); return; }
               
               $('#btn-detail-edit').hide();
               $('#btn-detail-delete').hide();
@@ -3410,7 +3558,7 @@
                   </div>
               `;
               $('#view-detail-body').html(html);
-              setupDetailModalButtons(id, 'test');
+              setupDetailModalButtons(id, 'test', name);
               $('#modal-view-detail').modal('show');
           });
           $(document).on('click', '.btn-view-observed', function() { handleViewClick($(this), 'observed', 'Observed Value', 'fa-eye'); });
@@ -3424,8 +3572,8 @@
               let id = selectedOption.attr('data-id');
               let name = select.val() || selectedOption.text();
               
-              if (!select.val()) { alert('Please select a ' + label + ' first.'); return; }
-              if (!id) { alert('This is a custom/auto-filled ' + label + ' ("' + name + '") and is not saved as a template. Click "+" to save it as a template first.'); return; }
+              if (!select.val()) { showToast('Please select a ' + label + ' first.', 'error'); return; }
+              if (!id) { showToast('This is a custom/auto-filled ' + label + ' — not saved as a template. Click "+" to save it first.', 'error'); return; }
               
               $('#btn-detail-edit').hide();
               $('#btn-detail-delete').hide();
@@ -3462,7 +3610,7 @@
                   </div>
               `;
               $('#view-detail-body').html(html);
-              setupDetailModalButtons(id, type);
+              setupDetailModalButtons(id, type, name);
               $('#modal-view-detail').modal('show');
           }
 
@@ -3560,9 +3708,16 @@
            $(document).on('click', '#btn-detail-delete', function() {
                let id = $(this).data('id');
                let type = $(this).data('type');
+               let name = $(this).data('name') || '';
                if (!id || !type) return;
 
-               if (confirm('Are you sure you want to delete this ' + type + '? This action cannot be undone.')) {
+               let title = name ? `Delete ${type.charAt(0).toUpperCase() + type.slice(1)} "${name}"?` : `Delete ${type.charAt(0).toUpperCase() + type.slice(1)}?`;
+               let text = name ? `Are you sure you want to delete ${type} "${name}"? This action cannot be undone.` : `Are you sure you want to delete this ${type}? This action cannot be undone.`;
+
+               confirmDelete({
+                   title: title,
+                   text: text
+               }, function() {
                    let deleteUrl = '';
                    if (type === 'patient') deleteUrl = "/patients/" + id;
                    else if (type === 'doctor') deleteUrl = "/doctors/" + id;
@@ -3580,7 +3735,7 @@
                            url: deleteUrl,
                            type: 'DELETE',
                            success: function(response) {
-                               alert(response.success || 'Item deleted successfully!');
+                               showToast(response.success || 'Item deleted successfully!', 'success');
                                $('#modal-view-detail').modal('hide');
                                if (type === 'reference') {
                                    fetchReportReferences();
@@ -3593,11 +3748,11 @@
                                }
                            },
                            error: function(xhr) {
-                               alert('Error: ' + (xhr.responseJSON?.message || 'Failed to delete item.'));
+                               showToast(xhr.responseJSON?.message || 'Failed to delete item', 'error');
                            }
                        });
                    }
-               }
+               });
            });
       });
   </script>
@@ -3610,3 +3765,4 @@
 
 
 <!-- File Structure Optimized -->
+

@@ -321,15 +321,15 @@ class HomeController extends Controller
             'discount'       => 'nullable|numeric|min:0',
             'advance_paid'   => 'nullable|numeric|min:0',
             'payment_status' => 'required|in:Paid,Partial,Unpaid,Refunded',
-            'payment_method' => 'required|in:Cash,Card,Bank Transfer,Online,Other',
+            'payment_method' => 'required|string|max:50',
             'bill_date'      => 'required|date',
             'remarks'        => 'nullable|string|max:500',
         ]);
 
         $validated['discount'] = $validated['discount'] ?? 0;
         $validated['advance_paid'] = $validated['advance_paid'] ?? 0;
-        $validated['net_amount'] = $validated['total_amount'] - $validated['discount'];
-        $validated['balance_due'] = $validated['net_amount'] - $validated['advance_paid'];
+        $validated['net_amount'] = max(0, $validated['total_amount'] - $validated['discount']);
+        $validated['balance_due'] = max(0, $validated['net_amount'] - $validated['advance_paid']);
 
         \App\Models\Payment::create($validated);
 
@@ -352,15 +352,15 @@ class HomeController extends Controller
             'discount'       => 'nullable|numeric|min:0',
             'advance_paid'   => 'nullable|numeric|min:0',
             'payment_status' => 'required|in:Paid,Partial,Unpaid,Refunded',
-            'payment_method' => 'required|in:Cash,Card,Bank Transfer,Online,Other',
+            'payment_method' => 'required|string|max:50',
             'bill_date'      => 'required|date',
             'remarks'        => 'nullable|string|max:500',
         ]);
 
         $validated['discount'] = $validated['discount'] ?? 0;
         $validated['advance_paid'] = $validated['advance_paid'] ?? 0;
-        $validated['net_amount'] = $validated['total_amount'] - $validated['discount'];
-        $validated['balance_due'] = $validated['net_amount'] - $validated['advance_paid'];
+        $validated['net_amount'] = max(0, $validated['total_amount'] - $validated['discount']);
+        $validated['balance_due'] = max(0, $validated['net_amount'] - $validated['advance_paid']);
 
         $payment->update($validated);
 
@@ -798,10 +798,6 @@ class HomeController extends Controller
 
     public function dailyCollection(\Illuminate\Http\Request $request)
     {
-        if (!$request->session()->get('daily_collection_unlocked')) {
-            return view('daily_collection_unlock');
-        }
-
         $date = $request->input('date', date('Y-m-d'));
         
         $payments = \App\Models\Payment::with('patient')
@@ -828,10 +824,6 @@ class HomeController extends Controller
 
     public function incomeReport(\Illuminate\Http\Request $request)
     {
-        if (!$request->session()->get('income_report_unlocked')) {
-            return view('income_report_unlock');
-        }
-
         $query = \App\Models\Payment::with('patient')->orderBy('bill_date', 'desc');
 
         $startDate = $request->input('start_date', date('Y-m-d'));

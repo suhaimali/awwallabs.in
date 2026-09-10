@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payments', [HomeController::class, 'payments'])->name('payments');
     Route::post('/payments', [HomeController::class, 'storePayment'])->name('payments.store');
     Route::get('/payments/{id}', [HomeController::class, 'getPayment'])->name('payments.show');
-    Route::put('/payments/{id}', [HomeController::class, 'updatePayment'])->name('payments.update');
+    Route::match(['put', 'post'], '/payments/{id}', [HomeController::class, 'updatePayment'])->name('payments.update');
     Route::delete('/payments/{id}', [HomeController::class, 'deletePayment'])->name('payments.delete');
 
     // Income Report

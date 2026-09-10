@@ -5,7 +5,7 @@
 
 <div class="page-header-aw">
     <div class="page-title-aw">
-        <div class="title-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);">
+        <div class="title-icon">
             <i class="fa fa-copy"></i>
         </div>
         <div>
@@ -13,7 +13,7 @@
             <div style="font-size:13px;font-weight:400;color:var(--text-muted);margin-top:2px;">Manage test profiles and load pre-configured parameters instantly</div>
         </div>
     </div>
-    <button type="button" class="btn-aw-primary" data-bs-toggle="modal" data-bs-target="#modal-add-template" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none; box-shadow: 0 4px 14px rgba(37,99,235,0.3);">
+    <button type="button" class="btn-aw-primary" data-bs-toggle="modal" data-bs-target="#modal-add-template">
         <i class="fa fa-plus-circle"></i> Add New Template
     </button>
 </div>
@@ -23,8 +23,8 @@
         width: 40px;
         height: 40px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-        color: #2563eb;
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        color: #0284c7;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -59,15 +59,15 @@
     }
 
     .btn-icon-circle.view:hover {
-        color: #2563eb;
-        border-color: #bfdbfe;
-        background: #eff6ff;
+        color: #0284c7;
+        border-color: #bae6fd;
+        background: #f0f9ff;
     }
 
     .btn-icon-circle.edit:hover {
-        color: #3b82f6;
-        border-color: #bfdbfe;
-        background: #eff6ff;
+        color: #0284c7;
+        border-color: #bae6fd;
+        background: #f0f9ff;
     }
 
     .btn-icon-circle.delete:hover {
@@ -192,7 +192,6 @@
                                 <button class="btn-icon-circle delete btn-delete-template"
                                     data-id="{{ $template->id }}"
                                     data-name="{{ $template->name }}"
-                                    data-bs-toggle="modal" data-bs-target="#modal-delete-template"
                                     title="Delete"><i class="fa fa-trash"></i></button>
                             </div>
                         </td>
@@ -208,7 +207,7 @@
 <div class="modal fade modal-aw" id="modal-add-template" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%); color: white;">
                 <h5 class="modal-title text-white"><i class="fa fa-copy me-2"></i>Create New Report Template</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -242,7 +241,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn-aw-primary" id="btn-save-template" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none; box-shadow: 0 4px 12px rgba(37,99,235,0.25);"><i class="fa fa-check"></i> Save Template</button>
+                <button type="button" class="btn-aw-primary" id="btn-save-template"><i class="fa fa-check"></i> Save Template</button>
             </div>
         </div>
     </div>
@@ -252,7 +251,7 @@
 <div class="modal fade modal-aw" id="modal-edit-template" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%); color: white;">
                 <h5 class="modal-title text-white"><i class="fa fa-edit me-2"></i>Edit Report Template</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -287,7 +286,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn-aw-primary" id="btn-update-template" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border: none;"><i class="fa fa-check"></i> Update Changes</button>
+                <button type="button" class="btn-aw-primary" id="btn-update-template"><i class="fa fa-check"></i> Update Changes</button>
             </div>
         </div>
     </div>
@@ -336,26 +335,7 @@
     </div>
 </div>
 
-<!-- Delete Template Modal -->
-<div class="modal fade modal-aw" id="modal-delete-template" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width:400px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fa fa-triangle-exclamation me-2 text-danger"></i>Delete Template</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p style="color:var(--text-muted);">Are you sure you want to remove: <strong id="delete-template-name" style="color:#dc2626;"></strong>?</p>
-                <p style="font-size:12px;color:var(--text-muted);">This will delete the template profile. Generated patient reports will remain unaffected.</p>
-                <input type="hidden" id="delete-template-id" name="delete_id">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-aw-outline" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn-aw-danger" id="btn-confirm-delete-template">Delete Template</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 @push('scripts')
 <script>
@@ -523,12 +503,12 @@ $(document).ready(function() {
 
         let name = $('#add-template-name').val().trim();
         if (!name) {
-            alert('Template Name is required.');
+            showToast('Template Name is required.', 'error');
             return;
         }
 
         if ($('#add-params-container .template-row-item').length === 0) {
-            alert('Please add at least one parameter row to the template.');
+            showToast('Please add at least one parameter row to the template.', 'error');
             return;
         }
 
@@ -536,10 +516,10 @@ $(document).ready(function() {
         let formData = $('#form-add-template').serialize();
 
         $.post("{{ route('templates.store') }}", formData, function(response) {
-            alert(response.success);
-            location.reload();
+            showToast(response.success || 'Template saved successfully!', 'success');
+            setTimeout(() => location.reload(), 600);
         }).fail(function(xhr) {
-            alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Error saving template.");
+            showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error saving template.', 'error');
             btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Template');
         });
     });
@@ -610,12 +590,12 @@ $(document).ready(function() {
         let id = $('#edit-template-id').val();
         let name = $('#edit-template-name').val().trim();
         if (!name) {
-            alert('Template Name is required.');
+            showToast('Template Name is required.', 'error');
             return;
         }
 
         if ($('#edit-params-container .template-row-item').length === 0) {
-            alert('Please add at least one parameter row to the template.');
+            showToast('Please add at least one parameter row to the template.', 'error');
             return;
         }
 
@@ -627,41 +607,36 @@ $(document).ready(function() {
             type: 'PUT',
             data: formData,
             success: function(response) {
-                alert(response.success);
-                location.reload();
+                showToast(response.success || 'Template updated successfully!', 'success');
+                setTimeout(() => location.reload(), 600);
             },
             error: function(xhr) {
-                alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to update template.");
+                showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update template.', 'error');
                 btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Changes');
             }
         });
     });
 
-    // Delete Template (Load)
+    // Delete Template
     $(document).on('click', '.btn-delete-template', function() {
-        $('#delete-template-id').val($(this).data('id'));
-        $('#delete-template-name').text($(this).data('name'));
-    });
+        let id = $(this).data('id');
+        let name = $(this).data('name') || 'this template';
 
-    // Confirm Delete
-    $('#btn-confirm-delete-template').click(function() {
-        let btn = $(this);
-        if (btn.prop('disabled')) return;
-
-        let id = $('#delete-template-id').val();
-        btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-2"></i> Deleting...');
-
-        $.ajax({
-            url: "/templates/" + id,
-            type: 'DELETE',
-            success: function(response) {
-                alert(response.success);
-                location.reload();
-            },
-            error: function(xhr) {
-                alert(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete template.");
-                btn.prop('disabled', false).html('Delete Template');
-            }
+        confirmDelete({
+            title: 'Delete Template?',
+            text: `Are you sure you want to delete template "${name}"? This action cannot be undone.`
+        }, function() {
+            $.ajax({
+                url: "/templates/" + id,
+                type: 'DELETE',
+                success: function(response) {
+                    showToast(response.success || 'Template deleted successfully', 'success');
+                    setTimeout(() => location.reload(), 600);
+                },
+                error: function(xhr) {
+                    showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete template.", 'error');
+                }
+            });
         });
     });
 });

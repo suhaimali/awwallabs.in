@@ -22,11 +22,11 @@ body {
 .md-page-header .md-icon {
     width: 54px; height: 54px;
     border-radius: 16px;
-    background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-accent) 100%);
     display: flex; align-items: center; justify-content: center;
     color: #fff; font-size: 24px;
     flex-shrink: 0;
-    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+    box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.3);
 }
 .md-page-header h1 {
     font-size: 24px; font-weight: 700;
@@ -80,10 +80,10 @@ body {
 }
 
 /* Specific Colors */
-.theme-blue .card-icon-wrap { background: #eff6ff; color: #3b82f6; }
-.theme-blue .md-badge { background: #eff6ff; color: #3b82f6; }
-.theme-blue .btn-add { background: #3b82f6; color: white; }
-.theme-blue .btn-add:hover { background: #2563eb; }
+.theme-blue .card-icon-wrap { background: #f0f9ff; color: #0284c7; }
+.theme-blue .md-badge { background: #f0f9ff; color: #0284c7; }
+.theme-blue .btn-add { background: #0284c7; color: white; }
+.theme-blue .btn-add:hover { background: #0369a1; }
 .theme-blue .table-header { background: #f8fafc; color: #475569; }
 
 .theme-green .card-icon-wrap { background: #f0fdf4; color: #10b981; }
@@ -385,9 +385,9 @@ body {
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current,
 .dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
-    background: #3b82f6 !important;
+    background: #0284c7 !important;
     color: #ffffff !important;
-    border-color: #3b82f6 !important;
+    border-color: #0284c7 !important;
     font-weight: 600;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.disabled):not(.current),
@@ -481,7 +481,7 @@ body {
                                     <button class="btn-icon-soft btn-edit-soft btn-edit-unit" data-id="{{ $unit->id }}" data-name="{{ $unit->name }}" data-bs-toggle="modal" data-bs-target="#modal-edit-master" title="Edit">
                                         <i class="fa fa-pen"></i>
                                     </button>
-                                    <button class="btn-icon-soft btn-delete-soft btn-delete-unit" data-id="{{ $unit->id }}" title="Delete">
+                                    <button class="btn-icon-soft btn-delete-soft btn-delete-unit" data-id="{{ $unit->id }}" data-name="{{ $unit->name }}" title="Delete">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </div>
@@ -536,7 +536,7 @@ body {
                                     <button class="btn-icon-soft btn-edit-soft btn-edit-template" data-id="{{ $template->id }}" data-name="{{ $template->name }}" data-bs-toggle="modal" data-bs-target="#modal-edit-master" title="Edit">
                                         <i class="fa fa-pen"></i>
                                     </button>
-                                    <button class="btn-icon-soft btn-delete-soft btn-delete-template" data-id="{{ $template->id }}" title="Delete">
+                                    <button class="btn-icon-soft btn-delete-soft btn-delete-template" data-id="{{ $template->id }}" data-name="{{ $template->name }}" title="Delete">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </div>
@@ -595,7 +595,7 @@ body {
                                     <button class="btn-icon-soft btn-edit-soft btn-edit-reference" data-id="{{ $ref->id }}" data-name="{{ $ref->name }}" data-bs-toggle="modal" data-bs-target="#modal-edit-master" title="Edit">
                                         <i class="fa fa-pen"></i>
                                     </button>
-                                    <button class="btn-icon-soft btn-delete-soft btn-delete-reference" data-id="{{ $ref->id }}" title="Delete">
+                                    <button class="btn-icon-soft btn-delete-soft btn-delete-reference" data-id="{{ $ref->id }}" data-name="{{ $ref->name }}" title="Delete">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </div>
@@ -652,7 +652,7 @@ body {
                                     <button class="btn-icon-soft btn-edit-soft btn-edit-flag" data-id="{{ $flg->id }}" data-name="{{ $flg->name }}" data-bs-toggle="modal" data-bs-target="#modal-edit-master" title="Edit">
                                         <i class="fa fa-pen"></i>
                                     </button>
-                                    <button class="btn-icon-soft btn-delete-soft btn-delete-flag" data-id="{{ $flg->id }}" title="Delete">
+                                    <button class="btn-icon-soft btn-delete-soft btn-delete-flag" data-id="{{ $flg->id }}" data-name="{{ $flg->name }}" title="Delete">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </div>
@@ -735,40 +735,107 @@ $(document).ready(function () {
     $('#form-add-unit').submit(function (e) {
         e.preventDefault();
         $.post("{{ route('units.store') }}", $(this).serialize(), function () { location.reload(); })
-         .fail(function(xhr) { alert('Error: ' + (xhr.responseJSON?.message || 'Failed to add unit.')); });
+         .fail(function(xhr) { showToast(xhr.responseJSON?.message || 'Failed to add unit.', 'error'); });
     });
     $('#form-add-template').submit(function (e) {
         e.preventDefault();
         $.post("{{ route('result-templates.store') }}", $(this).serialize(), function () { location.reload(); })
-         .fail(function(xhr) { alert('Error: ' + (xhr.responseJSON?.message || 'Failed to add template.')); });
+         .fail(function(xhr) { showToast(xhr.responseJSON?.message || 'Failed to add template.', 'error'); });
     });
     $('#form-add-reference').submit(function (e) {
         e.preventDefault();
         $.post("{{ route('reference-templates.store') }}", $(this).serialize(), function () { location.reload(); })
-         .fail(function(xhr) { alert('Error: ' + (xhr.responseJSON?.message || 'Failed to add reference template.')); });
+         .fail(function(xhr) { showToast(xhr.responseJSON?.message || 'Failed to add reference template.', 'error'); });
     });
     $('#form-add-flag').submit(function (e) {
         e.preventDefault();
         $.post("{{ route('flag-templates.store') }}", $(this).serialize(), function () { location.reload(); })
-         .fail(function(xhr) { alert('Error: ' + (xhr.responseJSON?.message || 'Failed to add flag template.')); });
+         .fail(function(xhr) { showToast(xhr.responseJSON?.message || 'Failed to add flag template.', 'error'); });
     });
 
     /* ── DELETE handlers ──────────────────────────────────── */
     $(document).on('click', '.btn-delete-unit', function () {
-        if (confirm('Remove this unit?'))
-            $.ajax({ url: '/units/' + $(this).data('id'), type: 'DELETE', success: function () { location.reload(); } });
+        let id = $(this).data('id');
+        let name = $(this).data('name') || $(this).closest('tr').find('td:nth-child(2)').text().trim();
+        confirmDelete({
+            title: name ? `Remove Unit "${name}"?` : 'Remove Unit?',
+            text: name ? `Are you sure you want to remove unit "${name}"? This action cannot be undone.` : 'Are you sure you want to remove this unit?'
+        }, function () {
+            $.ajax({
+                url: '/units/' + id,
+                type: 'DELETE',
+                success: function () {
+                    showToast('Unit removed successfully', 'success');
+                    setTimeout(() => location.reload(), 600);
+                },
+                error: function(xhr) {
+                    showToast(xhr.responseJSON?.message || 'Failed to remove unit', 'error');
+                }
+            });
+        });
     });
+
     $(document).on('click', '.btn-delete-template', function () {
-        if (confirm('Remove this template?'))
-            $.ajax({ url: '/result-templates/' + $(this).data('id'), type: 'DELETE', success: function () { location.reload(); } });
+        let id = $(this).data('id');
+        let name = $(this).data('name') || $(this).closest('tr').find('td:nth-child(2)').text().trim();
+        confirmDelete({
+            title: name ? `Remove Template "${name}"?` : 'Remove Template?',
+            text: name ? `Are you sure you want to remove result template "${name}"? This action cannot be undone.` : 'Are you sure you want to remove this result template?'
+        }, function () {
+            $.ajax({
+                url: '/result-templates/' + id,
+                type: 'DELETE',
+                success: function () {
+                    showToast('Template removed successfully', 'success');
+                    setTimeout(() => location.reload(), 600);
+                },
+                error: function(xhr) {
+                    showToast(xhr.responseJSON?.message || 'Failed to remove template', 'error');
+                }
+            });
+        });
     });
+
     $(document).on('click', '.btn-delete-reference', function () {
-        if (confirm('Remove this reference template?'))
-            $.ajax({ url: '/reference-templates/' + $(this).data('id'), type: 'DELETE', success: function () { location.reload(); } });
+        let id = $(this).data('id');
+        let name = $(this).data('name') || $(this).closest('tr').find('td:nth-child(2)').text().trim();
+        confirmDelete({
+            title: name ? `Remove Reference Range "${name}"?` : 'Remove Reference Template?',
+            text: name ? `Are you sure you want to remove reference range "${name}"? This action cannot be undone.` : 'Are you sure you want to remove this reference template?'
+        }, function () {
+            $.ajax({
+                url: '/reference-templates/' + id,
+                type: 'DELETE',
+                success: function () {
+                    showToast('Reference template removed successfully', 'success');
+                    setTimeout(() => location.reload(), 600);
+                },
+                error: function(xhr) {
+                    showToast(xhr.responseJSON?.message || 'Failed to remove reference template', 'error');
+                }
+            });
+        });
     });
+
     $(document).on('click', '.btn-delete-flag', function () {
-        if (confirm('Remove this flag template?'))
-            $.ajax({ url: '/flag-templates/' + $(this).data('id'), type: 'DELETE', success: function () { location.reload(); } });
+        let id = $(this).data('id');
+        let name = $(this).data('name') || $(this).closest('tr').find('td:nth-child(2)').text().trim();
+        confirmDelete({
+            title: name ? `Remove Flag "${name}"?` : 'Remove Flag Template?',
+            text: name ? `Are you sure you want to remove flag "${name}"? This action cannot be undone.` : 'Are you sure you want to remove this flag template?'
+        }, function () {
+            $.ajax({
+                url: '/flag-templates/' + id,
+                type: 'DELETE',
+                success: function () {
+                    showToast('Flag template removed successfully', 'success');
+                    setTimeout(() => location.reload(), 600);
+                },
+                error: function(xhr) {
+                    showToast(xhr.responseJSON?.message || 'Failed to remove flag template', 'error');
+                }
+            });
+        });
     });
 
     /* ── POPULATE edit modal ──────────────────────────────── */
@@ -812,7 +879,7 @@ $(document).ready(function () {
             type:    'PUT',
             data:    $('#form-edit-master').serialize(),
             success: function ()  { location.reload(); },
-            error:   function ()  { alert('Error updating entry. Possibly a duplicate name.'); }
+            error:   function ()  { showToast('Error updating entry. Possibly a duplicate name.', 'error'); }
         });
     });
 
@@ -820,3 +887,4 @@ $(document).ready(function () {
 </script>
 @endpush
 @endsection
+
