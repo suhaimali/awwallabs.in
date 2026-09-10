@@ -1936,7 +1936,7 @@
 			  let name = $(this).data('name') || 'this patient';
 			  confirmDelete({
 				  title: 'Delete Patient Record?',
-				  text: `Are you sure you want to delete ${name}? All linked appointments, tests, and records will be removed.`
+				  text: `Are you sure you want to delete ${name}? All linked appointments, test reports, and records will be removed.`
 			  }, function() {
 				  $.ajax({
 					  url: "/patients/" + id,
