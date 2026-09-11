@@ -118,7 +118,7 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 19px;
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            box-shadow: none;
         }
         .lnav-links {
             display: flex;
@@ -176,13 +176,13 @@
             border: none;
             text-decoration: none;
             display: inline-flex; align-items: center; gap: 8px;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            box-shadow: none;
             transition: all 0.25s;
             cursor: pointer;
         }
         .btn-primary-med:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
+            box-shadow: none;
             color: #ffffff;
         }
 
@@ -852,7 +852,7 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 19px;
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            box-shadow: none;
         }
         .lfooter p { color: var(--text-muted); font-size: 14px; line-height: 1.75; max-width: 310px; margin-bottom: 24px; }
         .footer-social { display: flex; gap: 10px; }
@@ -872,7 +872,7 @@
             border-color: var(--primary);
             color: #ffffff;
             transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            box-shadow: none;
         }
         .footer-col h6 {
             font-weight: 800;
@@ -961,13 +961,13 @@
             border-radius: 50px;
             border: none;
             cursor: pointer;
-            box-shadow: 0 6px 24px rgba(37, 211, 102, 0.38);
+            box-shadow: none;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
         }
         .fab-wa-right:hover {
             transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.52);
+            box-shadow: none;
             color: #ffffff;
         }
         .fab-wa-icon {
@@ -1096,12 +1096,13 @@
             border-radius: 12px;
             text-decoration: none;
             transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            box-shadow: none;
         }
         .wa-popup-foot a:hover {
             background: #1da851;
             color: white;
             transform: translateY(-1px);
+            box-shadow: none;
         }
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
