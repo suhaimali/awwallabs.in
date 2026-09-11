@@ -137,7 +137,7 @@
             </form>
 
             <div class="footer-text">
-                &copy; {{ date('Y') }} SUHAIM SOFT. All rights reserved.
+                &copy; {{ date('Y') }} SUHAIM SOFT LAB. All rights reserved.
                 <div class="security-note">
                     <i class="fa-solid fa-shield-halved"></i> Protected &bull; Max {{ env('LOGIN_MAX_ATTEMPTS', 5) }} attempts
                 </div>

@@ -156,7 +156,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => (!empty(env('SESSION_DOMAIN')) && env('SESSION_DOMAIN') !== 'null') ? env('SESSION_DOMAIN') : null,
 
     /*
     |--------------------------------------------------------------------------
@@ -169,12 +169,9 @@ return [
     |
     */
 
-    /*
-     * Auto-secure: true on production (any non-local env),
-     * false on local/dev so HTTP localhost still works.
-     * Override via SESSION_SECURE_COOKIE in .env if needed.
-     */
-    'secure' => env('SESSION_SECURE_COOKIE', env('APP_ENV', 'production') !== 'local'),
+    'secure' => env('SESSION_SECURE_COOKIE') !== null
+        ? filter_var(env('SESSION_SECURE_COOKIE'), FILTER_VALIDATE_BOOLEAN)
+        : (env('APP_ENV') === 'production'),
 
     /*
     |--------------------------------------------------------------------------

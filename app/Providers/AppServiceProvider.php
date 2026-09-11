@@ -20,7 +20,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (\Illuminate\Support\Facades\App::environment('production') || env('FORCE_HTTPS', false)) {
+        // Force HTTPS only in production when not accessing via local development hosts
+        $isLocalHost = false;
+        try {
+            if (! $this->app->runningInConsole()) {
+                $host = request()->getHost();
+                $isLocalHost = in_array($host, ['localhost', '127.0.0.1', '::1', '0.0.0.0'])
+                    || str_ends_with($host, '.test')
+                    || str_ends_with($host, '.local');
+            }
+        } catch (\Throwable $e) {
+            $isLocalHost = true;
+        }
+
+        if (! $isLocalHost && ($this->app->environment('production') || env('FORCE_HTTPS', false))) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
     }

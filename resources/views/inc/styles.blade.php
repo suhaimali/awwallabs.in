@@ -62,19 +62,17 @@
         }
         .sidebar-brand .brand-icon {
             width: 38px; height: 38px;
-            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
-            border-radius: 11px;
+            background: var(--primary);
+            border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+            box-shadow: none;
         }
         .sidebar-brand .brand-icon i { color: #fff; font-size: 17px; }
         .sidebar-brand .brand-name {
             font-size: 16px; font-weight: 800;
             letter-spacing: -0.2px;
-            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             white-space: nowrap;
             transition: var(--transition);
         }
@@ -119,10 +117,10 @@
             color: var(--primary);
         }
         .nav-item-link.active {
-            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+            background: var(--primary);
             color: #fff;
             font-weight: 600;
-            box-shadow: 0 4px 16px rgba(6, 182, 212, 0.35), 0 2px 6px rgba(2, 132, 199, 0.2);
+            box-shadow: none;
         }
         .nav-item-link.active .nav-icon {
             color: #fff;
@@ -203,11 +201,11 @@
         .header-avatar-btn:hover { background: var(--primary-light); }
         .header-avatar {
             width: 36px; height: 36px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-accent));
+            background: var(--primary);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             color: #fff; font-weight: 700; font-size: 14px;
-            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+            box-shadow: none;
         }
         .header-user-info { text-align: left; display: none; }
         @media (min-width: 768px) { .header-user-info { display: block; } }
@@ -304,44 +302,44 @@
             overflow: hidden;
         }
         .stat-card-new:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 28px -4px rgba(2, 132, 199, 0.14);
-            border-color: #bae6fd;
+            transform: translateY(-2px);
+            box-shadow: none;
+            border-color: var(--border-color);
         }
         .stat-icon-circle {
             width: 52px; height: 52px;
-            border-radius: 16px;
+            border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
             font-size: 22px; flex-shrink: 0;
             transition: all 0.25s ease;
         }
         .stat-card-new:hover .stat-icon-circle {
-            transform: scale(1.08);
+            transform: scale(1.06);
         }
-        /* Medical Pill Icons (Cyan, Emerald, Amber, Teal) */
+        /* Stat Icon Colors */
         .stat-icon-blue { 
-            background: linear-gradient(135deg, #e0f2fe 0%, #cffafe 100%); 
+            background: #e0f2fe; 
             color: #0284c7; 
             border: 1.5px solid #bae6fd;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+            box-shadow: none;
         }
         .stat-icon-green { 
-            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); 
+            background: #d1fae5; 
             color: #059669; 
             border: 1.5px solid #a7f3d0;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+            box-shadow: none;
         }
         .stat-icon-orange { 
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); 
+            background: #fef3c7; 
             color: #d97706; 
             border: 1.5px solid #fde68a;
-            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
+            box-shadow: none;
         }
         .stat-icon-purple { 
-            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); 
+            background: #ccfbf1; 
             color: #0d9488; 
             border: 1.5px solid #99f6e4;
-            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.15);
+            box-shadow: none;
         }
         .stat-text .stat-num {
             font-size: 26px; font-weight: 800;
@@ -378,14 +376,15 @@
             vertical-align: middle;
         }
         .table-modern tbody tr { 
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: all 0.2s ease;
             background: var(--white);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: none;
             position: relative;
         }
         .table-modern tbody tr:hover:not(:has(td[colspan])):not(.no-results-row) { 
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(2,132,199,0.09), 0 4px 8px rgba(2,132,199,0.04);
+            transform: translateY(-1px);
+            box-shadow: none;
+            background: var(--primary-light);
             z-index: 10;
         }
         .table-modern tbody td {
@@ -447,7 +446,7 @@
 
         /* ── BUTTONS ── */
         .btn-aw-primary {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            background: var(--primary);
             color: #fff; border: none;
             border-radius: 9px;
             padding: 9px 20px;
@@ -455,12 +454,12 @@
             display: inline-flex; align-items: center; gap: 7px;
             cursor: pointer; transition: var(--transition);
             text-decoration: none;
-            box-shadow: 0 2px 8px rgba(2,132,199,0.22);
+            box-shadow: none;
         }
         .btn-aw-primary:hover {
-            background: linear-gradient(135deg, #0369a1 0%, #0c4a6e 100%);
+            background: var(--primary-dark);
             color: #fff; transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(2,132,199,0.35);
+            box-shadow: none;
             text-decoration: none;
         }
         .btn-aw-outline {
@@ -545,11 +544,11 @@
         }
         .page-header-aw .page-title-aw .title-icon {
             width: 42px; height: 42px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-accent));
-            border-radius: 12px;
+            background: var(--primary);
+            border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
             color: #fff; font-size: 18px;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+            box-shadow: none;
         }
 
         /* ── LOADER ── */

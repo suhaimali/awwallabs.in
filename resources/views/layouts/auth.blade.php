@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'AWWAL LAB')</title>
-    <meta name="description" content="Sign in to your account on {{ config('app.name', 'AWWAL LAB') }}.">
+    <title>@yield('title', 'SUHAIM SOFT LAB')</title>
+    <meta name="description" content="Sign in to your account on {{ config('app.name', 'SUHAIM SOFT LAB') }}.">
     <meta name="keywords" content="awwal lab login, lims sign in, laboratory software login">
     <meta name="robots" content="noindex, follow">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">

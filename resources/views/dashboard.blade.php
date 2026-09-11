@@ -151,7 +151,7 @@
                     </div>
                     <i class="fa fa-chevron-right ms-auto" style="font-size:11px;color:var(--text-muted);"></i>
                 </a>
-                <a href="#" onclick="openIncomeReport(event)" class="d-flex align-items-center gap-12 p-10 rounded-3 mb-2 text-decoration-none" style="gap:12px; padding:10px 12px; border-radius:10px; transition:all 0.2s; color:var(--text-dark);" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'">
+                <a href="{{ route('income-report') }}" class="d-flex align-items-center gap-12 p-10 rounded-3 mb-2 text-decoration-none" style="gap:12px; padding:10px 12px; border-radius:10px; transition:all 0.2s; color:var(--text-dark);" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'">
                     <div style="width:36px;height:36px;background:#f3e8ff;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa fa-chart-line" style="color:#9333ea;"></i></div>
                     <div>
                         <div style="font-size:13px;font-weight:600;">Income Report</div>
@@ -192,7 +192,7 @@
                 ['icon'=>'fa-file-medical',    'color'=>'#0369a1', 'bg'=>'#e0f2fe', 'label'=>'Test Reports',      'sub'=>'Generate & print',        'route'=>route('reports')],
                 ['icon'=>'fa-signature',       'color'=>'#475569', 'bg'=>'#f1f5f9', 'label'=>'Report Signatures', 'sub'=>'Doctor signatures',       'route'=>route('report-signatures.index')],
                 ['icon'=>'fa-credit-card',     'color'=>'#ea580c', 'bg'=>'#fff7ed', 'label'=>'Payments',          'sub'=>'Billing & receipts',      'route'=>route('payments')],
-                ['icon'=>'fa-chart-line',      'color'=>'#9333ea', 'bg'=>'#f3e8ff', 'label'=>'Income Report',     'sub'=>'Financial analytics',     'route'=>'#', 'onclick'=>'openIncomeReport(event)'],
+                ['icon'=>'fa-chart-line',      'color'=>'#9333ea', 'bg'=>'#f3e8ff', 'label'=>'Income Report',     'sub'=>'Financial analytics',     'route'=>route('income-report')],
             ];
             @endphp
             @foreach($modules as $mod)

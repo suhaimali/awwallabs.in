@@ -2459,50 +2459,14 @@
 
           $(document).on('click', '.btn-edit', function(e) {
               e.preventDefault();
-              pendingAction = 'edit';
-              pendingReportId = $(this).data('id');
-              $('#action-password-input').val('');
-              $('#action-password-error').hide();
-              new bootstrap.Modal(document.getElementById('modal-action-password')).show();
+              let id = $(this).data('id');
+              loadAndShowEditModal(id);
           });
 
           $(document).on('click', '.btn-delete', function(e) {
               e.preventDefault();
-              pendingAction = 'delete';
-              pendingReportId = $(this).data('id');
-              $('#action-password-input').val('');
-              $('#action-password-error').hide();
-              new bootstrap.Modal(document.getElementById('modal-action-password')).show();
-          });
-
-          $('#btn-verify-action-password').click(function() {
-              const pass = $('#action-password-input').val();
-              const btn = $(this);
-              btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Verifying...');
-              
-              $.ajax({
-                  url: "{{ route('verify-admin-password') }}",
-                  type: 'POST',
-                  headers: {
-                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                  },
-                  data: JSON.stringify({ password: pass }),
-                  contentType: 'application/json',
-                  success: function(response) {
-                      btn.prop('disabled', false).html('<i class="fa fa-unlock"></i> Verify');
-                      bootstrap.Modal.getInstance(document.getElementById('modal-action-password')).hide();
-                      
-                      if (pendingAction === 'edit') {
-                          loadAndShowEditModal(pendingReportId);
-                      } else if (pendingAction === 'delete') {
-                          executeDeleteReport(pendingReportId);
-                      }
-                  },
-                  error: function() {
-                      btn.prop('disabled', false).html('<i class="fa fa-unlock"></i> Verify');
-                      $('#action-password-error').show();
-                  }
-              });
+              let id = $(this).data('id');
+              executeDeleteReport(id);
           });
 
           function executeDeleteReport(id) {

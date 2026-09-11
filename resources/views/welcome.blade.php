@@ -1632,7 +1632,7 @@
                     <li><a href="#how">How It Works</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#benefits">Benefits</a></li>
-                    <li><a href="{{ route('login') }}">Staff Login</a></li>
+                    <li><a href="{{ route('login') }}">Login</a></li>
                 </ul>
             </div>
             <div class="col-lg-3 col-6 footer-col">
@@ -1666,7 +1666,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; {{ date('Y') }} SUHAIM SOFT. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} SUHAIM SOFT LAB. All rights reserved.</p>
             <p>Crafted with clinical excellence by <a href="https://suhaimsoft.com" target="_blank">Suhaim Soft</a></p>
         </div>
     </div>

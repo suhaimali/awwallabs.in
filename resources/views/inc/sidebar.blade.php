@@ -5,7 +5,7 @@
             <div class="brand-icon">
                 <i class="fa fa-flask"></i>
             </div>
-            <span class="brand-name">AWWAL LAB</span>
+            <span class="brand-name">{{ config('app.name', 'SUHAIM SOFT LAB') }}</span>
         </div>
         <button class="btn btn-sm btn-light d-lg-none" onclick="closeSidebar()" style="padding: 2px 8px; border-radius: 6px;">
             <i class="fa fa-times"></i>
