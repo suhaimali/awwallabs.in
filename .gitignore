@@ -1,6 +1,6 @@
 /vendor/
 /node_modules/
-# /.env (Removed to allow pushing)
+/.env
 /.env.backup
 /.env.production
 /storage/logs/*.log
