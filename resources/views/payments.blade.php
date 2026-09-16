@@ -304,7 +304,7 @@
     });
 
     // Calculation Logic with smart status suggestions
-    function calculateBalance(context = 'add') {
+    function calculateBalance(context = 'add', autoStatus = true) {
       let total = parseFloat($(`#${context}-total`).val()) || 0;
       let discount = parseFloat($(`#${context}-discount`).val()) || 0;
       let advance = parseFloat($(`#${context}-advance`).val()) || 0;
@@ -312,21 +312,23 @@
       let balance = Math.max(0, net - advance);
       $(`#${context}-balance`).text(balance.toFixed(2));
 
-      // Auto update status if not manually changed to Refunded
-      let currentStatus = $(`#${context}-status`).val();
-      if (currentStatus !== 'Refunded') {
-        if (total > 0 && balance <= 0 && advance >= net) {
-          $(`#${context}-status`).val('Paid');
-        } else if (advance > 0 && balance > 0) {
-          $(`#${context}-status`).val('Partial');
-        } else if (advance <= 0) {
-          $(`#${context}-status`).val('Unpaid');
+      // Auto update status if requested and not manually marked as Refunded
+      if (autoStatus) {
+        let currentStatus = $(`#${context}-status`).val();
+        if (currentStatus !== 'Refunded') {
+          if (total > 0 && balance <= 0 && advance >= net) {
+            $(`#${context}-status`).val('Paid');
+          } else if (advance > 0 && balance > 0) {
+            $(`#${context}-status`).val('Partial');
+          } else if (advance <= 0) {
+            $(`#${context}-status`).val('Unpaid');
+          }
         }
       }
     }
 
-    $('.calc-input').on('input', function() { calculateBalance('add'); });
-    $('.calc-input-edit').on('input', function() { calculateBalance('edit'); });
+    $('.calc-input').on('input', function() { calculateBalance('add', true); });
+    $('.calc-input-edit').on('input', function() { calculateBalance('edit', true); });
 
     // Save Payment
     $('#btn-save-payment').click(function() {
@@ -369,13 +371,40 @@
         let bDate = data.bill_date ? String(data.bill_date).split('T')[0].split(' ')[0] : '';
         $('#edit-bill-date').val(bDate);
 
-        $('#edit-status').val(data.payment_status || 'Unpaid');
+        // Case-insensitive status match
+        let rawStatus = data.payment_status || 'Unpaid';
+        let matchedStatus = false;
+        $('#edit-status option').each(function() {
+          if ($(this).val().toLowerCase() === rawStatus.toLowerCase()) {
+            $('#edit-status').val($(this).val());
+            matchedStatus = true;
+            return false;
+          }
+        });
+        if (!matchedStatus) {
+          $('#edit-status').append(new Option(rawStatus, rawStatus, true, true));
+        }
+
         $('#edit-total').val(data.total_amount !== null && data.total_amount !== undefined ? parseFloat(data.total_amount) : '');
         $('#edit-discount').val(data.discount !== null && data.discount !== undefined ? parseFloat(data.discount) : 0);
         $('#edit-advance').val(data.advance_paid !== null && data.advance_paid !== undefined ? parseFloat(data.advance_paid) : 0);
-        $('#edit-method').val(data.payment_method || 'Cash');
+
+        // Case-insensitive method match
+        let rawMethod = data.payment_method || 'Cash';
+        let matchedMethod = false;
+        $('#edit-method option').each(function() {
+          if ($(this).val().toLowerCase() === rawMethod.toLowerCase()) {
+            $('#edit-method').val($(this).val());
+            matchedMethod = true;
+            return false;
+          }
+        });
+        if (!matchedMethod) {
+          $('#edit-method').append(new Option(rawMethod, rawMethod, true, true));
+        }
+
         $('#edit-remarks').val(data.remarks || '');
-        calculateBalance('edit');
+        calculateBalance('edit', false);
       }).fail(function() {
         showToast('Failed to load payment details.', 'error');
       });

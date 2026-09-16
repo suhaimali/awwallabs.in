@@ -188,11 +188,17 @@
                 ['icon'=>'fa-sliders',         'color'=>'#7c3aed', 'bg'=>'#ede9fe', 'label'=>'Test Parameters',   'sub'=>'Clinical ranges',         'route'=>route('test-parameters.index')],
                 ['icon'=>'fa-tags',            'color'=>'#b45309', 'bg'=>'#fef3c7', 'label'=>'Master Categories', 'sub'=>'Top-level categories',    'route'=>route('categories.index')],
                 ['icon'=>'fa-list-ul',         'color'=>'#0284c7', 'bg'=>'#e0f2fe', 'label'=>'Sub-Categories',    'sub'=>'Category groupings',      'route'=>route('sub-categories.index')],
-                ['icon'=>'fa-database',        'color'=>'#0d9488', 'bg'=>'#ccfbf1', 'label'=>'Master Data',        'sub'=>'Manage units & templates','route'=>route('master-data.index')],
+                ['icon'=>'fa-copy',            'color'=>'#2563eb', 'bg'=>'#dbeafe', 'label'=>'Report Templates',  'sub'=>'Profiles & hemograms',    'route'=>route('templates.index')],
                 ['icon'=>'fa-file-medical',    'color'=>'#0369a1', 'bg'=>'#e0f2fe', 'label'=>'Test Reports',      'sub'=>'Generate & print',        'route'=>route('reports')],
                 ['icon'=>'fa-signature',       'color'=>'#475569', 'bg'=>'#f1f5f9', 'label'=>'Report Signatures', 'sub'=>'Doctor signatures',       'route'=>route('report-signatures.index')],
+                ['icon'=>'fa-heart-pulse',     'color'=>'#e11d48', 'bg'=>'#ffe4e6', 'label'=>'Vital Signs',       'sub'=>'Patient vitals & BP',     'route'=>route('vital-signs.index')],
                 ['icon'=>'fa-credit-card',     'color'=>'#ea580c', 'bg'=>'#fff7ed', 'label'=>'Payments',          'sub'=>'Billing & receipts',      'route'=>route('payments')],
+                ['icon'=>'fa-boxes',           'color'=>'#0284c7', 'bg'=>'#f0f9ff', 'label'=>'Products & Stock',  'sub'=>'Inventory & items',       'route'=>route('products.index')],
+                ['icon'=>'fa-receipt',         'color'=>'#059669', 'bg'=>'#dcfce7', 'label'=>'Purchases',         'sub'=>'Vendor receipts',         'route'=>route('purchases.index')],
+                ['icon'=>'fa-cash-register',   'color'=>'#16a34a', 'bg'=>'#dcfce7', 'label'=>'Daily Collection',  'sub'=>'Cash tally & close',      'route'=>route('daily-collection')],
                 ['icon'=>'fa-chart-line',      'color'=>'#9333ea', 'bg'=>'#f3e8ff', 'label'=>'Income Report',     'sub'=>'Financial analytics',     'route'=>route('income-report')],
+                ['icon'=>'fa-database',        'color'=>'#0d9488', 'bg'=>'#ccfbf1', 'label'=>'Master Data',        'sub'=>'Manage units & templates','route'=>route('master-data.index')],
+                ['icon'=>'fa-hdd',             'color'=>'#475569', 'bg'=>'#f1f5f9', 'label'=>'System Backups',    'sub'=>'Database snapshot & restore','route'=>route('backups.index')],
             ];
             @endphp
             @foreach($modules as $mod)

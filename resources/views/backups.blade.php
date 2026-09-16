@@ -47,10 +47,13 @@
                             {{ $backup['date'] }}
                         </td>
                         <td style="padding:15px; vertical-align:middle; text-align:right;">
-                            <a href="{{ route('backups.download', $backup['name']) }}" class="btn btn-sm btn-outline-primary shadow-sm rounded-3">
+                            <a href="{{ route('backups.download', $backup['name']) }}" class="btn btn-sm btn-outline-primary shadow-sm rounded-3" title="Download SQL File">
                                 <i class="fa fa-download"></i> Download
                             </a>
-                            <button class="btn btn-sm btn-outline-danger shadow-sm rounded-3 btn-delete-backup ms-1" data-file="{{ $backup['name'] }}">
+                            <button class="btn btn-sm btn-outline-warning shadow-sm rounded-3 btn-restore-backup ms-1" data-file="{{ $backup['name'] }}" title="Restore Database">
+                                <i class="fa fa-rotate-left"></i> Restore
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger shadow-sm rounded-3 btn-delete-backup ms-1" data-file="{{ $backup['name'] }}" title="Delete Backup">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>
@@ -152,6 +155,49 @@ $(document).ready(function() {
                 showToast(msg, 'error');
                 console.error(xhr.responseText);
                 btn.html(originalHtml).prop('disabled', false);
+            }
+        });
+    });
+
+    // Restore existing backup
+    $(document).on('click', '.btn-restore-backup', function() {
+        let file = $(this).data('file');
+        let btn = $(this);
+        let originalHtml = btn.html();
+
+        Swal.fire({
+            title: 'Restore Database Backup?',
+            text: `Are you sure you want to restore "${file}"? This will overwrite the current database with data from this backup.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0284c7',
+            cancelButtonColor: '#dc2626',
+            confirmButtonText: 'Yes, Restore Database'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                btn.html('<i class="fa fa-spinner fa-spin"></i>').prop('disabled', true);
+
+                $.ajax({
+                    url: '{{ url("backups/restore") }}/' + file,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            Swal.fire('Restored!', response.message, 'success');
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            showToast(response.message || 'Failed to restore.', 'error');
+                            btn.html(originalHtml).prop('disabled', false);
+                        }
+                    },
+                    error: function(xhr) {
+                        let msg = xhr.responseJSON?.message || 'An error occurred during restore.';
+                        showToast(msg, 'error');
+                        btn.html(originalHtml).prop('disabled', false);
+                    }
+                });
             }
         });
     });

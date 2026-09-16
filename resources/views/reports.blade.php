@@ -3721,12 +3721,4 @@
       });
   </script>
   @endpush
-
 @endsection
-
-
-
-
-
-<!-- File Structure Optimized -->
-

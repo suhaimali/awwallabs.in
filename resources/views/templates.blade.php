@@ -108,7 +108,7 @@
         background: transparent;
         border: none;
         padding: 0;
-        font-size: 16px;
+        font-size: 18px;
         cursor: pointer;
         opacity: 0.7;
         transition: opacity 0.2s, transform 0.2s;
@@ -133,11 +133,44 @@
         color: #2563eb !important;
     }
 
-    /* No table header */
     #templates-table thead {
         display: none !important;
     }
 </style>
+
+<!-- Global Datalists for flexible suggestions without forcing rigid select -->
+<datalist id="common-units-list">
+    @foreach($units as $u)
+        @if($u->name)
+            <option value="{{ $u->name }}"></option>
+        @endif
+    @endforeach
+    <option value="g/dL"></option>
+    <option value="mg/dL"></option>
+    <option value="mil/ul"></option>
+    <option value="cells/cu.mm"></option>
+    <option value="%"></option>
+    <option value="fl"></option>
+    <option value="pg"></option>
+    <option value="mm/hr"></option>
+    <option value="mIU/mL"></option>
+    <option value="U/L"></option>
+    <option value="µg/dL"></option>
+</datalist>
+
+<datalist id="common-refs-list">
+    @foreach($referenceTemplates as $r)
+        @if($r->name && $r->name !== 'null')
+            <option value="{{ $r->name }}"></option>
+        @endif
+    @endforeach
+    <option value="Negative"></option>
+    <option value="Positive"></option>
+    <option value="Normal"></option>
+    <option value="Non-Reactive"></option>
+    <option value="Reactive"></option>
+    <option value="< 1.000"></option>
+</datalist>
 
 <div class="aw-card mb-4">
     <div class="aw-card-header">
@@ -170,14 +203,14 @@
                                 <div class="template-card-icon">
                                     <i class="fa fa-paste"></i>
                                 </div>
-                                <span>{{ $template->name }}</span>
+                                <span>{{ $template->name ?: 'Unnamed Template' }}</span>
                             </div>
                         </td>
                         <td data-label="Description" style="color:#64748b;font-size:13px;line-height:1.5;">
-                            {{ $template->description ?: '-' }}
+                            {{ ($template->description && strtolower($template->description) !== 'null') ? $template->description : '-' }}
                         </td>
                         <td data-label="No of Parameters">
-                            <span class="badge-aw badge-blue">{{ $template->items->count() }} parameters</span>
+                            <span class="badge-aw badge-blue">{{ $template->items ? $template->items->count() : 0 }} parameters</span>
                         </td>
                         <td data-label="Action" class="text-end">
                             <div class="action-btn-group">
@@ -217,7 +250,7 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="add-template-name" class="form-label-aw">Template Name</label>
+                                <label for="add-template-name" class="form-label-aw">Template Name *</label>
                                 <input type="text" class="form-control-aw" id="add-template-name" name="name" placeholder="e.g. Complete Blood Count (CBC)" required autocomplete="off">
                             </div>
                         </div>
@@ -262,7 +295,7 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="edit-template-name" class="form-label-aw">Template Name</label>
+                                <label for="edit-template-name" class="form-label-aw">Template Name *</label>
                                 <input type="text" class="form-control-aw" id="edit-template-name" name="name" required autocomplete="off">
                             </div>
                         </div>
@@ -319,7 +352,7 @@
                                 <th style="padding:12px 16px;">Category / Subcategory</th>
                                 <th style="padding:12px 16px;">Default Unit</th>
                                 <th style="padding:12px 16px;">Reference Range</th>
-                                <th style="padding:12px 16px;">Normal Values</th>
+                                <th style="padding:12px 16px;">Biological Normal Range</th>
                             </tr>
                         </thead>
                         <tbody id="view-template-items-body">
@@ -335,8 +368,6 @@
     </div>
 </div>
 
-
-
 @push('scripts')
 <script>
 $(document).ready(function() {
@@ -344,7 +375,7 @@ $(document).ready(function() {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
 
-    // ── EAGER TEST PARAMETERS JSON ──
+    // Lab tests library
     const labTests = @json($labTests);
 
     // Initial DataTable setup
@@ -373,27 +404,45 @@ $(document).ready(function() {
         templatesTable.search($(this).val()).draw();
     });
 
+    // Helper to sanitize strings from literal "null" or undefined
+    function cleanStr(val, fallback = '') {
+        if (val === null || val === undefined) return fallback;
+        let str = String(val).trim();
+        if (str.toLowerCase() === 'null' || str.toLowerCase() === 'undefined') return fallback;
+        return str;
+    }
+
+    // Escape HTML for safe insertion
+    function escapeHtml(text) {
+        if (!text) return '';
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
     // HTML Generator for dynamic rows
     function getParameterRowHtml(index, testItem = null) {
-        let optionsHtml = '<option value="">-- Custom Parameter --</option>';
+        let optionsHtml = '<option value="">-- Select Lab Test or type custom below --</option>';
         labTests.forEach(test => {
-            let selected = (testItem && testItem.lab_test_id == test.id) ? 'selected' : '';
-            // Auto fill data tags
-            let maleRef = test.parameter ? (test.parameter.male_reference || '') : '';
-            let femaleRef = test.parameter ? (test.parameter.female_reference || '') : '';
-            let unit = test.parameter ? (test.parameter.unit || '') : '';
-            let normalRange = test.parameter ? (test.parameter.biological_reference || '') : '';
+            let selected = (testItem && testItem.lab_test_id && testItem.lab_test_id == test.id) ? 'selected' : '';
+            let maleRef = test.parameter ? cleanStr(test.parameter.male_reference) : '';
+            let femaleRef = test.parameter ? cleanStr(test.parameter.female_reference) : '';
+            let unit = test.parameter ? cleanStr(test.parameter.unit) : '';
+            let normalRange = test.parameter ? cleanStr(test.parameter.biological_reference) : '';
 
-            optionsHtml += `<option value="${test.name}" data-id="${test.id}" data-unit="${unit}" data-male-ref="${maleRef}" data-female-ref="${femaleRef}" data-normal="${normalRange}" ${selected}>${test.name}</option>`;
+            optionsHtml += `<option value="${escapeHtml(test.name)}" data-id="${test.id}" data-unit="${escapeHtml(unit)}" data-male-ref="${escapeHtml(maleRef)}" data-female-ref="${escapeHtml(femaleRef)}" data-normal="${escapeHtml(normalRange)}" ${selected}>${escapeHtml(test.name)}</option>`;
         });
 
-        let testNameVal = testItem ? testItem.name : '';
-        let categoryVal = testItem ? testItem.category : 'General';
-        let subcategoryVal = testItem ? (testItem.subcategory || '') : '';
-        let unitVal = testItem ? (testItem.unit || '') : '';
-        let normalRangeVal = testItem ? (testItem.biological_reference || '') : '';
-        let refValueVal = testItem ? (testItem.normal_value || '') : '';
-        let labTestIdVal = testItem ? (testItem.lab_test_id || '') : '';
+        let testNameVal = escapeHtml(cleanStr(testItem ? testItem.name : ''));
+        let categoryVal = escapeHtml(cleanStr(testItem ? testItem.category : 'General', 'General'));
+        let subcategoryVal = escapeHtml(cleanStr(testItem ? testItem.subcategory : ''));
+        let unitVal = escapeHtml(cleanStr(testItem ? testItem.unit : ''));
+        let refValueVal = escapeHtml(cleanStr(testItem ? testItem.normal_value : ''));
+        let normalRangeVal = escapeHtml(cleanStr(testItem ? testItem.biological_reference : ''));
+        let labTestIdVal = escapeHtml(cleanStr(testItem ? testItem.lab_test_id : ''));
 
         return `
         <div class="template-row-item shadow-sm" data-row-idx="${index}">
@@ -401,17 +450,17 @@ $(document).ready(function() {
             <input type="hidden" name="lab_test_id[]" class="row-lab-test-id" value="${labTestIdVal}">
             <div class="row g-3">
                 <div class="col-md-4 form-group form-group-parameter">
-                    <label>Select Lab Test Parameter</label>
+                    <label>Auto-Fill From Lab Test</label>
                     <select class="form-select param-lookup-select" autocomplete="off">
                         ${optionsHtml}
                     </select>
                 </div>
                 <div class="col-md-4 form-group">
-                    <label>Display Parameter Name</label>
+                    <label>Display Parameter Name *</label>
                     <input type="text" name="test_name[]" class="form-control-aw row-test-name" value="${testNameVal}" placeholder="e.g. Hemoglobin" required autocomplete="off">
                 </div>
                 <div class="col-md-4 form-group">
-                    <label>Category</label>
+                    <label>Category *</label>
                     <input type="text" name="test_category[]" class="form-control-aw row-category" value="${categoryVal}" placeholder="e.g. Hematology" required autocomplete="off">
                 </div>
                 <div class="col-md-4 form-group">
@@ -420,30 +469,15 @@ $(document).ready(function() {
                 </div>
                 <div class="col-md-4 form-group">
                     <label>Default Unit</label>
-                    <select name="test_unit[]" class="form-select row-unit" autocomplete="off">
-                        <option value="">-- No Unit --</option>
-                        @foreach($units as $unit)
-                            <option value="{{ $unit->name }}" ${testItem && testItem.unit == "{{ $unit->name }}" ? 'selected' : ''}>{{ $unit->name }}</option>
-                        @endforeach
-                    </select>
+                    <input type="text" name="test_unit[]" list="common-units-list" class="form-control-aw row-unit" value="${unitVal}" placeholder="e.g. g/dL, %, fl" autocomplete="off">
                 </div>
                 <div class="col-md-4 form-group">
                     <label>Default Referral Range</label>
-                    <select name="normal_value[]" class="form-select row-ref-value" autocomplete="off">
-                        <option value="">-- No Range --</option>
-                        @foreach($referenceTemplates as $ref)
-                            <option value="{{ $ref->name }}" ${testItem && testItem.normal_value == "{{ $ref->name }}" ? 'selected' : ''}>{{ $ref->name }}</option>
-                        @endforeach
-                    </select>
+                    <input type="text" name="normal_value[]" list="common-refs-list" class="form-control-aw row-ref-value" value="${refValueVal}" placeholder="e.g. 13.5-18.0, Negative" autocomplete="off">
                 </div>
-                <div class="col-md-8 form-group">
+                <div class="col-md-12 form-group">
                     <label>Default Biological Normal Range Description</label>
-                    <select name="biological_reference[]" class="form-select row-biological" autocomplete="off">
-                        <option value="">-- No Normal Range --</option>
-                        @foreach($referenceTemplates as $ref)
-                            <option value="{{ $ref->name }}" ${testItem && testItem.biological_reference == "{{ $ref->name }}" ? 'selected' : ''}>{{ $ref->name }}</option>
-                        @endforeach
-                    </select>
+                    <input type="text" name="biological_reference[]" list="common-refs-list" class="form-control-aw row-biological" value="${normalRangeVal}" placeholder="e.g. Normal biological interval or reference range" autocomplete="off">
                 </div>
             </div>
         </div>`;
@@ -455,15 +489,17 @@ $(document).ready(function() {
         let selectedOption = $(this).find(':selected');
         
         let testName = selectedOption.val();
+        if (!testName) return;
+
         let testId = selectedOption.data('id') || '';
-        let unit = selectedOption.data('unit') || '';
-        let normal = selectedOption.data('normal') || '';
-        let maleRef = selectedOption.data('male-ref') || '';
-        let femaleRef = selectedOption.data('female-ref') || '';
+        let unit = cleanStr(selectedOption.data('unit'));
+        let normal = cleanStr(selectedOption.data('normal'));
+        let maleRef = cleanStr(selectedOption.data('male-ref'));
+        let femaleRef = cleanStr(selectedOption.data('female-ref'));
         
         // Find best reference range text
         let refRange = maleRef;
-        if (femaleRef && maleRef !== femaleRef) {
+        if (femaleRef && maleRef && maleRef !== femaleRef) {
             refRange = `M: ${maleRef}, F: ${femaleRef}`;
         } else if (femaleRef) {
             refRange = femaleRef;
@@ -471,24 +507,22 @@ $(document).ready(function() {
 
         row.find('.row-lab-test-id').val(testId);
         row.find('.row-test-name').val(testName);
-        row.find('.row-unit').val(unit);
-        row.find('.row-ref-value').val(refRange);
-        row.find('.row-biological').val(normal || refRange);
-        
-        // Dynamic category/subcategory auto-fill from parameters matching
-        if (testId) {
-            let matchedTest = labTests.find(t => t.id == testId);
-            if (matchedTest) {
-                // Determine category based on name or description or look up existing parameters
-                // Let's keep it editable but helpful
-            }
-        }
+        if (unit) row.find('.row-unit').val(unit);
+        if (refRange) row.find('.row-ref-value').val(refRange);
+        if (normal || refRange) row.find('.row-biological').val(normal || refRange);
     });
 
     // Add row in create template
     let addIndex = 0;
     $('#btn-add-param-row').click(function() {
         $('#add-params-container').append(getParameterRowHtml(addIndex++));
+    });
+
+    // Auto-add initial row on modal open if empty
+    $('#modal-add-template').on('show.bs.modal', function() {
+        if ($('#add-params-container .template-row-item').length === 0) {
+            $('#add-params-container').append(getParameterRowHtml(addIndex++));
+        }
     });
 
     // Remove row
@@ -501,9 +535,10 @@ $(document).ready(function() {
         let btn = $(this);
         if (btn.prop('disabled')) return;
 
-        let name = $('#add-template-name').val().trim();
+        let name = cleanStr($('#add-template-name').val());
         if (!name) {
             showToast('Template Name is required.', 'error');
+            $('#add-template-name').focus();
             return;
         }
 
@@ -519,7 +554,15 @@ $(document).ready(function() {
             showToast(response.success || 'Template saved successfully!', 'success');
             setTimeout(() => location.reload(), 600);
         }).fail(function(xhr) {
-            showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error saving template.', 'error');
+            let msg = 'Error saving template.';
+            if (xhr.responseJSON) {
+                if (xhr.responseJSON.errors) {
+                    msg = Object.values(xhr.responseJSON.errors).flat().join('<br>');
+                } else if (xhr.responseJSON.message) {
+                    msg = xhr.responseJSON.message;
+                }
+            }
+            showToast(msg, 'error');
             btn.prop('disabled', false).html('<i class="fa fa-check"></i> Save Template');
         });
     });
@@ -532,25 +575,34 @@ $(document).ready(function() {
         $('#view-template-items-body').html('<tr><td colspan="5" class="text-center py-4"><i class="fa fa-spinner fa-spin me-2"></i>Loading details...</td></tr>');
 
         $.get("/templates/" + id, function(template) {
-            $('#view-template-name').text(template.name);
-            $('#view-template-desc').text(template.description || 'No description provided');
+            $('#view-template-name').text(cleanStr(template.name, 'Unnamed Template'));
+            $('#view-template-desc').text(cleanStr(template.description, 'No description provided'));
             
             let tbodyHtml = '';
             if (template.items && template.items.length > 0) {
                 template.items.forEach(item => {
+                    let itemName = cleanStr(item.name, '-');
+                    let itemCat = cleanStr(item.category, 'General');
+                    let itemSub = cleanStr(item.subcategory);
+                    let itemUnit = cleanStr(item.unit, '-');
+                    let itemNormal = cleanStr(item.normal_value, '-');
+                    let itemBio = cleanStr(item.biological_reference, '-');
+
                     tbodyHtml += `
                     <tr>
-                        <td style="padding:12px 16px; font-weight:600; color:#1e293b;">${item.name}</td>
-                        <td style="padding:12px 16px;"><span class="badge bg-light text-dark border">${item.category}</span> ${item.subcategory ? `<span class="badge bg-light text-muted border">${item.subcategory}</span>` : ''}</td>
-                        <td style="padding:12px 16px; color:#475569;">${item.unit || '-'}</td>
-                        <td style="padding:12px 16px; color:#475569;">${item.normal_value || '-'}</td>
-                        <td style="padding:12px 16px; color:#64748b;">${item.biological_reference || '-'}</td>
+                        <td style="padding:12px 16px; font-weight:600; color:#1e293b;">${escapeHtml(itemName)}</td>
+                        <td style="padding:12px 16px;"><span class="badge bg-light text-dark border">${escapeHtml(itemCat)}</span> ${itemSub ? `<span class="badge bg-light text-muted border">${escapeHtml(itemSub)}</span>` : ''}</td>
+                        <td style="padding:12px 16px; color:#475569;">${escapeHtml(itemUnit)}</td>
+                        <td style="padding:12px 16px; color:#475569;">${escapeHtml(itemNormal)}</td>
+                        <td style="padding:12px 16px; color:#64748b;">${escapeHtml(itemBio)}</td>
                     </tr>`;
                 });
             } else {
                 tbodyHtml = '<tr><td colspan="5" class="text-center text-muted py-4">No parameters configured in this template.</td></tr>';
             }
             $('#view-template-items-body').html(tbodyHtml);
+        }).fail(function() {
+            $('#view-template-items-body').html('<tr><td colspan="5" class="text-center text-danger py-4">Failed to load template details.</td></tr>');
         });
     });
 
@@ -562,8 +614,8 @@ $(document).ready(function() {
         
         $.get("/templates/" + id, function(template) {
             $('#edit-template-id').val(template.id);
-            $('#edit-template-name').val(template.name);
-            $('#edit-template-desc').val(template.description);
+            $('#edit-template-name').val(cleanStr(template.name));
+            $('#edit-template-desc').val(cleanStr(template.description));
             
             $('#edit-params-container').empty();
             editIndex = 0;
@@ -572,8 +624,10 @@ $(document).ready(function() {
                     $('#edit-params-container').append(getParameterRowHtml(editIndex++, item));
                 });
             } else {
-                $('#edit-params-container').append('<p class="text-muted text-center py-3">No parameters. Click "Add Parameter Row" to add.</p>');
+                $('#edit-params-container').append(getParameterRowHtml(editIndex++));
             }
+        }).fail(function() {
+            showToast('Failed to load template data.', 'error');
         });
     });
 
@@ -588,9 +642,10 @@ $(document).ready(function() {
         if (btn.prop('disabled')) return;
 
         let id = $('#edit-template-id').val();
-        let name = $('#edit-template-name').val().trim();
+        let name = cleanStr($('#edit-template-name').val());
         if (!name) {
             showToast('Template Name is required.', 'error');
+            $('#edit-template-name').focus();
             return;
         }
 
@@ -611,7 +666,15 @@ $(document).ready(function() {
                 setTimeout(() => location.reload(), 600);
             },
             error: function(xhr) {
-                showToast(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Failed to update template.', 'error');
+                let msg = 'Failed to update template.';
+                if (xhr.responseJSON) {
+                    if (xhr.responseJSON.errors) {
+                        msg = Object.values(xhr.responseJSON.errors).flat().join('<br>');
+                    } else if (xhr.responseJSON.message) {
+                        msg = xhr.responseJSON.message;
+                    }
+                }
+                showToast(msg, 'error');
                 btn.prop('disabled', false).html('<i class="fa fa-check"></i> Update Changes');
             }
         });

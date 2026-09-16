@@ -11,28 +11,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
     <script>
-        // ── Immediate & fail-safe loader dismissal
-        (function() {
-            function dismissLoader() {
-                const loader = document.getElementById('aw-loader');
-                if (loader) {
-                    loader.classList.add('hidden');
-                    setTimeout(() => {
-                        if (loader && loader.parentNode) {
-                            loader.style.display = 'none';
-                        }
-                    }, 250);
-                }
-            }
-            if (document.readyState === 'interactive' || document.readyState === 'complete') {
-                dismissLoader();
-            } else {
-                document.addEventListener('DOMContentLoaded', dismissLoader);
-                window.addEventListener('load', dismissLoader);
-            }
-            // Absolute safety timeout: never block screen longer than 300ms
-            setTimeout(dismissLoader, 300);
-        })();
+        // ── Hide loader on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('aw-loader').classList.add('hidden');
+            }, 100); // 1 second loading delay
+        });
 
         // ── Sidebar toggle (desktop collapse)
         function toggleSidebar() {
@@ -63,21 +47,52 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // ── Service Worker cleanup (removes broken legacy SW and clears caches to fix net::ERR_HTTP2_PROTOCOL_ERROR)
+        // ── Real-Time Online / Offline Connectivity Monitor
+        function handleConnectionChange() {
+            const isOnline = navigator.onLine;
+            const ind = document.getElementById('footer-connection-indicator');
+            const txt = document.getElementById('footer-connection-text');
+            const dot = ind ? ind.querySelector('.status-dot') : null;
+            let offlineBanner = document.getElementById('awlab-offline-banner');
+
+            if (!isOnline) {
+                if (ind) ind.classList.add('offline');
+                if (dot) dot.classList.add('offline');
+                if (txt) txt.textContent = 'Offline (No Internet)';
+
+                if (!offlineBanner) {
+                    offlineBanner = document.createElement('div');
+                    offlineBanner.id = 'awlab-offline-banner';
+                    offlineBanner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#dc2626;color:#ffffff;text-align:center;padding:10px 16px;font-size:13px;font-weight:600;z-index:99999;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;gap:10px;animation:slideDown 0.3s ease;';
+                    offlineBanner.innerHTML = '<i class="fa fa-wifi-slash"></i> You are currently offline. Actions requiring network will be suspended until connection is restored.';
+                    document.body.prepend(offlineBanner);
+                }
+            } else {
+                if (ind) ind.classList.remove('offline');
+                if (dot) dot.classList.remove('offline');
+                if (txt) txt.textContent = 'Online • System Operational';
+
+                if (offlineBanner) {
+                    offlineBanner.remove();
+                    if (typeof showToast === 'function') {
+                        showToast('Internet connection restored.', 'success');
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('online', handleConnectionChange);
+        window.addEventListener('offline', handleConnectionChange);
+        handleConnectionChange();
+
+        // ── PWA Service Worker (production only — skip in local dev to avoid SSL probe errors)
+        @if(app()->isProduction())
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for (let registration of registrations) {
-                    registration.unregister();
-                }
-            }).catch(function() {});
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register("{{ asset('sw.js') }}").catch(() => {});
+            });
         }
-        if ('caches' in window) {
-            caches.keys().then(function(names) {
-                for (let name of names) {
-                    caches.delete(name);
-                }
-            }).catch(function() {});
-        }
+        @endif
 
         // ── CSRF setup for AJAX
         $.ajaxSetup({

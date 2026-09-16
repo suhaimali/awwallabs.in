@@ -1666,8 +1666,8 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; {{ date('Y') }} SUHAIM SOFT LAB. All rights reserved.</p>
-            <p>Crafted with clinical excellence by <a href="https://suhaimsoft.com" target="_blank">Suhaim Soft</a></p>
+            <p>&copy; {{ date('Y') }} {{ config('app.name', 'SUHAIM SOFT LAB') }}. All rights reserved.</p>
+            <p>Designed by <a href="https://suhaimsoft.com" target="_blank" rel="noopener">Suhaim Soft</a></p>
         </div>
     </div>
 </footer>
@@ -1861,19 +1861,6 @@
             // Redirect to WhatsApp
             window.open(`https://wa.me/918891479505?text=${waText}`, '_blank');
         });
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for (let registration of registrations) {
-                registration.unregister();
-            }
-        }).catch(function() {});
-    }
-    if ('caches' in window) {
-        caches.keys().then(function(names) {
-            for (let name of names) {
-                caches.delete(name);
-            }
-        }).catch(function() {});
     }
 })();
 </script>

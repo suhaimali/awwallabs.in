@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('report_signatures', function (Blueprint $table) {
-            $table->dropColumn('image_path');
-            $table->longText('image_data')->nullable()->after('name');
+            if (Schema::hasColumn('report_signatures', 'image_path')) {
+                $table->dropColumn('image_path');
+            }
+            if (!Schema::hasColumn('report_signatures', 'image_data')) {
+                $table->longText('image_data')->nullable()->after('name');
+            }
         });
     }
 
@@ -23,8 +27,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('report_signatures', function (Blueprint $table) {
-            $table->dropColumn('image_data');
-            $table->string('image_path')->nullable()->after('name');
+            if (Schema::hasColumn('report_signatures', 'image_data')) {
+                $table->dropColumn('image_data');
+            }
+            if (!Schema::hasColumn('report_signatures', 'image_path')) {
+                $table->string('image_path')->nullable()->after('name');
+            }
         });
     }
 };

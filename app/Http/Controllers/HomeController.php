@@ -99,7 +99,7 @@ class HomeController extends Controller
         $templates = \App\Models\ResultTemplate::orderBy('name')->get();
         $referenceTemplates = \App\Models\ReferenceTemplate::orderBy('name')->get();
         $flagTemplates = \App\Models\FlagTemplate::orderBy('name')->get();
-        $signatures = \App\Models\ReportSignature::orderBy('name')->get();
+        $signatures = \App\Models\ReportSignature::select('id', 'name')->orderBy('name')->get();
         $reportTemplates = \App\Models\ReportTemplate::with('items')->orderBy('name')->get();
         return view('reports', compact('reports', 'patients', 'tests', 'categories', 'subCategories', 'units', 'templates', 'referenceTemplates', 'flagTemplates', 'signatures', 'reportTemplates'));
     }
@@ -107,7 +107,7 @@ class HomeController extends Controller
 
     public function reportSignatures()
     {
-        $signatures = \App\Models\ReportSignature::latest()->get();
+        $signatures = \App\Models\ReportSignature::select('id', 'name', 'created_at')->latest()->get();
         return view('report_signatures', compact('signatures'));
     }
 
@@ -167,21 +167,48 @@ class HomeController extends Controller
 
     public function reportSignatureImage($id)
     {
-        $signature = \App\Models\ReportSignature::findOrFail($id);
-        
-        if (!$signature->image_data || !str_contains($signature->image_data, ';base64,')) {
+        $signature = \App\Models\ReportSignature::find($id);
+        if (!$signature) {
             abort(404);
         }
 
-        $parts = explode(';base64,', $signature->image_data);
-        if (count($parts) < 2) {
+        $imageData = $signature->image_data;
+        if (empty($imageData)) {
             abort(404);
         }
 
-        $mime = str_replace('data:', '', $parts[0]);
-        $imageData = base64_decode($parts[1]);
+        // 1. Data URI Base64 format
+        if (str_contains($imageData, ';base64,')) {
+            $parts = explode(';base64,', $imageData, 2);
+            if (count($parts) === 2) {
+                $mime = trim(str_replace('data:', '', $parts[0]));
+                $binary = base64_decode($parts[1]);
+                if ($binary !== false) {
+                    return response($binary, 200, [
+                        'Content-Type' => $mime ?: 'image/png',
+                        'Content-Length' => strlen($binary),
+                        'Cache-Control' => 'public, max-age=86400',
+                    ]);
+                }
+            }
+        }
 
-        return response($imageData)->header('Content-Type', $mime);
+        // 2. Stored file path in public storage
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists($imageData)) {
+            $path = \Illuminate\Support\Facades\Storage::disk('public')->path($imageData);
+            return response()->file($path, [
+                'Cache-Control' => 'public, max-age=86400',
+            ]);
+        }
+
+        // 3. Raw public path
+        if (file_exists(public_path($imageData))) {
+            return response()->file(public_path($imageData), [
+                'Cache-Control' => 'public, max-age=86400',
+            ]);
+        }
+
+        abort(404);
     }
 
     public function storeReport(\Illuminate\Http\Request $request)
@@ -320,16 +347,35 @@ class HomeController extends Controller
             'total_amount'   => 'required|numeric|min:0',
             'discount'       => 'nullable|numeric|min:0',
             'advance_paid'   => 'nullable|numeric|min:0',
-            'payment_status' => 'required|in:Paid,Partial,Unpaid,Refunded',
-            'payment_method' => 'required|string|max:50',
+            'payment_status' => 'nullable|string|in:Paid,Partial,Unpaid,Refunded',
+            'payment_method' => 'nullable|string|max:50',
             'bill_date'      => 'required|date',
             'remarks'        => 'nullable|string|max:500',
         ]);
 
-        $validated['discount'] = $validated['discount'] ?? 0;
-        $validated['advance_paid'] = $validated['advance_paid'] ?? 0;
-        $validated['net_amount'] = max(0, $validated['total_amount'] - $validated['discount']);
-        $validated['balance_due'] = max(0, $validated['net_amount'] - $validated['advance_paid']);
+        $total = floatval($validated['total_amount']);
+        $discount = floatval($validated['discount'] ?? 0);
+        $advance = floatval($validated['advance_paid'] ?? 0);
+        $net = max(0, $total - $discount);
+        $balance = max(0, $net - $advance);
+
+        $status = $validated['payment_status'] ?? null;
+        if (empty($status) || strtolower($status) === 'null') {
+            $status = ($balance <= 0 && $net > 0) ? 'Paid' : (($advance > 0) ? 'Partial' : 'Unpaid');
+        }
+
+        $method = $validated['payment_method'] ?? null;
+        if (empty($method) || strtolower($method) === 'null') {
+            $method = 'Cash';
+        }
+
+        $validated['total_amount'] = $total;
+        $validated['discount'] = $discount;
+        $validated['advance_paid'] = $advance;
+        $validated['net_amount'] = $net;
+        $validated['balance_due'] = $balance;
+        $validated['payment_status'] = $status;
+        $validated['payment_method'] = $method;
 
         \App\Models\Payment::create($validated);
 
@@ -351,16 +397,35 @@ class HomeController extends Controller
             'total_amount'   => 'required|numeric|min:0',
             'discount'       => 'nullable|numeric|min:0',
             'advance_paid'   => 'nullable|numeric|min:0',
-            'payment_status' => 'required|in:Paid,Partial,Unpaid,Refunded',
-            'payment_method' => 'required|string|max:50',
+            'payment_status' => 'nullable|string|in:Paid,Partial,Unpaid,Refunded',
+            'payment_method' => 'nullable|string|max:50',
             'bill_date'      => 'required|date',
             'remarks'        => 'nullable|string|max:500',
         ]);
 
-        $validated['discount'] = $validated['discount'] ?? 0;
-        $validated['advance_paid'] = $validated['advance_paid'] ?? 0;
-        $validated['net_amount'] = max(0, $validated['total_amount'] - $validated['discount']);
-        $validated['balance_due'] = max(0, $validated['net_amount'] - $validated['advance_paid']);
+        $total = floatval($validated['total_amount']);
+        $discount = floatval($validated['discount'] ?? 0);
+        $advance = floatval($validated['advance_paid'] ?? 0);
+        $net = max(0, $total - $discount);
+        $balance = max(0, $net - $advance);
+
+        $status = $validated['payment_status'] ?? null;
+        if (empty($status) || strtolower($status) === 'null') {
+            $status = ($balance <= 0 && $net > 0) ? 'Paid' : (($advance > 0) ? 'Partial' : 'Unpaid');
+        }
+
+        $method = $validated['payment_method'] ?? null;
+        if (empty($method) || strtolower($method) === 'null') {
+            $method = $payment->payment_method ?: 'Cash';
+        }
+
+        $validated['total_amount'] = $total;
+        $validated['discount'] = $discount;
+        $validated['advance_paid'] = $advance;
+        $validated['net_amount'] = $net;
+        $validated['balance_due'] = $balance;
+        $validated['payment_status'] = $status;
+        $validated['payment_method'] = $method;
 
         $payment->update($validated);
 
@@ -1819,26 +1884,41 @@ class HomeController extends Controller
             'test_name.*' => 'required|string',
         ]);
 
+        $cleanStr = function($val) {
+            if ($val === null) return null;
+            $trimmed = trim((string)$val);
+            if ($trimmed === '' || strtolower($trimmed) === 'null' || strtolower($trimmed) === 'undefined') {
+                return null;
+            }
+            return $trimmed;
+        };
+
         $template = \App\Models\ReportTemplate::create([
-            'name' => $request->name,
-            'description' => $request->description,
+            'name' => trim($request->name),
+            'description' => $cleanStr($request->description),
         ]);
 
         $items = [];
+        $order = 0;
         foreach ($request->test_name as $i => $name) {
+            $nameClean = $cleanStr($name);
+            if (empty($nameClean)) continue;
+
             $items[] = [
-                'lab_test_id' => $request->lab_test_id[$i] ?? null,
-                'category' => $request->test_category[$i] ?? 'General',
-                'subcategory' => $request->test_subcategory[$i] ?? null,
-                'name' => $name,
-                'unit' => $request->test_unit[$i] ?? null,
-                'normal_value' => $request->normal_value[$i] ?? null,
-                'biological_reference' => $request->biological_reference[$i] ?? null,
-                'sort_order' => $i,
+                'lab_test_id' => (!empty($request->lab_test_id[$i]) && is_numeric($request->lab_test_id[$i])) ? $request->lab_test_id[$i] : null,
+                'category' => $cleanStr($request->test_category[$i] ?? null) ?: 'General',
+                'subcategory' => $cleanStr($request->test_subcategory[$i] ?? null),
+                'name' => $nameClean,
+                'unit' => $cleanStr($request->test_unit[$i] ?? null),
+                'normal_value' => $cleanStr($request->normal_value[$i] ?? null),
+                'biological_reference' => $cleanStr($request->biological_reference[$i] ?? null),
+                'sort_order' => $order++,
             ];
         }
 
-        $template->items()->createMany($items);
+        if (!empty($items)) {
+            $template->items()->createMany($items);
+        }
 
         return response()->json(['success' => 'Template created successfully!']);
     }
@@ -1860,28 +1940,43 @@ class HomeController extends Controller
             'test_name.*' => 'required|string',
         ]);
 
+        $cleanStr = function($val) {
+            if ($val === null) return null;
+            $trimmed = trim((string)$val);
+            if ($trimmed === '' || strtolower($trimmed) === 'null' || strtolower($trimmed) === 'undefined') {
+                return null;
+            }
+            return $trimmed;
+        };
+
         $template->update([
-            'name' => $request->name,
-            'description' => $request->description,
+            'name' => trim($request->name),
+            'description' => $cleanStr($request->description),
         ]);
 
         $template->items()->delete();
 
         $items = [];
+        $order = 0;
         foreach ($request->test_name as $i => $name) {
+            $nameClean = $cleanStr($name);
+            if (empty($nameClean)) continue;
+
             $items[] = [
-                'lab_test_id' => $request->lab_test_id[$i] ?? null,
-                'category' => $request->test_category[$i] ?? 'General',
-                'subcategory' => $request->test_subcategory[$i] ?? null,
-                'name' => $name,
-                'unit' => $request->test_unit[$i] ?? null,
-                'normal_value' => $request->normal_value[$i] ?? null,
-                'biological_reference' => $request->biological_reference[$i] ?? null,
-                'sort_order' => $i,
+                'lab_test_id' => (!empty($request->lab_test_id[$i]) && is_numeric($request->lab_test_id[$i])) ? $request->lab_test_id[$i] : null,
+                'category' => $cleanStr($request->test_category[$i] ?? null) ?: 'General',
+                'subcategory' => $cleanStr($request->test_subcategory[$i] ?? null),
+                'name' => $nameClean,
+                'unit' => $cleanStr($request->test_unit[$i] ?? null),
+                'normal_value' => $cleanStr($request->normal_value[$i] ?? null),
+                'biological_reference' => $cleanStr($request->biological_reference[$i] ?? null),
+                'sort_order' => $order++,
             ];
         }
 
-        $template->items()->createMany($items);
+        if (!empty($items)) {
+            $template->items()->createMany($items);
+        }
 
         return response()->json(['success' => 'Template updated successfully!']);
     }
