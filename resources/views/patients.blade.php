@@ -425,7 +425,7 @@
                             <tr>
                                 <!-- ID Column -->
                                 <td data-label="SL No">
-                                    <span class="patient-id-badge">{{ str_replace(['#P-', '#'], '', $patient->patient_id) }}</span>
+                                    <span class="patient-id-badge">{{ $patient->patient_id }}</span>
                                 </td>
                                 
                                 <!-- Patient Details (Avatar, Name, Gender, Age) -->
@@ -1266,7 +1266,7 @@
 					  doc.setFont("helvetica", "normal"); doc.text(`${patient.first_name} ${patient.last_name}`, 45, 60);
 					  
 					  doc.setFont("helvetica", "bold"); doc.text("Patient ID:", 20, 65);
-					  doc.setFont("helvetica", "normal"); doc.text(`${patient.patient_id.replace('#P-', '').replace('#', '')}`, 45, 65);
+					  doc.setFont("helvetica", "normal"); doc.text(`${patient.patient_id || ''}`, 45, 65);
 					  
 					  doc.setFont("helvetica", "bold"); doc.text("Age / Gender:", 20, 70);
 					  doc.setFont("helvetica", "normal"); doc.text(`${patient.age} ${patient.age_type || 'Years'} / ${patient.gender}`, 45, 70);
@@ -1358,7 +1358,7 @@
 					  doc.line(140, 270, 190, 270);
 					  doc.text("Authorized Signatory", 150, 276);
 
-					  doc.save(`Invoice_${patient.first_name}_${patient.patient_id.replace('#P-', '').replace('#', '')}.pdf`);
+					  doc.save(`Invoice_${patient.first_name}_${patient.patient_id}.pdf`);
 					  btn.html(originalHtml).removeClass('disabled');
 				  }).fail(function() {
 					  showToast('Failed to fetch appointment records.', 'error');
@@ -1561,7 +1561,7 @@
 				  // Name & meta
 				  let fullName = ((data.first_name || '') + ' ' + (data.last_name || '')).trim();
 				  $('#view-full-name').text(fullName || 'Unknown');
-				  $('#view-patient-id').text(data.patient_id ? data.patient_id.replace('#P-','').replace('#','') : '—');
+				  $('#view-patient-id').text(data.patient_id || '—');
 				  $('#view-gender').text(data.gender || '—');
 				  $('#view-age').text(data.age ? data.age + ' Yrs' : '—');
 

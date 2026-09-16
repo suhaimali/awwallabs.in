@@ -320,7 +320,7 @@ class HomeController extends Controller
         
         $latest = \App\Models\Patient::latest('id')->first();
         $nextId = ($latest ? $latest->id : 0) + 1;
-        $nextPatientId = date('Y') . '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
+        $nextPatientId = 'Q-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
         
         return view('patients', compact('patients', 'labTests', 'nextPatientId'));
     }
@@ -462,7 +462,7 @@ class HomeController extends Controller
             $validated['patient_id'] = DB::transaction(function () {
                 $latest = \App\Models\Patient::lockForUpdate()->latest('id')->first();
                 $nextId = ($latest ? $latest->id : 0) + 1;
-                return date('Y') . '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
+                return 'Q-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
             });
         }
 
