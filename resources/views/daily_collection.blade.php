@@ -26,11 +26,6 @@
             </div>
         </form>
         
-        <div>
-            <button onclick="window.print()" class="btn-aw-outline" style="border-color:#16a34a; color:#16a34a;">
-                <i class="fa fa-print"></i> Print EOD Report
-            </button>
-        </div>
     </div>
 </div>
 
