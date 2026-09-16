@@ -11,12 +11,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
     <script>
-        // ── Hide loader on page load
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('aw-loader').classList.add('hidden');
-            }, 100); // 1 second loading delay
-        });
+        // ── Immediate & fail-safe loader dismissal
+        (function() {
+            function dismissLoader() {
+                const loader = document.getElementById('aw-loader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(() => {
+                        if (loader && loader.parentNode) {
+                            loader.style.display = 'none';
+                        }
+                    }, 250);
+                }
+            }
+            if (document.readyState === 'interactive' || document.readyState === 'complete') {
+                dismissLoader();
+            } else {
+                document.addEventListener('DOMContentLoaded', dismissLoader);
+                window.addEventListener('load', dismissLoader);
+            }
+            // Absolute safety timeout: never block screen longer than 300ms
+            setTimeout(dismissLoader, 300);
+        })();
 
         // ── Sidebar toggle (desktop collapse)
         function toggleSidebar() {
@@ -47,14 +63,21 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // ── PWA Service Worker (production only — skip in local dev to avoid SSL probe errors)
-        @if(app()->isProduction())
+        // ── Service Worker cleanup (removes broken legacy SW and clears caches to fix net::ERR_HTTP2_PROTOCOL_ERROR)
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register("{{ asset('sw.js') }}").catch(() => {});
-            });
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
+            }).catch(function() {});
         }
-        @endif
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) {
+                    caches.delete(name);
+                }
+            }).catch(function() {});
+        }
 
         // ── CSRF setup for AJAX
         $.ajaxSetup({

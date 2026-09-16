@@ -33,7 +33,21 @@ class AppServiceProvider extends ServiceProvider
             $isLocalHost = true;
         }
 
-        if (! $isLocalHost && ($this->app->environment('production') || env('FORCE_HTTPS', false))) {
+        $isSecureRequest = false;
+        try {
+            if (! $this->app->runningInConsole()) {
+                $req = request();
+                $isSecureRequest = $req->isSecure()
+                    || $req->header('x-forwarded-proto') === 'https'
+                    || $req->server('HTTP_X_FORWARDED_PROTO') === 'https'
+                    || $req->server('HTTPS') === 'on'
+                    || $req->header('x-forwarded-ssl') === 'on';
+            }
+        } catch (\Throwable $e) {
+            $isSecureRequest = false;
+        }
+
+        if ($isSecureRequest || (! $isLocalHost && ($this->app->environment('production') || env('FORCE_HTTPS', false) || str_starts_with((string) config('app.url'), 'https://')))) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
     }

@@ -118,6 +118,24 @@
                 }
             }
         }, true);
+
+        // Inline absolute fail-safe for loader
+        (function() {
+            var l = document.getElementById('aw-loader');
+            if (l) {
+                var hide = function() {
+                    l.classList.add('hidden');
+                    setTimeout(function() { if (l && l.parentNode) l.style.display = 'none'; }, 200);
+                };
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                    hide();
+                } else {
+                    document.addEventListener('DOMContentLoaded', hide);
+                    window.addEventListener('load', hide);
+                }
+                setTimeout(hide, 350);
+            }
+        })();
     </script>
 </body>
 </html>
