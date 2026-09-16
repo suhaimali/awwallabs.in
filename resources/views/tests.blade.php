@@ -30,7 +30,7 @@
         width: 40px; height: 40px; border-radius: 12px;
         background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
         color: #0284c7; display: inline-flex; align-items: center; justify-content: center;
-        font-size: 16px; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15);
+        font-size: 16px; box-shadow: none;
     }
     .action-btn-group { display: flex; gap: 8px; justify-content: flex-end; }
     .btn-icon-circle {

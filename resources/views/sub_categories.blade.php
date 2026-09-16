@@ -27,7 +27,7 @@
         align-items: center;
         justify-content: center;
         font-size: 16px;
-        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15);
+        box-shadow: none;
         transition: all 0.2s ease;
     }
 

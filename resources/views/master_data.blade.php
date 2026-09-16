@@ -26,7 +26,7 @@ body {
     display: flex; align-items: center; justify-content: center;
     color: #fff; font-size: 24px;
     flex-shrink: 0;
-    box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.3);
+    box-shadow: none;
 }
 .md-page-header h1 {
     font-size: 24px; font-weight: 700;
